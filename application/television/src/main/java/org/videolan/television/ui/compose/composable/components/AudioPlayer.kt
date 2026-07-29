@@ -27,13 +27,16 @@ package org.videolan.television.ui.compose.composable.components
 import android.content.Intent
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.expandIn
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -83,8 +86,10 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -118,6 +123,8 @@ private enum class PlayerDisplayState {
     Expanded,
     Pinned
 }
+
+private const val AUDIO_PLAYER_ANIMATION_DURATION = 500
 
 @Composable
 fun AudioPlayer(
@@ -158,6 +165,7 @@ fun AudioPlayer(
     )
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun AudioPlayer(
     modifier: Modifier = Modifier,
@@ -196,65 +204,73 @@ fun AudioPlayer(
         }
     }
 
-    Box(
+    SharedTransitionLayout(
         modifier = modifier
             .fillMaxHeight()
             .onFocusChanged { isFocused = it.hasFocus }
-            .focusRequester(focusRequester),
-        contentAlignment = Alignment.CenterStart
+            .focusRequester(focusRequester)
     ) {
-        AnimatedContent(
-            targetState = displayState,
-            transitionSpec = {
-                when {
-                    // Hidden <-> Badge: Pop in/out
-                    (targetState == PlayerDisplayState.Badge && initialState == PlayerDisplayState.Hidden) ||
-                            (targetState == PlayerDisplayState.Hidden && initialState == PlayerDisplayState.Badge) -> {
-                        fadeIn() + expandIn(expandFrom = Alignment.Center) togetherWith fadeOut() + shrinkOut(shrinkTowards = Alignment.Center)
+        Box(modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.CenterStart) {
+            AnimatedContent(
+                targetState = displayState,
+                modifier = Modifier.fillMaxHeight(),
+                transitionSpec = {
+                    when {
+                        // Hidden <-> Badge: Scale in/out
+                        (targetState == PlayerDisplayState.Badge && initialState == PlayerDisplayState.Hidden) ||
+                                (targetState == PlayerDisplayState.Hidden && initialState == PlayerDisplayState.Badge) -> {
+                            fadeIn(tween(AUDIO_PLAYER_ANIMATION_DURATION)) + scaleIn(initialScale = 0f, transformOrigin = TransformOrigin.Center, animationSpec = tween(AUDIO_PLAYER_ANIMATION_DURATION)) togetherWith fadeOut(tween(AUDIO_PLAYER_ANIMATION_DURATION)) + scaleOut(targetScale = 0f, transformOrigin = TransformOrigin.Center, animationSpec = tween(AUDIO_PLAYER_ANIMATION_DURATION))
+                        }
+                        // Any other transition: Simple Fade (Shared elements handle the rest)
+                        else -> {
+                            fadeIn(tween(AUDIO_PLAYER_ANIMATION_DURATION)) togetherWith fadeOut(tween(AUDIO_PLAYER_ANIMATION_DURATION))
+                        }
+                    }.using(SizeTransform(clip = false) { _, _ -> tween(AUDIO_PLAYER_ANIMATION_DURATION) })
+                },
+                label = "player_expansion_state",
+                contentAlignment = Alignment.CenterStart
+            ) { state ->
+                when (state) {
+                    PlayerDisplayState.Expanded, PlayerDisplayState.Pinned -> {
+                        AudioPlayerExpanded(
+                            sharedTransitionScope = this@SharedTransitionLayout,
+                            animatedVisibilityScope = this@AnimatedContent,
+                            progress = progress,
+                            sliderPosition = sliderPosition,
+                            playerState = playerState,
+                            currentMedia = currentMedia,
+                            serviceCoverArt = serviceCoverArt,
+                            serviceTitle = serviceTitle,
+                            serviceArtist = serviceArtist,
+                            onStop = onStop,
+                            onOpenFull = onOpenFull,
+                            onJump = onJump,
+                            onPrevious = onPrevious,
+                            onNext = onNext,
+                            onTogglePlayPause = onTogglePlayPause,
+                            isPinned = isPinned,
+                            onPinToggled = onPinToggled,
+                            playPauseFocusRequester = playPauseFocusRequester
+                        )
                     }
-                    // Any other transition (Expanded <-> Badge, Hidden <-> Expanded): Slide
-                    else -> {
-                        fadeIn() + slideInHorizontally { -it } togetherWith fadeOut() + slideOutHorizontally { -it }
+
+                    PlayerDisplayState.Badge -> {
+                        Box(Modifier.fillMaxHeight(), contentAlignment = Alignment.CenterStart) {
+                            AudioPlayerBadge(
+                                sharedTransitionScope = this@SharedTransitionLayout,
+                                animatedVisibilityScope = this@AnimatedContent,
+                                modifier = Modifier.padding(start = 32.dp),
+                                currentMedia = currentMedia,
+                                serviceCoverArt = serviceCoverArt,
+                                playerState = playerState,
+                                sliderPosition = sliderPosition
+                            )
+                        }
                     }
-                }.using(SizeTransform(clip = false))
-            },
-            label = "player_expansion_state",
-            contentAlignment = Alignment.CenterStart
-        ) { state ->
-            when (state) {
-                PlayerDisplayState.Expanded, PlayerDisplayState.Pinned -> {
-                    AudioPlayerExpanded(
-                        progress = progress,
-                        sliderPosition = sliderPosition,
-                        playerState = playerState,
-                        currentMedia = currentMedia,
-                        serviceCoverArt = serviceCoverArt,
-                        serviceTitle = serviceTitle,
-                        serviceArtist = serviceArtist,
-                        onStop = onStop,
-                        onOpenFull = onOpenFull,
-                        onJump = onJump,
-                        onPrevious = onPrevious,
-                        onNext = onNext,
-                        onTogglePlayPause = onTogglePlayPause,
-                        isPinned = isPinned,
-                        onPinToggled = onPinToggled,
-                        playPauseFocusRequester = playPauseFocusRequester
-                    )
-                }
 
-                PlayerDisplayState.Badge -> {
-                    AudioPlayerBadge(
-                        modifier = Modifier.padding(start = 32.dp),
-                        currentMedia = currentMedia,
-                        serviceCoverArt = serviceCoverArt,
-                        playerState = playerState,
-                        sliderPosition = sliderPosition
-                    )
-                }
-
-                PlayerDisplayState.Hidden -> {
-                    Spacer(modifier = Modifier.width(0.dp))
+                    PlayerDisplayState.Hidden -> {
+                        Spacer(modifier = Modifier.width(0.dp))
+                    }
                 }
             }
         }
@@ -269,9 +285,11 @@ fun AudioPlayer(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
 private fun AudioPlayerExpanded(
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     progress: PlaybackProgress?,
     sliderPosition: Float,
     playerState: PlayerState?,
@@ -344,25 +362,37 @@ private fun AudioPlayerExpanded(
 
             val bitmap = rememberAudioCoverBitmap(serviceCoverArt ?: currentMedia?.artworkMrl, 512)
 
-            if (bitmap != null) {
-                Image(
-                    bitmap = bitmap.asImageBitmap(),
-                    contentDescription = "Map snapshot",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1F)
-                        .clip(RoundedCornerShape(12.dp))
-                )
-            } else {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_song_big),
-                    contentDescription = "Map snapshot",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1F)
-                        .clip(RoundedCornerShape(12.dp))
-                )
+            with(sharedTransitionScope) {
+                if (bitmap != null) {
+                    Image(
+                        bitmap = bitmap.asImageBitmap(),
+                        contentDescription = "Map snapshot",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1F)
+                            .sharedElement(
+                                rememberSharedContentState(key = "audio_cover"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { _, _ -> tween(AUDIO_PLAYER_ANIMATION_DURATION) }
+                            )
+                            .clip(RoundedCornerShape(12.dp))
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_song_big),
+                        contentDescription = "Map snapshot",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1F)
+                            .sharedElement(
+                                rememberSharedContentState(key = "audio_cover"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { _, _ -> tween(AUDIO_PLAYER_ANIMATION_DURATION) }
+                            )
+                            .clip(RoundedCornerShape(12.dp))
+                    )
+                }
             }
 
             Text(
@@ -480,8 +510,11 @@ private fun AudioPlayerExpanded(
         }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun AudioPlayerBadge(
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier,
     currentMedia: MediaWrapper?,
     serviceCoverArt: String?,
@@ -489,6 +522,7 @@ private fun AudioPlayerBadge(
     sliderPosition: Float
 ) {
     val bitmap = rememberAudioCoverBitmap(serviceCoverArt ?: currentMedia?.artworkMrl, 320)
+    val isTransitionFinished = animatedVisibilityScope.transition.currentState == animatedVisibilityScope.transition.targetState
 
     Surface(
         modifier = modifier
@@ -498,58 +532,103 @@ private fun AudioPlayerBadge(
         tonalElevation = 4.dp,
         onClick = {} // Makes it focusable
     ) {
-        Box(contentAlignment = Alignment.Center) {
-            // Background Image
-            bitmap?.let {
-                Image(
-                    bitmap = it.asImageBitmap(),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
-            } ?: run {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_song_big),
-                    contentDescription = null,
-                    modifier = Modifier.padding(12.dp).fillMaxSize(),
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant)
-                )
-            }
+        with(animatedVisibilityScope) {
+            Box(contentAlignment = Alignment.Center) {
+                // Background Image
+                with(sharedTransitionScope) {
+                    bitmap?.let {
+                        Image(
+                            bitmap = it.asImageBitmap(),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .sharedElement(
+                                    rememberSharedContentState(key = "audio_cover"),
+                                    animatedVisibilityScope = animatedVisibilityScope,
+                                    boundsTransform = { _, _ -> tween(AUDIO_PLAYER_ANIMATION_DURATION) }
+                                )
+                                .clip(CircleShape)
+                        )
+                    } ?: run {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_song_big),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(12.dp)
+                                .fillMaxSize()
+                                .sharedElement(
+                                    rememberSharedContentState(key = "audio_cover"),
+                                    animatedVisibilityScope = animatedVisibilityScope,
+                                    boundsTransform = { _, _ -> tween(AUDIO_PLAYER_ANIMATION_DURATION) }
+                                )
+                                .clip(CircleShape),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant)
+                        )
+                    }
+                }
 
-            // Mini Visualizer on top
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(alpha = 0.5f)))),
-                contentAlignment = Alignment.BottomCenter
-            ) {
-                MiniVisualizer(
-                    color = Color.White,
-                    isPlaying = playerState?.playing == true
-                )
-            }
+                with(sharedTransitionScope) {
+                    // Mini Visualizer on top
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .renderInSharedTransitionScopeOverlay(
+                                zIndexInOverlay = 1f,
+                            )
+                            .graphicsLayer {
+                                alpha = if (isTransitionFinished) 1f else 0f
+                            }
+                            .background(
+                                Brush.verticalGradient(
+                                    listOf(
+                                        Color.Transparent,
+                                        Color.Black.copy(alpha = 0.5f)
+                                    )
+                                )
+                            ),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        MiniVisualizer(
+                            color = Color.White,
+                            isPlaying = playerState?.playing == true
+                        )
+                    }
 
-            // Circular progress
-            val primaryColor = MaterialTheme.colorScheme.primary
-            Canvas(modifier = Modifier.fillMaxSize().padding(1.5.dp)) {
-                // Background circle (track)
-                drawCircle(
-                    color = Color.White.copy(alpha = 0.2f),
-                    style = Stroke(width = 3.dp.toPx())
-                )
-                // Progress arc
-                drawArc(
-                    color = primaryColor,
-                    startAngle = -90f,
-                    sweepAngle = 360f * sliderPosition,
-                    useCenter = false,
-                    style = Stroke(width = 3.dp.toPx())
-                )
+                    // Circular progress
+                    val primaryColor = MaterialTheme.colorScheme.primary
+                    Canvas(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .renderInSharedTransitionScopeOverlay(
+                                zIndexInOverlay = 1f,
+                            )
+                            .graphicsLayer {
+                                alpha = if (isTransitionFinished) 1f else 0f
+                            }
+                            .padding(1.5.dp)
+                    ) {
+                        // Background circle (track)
+                        drawCircle(
+                            color = Color.White.copy(alpha = 0.2f),
+                            style = Stroke(width = 3.dp.toPx())
+                        )
+                        // Progress arc
+                        drawArc(
+                            color = primaryColor,
+                            startAngle = -90f,
+                            sweepAngle = 360f * sliderPosition,
+                            useCenter = false,
+                            style = Stroke(width = 3.dp.toPx())
+                        )
+                    }
+                }
             }
         }
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Preview
 @Composable
 private fun AudioPlayerBadgePreview() {
@@ -562,12 +641,20 @@ private fun AudioPlayerBadgePreview() {
     )
     VlcPreview {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            AudioPlayerBadge(
-                currentMedia = media,
-                serviceCoverArt = null,
-                playerState = PlayerState(playing = true, title = "Title", artist = "Artist"),
-                sliderPosition = 0.5f
-            )
+            SharedTransitionLayout {
+                AnimatedContent(targetState = true, label = "") { visible ->
+                    if (visible) {
+                        AudioPlayerBadge(
+                            sharedTransitionScope = this@SharedTransitionLayout,
+                            animatedVisibilityScope = this,
+                            currentMedia = media,
+                            serviceCoverArt = null,
+                            playerState = PlayerState(playing = true, title = "Title", artist = "Artist"),
+                            sliderPosition = 0.5f
+                        )
+                    }
+                }
+            }
         }
     }
 }
