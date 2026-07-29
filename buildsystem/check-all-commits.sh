@@ -59,7 +59,6 @@ RUNNER_COPY="$PERSISTENCE_DIR/runner.sh"     # Self-copy to ensure availability 
 # Git Rebase Todo file.
 # We link the actual git rebase file into our persistence folder for consistency.
 ACTUAL_TODO_FILE="$(git rev-parse --git-path rebase-merge 2>/dev/null)/git-rebase-todo"
-[ ! -f "$ACTUAL_TODO_FILE" ] && ACTUAL_TODO_FILE="$(git rev-parse --git-path rebase-apply 2>/dev/null)/todo"
 TODO_FILE="$PERSISTENCE_DIR/rebase-todo"
 if [ -f "$ACTUAL_TODO_FILE" ]; then
     ln -sf "$ACTUAL_TODO_FILE" "$TODO_FILE"
@@ -76,8 +75,67 @@ NC='\033[0m' # No Color
 hide_cursor() { echo -ne "\033[?25l"; }
 show_cursor() { echo -ne "\033[?25h"; }
 
+# generate_bar: Creates a progress bar string of a given width and character.
+generate_bar() {
+    local filled=$1
+    local char=$2
+    local res=""
+    for ((i=0; i<filled; i++)); do res+="$char"; done
+    echo -n "$res"
+}
+
 # The height of our "Rich UI" table. Centralized here for cursor movement calculations.
 UI_HEIGHT=24
+
+# --- Core Build Logic ---
+
+# run_build: Executes a build command and monitors its progress in real-time.
+run_build() {
+    local -n _cmd=$1
+    local log_file="$2"
+    local label="$3"
+    local start_time
+    start_time=$(date +%s)
+
+    # Start gradle in the background with a rich console to get the progress updates.
+    # We append to the log file to avoid wiping previous attempts (like 'clean' output).
+    "${_cmd[@]}" --console rich >> "$log_file" 2>&1 &
+    CURRENT_GRADLE_PID=$!
+
+    # Monitor loop: polls the log file for percentage updates.
+    while kill -0 $CURRENT_GRADLE_PID 2>/dev/null; do
+        local now
+        now=$(date +%s)
+        local elapsed=$((now - start_time))
+
+        # Robustly extract the latest status percentage from the build log.
+        # Strips null bytes (common in binary-like rich output) to avoid shell warnings.
+        local last_chunk
+        last_chunk=$(tail -c 1024 "$log_file" | tr -d '\000')
+        local raw_pct
+        raw_pct=$(echo "$last_chunk" | grep -o "[0-9]\{1,3\}%" | tail -n 1 | tr -d '%')
+        [ -z "$raw_pct" ] && raw_pct=0
+
+        # Phase Scaling: Gradle reports 0-100% for each phase.
+        # We map this to a continuous 0-100% build progress for the UI.
+        local scaled_pct=$raw_pct
+        local phase="$label"
+        if [[ "$last_chunk" == *"CONFIGURING"* ]]; then
+            scaled_pct=$((raw_pct / 2)) # Configuring is mapped to 0-50%
+            phase="Configuring"
+        elif [[ "$last_chunk" == *"EXECUTING"* ]]; then
+            scaled_pct=$((50 + (raw_pct / 2))) # Executing is mapped to 50-100%
+            phase="Executing"
+        fi
+
+        print_ui "$phase" "${scaled_pct}%" "$elapsed"
+        sleep 0.5
+    done
+    wait $CURRENT_GRADLE_PID
+    local status=$?
+    CURRENT_GRADLE_PID=""
+    return $status
+}
 
 # --- State Management ---
 
@@ -178,7 +236,7 @@ clear_ui() {
 }
 
 # print_ui: Renders the entire status table.
-# Uses a buffer to perform an atomic write, which eliminates redraw flickering.
+# Redraws the UI by moving the cursor up and overwriting.
 print_ui() {
     local status="$1"   # Status text (e.g. Building, SUCCESS, FAILED)
     local pct="$2"      # Progress percentage string (e.g. 45%)
@@ -188,7 +246,8 @@ print_ui() {
     local UI_BUFFER=""
 
     # Check terminal height for adaptive layout.
-    local term_height=$(tput lines 2>/dev/null || echo 24)
+    local term_height
+    term_height=$(tput lines 2>/dev/null || echo 24)
     if [ "$term_height" -lt 22 ]; then
         # Minimalist "Compact Mode" for small terminal windows.
         if [ "$UI_INITIALIZED" == "true" ] || [ -f "$UI_TABLE_FLAG" ]; then
@@ -217,19 +276,18 @@ print_ui() {
         [ "$dynamic_remaining" -lt 0 ] && dynamic_remaining=0
 
         # Stable "Estimated End Time": Build Start Time + Total Remaining.
-        local start_time=$(date +%s)
+        local start_time
+        start_time=$(date +%s)
         [ -n "$elapsed" ] && start_time=$((start_time - elapsed))
-        est_end_text=$(perl -e 'use POSIX qw(strftime); print strftime("%Hh%Mm%Ss", localtime($ARGV[0] + $ARGV[1]))' "$start_time" "$REMAINING_TIME")
-    fi
 
-    # Progress Bar Helpers
-    generate_bar() {
-        local filled=$1
-        local char=$2
-        local res=""
-        for ((i=0; i<filled; i++)); do res+="$char"; done
-        echo -n "$res"
-    }
+        # Use 'date' for portable timestamp formatting if possible.
+        if date -d "@0" +%s >/dev/null 2>&1; then
+             est_end_text=$(date -d "@$((start_time + REMAINING_TIME))" +%Hh%Mm%Ss)
+        else
+             # Basic BSD/macOS date support or fallback
+             est_end_text=$(date -r $((start_time + REMAINING_TIME)) +%Hh%Mm%Ss 2>/dev/null || echo "N/A")
+        fi
+    fi
 
     local bar_width=44
     local filled_commits=0
@@ -239,16 +297,21 @@ print_ui() {
         filled_commits=$(( (SUCCESS_COUNT * bar_width) / TOTAL ))
         commit_pct=$(( (SUCCESS_COUNT * 100) / TOTAL ))
     fi
-    local commit_bar=$(generate_bar $filled_commits "█")
+
+    local commit_bar
+    commit_bar=$(generate_bar $filled_commits "█")
     local empty_bar_width=$((bar_width - filled_commits))
-    local empty_bar=$(generate_bar $empty_bar_width "░")
+    local empty_bar
+    empty_bar=$(generate_bar $empty_bar_width "░")
 
     local build_pct_num=0
     [[ "$pct" =~ ^[0-9]+%$ ]] && build_pct_num=$(echo "$pct" | tr -d '%')
     local filled_build=$(( (build_pct_num * bar_width) / 100 ))
-    local build_bar=$(generate_bar $filled_build "█")
+    local build_bar
+    build_bar=$(generate_bar $filled_build "█")
     local empty_build_width=$((bar_width - filled_build))
-    local empty_build=$(generate_bar $empty_build_width "░")
+    local empty_build
+    empty_build=$(generate_bar $empty_build_width "░")
 
     # Buffer construction for the "Rich UI" table.
     local current_branch=$(git rev-parse --abbrev-ref HEAD)
@@ -319,7 +382,8 @@ case $MODE in
         chmod +x "$RUNNER_COPY"
 
         # Check if a rebase is already in progress to allow resumption.
-        if [ -d "$(git rev-parse --git-path rebase-merge)" ] || [ -d "$(git rev-parse --git-path rebase-apply)" ]; then
+        # We only check for rebase-merge as 'git rebase -x' always uses this backend.
+        if [ -d "$(git rev-parse --git-path rebase-merge)" ]; then
             echo "Resuming existing rebase..."
             # verify --no-increment checks current state without counting it as a new commit checked.
             if "$RUNNER_COPY" verify --no-increment; then
@@ -364,7 +428,7 @@ case $MODE in
         fi
 
         # Cleanup persistence files if the rebase is finally complete.
-        if [ ! -d "$(git rev-parse --git-path rebase-merge)" ] && [ ! -d "$(git rev-parse --git-path rebase-apply)" ]; then
+        if [ ! -d "$(git rev-parse --git-path rebase-merge)" ]; then
             # Print a final session summary before cleaning up.
             load_progress
             echo -e "\n\n🚀 REBASE VERIFICATION COMPLETE!"
@@ -385,14 +449,13 @@ case $MODE in
         ;;
     verify)
         # Entry point for the 'git rebase -x' loop.
+        # This script is re-executed as a fresh process for each commit being verified.
+        # Statistics and UI state are persisted in the .check-commits directory.
         hide_cursor
         load_progress
 
-        # Reserve space for the table if this is the very first iteration.
-        if [ ! -f "$UI_TABLE_FLAG" ]; then
-            for i in $(seq 1 "$UI_HEIGHT"); do echo ""; done
-            printf "\033[%dF" "$UI_HEIGHT"
-        fi
+        # Clear the build log for this iteration.
+        : > "$BUILD_LOG"
 
         if [ "$2" != "--no-increment" ]; then
             CURRENT=$((CURRENT + 1))
@@ -414,48 +477,6 @@ case $MODE in
             REMAINING_TIME=0
         fi
 
-        # run_build: Executes a build command and monitors its progress in real-time.
-        run_build() {
-            local -n _cmd=$1
-            local log_file="$2"
-            local label="$3"
-            local start_time=$(date +%s)
-
-            # Start gradle in the background with a rich console to get the progress updates.
-            "${_cmd[@]}" --console rich > "$log_file" 2>&1 &
-            CURRENT_GRADLE_PID=$!
-
-            # Monitor loop: polls the log file for percentage updates.
-            while kill -0 $CURRENT_GRADLE_PID 2>/dev/null; do
-                local now=$(date +%s)
-                local elapsed=$((now - start_time))
-
-                # Robustly extract the latest status percentage from the build log.
-                # Strips null bytes (common in binary-like rich output) to avoid shell warnings.
-                local last_chunk=$(tail -c 1024 "$log_file" | tr -d '\000')
-                local raw_pct=$(echo "$last_chunk" | grep -o "[0-9]\{1,3\}%" | tail -n 1 | tr -d '%')
-                [ -z "$raw_pct" ] && raw_pct=0
-
-                # Phase Scaling: Gradle reports 0-100% for each phase.
-                # We map this to a continuous 0-100% build progress for the UI.
-                local scaled_pct=$raw_pct
-                local phase="$label"
-                if [[ "$last_chunk" == *"CONFIGURING"* ]]; then
-                    scaled_pct=$((raw_pct / 2)) # Configuring is mapped to 0-50%
-                    phase="Configuring"
-                elif [[ "$last_chunk" == *"EXECUTING"* ]]; then
-                    scaled_pct=$((50 + (raw_pct / 2))) # Executing is mapped to 50-100%
-                    phase="Executing"
-                fi
-
-                print_ui "$phase" "${scaled_pct}%" "$elapsed"
-                sleep 0.5
-            done
-            wait $CURRENT_GRADLE_PID
-            local status=$?
-            CURRENT_GRADLE_PID=""
-            return $status
-        }
 
         # Step 1: Initial optimized build attempt.
         START=$(date +%s)
@@ -503,7 +524,7 @@ case $MODE in
             if [ $EXIT_CODE -eq 0 ]; then
                 # Success after clean: Update statistics.
                 SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
-                TOTAL_SUCCESS_DURATION=$((TOTAL_SUCCESS_DURATION + DURATION + DURATION_CLEAN))
+                TOTAL_SUCCESS_DURATION=$((TOTAL_SUCCESS_DURATION + DURATION_CLEAN))
                 [ "$DURATION_CLEAN" -gt "$LONGEST" ] && LONGEST=$DURATION_CLEAN
                 [ "$DURATION_CLEAN" -lt "$SHORTEST" ] && SHORTEST=$DURATION_CLEAN
                 save_progress
