@@ -38,9 +38,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -49,7 +46,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
@@ -85,6 +81,14 @@ fun PaginatedGrid(
     loaderAspectRatio: Float = 1f,
     items: LazyPagingItems<out MediaLibraryItem>,
     refreshVersion: Int = 0,
+    appendPlaceholder: @Composable () -> Unit = {
+        VideoItemPlaceholder(
+            inCard = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(loaderAspectRatio)
+        )
+    },
     content: @Composable (item: MediaLibraryItem, index: Int,  modifier: Modifier) -> Unit
 ) {
     val focusRequesters = remember {
@@ -145,15 +149,7 @@ fun PaginatedGrid(
 
         if (items.loadState.append == LoadState.Loading) {
             item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(loaderAspectRatio)
-                        .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(16.dp)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
+                appendPlaceholder()
             }
         }
     }
@@ -179,6 +175,14 @@ fun PaginatedList(
     contentPadding: PaddingValues,
     items: LazyPagingItems<out MediaLibraryItem>,
     refreshVersion: Int = 0,
+    appendPlaceholder: @Composable () -> Unit = {
+        VideoItemPlaceholder(
+            inCard = false,
+            modifier = Modifier
+                .padding(bottom = 16.dp)
+                .fillMaxWidth()
+        )
+    },
     content: @Composable (item: MediaLibraryItem, index: Int, modifier: Modifier) -> Unit
 ) {
     val focusRequesters = remember {
@@ -237,16 +241,7 @@ fun PaginatedList(
 
         if (items.loadState.append == LoadState.Loading) {
             item {
-                Box(
-                    modifier = Modifier
-                        .padding(bottom = 16.dp)
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.shapes.medium)
-                        .padding(vertical = 8.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
+                appendPlaceholder()
             }
         }
     }
