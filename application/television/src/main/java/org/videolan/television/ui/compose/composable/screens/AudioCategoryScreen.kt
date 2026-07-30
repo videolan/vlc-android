@@ -153,6 +153,7 @@ import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.util.ModelsHelper.getDiscNumberString
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
@@ -453,6 +454,7 @@ fun AudioCategoryScreenContent(
                         }
                     }
                     CategoryDestination.Songs -> {
+                        val hasMultipleDiscs = item is Album && trackList.any { it.discNumber > 1 }
                         itemsIndexed(trackList, key = { _, track: MediaWrapper -> track.tag ?: track.hashCode().toString() }, span = { _, _ -> GridItemSpan(maxLineSpan) }) { index, song ->
                             val tag = song.tag ?: song.hashCode().toString()
                             val removeFocusRequester = removeFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { (removeFocusRequesters as MutableMap)[tag] = it } }
@@ -465,9 +467,15 @@ fun AudioCategoryScreenContent(
                             val isNewAlbum = (item is Artist || item is Genre) && currentAlbumName != previousAlbumName
                             val isLastOfAlbum = (item is Artist || item is Genre) && currentAlbumName != nextAlbumName
 
+                            val previousDisc = if (index > 0) trackList[index - 1].discNumber else -1
+                            val isNewDisc = hasMultipleDiscs && song.discNumber != previousDisc
+
                             Column(modifier = Modifier.zIndex(if (focusedIndex == index) 1f else 0f).onFocusChanged { if (it.hasFocus) focusedIndex = index }) {
                                 if (isNewAlbum) {
                                     Text(text = currentAlbumName, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(start = 48.dp, top = 24.dp, bottom = 8.dp))
+                                }
+                                if (isNewDisc) {
+                                    Text(text = song.getDiscNumberString() ?: "", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.secondary, modifier = Modifier.padding(start = 48.dp, top = 16.dp, bottom = 8.dp))
                                 }
                                 AudioItemList(
                                     item = song,
@@ -672,9 +680,9 @@ private fun AlbumCategoryPreview() {
     val context = LocalContext.current
     org.videolan.medialibrary.MLContextTools.getInstance().context = context
 
-    val album = StubAlbum(1L, "Sample Album", 2024, "", "Sample Artist", 1L, 10, 10, 3600000L, false)
-    val albums = flowOf(PagingData.from(emptyList<Album>())).collectAsLazyPagingItems()
-    val tracks = (1..10).map { StubMediaWrapper(it.toLong(), "file:///track$it.mp3", 0L, 0f, 300000L, MediaWrapper.TYPE_AUDIO, "Track $it", "track$it.mp3", 1L, 1L, "Sample Artist", "Genre", 1L, "Sample Album", "Sample Artist", 0, 0, "", 0, 0, it, 1, 0L, 0L, false, false, 2024, true, 0L) as MediaWrapper }
+        val album = StubAlbum(1L, "Sample Album", 2024, "", "Sample Artist", 1L, 10, 10, 3600000L, false)
+        val albums = flowOf(PagingData.from(emptyList<Album>())).collectAsLazyPagingItems()
+        val tracks = (1..10).map { StubMediaWrapper(it.toLong(), "file:///track$it.mp3", 0L, 0f, 300000L, MediaWrapper.TYPE_AUDIO, "Track $it", "track$it.mp3", 1L, 1L, "Sample Artist", "Genre", 1L, "Sample Album", "Sample Artist", 0, 0, "", 0, 0, it, if (it <= 5) 1 else 2, 0L, 0L, false, false, 2024, true, 0L) as MediaWrapper }
 
     VlcTVTheme {
         AudioCategoryScreenContent(
