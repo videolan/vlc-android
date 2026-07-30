@@ -204,6 +204,22 @@ fun AudioPlayer(
         }
     }
 
+    var cachedMedia by remember { mutableStateOf<MediaWrapper?>(null) }
+    var cachedCoverArt by remember { mutableStateOf<String?>(null) }
+    var cachedTitle by remember { mutableStateOf<String?>(null) }
+    var cachedArtist by remember { mutableStateOf<String?>(null) }
+    var cachedProgress by remember { mutableStateOf<PlaybackProgress?>(null) }
+    var cachedPlayerState by remember { mutableStateOf<PlayerState?>(null) }
+
+    if (visible) {
+        cachedMedia = currentMedia
+        cachedCoverArt = serviceCoverArt
+        cachedTitle = serviceTitle
+        cachedArtist = serviceArtist
+        cachedProgress = progress
+        cachedPlayerState = playerState
+    }
+
     SharedTransitionLayout(
         modifier = modifier
             .fillMaxHeight()
@@ -235,13 +251,13 @@ fun AudioPlayer(
                         AudioPlayerExpanded(
                             sharedTransitionScope = this@SharedTransitionLayout,
                             animatedVisibilityScope = this@AnimatedContent,
-                            progress = progress,
+                            progress = cachedProgress,
                             sliderPosition = sliderPosition,
-                            playerState = playerState,
-                            currentMedia = currentMedia,
-                            serviceCoverArt = serviceCoverArt,
-                            serviceTitle = serviceTitle,
-                            serviceArtist = serviceArtist,
+                            playerState = cachedPlayerState,
+                            currentMedia = cachedMedia,
+                            serviceCoverArt = cachedCoverArt,
+                            serviceTitle = cachedTitle,
+                            serviceArtist = cachedArtist,
                             onStop = onStop,
                             onOpenFull = onOpenFull,
                             onJump = onJump,
@@ -260,9 +276,9 @@ fun AudioPlayer(
                                 sharedTransitionScope = this@SharedTransitionLayout,
                                 animatedVisibilityScope = this@AnimatedContent,
                                 modifier = Modifier.padding(start = 32.dp),
-                                currentMedia = currentMedia,
-                                serviceCoverArt = serviceCoverArt,
-                                playerState = playerState,
+                                currentMedia = cachedMedia,
+                                serviceCoverArt = cachedCoverArt,
+                                playerState = cachedPlayerState,
                                 sliderPosition = sliderPosition
                             )
                         }
