@@ -76,8 +76,11 @@ import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.television.R
 import org.videolan.television.ui.TvUtil
+import org.videolan.television.ui.compose.composable.components.AudioItemPlaceholder
 import org.videolan.television.ui.compose.composable.components.BrowserItemCtxFlags
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
+import org.videolan.television.ui.compose.composable.components.MediaGridPlaceholder
+import org.videolan.television.ui.compose.composable.components.MediaListPlaceholder
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelContent
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelListenerKey
@@ -160,12 +163,14 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
         entry.providerClass = browserModel.provider::class.java
         browserModel.dataset.convertToFlow()
         val items by browserModel.dataset.datasetFlow.collectAsState()
+        val loading by browserModel.loading.observeAsState(false)
+        val isWorking by Medialibrary.getState().observeAsState(false)
         val descriptionUpdates by browserModel.provider.descriptionUpdate.observeAsState()
 
         val emptyState =
-            if (items.isEmpty() && !Permissions.canReadStorage(context))
-                EmptyLoadingState.MISSING_PERMISSION
-            else if (items.isEmpty() && !Permissions.canReadAudios(context))
+            if (loading || (items.isEmpty() && isWorking))
+                EmptyLoadingState.LOADING
+            else if (items.isEmpty() && !Permissions.canReadStorage(context))
                 EmptyLoadingState.MISSING_AUDIO_PERMISSION
             else if (items.isEmpty())
                 EmptyLoadingState.EMPTY
@@ -394,7 +399,25 @@ internal fun BrowserListContent(
         }
     }
 
-    VlcEmptyViewLoader(emptyState) {
+    VlcEmptyViewLoader(emptyState, loadingContent = {
+        if (currentInCard) {
+            MediaGridPlaceholder(
+                columns = GridCells.Fixed(6),
+                verticalArrangement = Arrangement.spacedBy(40.dp),
+                horizontalArrangement = Arrangement.spacedBy(VlcTVTheme.dimens.itemFocusGlowRadius),
+                contentPadding = PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
+            ) {
+                AudioItemPlaceholder(inCard = true, isRound = false)
+            }
+        } else {
+            MediaListPlaceholder(
+                verticalArrangement = Arrangement.spacedBy(0.dp),
+                contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
+            ) { isFirst, isLast ->
+                AudioItemPlaceholder(inCard = false, isRound = false, isFirst = isFirst, isLast = isLast)
+            }
+        }
+    }) {
         Box(
             modifier = modifier
                 .fillMaxSize()

@@ -101,11 +101,10 @@ import org.videolan.vlc.util.Permissions
 fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MoreViewModel? = if (LocalInspectionMode.current) null else hiltViewModel(), mainViewmodel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     val coroutineScope = rememberCoroutineScope()
     val activity = LocalActivity.current
+    val isWorking by Medialibrary.getState().observeAsState(false)
     LaunchedEffect(Unit) {
-        coroutineScope.launch {
-            viewModel?.updateHistory()
-            viewModel?.updateStreams()
-        }
+        coroutineScope.launch { viewModel?.updateHistory() }
+        coroutineScope.launch { viewModel?.updateStreams() }
     }
 
     val history by viewModel?.history?.observeAsState() ?: remember { mutableStateOf(null) }
@@ -157,6 +156,7 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
         streams = streams,
         historyLoading = historyLoading ?: false,
         streamsLoading = streamsLoading ?: false,
+        isWorking = isWorking,
         invalidateEntry = invalidateEntry,
         onFocusExit = onFocusExit,
         onRefreshDone = { mainViewmodel?.invalidationDone() },
@@ -179,6 +179,7 @@ fun MoreScreenContent(
     streams: List<MediaLibraryItem>?,
     historyLoading: Boolean,
     streamsLoading: Boolean,
+    isWorking: Boolean,
     invalidateEntry: MediaListEntry?,
     onFocusExit: () -> Unit,
     onRefreshDone: () -> Unit,
@@ -226,8 +227,15 @@ fun MoreScreenContent(
             }
         }
 
-        if (!history.isNullOrEmpty())
-            ContentLine(history, MediaListEntry.HISTORY, historyLoading, R.string.history, onItemClick = { onItemClick(history[it], it) })
+        if (historyLoading || isWorking || !history.isNullOrEmpty()) {
+            ContentLine(
+                items = history,
+                entry = MediaListEntry.HISTORY,
+                historyLoading = historyLoading,
+                text = R.string.history,
+                onItemClick = { index -> history?.get(index)?.let { onItemClick(it, index) } }
+            )
+        }
 
         InvalidationComposable(streams) { invalidate ->
             if (invalidateEntry == MediaListEntry.STREAMS) {
@@ -264,6 +272,7 @@ private fun MoreScreenPreview() {
             streams = streams,
             historyLoading = false,
             streamsLoading = false,
+            isWorking = false,
             invalidateEntry = null,
             onFocusExit = {},
             onRefreshDone = {},
@@ -286,6 +295,7 @@ private fun MoreScreenLoadingPreview() {
             streams = null,
             historyLoading = true,
             streamsLoading = true,
+            isWorking = true,
             invalidateEntry = null,
             onFocusExit = {},
             onRefreshDone = {},
@@ -308,6 +318,7 @@ private fun MoreScreenEmptyPreview() {
             streams = emptyList(),
             historyLoading = false,
             streamsLoading = false,
+            isWorking = false,
             invalidateEntry = null,
             onFocusExit = {},
             onRefreshDone = {},

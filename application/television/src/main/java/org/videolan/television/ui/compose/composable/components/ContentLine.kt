@@ -42,6 +42,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -54,6 +55,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.ui.compose.composable.items.AudioItem
@@ -68,6 +70,7 @@ import org.videolan.vlc.util.MediaListEntry
 @Composable
 fun ContentLine(items: List<MediaLibraryItem>?, entry: MediaListEntry, historyLoading: Boolean?, text: Int, browserRoot: Boolean = false, onItemClick: (Int) -> Unit, titleFocusable: Boolean = true, spannableDescription: Boolean = false, onClick: () -> Unit = {}) {
     var focused by remember { mutableStateOf(false) }
+    val isWorking by Medialibrary.getState().observeAsState(false)
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
@@ -104,7 +107,21 @@ fun ContentLine(items: List<MediaLibraryItem>?, entry: MediaListEntry, historyLo
                     .padding(end = 16.dp)
             )
     }
-    VlcEmptyViewLoader(if (historyLoading == true) EmptyLoadingState.LOADING else if (items.isNullOrEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE) {
+    VlcEmptyViewLoader(
+        state = if (historyLoading == true || (items.isNullOrEmpty() && isWorking)) EmptyLoadingState.LOADING else if (items.isNullOrEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE,
+        loadingContent = {
+            Row(
+                modifier = Modifier
+                    .padding(top = VlcTVTheme.dimens.itemFocusGlowRadius, start = VlcTVTheme.dimens.itemFocusGlowRadius, end = VlcTVTheme.dimens.itemFocusGlowRadius)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(VlcTVTheme.dimens.itemFocusGlowRadius)
+            ) {
+                repeat(8) { index ->
+                    AudioItemPlaceholder(modifier = Modifier.width(148.dp), inCard = true, isRound = entry == MediaListEntry.ARTISTS || entry == MediaListEntry.GENRES, isFirst = index == 0, isLast = index == 7)
+                }
+            }
+        }
+    ) {
         LazyRow(
             contentPadding = PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, start = VlcTVTheme.dimens.itemFocusGlowRadius, end = VlcTVTheme.dimens.itemFocusGlowRadius),
             horizontalArrangement = Arrangement.spacedBy(VlcTVTheme.dimens.itemFocusGlowRadius),

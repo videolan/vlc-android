@@ -58,7 +58,7 @@ import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.util.Permissions
 
 @Composable
-fun VlcEmptyViewLoader(state: EmptyLoadingState?, modifier: Modifier = Modifier, loadingContent: @Composable (() -> Unit)? = null, content: @Composable () -> Unit) {
+fun VlcEmptyViewLoader(state: EmptyLoadingState?, modifier: Modifier = Modifier, loadingContent: @Composable () -> Unit, content: @Composable () -> Unit) {
     val context = LocalContext.current
     VlcEmptyViewLoader(
         state = state,
@@ -274,6 +274,7 @@ private fun VlcEmptyViewLoaderNonePreview() {
     VlcPreview {
         VlcEmptyViewLoader(
             state = EmptyLoadingState.NONE,
+            loadingContent = { VideoItemPlaceholder() },
             onScanClick = {},
             onPermissionClick = {},
             content = {
@@ -289,6 +290,7 @@ private fun VlcEmptyViewLoaderLoadingPreview() {
     VlcPreview {
         VlcEmptyViewLoader(
             state = EmptyLoadingState.LOADING,
+            loadingContent = { VideoItemPlaceholder() },
             onScanClick = {},
             onPermissionClick = {},
             content = {
@@ -304,6 +306,7 @@ private fun VlcEmptyViewLoaderEmptyPreview() {
     VlcPreview {
         VlcEmptyViewLoader(
             state = EmptyLoadingState.EMPTY,
+            loadingContent = { VideoItemPlaceholder() },
             onScanClick = {},
             onPermissionClick = {},
             content = { Text("This content should not be shown", color = MaterialTheme.colorScheme.onSurface) }
@@ -317,6 +320,7 @@ private fun VlcEmptyViewLoaderPermissionPreview() {
     VlcPreview {
         VlcEmptyViewLoader(
             state = EmptyLoadingState.MISSING_PERMISSION,
+            loadingContent = { VideoItemPlaceholder() },
             onScanClick = {},
             onPermissionClick = {},
             content = { Text("This content should not be shown", color = MaterialTheme.colorScheme.onSurface) }
@@ -330,6 +334,7 @@ private fun VlcEmptyViewLoaderFavoritesPreview() {
     VlcPreview {
         VlcEmptyViewLoader(
             state = EmptyLoadingState.EMPTY_FAVORITES,
+            loadingContent = { VideoItemPlaceholder() },
             onScanClick = {},
             onPermissionClick = {},
             content = {
