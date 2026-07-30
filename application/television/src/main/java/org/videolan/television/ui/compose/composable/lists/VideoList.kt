@@ -39,6 +39,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -71,11 +72,14 @@ import org.videolan.television.R
 import org.videolan.television.ui.MediaInfoActivity
 import org.videolan.television.ui.compose.VideoDestination
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
+import org.videolan.television.ui.compose.composable.components.MediaGridPlaceholder
+import org.videolan.television.ui.compose.composable.components.MediaListPlaceholder
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelContent
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelListenerKey
 import org.videolan.television.ui.compose.composable.components.PaginatedGrid
 import org.videolan.television.ui.compose.composable.components.PaginatedList
+import org.videolan.television.ui.compose.composable.components.VideoItemPlaceholder
 import org.videolan.television.ui.compose.composable.components.VlcEmptyViewLoader
 import org.videolan.television.ui.compose.composable.items.VideoItem
 import org.videolan.television.ui.compose.composable.items.VideoItemList
@@ -148,6 +152,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
     val displaySettingsChange by mainActivityViewModel?.currentDisplaySettingsChange?.collectAsState() ?: remember { mutableStateOf(null) }
+    val isWorking by Medialibrary.getState().observeAsState(false)
     val castAsAudio = PlaybackService.renderer.value != null && settings.getBoolean(KEY_CASTING_AUDIO_ONLY, false)
     val coroutineScope = rememberCoroutineScope()
     InvalidationComposable(displaySettingsChange) { invalidate ->
@@ -257,7 +262,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
             }
         }
 
-        val emptyState = if (videos.loadState.refresh == LoadState.Loading)
+        val emptyState = if (videos.loadState.refresh == LoadState.Loading || (videos.itemCount == 0 && isWorking && !viewModel.provider.onlyFavorites))
             EmptyLoadingState.LOADING
         else if (videos.itemCount == 0 && !Permissions.canReadStorage(context))
             EmptyLoadingState.MISSING_PERMISSION
@@ -269,7 +274,25 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
             EmptyLoadingState.EMPTY
         else
             EmptyLoadingState.NONE
-        VlcEmptyViewLoader(emptyState) {
+        VlcEmptyViewLoader(emptyState, loadingContent = {
+            if (inCard) {
+                MediaGridPlaceholder(
+                    columns = GridCells.Fixed(3),
+                    verticalArrangement = Arrangement.spacedBy(40.dp),
+                    horizontalArrangement = Arrangement.spacedBy(VlcTVTheme.dimens.itemFocusGlowRadius),
+                    contentPadding = PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
+                ) {
+                    VideoItemPlaceholder(inCard = true)
+                }
+            } else {
+                MediaListPlaceholder(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
+                ) { _, _ ->
+                    VideoItemPlaceholder(inCard = false)
+                }
+            }
+        }) {
             val onClick:(MediaLibraryItem, Int) -> Unit = { video, position ->
                 if (video is Folder || video is VideoGroup) {
                     activity.openVideoGroupFolder(video)

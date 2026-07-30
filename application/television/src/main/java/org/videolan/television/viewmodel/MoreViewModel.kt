@@ -62,8 +62,8 @@ class MoreViewModel @Inject constructor(app: Application) : TvMediaViewModel(app
     private val _streamsFlow: MutableStateFlow<List<MediaLibraryItem>?> = MutableStateFlow(null)
     val streamsFlow: StateFlow<List<MediaLibraryItem>?> = _streamsFlow.asStateFlow()
 
-    val historyLoading = MutableLiveData(false)
-    val streamsLoading = MutableLiveData(false)
+    val historyLoading = MutableLiveData(true)
+    val streamsLoading = MutableLiveData(true)
 
     var historyLoaded = false
     var streamsLoaded = false
@@ -134,8 +134,8 @@ class MoreViewModel @Inject constructor(app: Application) : TvMediaViewModel(app
             streamsLoaded = false
             historyLoaded = false
             _streamsFlow.emit(null)
-            updateStreams()
-            updateHistory()
+            launch { updateStreams() }
+            launch { updateHistory() }
             delay(500)
             invalidateListener()
         }

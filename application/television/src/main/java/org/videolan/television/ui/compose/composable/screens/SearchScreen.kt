@@ -49,6 +49,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,6 +59,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.SearchAggregate
@@ -67,6 +69,7 @@ import org.videolan.medialibrary.stubs.StubGenre
 import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.television.R
 import org.videolan.television.ui.TvUtil
+import org.videolan.television.ui.compose.composable.components.SearchPlaceholder
 import org.videolan.television.ui.compose.composable.components.VlcEmptyViewLoader
 import org.videolan.television.ui.compose.composable.items.AudioItem
 import org.videolan.television.ui.compose.composable.items.VideoItem
@@ -98,6 +101,7 @@ fun SearchScreen(
     onVoiceSearchClick: () -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
+    val isWorking by Medialibrary.getState().observeAsState(false)
 
     Column(
         modifier = Modifier
@@ -131,14 +135,15 @@ fun SearchScreen(
 
         val loadingState = when {
             query.length < 3 -> EmptyLoadingState.NONE
-            searchResult == null -> EmptyLoadingState.LOADING
+            searchResult == null || (searchResult.isEmpty && isWorking) -> EmptyLoadingState.LOADING
             searchResult.isEmpty -> EmptyLoadingState.EMPTY_SEARCH
             else -> EmptyLoadingState.NONE
         }
 
         VlcEmptyViewLoader(
             state = loadingState,
-            modifier = Modifier.weight(1f).fillMaxWidth()
+            modifier = Modifier.weight(1f).fillMaxWidth(),
+            loadingContent = { SearchPlaceholder() }
         ) {
             searchResult?.let { results ->
                 LazyColumn(

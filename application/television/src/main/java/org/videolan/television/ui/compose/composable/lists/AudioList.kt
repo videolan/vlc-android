@@ -40,6 +40,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -79,7 +80,10 @@ import org.videolan.television.R
 import org.videolan.television.ui.MediaInfoActivity
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.AudioDestination
+import org.videolan.television.ui.compose.composable.components.AudioItemPlaceholder
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
+import org.videolan.television.ui.compose.composable.components.MediaGridPlaceholder
+import org.videolan.television.ui.compose.composable.components.MediaListPlaceholder
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelContent
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelListenerKey
@@ -149,6 +153,7 @@ fun AudioListScreen(subDestination: AudioDestination, onFocusExit: () -> Unit, o
 fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, onFocusEnter: () -> Unit = {}, mainActivityViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     val displaySettingsChange by mainActivityViewModel?.currentDisplaySettingsChange?.collectAsState() ?: remember { mutableStateOf(null) }
     val invalidateEntry by mainActivityViewModel?.invalidateMediaListEntry?.collectAsState() ?: remember { mutableStateOf(null) }
+    val isWorking by Medialibrary.getState().observeAsState(false)
     val coroutineScope = rememberCoroutineScope()
     InvalidationComposable(displaySettingsChange) { invalidate ->
         val context = LocalContext.current
@@ -321,7 +326,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
             if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list $entry")
         }
 
-        val emptyState = if (audios.loadState.refresh == LoadState.Loading)
+        val emptyState = if (audios.loadState.refresh == LoadState.Loading || (audios.itemCount == 0 && isWorking && !provider.onlyFavorites))
             EmptyLoadingState.LOADING
         else if (audios.itemCount == 0 && !Permissions.canReadStorage(context))
             EmptyLoadingState.MISSING_PERMISSION
@@ -334,7 +339,25 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
         else
             EmptyLoadingState.NONE
 
-        VlcEmptyViewLoader(emptyState) {
+        VlcEmptyViewLoader(emptyState, loadingContent = {
+            if (inCard) {
+                MediaGridPlaceholder(
+                    columns = GridCells.Fixed(4),
+                    verticalArrangement = Arrangement.spacedBy(40.dp),
+                    horizontalArrangement = Arrangement.spacedBy(VlcTVTheme.dimens.itemFocusGlowRadius),
+                    contentPadding = PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
+                ) {
+                    AudioItemPlaceholder(inCard = true, isRound = entry == MediaListEntry.ARTISTS || entry == MediaListEntry.GENRES)
+                }
+            } else {
+                MediaListPlaceholder(
+                    verticalArrangement = Arrangement.spacedBy(0.dp),
+                    contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
+                ) { isFirst, isLast ->
+                    AudioItemPlaceholder(inCard = false, isRound = entry == MediaListEntry.ARTISTS || entry == MediaListEntry.GENRES, isFirst = isFirst, isLast = isLast)
+                }
+            }
+        }) {
             Box(modifier = Modifier
                 .fillMaxSize()
                 .focusProperties {
@@ -358,7 +381,10 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                             modifier = Modifier
                                 .fillMaxSize()
                                 .graphicsLayer(clip = false)
-                                .focusRequester(gridFocusRequester)
+                                .focusRequester(gridFocusRequester),
+                            appendPlaceholder = {
+                                AudioItemPlaceholder(inCard = true, isRound = entry == MediaListEntry.ARTISTS || entry == MediaListEntry.GENRES)
+                            }
                         ) { audio, index, modifier ->
                             AudioItemCard(audio, index, entry, modifier, onClick = { onClick(audio, index) })
                         }
@@ -371,7 +397,10 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                             modifier = Modifier
                                 .fillMaxSize()
                                 .graphicsLayer(clip = false)
-                                .focusRequester(gridFocusRequester)
+                                .focusRequester(gridFocusRequester),
+                            appendPlaceholder = {
+                                AudioItemPlaceholder(inCard = false, isRound = entry == MediaListEntry.ARTISTS || entry == MediaListEntry.GENRES, isLast = true)
+                            }
                         ) { audio, index, modifier ->
                             AudioItemList(
                                 item = audio,
