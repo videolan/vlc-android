@@ -132,11 +132,13 @@ object FeedbackUtil {
             val medialibFolder = File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME)
             if (medialibFolder.exists()) {
                 append("Medialibrary external folder size: ${Formatter.formatFileSize(context, FileUtils.getFolderSize(medialibFolder))}\r\n")
+                append("Total thumbnails size: ${Formatter.formatFileSize(context, FileUtils.getFolderSize(medialibFolder))}\r\n")
+                append("Total thumbnails count: ${FileUtils.getFileCount(medialibFolder)}\r\n")
             }
             val thumbsFolder = File(medialibFolder, "thumbnails")
             if (thumbsFolder.exists()) {
-                append("Thumbnails size: ${Formatter.formatFileSize(context, FileUtils.getFolderSize(thumbsFolder))}\r\n")
-                append("Thumbnails count: ${FileUtils.getFileCount(thumbsFolder)}\r\n")
+                append("ML thumbnails size: ${Formatter.formatFileSize(context, FileUtils.getFolderSize(thumbsFolder))}\r\n")
+                append("ML thumbnails count: ${FileUtils.getFileCount(thumbsFolder)}\r\n")
             }
         }
         val dbFile = File(context.getDir("db", Context.MODE_PRIVATE).absolutePath + Medialibrary.VLC_MEDIA_DB_NAME)
