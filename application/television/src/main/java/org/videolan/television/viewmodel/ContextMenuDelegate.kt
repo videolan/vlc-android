@@ -27,7 +27,6 @@ package org.videolan.television.viewmodel
 import android.app.Activity
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.Artist
-import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
@@ -100,66 +99,62 @@ class ContextMenuDelegate @Inject constructor() {
             createCtxHistoryFlags()
         } else when (item.itemType) {
             MediaLibraryItem.TYPE_MEDIA -> {
-                when (item) {
-                    is MediaWrapper -> if (item.type == MediaWrapper.TYPE_DIR) {
-                        FlagSet(ContextOption::class.java).apply {
-                            if (item.hasFlag(BrowserItemCtxFlags.isFolderEmpty)) add(CTX_PLAY)
-                            val isFileBrowser = entry.providerClass != NetworkProvider::class.java && item.uri.scheme == "file"
-                            if (!entry.isRoot && isFileBrowser) add(ContextOption.CTX_BAN_FOLDER)
-                            if (isFileBrowser && !entry.isRoot && !MedialibraryUtils.isScanned(item.uri.toString())) {
-                                add(CTX_ADD_SCANNED)
-                            }
-                            if (isFileBrowser) {
-                                add(CTX_APPEND)
-                                if (item.hasFlag(BrowserItemCtxFlags.hasMedias)) add(CTX_ADD_FOLDER_PLAYLIST)
-                                if (item.hasFlag(BrowserItemCtxFlags.hasSubfolders)) add(CTX_ADD_FOLDER_AND_SUB_PLAYLIST)
-                            }
+                val media = item as MediaWrapper
+                if (media.type == MediaWrapper.TYPE_DIR) {
+                    FlagSet(ContextOption::class.java).apply {
+                        if (media.hasFlag(BrowserItemCtxFlags.isFolderEmpty)) add(CTX_PLAY)
+                        val isFileBrowser = (entry.providerClass != NetworkProvider::class.java) && (media.uri.scheme == "file")
+                        if (!entry.isRoot && isFileBrowser) add(CTX_BAN_FOLDER)
+                        if (isFileBrowser && !entry.isRoot && !MedialibraryUtils.isScanned(media.uri.toString())) {
+                            add(CTX_ADD_SCANNED)
                         }
-                    } else if (item.type == MediaWrapper.TYPE_VIDEO) {
-                        createCtxVideoFlags().apply {
-                            if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
-                            if (item.seen > 0) add(CTX_MARK_AS_UNPLAYED) else add(CTX_MARK_AS_PLAYED)
-                            if (item.time != 0L) add(CTX_PLAY_FROM_START)
-                            if (entry == MediaListEntry.VIDEO_GROUPS || entry.isGroup) {
-                                if (entry.isGroup) add(CTX_REMOVE_GROUP) else addAll(CTX_ADD_GROUP, CTX_GROUP_SIMILAR)
-                            }
-                            //go to folder
-                            if (item.uri.retrieveParent() != null) add(CTX_GO_TO_FOLDER)
-                            // no sharing on TV
-                            remove(ContextOption.CTX_SHARE)
-                            if (entry == MediaListEntry.BROWSER) remove(CTX_GO_TO_FOLDER)
-                        }
-                    } else if (isSchemeHttpOrHttps(item.uri.scheme)) {
-                        FlagSet(ContextOption::class.java).apply {
-                            addAll(CTX_ADD_SHORTCUT, CTX_ADD_TO_PLAYLIST, CTX_APPEND, CTX_COPY, CTX_DELETE, CTX_RENAME)
-                        }
-                    } else {
-                        createCtxTrackFlags().apply {
-                            if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
-                            if (item.artistId != item.albumArtistId) add(CTX_GO_TO_ALBUM_ARTIST)
+                        if (isFileBrowser) {
+                            add(CTX_APPEND)
+                            if (media.hasFlag(BrowserItemCtxFlags.hasMedias)) add(CTX_ADD_FOLDER_PLAYLIST)
+                            if (media.hasFlag(BrowserItemCtxFlags.hasSubfolders)) add(CTX_ADD_FOLDER_AND_SUB_PLAYLIST)
                         }
                     }
-
-                    is Folder -> {
-                        createCtxFolderFlags().apply {
-                            if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                } else if (media.type == MediaWrapper.TYPE_VIDEO) {
+                    createCtxVideoFlags().apply {
+                        if (media.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                        if (media.seen > 0) add(CTX_MARK_AS_UNPLAYED) else add(CTX_MARK_AS_PLAYED)
+                        if (media.time != 0L) add(CTX_PLAY_FROM_START)
+                        if (entry == MediaListEntry.VIDEO_GROUPS || entry.isGroup) {
+                            if (entry.isGroup) add(CTX_REMOVE_GROUP) else addAll(CTX_ADD_GROUP, CTX_GROUP_SIMILAR)
                         }
+                        //go to folder
+                        if (media.uri.retrieveParent() != null) add(CTX_GO_TO_FOLDER)
+                        // no sharing on TV
+                        remove(CTX_SHARE)
+                        if (entry == MediaListEntry.BROWSER) remove(CTX_GO_TO_FOLDER)
                     }
-
-                    is VideoGroup -> {
-                        if (item.presentCount == 0) {
-                            onShowSnackbar(activity.resources.getString(R.string.missing_media_snack))
-                            return null
-                        } else {
-                            createCtxVideoGroupFlags().apply {
-                                if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
-                            }
-                        }
+                } else if (isSchemeHttpOrHttps(media.uri.scheme)) {
+                    FlagSet(ContextOption::class.java).apply {
+                        addAll(CTX_ADD_SHORTCUT, CTX_ADD_TO_PLAYLIST, CTX_APPEND, CTX_COPY, CTX_DELETE, CTX_RENAME)
                     }
+                } else {
+                    createCtxTrackFlags().apply {
+                        if (media.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                        if (media.artistId != media.albumArtistId) add(CTX_GO_TO_ALBUM_ARTIST)
+                    }
+                }
+            }
 
-                    else -> createCtxTrackFlags().apply {
-                        if ((item as? MediaWrapper)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
-                        if ((item as? MediaWrapper)?.artistId != (item as? MediaWrapper)?.albumArtistId) add(CTX_GO_TO_ALBUM_ARTIST)
+            MediaLibraryItem.TYPE_FOLDER -> {
+                createCtxFolderFlags().apply {
+                    if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                }
+            }
+
+            MediaLibraryItem.TYPE_VIDEO_GROUP -> {
+                val videoGroup = item as VideoGroup
+                if (videoGroup.presentCount == 0) {
+                    onShowSnackbar(activity.resources.getString(R.string.missing_media_snack))
+                    return null
+                } else {
+                    createCtxVideoGroupFlags().apply {
+                        if (videoGroup.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                        if (videoGroup.presentSeen == videoGroup.mCount) add(CTX_MARK_ALL_AS_UNPLAYED) else add(CTX_MARK_ALL_AS_PLAYED)
                     }
                 }
             }

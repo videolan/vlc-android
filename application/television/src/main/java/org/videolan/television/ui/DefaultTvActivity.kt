@@ -42,6 +42,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.parcelable
@@ -122,15 +123,19 @@ open class DefaultTvActivity : AppCompatActivity(), IDialogManager {
         }
         supportFragmentManager.setFragmentResultListener(CONFIRM_RENAME_DIALOG_RESULT, this) { key, bundle ->
             lifecycleScope.launch {
-                val item: MediaWrapper = bundle.parcelable(RENAME_DIALOG_MEDIA) ?: return@launch
+                val item: MediaLibraryItem = bundle.parcelable(RENAME_DIALOG_MEDIA) ?: return@launch
                 val name: String = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@launch
-                if (isSchemeStreaming(item.uri.scheme)) {
+                if (item is MediaWrapper && isSchemeStreaming(item.uri.scheme)) {
                     lifecycleScope.launch {
                         if (org.videolan.vlc.BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Stream found: renamed to $name")
                         withContext(Dispatchers.IO) { item.rename(name) }
                         val mainActivityViewModel: MainActivityViewModel by viewModels()
                         mainActivityViewModel.invalidateList(MediaListEntry.STREAMS)
                     }
+                } else if (item is VideoGroup) {
+                    withContext(Dispatchers.IO) { item.rename(name) }
+                    val mainActivityViewModel: MainActivityViewModel by viewModels()
+                    mainActivityViewModel.invalidateList(MediaListEntry.VIDEO_GROUPS)
                 }
             }
         }

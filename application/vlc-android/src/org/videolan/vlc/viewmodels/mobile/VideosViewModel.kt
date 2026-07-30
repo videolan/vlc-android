@@ -128,7 +128,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
     }
 
     // Folders & Groups
-    internal fun play(position: Int) = viewModelScope.launch {
+    fun play(position: Int) = viewModelScope.launch {
         val item = provider.pagedList.value?.get(position) ?: return@launch
         withContext(Dispatchers.IO) {
             when (item) {
@@ -160,7 +160,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         MediaUtils.openList(context, list, 0)
     }
 
-    internal fun addItemToPlaylist(activity: FragmentActivity, position: Int) = viewModelScope.launch {
+    fun addItemToPlaylist(activity: FragmentActivity, position: Int) = viewModelScope.launch {
         val item = provider.pagedList.value?.get(position) ?: return@launch
         withContext(Dispatchers.IO) {
             when (item) {
@@ -201,7 +201,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         }
     }
 
-    internal fun playAll(activity: FragmentActivity?, position: Int = 0) {
+    fun playAll(activity: FragmentActivity?, position: Int = 0) {
         if (activity?.isStarted() == true) when (groupingType) {
             VideoGroupingType.NONE -> MediaUtils.playAll(activity, provider as VideosProvider, position, false)
             VideoGroupingType.FOLDER -> MediaUtils.playAllTracks(activity, (provider as FoldersProvider), position, false)
