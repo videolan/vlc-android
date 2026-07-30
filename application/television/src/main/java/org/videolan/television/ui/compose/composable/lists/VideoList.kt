@@ -36,6 +36,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -164,6 +165,12 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
 
         val videos = viewModel.provider.pager.collectAsLazyPagingItems()
         var inCard by rememberSaveable { mutableStateOf(settings.getBoolean(KEY_VIDEOS_CARDS, true)) }
+
+        LaunchedEffect(videos.itemCount, videos.loadState.refresh) {
+            if (group != null && videos.loadState.refresh is LoadState.NotLoading && videos.itemCount == 1) {
+                activity.finish()
+            }
+        }
 
         val entry = when (settings.getString(KEY_GROUP_VIDEOS, VideoGroupingType.NAME.settingsKey)) {
             VideoGroupingType.NAME.settingsKey -> MediaListEntry.VIDEO_GROUPS
