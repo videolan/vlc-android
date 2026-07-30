@@ -25,6 +25,7 @@
 package org.videolan.television.ui.compose.composable.components
 
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibilityScope
@@ -32,6 +33,7 @@ import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -220,6 +222,8 @@ fun AudioPlayer(
         cachedPlayerState = playerState
     }
 
+    val coverBitmap = rememberAudioCoverBitmap(cachedCoverArt, 512)
+
     SharedTransitionLayout(
         modifier = modifier
             .fillMaxHeight()
@@ -241,7 +245,10 @@ fun AudioPlayer(
                         else -> {
                             fadeIn(tween(AUDIO_PLAYER_ANIMATION_DURATION)) togetherWith fadeOut(tween(AUDIO_PLAYER_ANIMATION_DURATION))
                         }
-                    }.using(SizeTransform(clip = false) { _, _ -> tween(AUDIO_PLAYER_ANIMATION_DURATION) })
+                    }.using(SizeTransform(clip = false) { _, _ ->
+                        if (targetState == PlayerDisplayState.Hidden || initialState == PlayerDisplayState.Hidden) snap()
+                        else tween(AUDIO_PLAYER_ANIMATION_DURATION)
+                    })
                 },
                 label = "player_expansion_state",
                 contentAlignment = Alignment.CenterStart
@@ -254,10 +261,9 @@ fun AudioPlayer(
                             progress = cachedProgress,
                             sliderPosition = sliderPosition,
                             playerState = cachedPlayerState,
-                            currentMedia = cachedMedia,
-                            serviceCoverArt = cachedCoverArt,
                             serviceTitle = cachedTitle,
                             serviceArtist = cachedArtist,
+                            coverBitmap = coverBitmap,
                             onStop = onStop,
                             onOpenFull = onOpenFull,
                             onJump = onJump,
@@ -276,10 +282,9 @@ fun AudioPlayer(
                                 sharedTransitionScope = this@SharedTransitionLayout,
                                 animatedVisibilityScope = this@AnimatedContent,
                                 modifier = Modifier.padding(start = 32.dp),
-                                currentMedia = cachedMedia,
-                                serviceCoverArt = cachedCoverArt,
                                 playerState = cachedPlayerState,
-                                sliderPosition = sliderPosition
+                                sliderPosition = sliderPosition,
+                                coverBitmap = coverBitmap
                             )
                         }
                     }
@@ -309,10 +314,9 @@ private fun AudioPlayerExpanded(
     progress: PlaybackProgress?,
     sliderPosition: Float,
     playerState: PlayerState?,
-    currentMedia: MediaWrapper?,
-    serviceCoverArt: String?,
     serviceTitle: String?,
     serviceArtist: String?,
+    coverBitmap: Bitmap?,
     onStop: () -> Unit,
     onOpenFull: () -> Unit,
     onJump: (forward: Boolean) -> Unit,
@@ -376,12 +380,10 @@ private fun AudioPlayerExpanded(
 
             Spacer(modifier = Modifier.weight(1F))
 
-            val bitmap = rememberAudioCoverBitmap(serviceCoverArt ?: currentMedia?.artworkMrl, 512)
-
             with(sharedTransitionScope) {
-                if (bitmap != null) {
+                if (coverBitmap != null) {
                     Image(
-                        bitmap = bitmap.asImageBitmap(),
+                        bitmap = coverBitmap.asImageBitmap(),
                         contentDescription = "Map snapshot",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -532,12 +534,10 @@ private fun AudioPlayerBadge(
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier,
-    currentMedia: MediaWrapper?,
-    serviceCoverArt: String?,
     playerState: PlayerState?,
-    sliderPosition: Float
+    sliderPosition: Float,
+    coverBitmap: Bitmap?
 ) {
-    val bitmap = rememberAudioCoverBitmap(serviceCoverArt ?: currentMedia?.artworkMrl, 320)
     val isTransitionFinished = animatedVisibilityScope.transition.currentState == animatedVisibilityScope.transition.targetState
 
     Surface(
@@ -552,7 +552,7 @@ private fun AudioPlayerBadge(
             Box(contentAlignment = Alignment.Center) {
                 // Background Image
                 with(sharedTransitionScope) {
-                    bitmap?.let {
+                    coverBitmap?.let {
                         Image(
                             bitmap = it.asImageBitmap(),
                             contentDescription = null,
@@ -626,7 +626,7 @@ private fun AudioPlayerBadge(
                     ) {
                         // Background circle (track)
                         drawCircle(
-                            color = Color.White.copy(alpha = 0.2f),
+                            color = Color.White.copy(alpha = 0.35f),
                             style = Stroke(width = 3.dp.toPx())
                         )
                         // Progress arc
@@ -648,13 +648,6 @@ private fun AudioPlayerBadge(
 @Preview
 @Composable
 private fun AudioPlayerBadgePreview() {
-    val media = StubMediaWrapper(
-        1L, "file:///track.mp3", 0L, 0f, 300000L,
-        MediaWrapper.TYPE_AUDIO,
-        "Title", "track.mp3", 1L, 1L, "Artist", "Genre",
-        1L, "Album", "Artist", 0, 0, "", 0, 0, 1, 1,
-        0L, 0L, false, false, 2024, true, 0L
-    )
     VlcPreview {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             SharedTransitionLayout {
@@ -663,10 +656,9 @@ private fun AudioPlayerBadgePreview() {
                         AudioPlayerBadge(
                             sharedTransitionScope = this@SharedTransitionLayout,
                             animatedVisibilityScope = this,
-                            currentMedia = media,
-                            serviceCoverArt = null,
                             playerState = PlayerState(playing = true, title = "Title", artist = "Artist"),
-                            sliderPosition = 0.5f
+                            sliderPosition = 0.7f,
+                            coverBitmap = null
                         )
                     }
                 }
