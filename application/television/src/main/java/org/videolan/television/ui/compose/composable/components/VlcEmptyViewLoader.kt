@@ -58,11 +58,12 @@ import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.util.Permissions
 
 @Composable
-fun VlcEmptyViewLoader(state: EmptyLoadingState?, modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+fun VlcEmptyViewLoader(state: EmptyLoadingState?, modifier: Modifier = Modifier, loadingContent: @Composable (() -> Unit)? = null, content: @Composable () -> Unit) {
     val context = LocalContext.current
     VlcEmptyViewLoader(
         state = state,
         modifier = modifier,
+        loadingContent = loadingContent,
         onScanClick = {
             val intent = Intent(context.applicationContext, SecondaryActivity::class.java)
             intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
@@ -95,6 +96,7 @@ fun VlcEmptyViewLoader(state: EmptyLoadingState?, modifier: Modifier = Modifier,
 private fun VlcEmptyViewLoader(
     state: EmptyLoadingState?,
     modifier: Modifier = Modifier,
+    loadingContent: @Composable (() -> Unit)? = null,
     onScanClick: () -> Unit,
     onPermissionClick: (EmptyLoadingState) -> Unit,
     content: @Composable () -> Unit
@@ -114,12 +116,16 @@ private fun VlcEmptyViewLoader(
 
             when (state) {
                 EmptyLoadingState.LOADING -> {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(64.dp),
-                            color = MaterialTheme.colorScheme.secondary,
-                            trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                        )
+                    if (loadingContent != null) {
+                        loadingContent()
+                    } else {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(64.dp),
+                                color = MaterialTheme.colorScheme.secondary,
+                                trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                            )
+                        }
                     }
                 }
 
