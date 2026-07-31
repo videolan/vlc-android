@@ -28,7 +28,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
-import androidx.activity.compose.LocalActivity
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -76,11 +75,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
@@ -92,6 +98,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
@@ -356,6 +363,7 @@ fun AudioCategoryScreenContent(
     onRemove: (Int, MediaWrapper) -> Unit
 ) {
     val tabsFocusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var actionsFocused by remember { mutableStateOf(false) }
@@ -444,12 +452,17 @@ fun AudioCategoryScreenContent(
                         items(count = albums.itemCount) { i ->
                             val album = albums[i]
                             if (album != null) {
-                                AudioItemCard(item = album, position = i, entry = MediaListEntry.ALBUMS, topStartContent = {
-                                    val year = album.getYear()
-                                    if (year != "0" && year != "-" && year.isNotEmpty()) {
-                                        Text(text = year, modifier = Modifier.padding(8.dp).background(MaterialTheme.colorScheme.primary, RoundedCornerShape(4.dp)).padding(horizontal = 4.dp, vertical = 2.dp), color = MaterialTheme.colorScheme.onPrimary, style = MaterialTheme.typography.labelSmall)
-                                    }
-                                }) { onAlbumClick(album) }
+                                AudioItemCard(
+                                    item = album,
+                                    position = i,
+                                    entry = MediaListEntry.ALBUMS,
+                                    modifier = if (i == 0) Modifier.focusRequester(listFocusRequester) else Modifier,
+                                    topStartContent = {
+                                        val year = album.getYear()
+                                        if (year != "0" && year != "-" && year.isNotEmpty()) {
+                                            Text(text = year, modifier = Modifier.padding(8.dp).background(MaterialTheme.colorScheme.primary, RoundedCornerShape(4.dp)).padding(horizontal = 4.dp, vertical = 2.dp), color = MaterialTheme.colorScheme.onPrimary, style = MaterialTheme.typography.labelSmall)
+                                        }
+                                    }) { onAlbumClick(album) }
                             }
                         }
                     }
@@ -481,7 +494,7 @@ fun AudioCategoryScreenContent(
                                     item = song,
                                     position = index,
                                     entry = MediaListEntry.TRACKS,
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth().then(if (index == 0) Modifier.focusRequester(listFocusRequester) else Modifier),
                                     isFirst = if (item is Artist || item is Genre) isNewAlbum else index == 0,
                                     isLast = if (item is Artist || item is Genre) isLastOfAlbum else index == trackList.size - 1,
                                     containerColor = darkMutedColor ?: MaterialTheme.colorScheme.surface,
@@ -504,7 +517,23 @@ fun AudioCategoryScreenContent(
                     else -> {}
                 }
             }
-            AudioPlayer(requestFocus = false)
+            AudioPlayer(
+                modifier = Modifier
+                    .onKeyEvent {
+                        if (it.key == Key.DirectionRight && it.type == KeyEventType.KeyDown) {
+                            if (!focusManager.moveFocus(FocusDirection.Right)) {
+                                if (item is Artist || item is Genre) {
+                                    tabsFocusRequester.requestFocus()
+                                } else {
+                                    playFocusRequester.requestFocus()
+                                }
+                                return@onKeyEvent true
+                            }
+                        }
+                        false
+                    },
+                requestFocus = false
+            )
         }
     }
 }
@@ -567,7 +596,7 @@ private fun AudioCategoryHeader(
         Spacer(modifier = Modifier.width(24.dp))
         // Actions
         Row(
-            modifier = Modifier.clip(RoundedCornerShape(50)).background(darkMutedColor ?: WhiteTransparent10).padding(4.dp).onFocusChanged { onActionsFocusChanged(it.hasFocus) }.focusGroup().focusProperties { down = if (item is Artist || item is Genre) tabsFocusRequester else listFocusRequester },
+            modifier = Modifier.focusGroup().clip(RoundedCornerShape(50)).background(darkMutedColor ?: WhiteTransparent10).padding(4.dp).onFocusChanged { onActionsFocusChanged(it.hasFocus) }.focusGroup().focusProperties { down = if (item is Artist || item is Genre) tabsFocusRequester else listFocusRequester },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
