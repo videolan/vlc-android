@@ -27,6 +27,7 @@ package org.videolan.television.ui.compose.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -47,6 +48,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
@@ -179,6 +181,21 @@ fun VlcPreview(content: @Composable (Context) -> Unit) {
                 content(context)
             }
         }
+    }
+}
+
+/**
+ * Log the focus state of a [Modifier]
+ *
+ * @param name the name to be displayed in the logs
+ */
+fun Modifier.logFocus(name: String): Modifier = this.onFocusChanged { state ->
+    if (state.isFocused) {
+        Log.d("FocusDebug", "✅ $name is now FOCUSED")
+    } else if (state.hasFocus) {
+        Log.d("FocusDebug", "🏠 $name HAS focus (one of its children is focused)")
+    } else {
+        Log.d("FocusDebug", "❌ $name LOST focus")
     }
 }
 
