@@ -39,6 +39,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -48,6 +49,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.focusGroup
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -61,6 +65,7 @@ import org.videolan.television.ui.compose.composable.components.DisplaySettings
 import org.videolan.television.ui.compose.composable.components.LabeledIconButton
 import org.videolan.television.ui.compose.composable.lists.VideoList
 import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.television.ui.compose.utils.LocalMainContentFocusRequester
 import org.videolan.tools.Settings
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.television.viewmodel.MainActivityViewModel
@@ -111,25 +116,32 @@ fun VideoGroupScreenContent(modifier: Modifier, folder: Folder? = null, group : 
             val showAudioPlayer by PlaylistManager.showAudioPlayer.observeAsState(false)
             val pinOffset by animateDpAsState(if (isPinned && showAudioPlayer) VlcTVTheme.dimens.miniPlayerWidth else 0.dp, label = "pinOffset")
 
-            Box(modifier = Modifier.fillMaxSize().padding(start = pinOffset)) {
-                if (folder != null)
-                    VideoList(Modifier
-                        .fillMaxSize()
-                        .padding(
-                            top = 16.dp,
-                            start = 24.dp,
-                            end = 24.dp
-                        ), folder = folder, onFocusExit = {}, onFocusEnter = {})
-                else
-                    VideoList(Modifier
-                        .fillMaxSize()
-                        .padding(
-                            top = 16.dp,
-                            start = 24.dp,
-                            end = 24.dp
-                        ), group = group, onFocusExit = {}, onFocusEnter = {})
+            val contentFocusRequester = remember { FocusRequester() }
+            CompositionLocalProvider(LocalMainContentFocusRequester provides contentFocusRequester) {
+                Box(modifier = Modifier
+                    .focusRequester(contentFocusRequester)
+                    .focusGroup()
+                    .fillMaxSize()
+                    .padding(start = pinOffset)) {
+                    if (folder != null)
+                        VideoList(Modifier
+                            .fillMaxSize()
+                            .padding(
+                                top = 16.dp,
+                                start = 24.dp,
+                                end = 24.dp
+                            ), folder = folder, onFocusExit = {}, onFocusEnter = {})
+                    else
+                        VideoList(Modifier
+                            .fillMaxSize()
+                            .padding(
+                                top = 16.dp,
+                                start = 24.dp,
+                                end = 24.dp
+                            ), group = group, onFocusExit = {}, onFocusEnter = {})
+                }
+                AudioPlayer(requestFocus = false)
             }
-            AudioPlayer(requestFocus = false)
         }
     }
 }
