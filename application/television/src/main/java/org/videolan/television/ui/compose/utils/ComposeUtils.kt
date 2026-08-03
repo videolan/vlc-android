@@ -41,6 +41,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +49,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -183,6 +185,12 @@ fun VlcPreview(content: @Composable (Context) -> Unit) {
         }
     }
 }
+
+/**
+ * Local provider for the main content focus requester.
+ * This is used to return focus to the main content when leaving the audio player.
+ */
+val LocalMainContentFocusRequester = staticCompositionLocalOf { FocusRequester() }
 
 /**
  * Log the focus state of a [Modifier]
