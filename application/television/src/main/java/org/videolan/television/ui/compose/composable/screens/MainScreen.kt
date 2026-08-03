@@ -68,6 +68,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -82,6 +83,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -118,6 +121,7 @@ import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
+import org.videolan.television.ui.compose.utils.LocalMainContentFocusRequester
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.SnackbarContent
@@ -214,19 +218,28 @@ fun MainContent(
     audioTabs: List<Int>,
     viewModel: MainActivityViewModel? = null
 ) {
+    val contentFocusRequester = remember { FocusRequester() }
     Box(modifier) {
         val isPinned by Settings.audioPlayerPinned.observeAsState(false)
         val showAudioPlayer by PlaylistManager.showAudioPlayer.observeAsState(false)
         val pinOffset by animateDpAsState(if (isPinned && showAudioPlayer) VlcTVTheme.dimens.miniPlayerWidth else 0.dp, label = "pinOffset")
 
-        Tabs(
-            modifier = Modifier.fillMaxSize().padding(start = pinOffset),
-            tabs = tabs,
-            videoTabs = videoTabs,
-            audioTabs = audioTabs,
-            viewModel = viewModel
-        )
-        if (viewModel != null) AudioPlayer()
+        CompositionLocalProvider(LocalMainContentFocusRequester provides contentFocusRequester) {
+            Box(Modifier
+                .focusRequester(contentFocusRequester)
+                .focusGroup()
+                .fillMaxSize()
+                .padding(start = pinOffset)) {
+                Tabs(
+                    modifier = Modifier.fillMaxSize(),
+                    tabs = tabs,
+                    videoTabs = videoTabs,
+                    audioTabs = audioTabs,
+                    viewModel = viewModel
+                )
+            }
+            if (viewModel != null) AudioPlayer()
+        }
     }
 }
 

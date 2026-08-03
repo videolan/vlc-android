@@ -49,6 +49,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -60,6 +61,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.focusGroup
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -83,6 +87,8 @@ import org.videolan.television.ui.compose.composable.lists.BrowserList
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
+import org.videolan.television.ui.compose.utils.LocalMainContentFocusRequester
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.viewmodel.FileBrowserViewModel
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.Settings
@@ -237,10 +243,17 @@ private fun BrowserScreenContent(
                 val showAudioPlayer by PlaylistManager.showAudioPlayer.observeAsState(false)
                 val pinOffset by animateDpAsState(if (isPinned && showAudioPlayer) VlcTVTheme.dimens.miniPlayerWidth else 0.dp, label = "pinOffset")
 
-                Box(modifier = Modifier.fillMaxSize().padding(start = pinOffset)) {
-                    browserList()
+                val contentFocusRequester = remember { FocusRequester() }
+                CompositionLocalProvider(LocalMainContentFocusRequester provides contentFocusRequester) {
+                    Box(modifier = Modifier
+                        .focusRequester(contentFocusRequester)
+                        .focusGroup()
+                        .fillMaxSize()
+                        .padding(start = pinOffset)) {
+                        browserList()
+                    }
+                    AudioPlayer()
                 }
-                AudioPlayer()
             }
         }
     }
