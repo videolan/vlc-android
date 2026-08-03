@@ -81,10 +81,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -94,6 +100,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -108,6 +115,7 @@ import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.television.R
 import org.videolan.television.ui.AudioPlayerActivity
 import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.television.ui.compose.utils.LocalMainContentFocusRequester
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.compose.utils.rememberAudioCoverBitmap
 import org.videolan.tools.KEY_AUDIO_PLAYER_PINNED
@@ -190,6 +198,8 @@ fun AudioPlayer(
     forceExpanded: Boolean = false,
     focusRequester: FocusRequester = remember { FocusRequester() }
 ) {
+    val focusManager = LocalFocusManager.current
+    val mainContentFocusRequester = LocalMainContentFocusRequester.current
     var sliderPosition by remember { mutableFloatStateOf(0f) }
     sliderPosition = ((progress?.time ?: 0).toFloat() / (progress?.length ?: 1)).coerceIn(0F, 1F)
     val playPauseFocusRequester = remember { FocusRequester() }
@@ -229,6 +239,15 @@ fun AudioPlayer(
             .fillMaxHeight()
             .onFocusChanged { isFocused = it.hasFocus }
             .focusRequester(focusRequester)
+            .onKeyEvent {
+                if (it.key == Key.DirectionRight && it.type == KeyEventType.KeyDown) {
+                    if (!focusManager.moveFocus(FocusDirection.Right)) {
+                        mainContentFocusRequester.requestFocus()
+                        return@onKeyEvent true
+                    }
+                }
+                false
+            }
     ) {
         Box(modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.CenterStart) {
             AnimatedContent(
