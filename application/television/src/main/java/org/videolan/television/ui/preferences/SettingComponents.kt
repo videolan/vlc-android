@@ -87,6 +87,7 @@ import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -173,6 +174,128 @@ fun CategoryItem(
                 color = contentColor,
                 fontWeight = if (isSelected || isFocused) FontWeight.Bold else FontWeight.Normal
             )
+        }
+    }
+}
+
+@Composable
+fun SettingItemContent(
+    item: SettingItem,
+    provider: SettingsProvider,
+    modifier: Modifier = Modifier
+) {
+    val isEnabled = provider.isEnabled(item)
+    val context = LocalContext.current
+
+    when (item) {
+        is SettingItem.Header -> {
+            SettingHeader(title = stringResource(id = item.title))
+        }
+        is SettingItem.Toggle -> {
+            ToggleSettingItem(
+                item = item,
+                checked = provider.getBooleanValue(item),
+                summary = provider.getSummary(item),
+                onCheckedChange = { provider.updateBooleanSetting(context, item, it) },
+                enabled = isEnabled,
+                modifier = modifier
+            )
+        }
+        is SettingItem.Action -> {
+            ActionSettingItem(
+                item = item,
+                summary = provider.getSummary(item),
+                onClick = { provider.executeAction(context, item) },
+                enabled = isEnabled,
+                modifier = modifier
+            )
+        }
+        is SettingItem.Options -> {
+            var showDialog by remember { mutableStateOf(false) }
+            val currentValue = provider.getStringValue(item)
+            OptionsSettingItem(
+                item = item,
+                currentValue = currentValue,
+                onClick = { showDialog = true },
+                enabled = isEnabled,
+                modifier = modifier
+            )
+            if (showDialog) {
+                SelectionDialog(
+                    item = item,
+                    currentValue = currentValue,
+                    onDismiss = { showDialog = false },
+                    onValueSelected = { provider.updateStringSetting(context, item, it) }
+                )
+            }
+        }
+        is SettingItem.MultiOptions -> {
+            var showDialog by remember { mutableStateOf(false) }
+            val currentValues = provider.getStringSetValue(item)
+            MultiOptionsSettingItem(
+                item = item,
+                currentValues = currentValues,
+                onClick = { showDialog = true },
+                enabled = isEnabled,
+                modifier = modifier
+            )
+            if (showDialog) {
+                MultiSelectionDialog(
+                    item = item,
+                    currentValues = currentValues,
+                    onDismiss = { showDialog = false },
+                    onValuesSelected = { provider.updateStringSetSetting(item, it) }
+                )
+            }
+        }
+        is SettingItem.Color -> {
+            ColorSettingItem(
+                item = item,
+                currentValue = provider.getColorValue(item),
+                onClick = { provider.pickColor(context, item) },
+                enabled = isEnabled,
+                modifier = modifier
+            )
+        }
+        is SettingItem.Input -> {
+            var showDialog by remember { mutableStateOf(false) }
+            val currentValue = provider.getStringValue(item) ?: ""
+            InputSettingItem(
+                item = item,
+                currentValue = currentValue,
+                summary = provider.getSummary(item),
+                onClick = { showDialog = true },
+                enabled = isEnabled,
+                modifier = modifier
+            )
+            if (showDialog) {
+                InputDialog(
+                    item = item,
+                    currentValue = currentValue,
+                    onDismiss = { showDialog = false },
+                    onValueConfirmed = { provider.updateStringSetting(context, item, it) }
+                )
+            }
+        }
+        is SettingItem.Slider -> {
+            var showDialog by remember { mutableStateOf(false) }
+            val currentValue = provider.getIntValue(item)
+            SliderSettingItem(
+                item = item,
+                currentValue = currentValue,
+                summary = provider.getSummary(item),
+                onClick = { showDialog = true },
+                enabled = isEnabled,
+                modifier = modifier
+            )
+            if (showDialog) {
+                SliderDialog(
+                    item = item,
+                    currentValue = currentValue,
+                    onDismiss = { showDialog = false },
+                    onValueConfirmed = { provider.updateIntSetting(item, it) }
+                )
+            }
         }
     }
 }
