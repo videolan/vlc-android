@@ -125,6 +125,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.videolan.television.ui.compose.composable.components.AudioControlsBottomSheet
+import org.videolan.tools.KEY_BLURRED_COVER_BACKGROUND
+import androidx.compose.runtime.produceState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -192,6 +195,17 @@ fun TVAudioPlayer(
     playlistModel: PlaylistModel = viewModel(),
     bookmarkModel: BookmarkModel = viewModel()
 ) {
+    val context = LocalContext.current
+    val settings = remember { Settings.getInstance(context) }
+    var showBlurredBackground by remember { mutableStateOf(settings.getBoolean(KEY_BLURRED_COVER_BACKGROUND, true)) }
+    var showAudioControlsBottomSheet by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        Settings.setAudioControlsChangeListener {
+            showBlurredBackground = settings.getBoolean(KEY_BLURRED_COVER_BACKGROUND, true)
+        }
+    }
+
     var queueBackground by remember { mutableFloatStateOf(0F) }
     val density : Density = LocalDensity.current
     val dpValue = with(density){ queueBackground.toInt().toDp() }
@@ -222,15 +236,17 @@ fun TVAudioPlayer(
             .fillMaxSize()) {
             var blurredCover by remember { mutableStateOf<Bitmap?>(null) }
 
-            blurredCover?.let {
-                Image(
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center,
-                    bitmap = it.asImageBitmap(),
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(Grey900Transparent, BlendMode.SrcAtop)
-                )
+            if (showBlurredBackground) {
+                blurredCover?.let {
+                    Image(
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop,
+                        alignment = Alignment.Center,
+                        bitmap = it.asImageBitmap(),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Grey900Transparent, BlendMode.SrcAtop)
+                    )
+                }
             }
             Box(
                 modifier = Modifier
@@ -262,7 +278,9 @@ fun TVAudioPlayer(
                     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                         AudioPlayerControls({
                             queueBackground = it
-                        }, playlistModel, viewModel)
+                        }, playlistModel, viewModel, onShowAudioControls = {
+                            showAudioControlsBottomSheet = true
+                        })
                     }
                 }
             }
@@ -277,6 +295,12 @@ fun TVAudioPlayer(
                 contentAlignment = Alignment.BottomCenter
             ) {
                 Bookmarks(bookmarkModel, playlistModel)
+            }
+
+            if (showAudioControlsBottomSheet) {
+                AudioControlsBottomSheet(
+                    onDismissRequest = { showAudioControlsBottomSheet = false }
+                )
             }
         }
     }
@@ -346,23 +370,9 @@ fun Bookmarks(bookmarkModel: BookmarkModel = viewModel(), viewModel: PlaylistMod
                         modifier = Modifier.padding(horizontal = 4.dp),
                         tint = White
                     )
-                    LabeledIconButton(
-                        stringResource(R.string.talkback_action_rewind, Settings.audioJumpDelay),
-                        painterResource = painterResource(R.drawable.ic_player_rewind_10),
-                        tint = White,
-                        modifier = Modifier.padding(horizontal = 4.dp)
-                    ) {
-                        viewModel.jump(forward = false, long = false, activity!!)
-                    }
+                    AudioJumpButton(forward = false, viewModel = viewModel)
 
-                    LabeledIconButton(
-                        stringResource(R.string.talkback_action_forward, Settings.audioJumpDelay),
-                        painterResource = painterResource(R.drawable.ic_player_forward_10),
-                        tint = White,
-                        modifier = Modifier.padding(horizontal = 4.dp)
-                    ) {
-                        viewModel.jump(forward = true, long = false, activity!!)
-                    }
+                    AudioJumpButton(forward = true, viewModel = viewModel)
 
                     LabeledIconButton(
                         stringResource(R.string.next_bookmark),
@@ -898,11 +908,28 @@ private fun AudioPlayerQueueItemDropdown(expanded: Boolean, item: MediaWrapper, 
 }
 
 @Composable
-fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
+fun AudioJumpButton(forward: Boolean, viewModel: PlaylistModel) {
+    val activity = LocalActivity.current
+    val jumpDelay by produceState(initialValue = Settings.audioJumpDelay) {
+        Settings.audioControlsChanges.collect {
+            value = Settings.audioJumpDelay
+        }
+    }
+    LabeledIconButton(
+        stringResource(if (forward) R.string.talkback_action_forward else R.string.talkback_action_rewind, jumpDelay),
+        painterResource = painterResource(if (forward) R.drawable.ic_player_forward_10 else R.drawable.ic_player_rewind_10),
+        tint = White,
+        modifier = Modifier.padding(horizontal = 4.dp)
+    ) {
+        viewModel.jump(forward = forward, long = false, activity!!)
+    }
+}
+
+@Composable
+fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel(), onShowAudioControls: () -> Unit) {
     val playerState = viewModel.playerState.observeAsState()
     val repeatType = PlaylistManager.repeating.collectAsState()
     val shuffling = PlaylistManager.shuffling.collectAsState()
-    val activity = LocalActivity.current
 
 
     AudioProgressBar({ progressCoordinates(it) }, viewModel)
@@ -934,14 +961,7 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
             viewModel.previous()
         }
 
-        LabeledIconButton(
-            stringResource(R.string.talkback_action_rewind, Settings.audioJumpDelay),
-            painterResource = painterResource(R.drawable.ic_player_rewind_10),
-            tint = White,
-            modifier = Modifier.padding(horizontal = 4.dp)
-        ) {
-            viewModel.jump(forward = false, long = false, activity!!)
-        }
+        AudioJumpButton(forward = false, viewModel = viewModel)
 
         LabeledIconButton(
             stringResource(R.string.air_action_play_pause),
@@ -957,14 +977,7 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
             viewModel.togglePlayPause()
         }
 
-        LabeledIconButton(
-            stringResource(R.string.talkback_action_forward, Settings.audioJumpDelay),
-            painterResource = painterResource(R.drawable.ic_player_forward_10),
-            tint = White,
-            modifier = Modifier.padding(horizontal = 4.dp)
-        ) {
-            viewModel.jump(forward = true, long = false, activity!!)
-        }
+        AudioJumpButton(forward = true, viewModel = viewModel)
 
         LabeledIconButton(
             stringResource(R.string.next),
@@ -999,12 +1012,12 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
             }
         }
         Spacer(Modifier.weight(1.0f))
-        AudioAdvancedOptions(viewModel, mainViewModel)
+        AudioAdvancedOptions(viewModel, mainViewModel, onShowAudioControls)
     }
 }
 
 @Composable
-fun AudioAdvancedOptions(viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
+fun AudioAdvancedOptions(viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel(), onShowAudioControls: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     val activity = LocalActivity.current
     val context = LocalContext.current
@@ -1078,6 +1091,10 @@ fun AudioAdvancedOptions(viewModel: PlaylistModel = viewModel(), mainViewModel: 
                         toast.show()
                         expanded = false
                     }
+                }
+                ItemOptionsLine(stringResource(R.string.controls_setting), R.drawable.ic_audio_controls) {
+                    onShowAudioControls()
+                    expanded = false
                 }
             }
     }
