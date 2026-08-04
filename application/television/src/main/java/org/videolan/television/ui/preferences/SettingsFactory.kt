@@ -272,6 +272,68 @@ object SettingsFactory {
     )
 
     /**
+     * Defines the Audio Controls settings category.
+     */
+    fun createAudioControlsCategory(context: Context) = SettingCategory(
+        title = R.string.controls_prefs_category,
+        icon = R.drawable.ic_audio_controls,
+        items = listOf(
+            SettingItem.Header(R.string.controls_prefs_category),
+            SettingItem.Slider(
+                key = KEY_AUDIO_JUMP_DELAY,
+                title = R.string.jump_delay,
+                min = 1,
+                max = 99,
+                defaultValue = 10
+            ),
+            SettingItem.Slider(
+                key = KEY_AUDIO_LONG_JUMP_DELAY,
+                title = R.string.long_jump_delay,
+                min = 1,
+                max = 99,
+                defaultValue = 20
+            ),
+            SettingItem.Toggle(
+                key = KEY_AUDIO_FORCE_SHUFFLE,
+                title = R.string.force_shuffle_title,
+                summary = R.string.force_shuffle_summary,
+                defaultValue = false
+            ),
+            SettingItem.Header(R.string.interface_prefs_screen),
+            SettingItem.Toggle(
+                key = KEY_BLURRED_COVER_BACKGROUND,
+                title = R.string.blurred_cover_background_title,
+                summary = R.string.blurred_cover_background_summary,
+                defaultValue = true
+            ),
+            SettingItem.Toggle(
+                key = KEY_AUDIO_SHOW_TRACK_NUMBERS,
+                title = R.string.albums_show_track_numbers,
+                defaultValue = false
+            ),
+            SettingItem.Toggle(
+                key = KEY_AUDIO_SHOW_CHAPTER_BUTTONS,
+                title = R.string.show_chapter_buttons,
+                summary = R.string.show_chapter_buttons_summary,
+                defaultValue = true
+            ),
+            SettingItem.Toggle(
+                key = KEY_AUDIO_SHOW_BOOkMARK_BUTTONS,
+                title = R.string.show_bookmark_buttons,
+                summary = R.string.show_bookmark_buttons_summary,
+                defaultValue = true
+            ),
+            SettingItem.Toggle(
+                key = KEY_AUDIO_SHOW_BOOKMARK_MARKERS,
+                title = R.string.show_bookmark_markers,
+                summary = R.string.show_bookmark_markers_summary,
+                defaultValue = true,
+                dependencyKey = KEY_AUDIO_SHOW_BOOkMARK_BUTTONS
+            )
+        )
+    )
+
+    /**
      * Defines the Subtitles settings category.
      */
     private fun createSubtitlesCategory(context: Context) = SettingCategory(
