@@ -35,6 +35,7 @@ import org.videolan.resources.EXIT_PLAYER
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.resources.PLAY_FROM_SERVICE
+import org.videolan.resources.TV_AUDIOPLAYER_ACTIVITY
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.VLCOptions
 import org.videolan.resources.util.VLCCrashHandler
@@ -45,6 +46,7 @@ import org.videolan.tools.AUDIO_STOP_AFTER
 import org.videolan.tools.AppScope
 import org.videolan.tools.DAV1D_THREAD_NUMBER
 import org.videolan.tools.HTTP_USER_AGENT
+import org.videolan.tools.KEY_AUDIO_FORCE_OPEN_PLAYER
 import org.videolan.tools.KEY_ALWAYS_FAST_SEEK
 import org.videolan.tools.KEY_AUDIO_CONFIRM_RESUME
 import org.videolan.tools.KEY_AUDIO_FORCE_SHUFFLE
@@ -489,6 +491,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             service.showToast(service.getString(R.string.font_cache_building), Toast.LENGTH_LONG)
         }
 
+        val wasPlaying = player.isPlaying()
         videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
@@ -586,6 +589,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             newMedia = true
             determinePrevAndNextIndices()
             service.onNewPlayback()
+            if (Settings.tvUI && !wasPlaying && settings.getBoolean(KEY_AUDIO_FORCE_OPEN_PLAYER, false)) {
+                ctx.startActivity(Intent().setClassName(ctx, TV_AUDIOPLAYER_ACTIVITY).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            }
         } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
             if (player.isPlaying()) player.stop()
             VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
