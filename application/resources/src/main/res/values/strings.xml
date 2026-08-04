@@ -278,6 +278,8 @@
     <string name="audio_resume_playback_warning">Disabling the audio play queue history may lead to some behavior issues.\nAfter disabling it you may not be able to resume the playback from:\n\n\t- a  bluetooth device\n\t- the widget\n\t- the media notification</string>
     <string name="playback_history_warning">Disabling the playback history will hide the history, the media progress and the seen markers. The app will continue to save your activity and it will be restored if the history is turned back on.\nIf you want to completely stop saving your activity, use the incognito mode instead.\nYou can also clear your history in the history screen or in the advanced settings.</string>
     <string name="audio_resume_playback_summary">Allow saving the audio play queue to resume later</string>
+    <string name="audio_behavior_category">Behavior</string>
+    <string name="audio_open_player_title">Open the audio player when starting audio playback</string>
 
     <string name="play_button">Play Button</string>
 
