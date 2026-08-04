@@ -431,6 +431,7 @@ const val KEY_OPENGL = "opengl"
 
 //Control settings
 const val KEY_BLURRED_COVER_BACKGROUND = "blurred_cover_background"
+const val KEY_AUDIO_FORCE_OPEN_PLAYER = "audio_force_open_player"
 
 
 //Advanced

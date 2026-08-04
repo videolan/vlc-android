@@ -278,6 +278,12 @@ object SettingsFactory {
         title = R.string.controls_prefs_category,
         icon = R.drawable.ic_audio_controls,
         items = listOf(
+            SettingItem.Header(R.string.audio_behavior_category),
+            SettingItem.Toggle(
+                key = KEY_AUDIO_FORCE_OPEN_PLAYER,
+                title = R.string.audio_open_player_title,
+                defaultValue = false
+            ),
             SettingItem.Header(R.string.controls_prefs_category),
             SettingItem.Slider(
                 key = KEY_AUDIO_JUMP_DELAY,
