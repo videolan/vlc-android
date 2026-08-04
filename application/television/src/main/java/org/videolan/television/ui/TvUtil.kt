@@ -33,17 +33,11 @@ object TvUtil {
     }
 
     fun playMedia(activity: Activity, media: List<MediaWrapper>, position: Int = 0) {
-        val intent = Intent(activity, AudioPlayerActivity::class.java)
-        intent.putExtra(AudioPlayerActivity.MEDIA_LIST, ArrayList(media))
-        intent.putExtra(AudioPlayerActivity.MEDIA_POSITION, position)
-        activity.startActivity(intent)
+        MediaUtils.openList(activity, media, position)
     }
 
     fun playPlaylist(activity: Activity, playlist: Playlist, position: Int = 0) {
-        val intent = Intent(activity, AudioPlayerActivity::class.java)
-        intent.putExtra(AudioPlayerActivity.MEDIA_PLAYLIST, playlist.id)
-        intent.putExtra(AudioPlayerActivity.MEDIA_POSITION, position)
-        activity.startActivity(intent)
+        MediaUtils.openPlaylist(activity, playlist.id, position)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -79,8 +73,6 @@ object TvUtil {
 
     private fun playAudioList(activity: Activity, list: List<MediaWrapper>, position: Int) {
         MediaUtils.openList(activity, list, position)
-        val intent = Intent(activity, AudioPlayerActivity::class.java)
-        activity.startActivity(intent)
     }
 
     fun openAudioCategory(context: Activity, mediaLibraryItem: MediaLibraryItem) {
