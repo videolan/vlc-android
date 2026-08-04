@@ -7,6 +7,8 @@ import android.os.Build
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import org.videolan.tools.Settings.audioControlsChangeListener
 import org.videolan.tools.Settings.init
 import org.videolan.tools.Settings.initPostMigration
@@ -38,6 +40,8 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var fastplaySpeed = 2f
     var audioPlayerPinned = MutableLiveData(false)
     private var audioControlsChangeListener: (() -> Unit)? = null
+    private val _audioControlsChanges = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    val audioControlsChanges = _audioControlsChanges.asSharedFlow()
     lateinit var device : DeviceInfo
         private set
 
@@ -87,6 +91,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
      * Trigger the [audioControlsChangeListener] to update the UI
      */
     fun onAudioControlsChanged() {
+        _audioControlsChanges.tryEmit(Unit)
         audioControlsChangeListener?.invoke()
     }
 

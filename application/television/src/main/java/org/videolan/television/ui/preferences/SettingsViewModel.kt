@@ -494,12 +494,18 @@ class SettingsViewModel @Inject constructor(
                 _settingsValues[key] = value
                 if (!value) Medialibrary.getInstance().clearHistory(Medialibrary.HISTORY_TYPE_GLOBAL)
             }
+            KEY_AUDIO_SHOW_TRACK_NUMBERS -> {
+                Settings.audioShowTrackNumbers.postValue(value)
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
+            }
             else -> {
                 settings.edit { putBoolean(key, value) }
                 _settingsValues[key] = value
             }
         }
-        
+
+        Settings.onAudioControlsChanged()
         refreshCategories()
     }
 
@@ -517,8 +523,15 @@ class SettingsViewModel @Inject constructor(
             KEY_SUBTITLES_SHADOW_COLOR_OPACITY, KEY_SUBTITLES_OUTLINE_COLOR_OPACITY -> {
                 viewModelScope.launch { restartLibVLC() }
             }
+            KEY_AUDIO_JUMP_DELAY -> {
+                Settings.audioJumpDelay = value
+            }
+            KEY_AUDIO_LONG_JUMP_DELAY -> {
+                Settings.audioLongJumpDelay = value
+            }
         }
 
+        Settings.onAudioControlsChanged()
         refreshCategories()
     }
 
