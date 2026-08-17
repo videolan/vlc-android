@@ -75,12 +75,14 @@ jobs:
       - name: Configure signature
         run: |
           set -euxo pipefail
-          grep -q '^keyStoreFile=' gradle.properties || cat >> gradle.properties <<EOF
-
-keyStoreFile=${{ steps.keystore.outputs.keystore }}
-storealias=${{ steps.keystore.outputs.alias }}
-storepwd=${{ steps.keystore.outputs.password }}
-EOF
+          if ! grep -q '^keyStoreFile=' gradle.properties; then
+            {
+              echo
+              echo "keyStoreFile=${{ steps.keystore.outputs.keystore }}"
+              echo "storealias=${{ steps.keystore.outputs.alias }}"
+              echo "storepwd=${{ steps.keystore.outputs.password }}"
+            } >> gradle.properties
+          fi
 
       - name: Build signed APK
         run: ./gradlew assembleSignedRelease
