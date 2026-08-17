@@ -24,6 +24,7 @@ import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.EXTRA_FIRST_RUN
 import org.videolan.resources.EXTRA_UPGRADE
+import org.videolan.resources.MOBILE_MAIN_ACTIVITY
 import org.videolan.resources.PREF_FIRST_RUN
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.KEY_APP_THEME
@@ -37,7 +38,6 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.hf.NotificationDelegate.Companion.getNotificationPermission
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.util.Permissions
@@ -118,7 +118,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
         }
         if (!viewModel.scanStorages) MediaParsingService.preselectedStorages.clear()
         startMedialibrary(firstRun = true, upgrade = true, parse = viewModel.scanStorages)
-        val intent = Intent(this@OnboardingActivity, MainActivity::class.java)
+        val intent = Intent().setClassName(this@OnboardingActivity, MOBILE_MAIN_ACTIVITY)
             .putExtra(EXTRA_FIRST_RUN, true)
             .putExtra(EXTRA_UPGRADE, true)
         startActivity(intent)

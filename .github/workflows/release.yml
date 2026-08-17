@@ -1,0 +1,100 @@
+name: Build & Release APK
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+env:
+  ANDROID_SDK: ${{ github.workspace }}/android-sdk
+  ANDROID_NDK: ${{ github.workspace }}/android-sdk/ndk/21.4.7075529
+  # VLC 3.x builds need the full NDK 21.4 to satisfy the gradle configuration
+  # (compile.sh writes it into local.properties). App-only builds never invoke
+  # the native toolchains, but the NDK version must exist for configuration.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install Android SDK + NDK
+        run: |
+          set -euxo pipefail
+          mkdir -p "$ANDROID_SDK/cmdline-tools"
+          cd /tmp
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+          unzip -q commandlinetools-linux-11076708_latest.zip -d "$ANDROID_SDK/cmdline-tools"
+          mv "$ANDROID_SDK/cmdline-tools/cmdline-tools" "$ANDROID_SDK/cmdline-tools/latest"
+          yes | "$ANDROID_SDK/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null 2>&1 || true
+          "$ANDROID_SDK/cmdline-tools/latest/bin/sdkmanager" --install \
+            "platforms;android-36" \
+            "build-tools;36.0.0" \
+            "ndk;21.4.7075529"
+
+      - name: Restore keystore
+        id: keystore
+        run: |
+          set -euxo pipefail
+          if [ -n "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ]; then
+            echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$HOME/android-release.jks"
+            echo "keystore=$HOME/android-release.jks" >> "$GITHUB_OUTPUT"
+            echo "alias=vlc" >> "$GITHUB_OUTPUT"
+            echo "password=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> "$GITHUB_OUTPUT"
+          else
+            keytool -genkeypair -v -keystore "$HOME/android-release.jks" \
+              -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 \
+              -storepass android -keypass android \
+              -dname "CN=Android Debug,O=Android,C=US" 2>/dev/null
+            echo "keystore=$HOME/android-release.jks" >> "$GITHUB_OUTPUT"
+            echo "alias=androiddebugkey" >> "$GITHUB_OUTPUT"
+            echo "password=android" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Bootstrap Gradle wrapper
+        run: |
+          set -euxo pipefail
+          # Clones libvlcjni:libvlc (referenced by settings.gradle) and generates
+          # gradlew + local.properties. No native code is compiled here.
+          ./buildsystem/compile.sh --init
+
+      - name: Configure signature
+        run: |
+          set -euxo pipefail
+          grep -q '^keyStoreFile=' gradle.properties || cat >> gradle.properties <<EOF
+
+keyStoreFile=${{ steps.keystore.outputs.keystore }}
+storealias=${{ steps.keystore.outputs.alias }}
+storepwd=${{ steps.keystore.outputs.password }}
+EOF
+
+      - name: Build signed APK
+        run: ./gradlew assembleSignedRelease
+
+      - name: Upload to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            application/app/build/outputs/apk/signedRelease/VLC-Android-*.apk
+          fail_on_unmatched_files: true
+      - name: Upload artifact (no tag)
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: vlc-release-apks
+          path: application/app/build/outputs/apk/signedRelease/VLC-Android-*.apk

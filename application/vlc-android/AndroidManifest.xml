@@ -976,6 +976,26 @@
                 android:resource="@xml/searchable"/>
         </activity>
         <activity
+            android:name=".addon.HomeActivity"
+            android:icon="@drawable/icon"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.VLC"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".addon.DeepLinkActivity"
+            android:exported="true"
+            android:theme="@style/Theme.VLC.Transparent.NoUI">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="xplayon" android:host="play"/>
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".gui.onboarding.OnboardingActivity"
             android:theme="@style/Theme.VLC.Onboarding"/>
         <activity
