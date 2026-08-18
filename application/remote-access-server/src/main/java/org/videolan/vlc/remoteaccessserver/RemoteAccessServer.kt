@@ -568,6 +568,9 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
 
                     cookie<UserSession>("user_session", directorySessionStorage(File("${context.filesDir.path}/server/cache"), true)) {
                         cookie.maxAgeInSeconds = RemoteAccessSession.maxAge
+                        cookie.secure = true
+                        cookie.httpOnly = true
+                        cookie.extensions["SameSite"] = "Strict"
                         transform(SessionTransportTransformerEncrypt(hex(encryptKey), hex(signkey)))
                     }
                 }
