@@ -173,5 +173,7 @@ object TranslationMapping {
         PLAY_ON_PHONE(R.string.ra_play_on_device),
         MEDIA_NOT_FOUND(R.string.ra_browser_audio_not_found),
         BROWSER_AUDIO_UNSUPPORTED_FORMAT(R.string.ra_browser_audio_unsupported_format),
+        AUDIO_TRACK(R.string.track_audio),
+        SUBTITLE_TRACK(R.string.track_text),
     }
 }
