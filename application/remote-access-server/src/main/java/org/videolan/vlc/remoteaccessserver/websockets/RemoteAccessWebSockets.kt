@@ -30,6 +30,7 @@ import android.media.AudioManager
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.annotation.MainThread
+import androidx.core.net.toUri
 import com.squareup.moshi.Moshi
 import io.ktor.server.routing.Routing
 import io.ktor.server.websocket.WebSocketServerSession
@@ -41,6 +42,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.Tools
 import org.videolan.tools.AppScope
 import org.videolan.tools.REMOTE_ACCESS_PLAYBACK_CONTROL
@@ -52,6 +54,8 @@ import org.videolan.vlc.remoteaccessserver.RemoteAccessServer
 import org.videolan.vlc.remoteaccessserver.convertToJson
 import org.videolan.vlc.remoteaccessserver.ssl.SecretGenerator
 import org.videolan.vlc.remoteaccessserver.websockets.IncomingMessageType.*
+import org.videolan.vlc.repository.SlaveRepository
+import org.videolan.vlc.util.FileUtils
 import java.util.Calendar
 import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
@@ -250,6 +254,13 @@ object RemoteAccessWebSockets {
             }
             SET_AUDIO_TRACK -> incomingMessage.stringValue?.let { trackId -> service?.setAudioTrack(trackId) }
             SET_SUBTITLE_TRACK -> incomingMessage.stringValue?.let { trackId -> service?.setSpuTrack(trackId) }
+            PICK_SUBTITLE -> incomingMessage.stringValue?.let { subtitleMrl ->
+                val subtitleUri = subtitleMrl.toUri()
+                service?.addSubtitleTrack(FileUtils.getUri(subtitleUri) ?: subtitleUri, true)
+                service?.currentMediaWrapper?.let {
+                    SlaveRepository.getInstance(context).saveSlave(it.location, IMedia.Slave.Type.Subtitle, 2, subtitleMrl)
+                }
+            }
         }
         return true
     }
