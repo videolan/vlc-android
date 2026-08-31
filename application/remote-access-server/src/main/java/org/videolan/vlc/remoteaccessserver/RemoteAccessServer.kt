@@ -775,7 +775,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                 val isVideoPlaying = service.playlistManager.player.isVideoPlaying()
                 val waitForMediaEnd = service.waitForMediaEnd
                 val resetOnInteraction = service.resetOnInteraction
-                val audioTracks = service.audioTracks?.map { WSTrack(it.getId(), it.getName()) } ?: listOf()
+                val audioTracks = if (isVideoPlaying) service.audioTracks?.map { WSTrack(it.getId(), it.getName()) } ?: listOf() else listOf()
                 val currentAudioTrack = service.audioTrack
                 val subtitleTracks = service.spuTracks?.map { WSTrack(it.getId(), it.getName()) } ?: listOf()
                 val currentSubtitleTrack = service.spuTrack
