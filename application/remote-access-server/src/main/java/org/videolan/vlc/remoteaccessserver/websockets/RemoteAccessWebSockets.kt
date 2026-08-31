@@ -248,6 +248,8 @@ object RemoteAccessWebSockets {
             SET_BROWSER_AUDIO -> {
                 service?.playlistManager?.setBrowserAudio(incomingMessage.id == 1)
             }
+            SET_AUDIO_TRACK -> incomingMessage.stringValue?.let { trackId -> service?.setAudioTrack(trackId) }
+            SET_SUBTITLE_TRACK -> incomingMessage.stringValue?.let { trackId -> service?.setSpuTrack(trackId) }
         }
         return true
     }
