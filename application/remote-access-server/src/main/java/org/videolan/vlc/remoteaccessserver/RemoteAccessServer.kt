@@ -1010,8 +1010,11 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                           val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume: Int, val speed: Float,
                           val sleepTimer: Long, val waitForMediaEnd:Boolean, val resetOnInteraction:Boolean, val shuffle: Boolean, val repeat: Int,
                           val shouldShow: Boolean = PlaylistManager.playingState.value == true,
-                          val bookmarks: List<WSBookmark> = listOf(), val chapters: List<WSChapter> = listOf()) : WSMessage(WSMessageType.NOW_PLAYING)
+                          val bookmarks: List<WSBookmark> = listOf(), val chapters: List<WSChapter> = listOf(),
+                          val audioTracks: List<WSTrack> = listOf(), val currentAudioTrack: String = "-1",
+                          val subtitleTracks: List<WSTrack> = listOf(), val currentSubtitleTrack: String = "-1") : WSMessage(WSMessageType.NOW_PLAYING)
 
+    data class WSTrack(val id: String, val name: String)
     data class WSBookmark(val id:Long, val title: String, val time: Long)
     data class WSChapter(val title: String, val time: Long)
 
