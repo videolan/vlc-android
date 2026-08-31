@@ -775,9 +775,14 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                 val isVideoPlaying = service.playlistManager.player.isVideoPlaying()
                 val waitForMediaEnd = service.waitForMediaEnd
                 val resetOnInteraction = service.resetOnInteraction
+                val audioTracks = service.audioTracks?.map { WSTrack(it.getId(), it.getName()) } ?: listOf()
+                val currentAudioTrack = service.audioTrack
+                val subtitleTracks = service.spuTracks?.map { WSTrack(it.getId(), it.getName()) } ?: listOf()
+                val currentSubtitleTrack = service.spuTrack
                 val nowPlaying = NowPlaying(media.title ?: "", media.artistName
                         ?: "", service.isPlaying, isVideoPlaying, service.getTime(), service.length, media.id, media.artworkURL
-                        ?: "", media.uri.toString(), getVolume(), speed, sleepTimer, waitForMediaEnd, resetOnInteraction, service.isShuffling, service.repeatType, bookmarks = bookmarks.map { WSBookmark(it.id, it.title, it.time) }, chapters = chapters.map { WSChapter(it.name, it.duration) })
+                        ?: "", media.uri.toString(), getVolume(), speed, sleepTimer, waitForMediaEnd, resetOnInteraction, service.isShuffling, service.repeatType, bookmarks = bookmarks.map { WSBookmark(it.id, it.title, it.time) }, chapters = chapters.map { WSChapter(it.name, it.duration) },
+                        audioTracks = audioTracks, currentAudioTrack = currentAudioTrack, subtitleTracks = subtitleTracks, currentSubtitleTrack = currentSubtitleTrack)
                 return nowPlaying
 
             }
