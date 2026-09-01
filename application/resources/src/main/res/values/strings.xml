@@ -1357,6 +1357,7 @@
     <string name="ra_play_on_device">Play on device</string>
     <string name="ra_browser_audio_not_found">Media not found or cannot be played in browser</string>
     <string name="ra_browser_audio_unsupported_format">This audio format is not supported by your browser</string>
+    <string name="ra_upload_subtitle">Upload subtitle</string>
 
     <string name="ra_onboarding_welcome_desc">Welcome in VLC for Android\'s remote access\nBy enabling it you will be able to control this device\'s playback and more</string>
     <string name="ra_onboarding_how_title">Control your device</string>
