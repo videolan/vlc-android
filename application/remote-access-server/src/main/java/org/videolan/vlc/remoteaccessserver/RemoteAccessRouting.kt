@@ -248,6 +248,31 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
         }
         call.respondText("$fileDescription is uploaded to 'uploads/$fileName'")
     }
+    // Upload a subtitle to the device
+    post("/upload-subtitle") {
+        verifyLogin(settings)
+        var fileName: String
+        val multipartData = call.receiveMultipart()
+
+        multipartData.forEachPart { part ->
+            when (part) {
+                is PartData.FileItem -> {
+                    val uploadDir = File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/subtitles")
+                    uploadDir.mkdirs()
+                    fileName = part.originalFileName ?: "subtitle.srt"
+                    val file = File(uploadDir, fileName)
+                    if (file.canonicalFile.parent?.startsWith(uploadDir.absolutePath) != true) {
+                        call.respond(HttpStatusCode.Unauthorized)
+                        throw (IllegalStateException("${file.canonicalFile.parent} is not a valid path"))
+                    }
+                    val fileBytes = part.streamProvider().readBytes()
+                    file.writeBytes(fileBytes)
+                }
+                else -> {}
+            }
+        }
+        call.respond(HttpStatusCode.OK)
+    }
     // Download a log file
     get("/download-logfile") {
         verifyLogin(settings)
