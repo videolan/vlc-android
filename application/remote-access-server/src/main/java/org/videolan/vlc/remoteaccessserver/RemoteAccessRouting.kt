@@ -69,6 +69,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Album
@@ -108,6 +109,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.dialogs.getPlaylistByName
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
+import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.gui.helpers.FeedbackUtil
 import org.videolan.vlc.gui.helpers.VectorDrawableUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
@@ -267,6 +269,15 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                     }
                     val fileBytes = part.streamProvider().readBytes()
                     file.writeBytes(fileBytes)
+
+                    val service = RemoteAccessServer.getInstance(appContext).service
+                    if (service?.isPlaying == true) {
+                        val uri = Uri.fromFile(file)
+                        service.addSubtitleTrack(uri, true)
+                        service.currentMediaWrapper?.let {
+                            SlaveRepository.getInstance(appContext).saveSlave(it.location, IMedia.Slave.Type.Subtitle, 2, uri.toString())
+                        }
+                    }
                 }
                 else -> {}
             }
