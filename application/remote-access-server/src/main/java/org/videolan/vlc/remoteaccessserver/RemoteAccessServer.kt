@@ -98,6 +98,7 @@ import org.bouncycastle.operator.ContentSigner
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder
 import org.slf4j.LoggerFactory
 import org.videolan.libvlc.MediaPlayer
+import org.videolan.vlc.remoteaccessserver.routing.setupRouting
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.MediaBrowser

@@ -22,7 +22,7 @@
  *
  */
 
-package org.videolan.vlc.remoteaccessserver
+package org.videolan.vlc.remoteaccessserver.routing
 
 import android.content.Context
 import io.ktor.server.auth.authenticate
@@ -30,8 +30,8 @@ import io.ktor.server.http.content.staticFiles
 import io.ktor.server.routing.Route
 import kotlinx.coroutines.CoroutineScope
 import org.videolan.tools.Settings
+import org.videolan.vlc.remoteaccessserver.RemoteAccessServer
 import org.videolan.vlc.remoteaccessserver.RemoteAccessServer.Companion.getServerFiles
-import org.videolan.vlc.remoteaccessserver.routing.*
 import java.io.File
 
 /**
