@@ -166,52 +166,9 @@ private const val TAG = "VLC/HttpSharingServer"
 fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     val settings = Settings.getInstance(appContext)
     staticFiles("", File(getServerFiles(appContext)))
-    //the client is requesting a new code.
-    // if the formparameters "challenge" is sent. Remove the corresponding code
-    post("/code") {
-        val formParameters = try {
-            call.receiveParameters()
-        } catch (e: Exception) {
-            null
-        }
-        val challenge = if (formParameters == null) null else formParameters["challenge"].toString()
-        if (!challenge.isNullOrBlank()) {
-            RemoteAccessOTP.removeCodeWithChallenge(challenge)
-        }
-        val code = RemoteAccessOTP.getFirstValidCode(appContext)
-        scope.launch {
-            RemoteAccessUtils.otpFlow.emit(code.code)
-        }
-        call.respondText(code.challenge)
-    }
-    //Verify the code and inject the cookie if valid
-    post("/verify-code") {
-        val formParameters = try {
-            call.receiveParameters()
-        } catch (e: Exception) {
-            null
-        }
-        val idString = formParameters?.get("code")
-        if (idString == null){
-            call.respond(HttpStatusCode.BadRequest)
-            return@post
-        }
-        if (RemoteAccessOTP.verifyCode(appContext, idString)) {
-            //verification is OK
-            RemoteAccessSession.injectCookie(call, settings)
-            scope.launch {
-                RemoteAccessUtils.otpFlow.emit(null)
-            }
-            call.respondRedirect("/")
-            return@post
-        }
-        if (isFlooding(appContext, call.request.origin.remoteAddress)) {
-            Log.w(TAG, "Too many requests from ${call.request.origin.remoteAddress}")
-            call.respond(HttpStatusCode.TooManyRequests)
-            return@post
-        }
-        call.respondRedirect("/index.html#/login/error")
-    }
+
+    publicAuthRouting(appContext, scope, settings)
+
     // Main end point redirect to index.html
     get("/") {
         call.respondRedirect("index.html", permanent = true)
@@ -443,12 +400,14 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     }
 
     authenticate("user_session", optional = RemoteAccessServer.byPassAuth) {
+        authenticatedAuthRouting()
         post("/logs") {
             val formParameters = try {
                 call.receiveParameters()
             } catch (e: Exception) {
                 null
             }
+
             val logs = buildString {
                 formParameters?.forEach { s, strings ->
                     if (s.contains("[time]"))
@@ -500,11 +459,6 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 call.respond(HttpStatusCode.InternalServerError)
             else
                 call.respondText("")
-        }
-        //Provide a Websocket auth ticket as auth is validated
-        get("/wsticket") {
-            val ticket = RemoteAccessWebSockets.createTicket()
-            call.respondText(ticket)
         }
 
         // List of all the videos
