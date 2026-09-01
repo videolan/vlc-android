@@ -51,7 +51,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.remoteaccessserver.BuildConfig
 import org.videolan.vlc.remoteaccessserver.RemoteAccessServer
-import org.videolan.vlc.remoteaccessserver.convertToJson
+import org.videolan.vlc.remoteaccessserver.routing.convertToJson
 import org.videolan.vlc.remoteaccessserver.ssl.SecretGenerator
 import org.videolan.vlc.remoteaccessserver.websockets.IncomingMessageType.*
 import org.videolan.vlc.repository.SlaveRepository
