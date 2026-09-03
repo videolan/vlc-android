@@ -258,7 +258,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             call.respond(HttpStatusCode.Forbidden)
             return@post
         }
-        var fileName: String
+        var uploaded = false
         val multipartData = call.receiveMultipart()
 
         multipartData.forEachPart { part ->
@@ -266,14 +266,18 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 is PartData.FileItem -> {
                     val uploadDir = File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/subtitles")
                     uploadDir.mkdirs()
-                    fileName = part.originalFileName ?: "subtitle.srt"
+                    val fileName = part.originalFileName?.let { File(it).name } ?: "subtitle.srt"
                     val file = File(uploadDir, fileName)
-                    if (file.canonicalFile.parent?.startsWith(uploadDir.absolutePath) != true) {
+                    if (!file.canonicalFile.canonicalPath.startsWith(uploadDir.canonicalPath + File.separator)) {
                         call.respond(HttpStatusCode.Unauthorized)
                         throw (IllegalStateException("${file.canonicalFile.parent} is not a valid path"))
                     }
-                    val fileBytes = part.streamProvider().readBytes()
-                    file.writeBytes(fileBytes)
+                    part.streamProvider().use { input ->
+                        file.outputStream().use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+                    uploaded = true
 
                     val service = RemoteAccessServer.getInstance(appContext).service
                     if (service?.isPlaying == true) {
@@ -287,7 +291,11 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 else -> {}
             }
         }
-        call.respond(HttpStatusCode.OK)
+        if (uploaded) {
+            call.respond(HttpStatusCode.OK)
+        } else {
+            call.respond(HttpStatusCode.BadRequest)
+        }
     }
     // Download a log file
     get("/download-logfile") {
