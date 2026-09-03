@@ -280,11 +280,13 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                     uploaded = true
 
                     val service = RemoteAccessServer.getInstance(appContext).service
-                    if (service?.isPlaying == true) {
+                    if (service?.hasMedia() == true) {
                         val uri = Uri.fromFile(file)
-                        service.addSubtitleTrack(uri, true)
-                        service.currentMediaWrapper?.let {
-                            SlaveRepository.getInstance(appContext).saveSlave(it.location, IMedia.Slave.Type.Subtitle, 2, uri.toString())
+                        withContext(Dispatchers.Main) {
+                            service.addSubtitleTrack(uri, true)
+                            service.currentMediaWrapper?.let { media ->
+                                SlaveRepository.getInstance(appContext).saveSlave(media.location, IMedia.Slave.Type.Subtitle, 2, uri.toString())
+                            }
                         }
                     }
                 }
