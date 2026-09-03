@@ -177,5 +177,6 @@ object TranslationMapping {
         SUBTITLE_TRACK(R.string.track_text),
         PICK_SUBTITLE(R.string.pick_file),
         UPLOAD_SUBTITLE(R.string.ra_upload_subtitle),
+        NONE(R.string.disabled),
     }
 }
