@@ -99,6 +99,7 @@ import org.videolan.tools.REMOTE_ACCESS_FILE_BROWSER_CONTENT
 import org.videolan.tools.REMOTE_ACCESS_HISTORY_CONTENT
 import org.videolan.tools.REMOTE_ACCESS_LOGS
 import org.videolan.tools.REMOTE_ACCESS_NETWORK_BROWSER_CONTENT
+import org.videolan.tools.REMOTE_ACCESS_PLAYBACK_CONTROL
 import org.videolan.tools.Settings
 import org.videolan.tools.awaitAppIsForegroung
 import org.videolan.tools.getContextWithLocale
@@ -253,6 +254,10 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     // Upload a subtitle to the device
     post("/upload-subtitle") {
         verifyLogin(settings)
+        if (!settings.getBoolean(REMOTE_ACCESS_PLAYBACK_CONTROL, true)) {
+            call.respond(HttpStatusCode.Forbidden)
+            return@post
+        }
         var fileName: String
         val multipartData = call.receiveMultipart()
 
