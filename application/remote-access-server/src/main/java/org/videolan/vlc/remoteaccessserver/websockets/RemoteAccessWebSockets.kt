@@ -253,10 +253,10 @@ object RemoteAccessWebSockets {
                 service?.playlistManager?.setBrowserAudio(incomingMessage.id == 1)
             }
             SET_AUDIO_TRACK -> incomingMessage.stringValue?.let { trackId ->
-                if (trackId.toIntOrNull() != null) service?.setAudioTrack(trackId)
+                try { service?.setAudioTrack(trackId) } catch (e: Exception) { Log.e(TAG, "Failed to set audio track", e) }
             }
             SET_SUBTITLE_TRACK -> incomingMessage.stringValue?.let { trackId ->
-                if (trackId.toIntOrNull() != null) service?.setSpuTrack(trackId)
+                try { service?.setSpuTrack(trackId) } catch (e: Exception) { Log.e(TAG, "Failed to set subtitle track", e) }
             }
             PICK_SUBTITLE -> incomingMessage.stringValue?.let { subtitleMrl ->
                 val subtitleUri = subtitleMrl.toUri()
