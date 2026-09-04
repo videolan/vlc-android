@@ -204,12 +204,21 @@ fun Service.stopForegroundCompat(removeNotification:Boolean = true) = when {
  * @param serviceNotificationId the notification id to be used. Depends on the service type
  * @param notification the notification to display
  * @param foregroundServiceType the foreground service type, needed for API >= 33
+ * @return true if startForeground succeeded, false if ForegroundServiceStartNotAllowedException occurred
  */
-fun Service.startForegroundCompat(serviceNotificationId:NotificationIds, notification:Notification, foregroundServiceType: Int) {
-    if (SDK_INT >= Build.VERSION_CODES.Q)
-        startForeground(serviceNotificationId.id, notification, foregroundServiceType)
-    else
-        startForeground(serviceNotificationId.id, notification)
+fun Service.startForegroundCompat(serviceNotificationId: NotificationIds, notification: Notification, foregroundServiceType: Int): Boolean {
+    return try {
+        if (SDK_INT >= Build.VERSION_CODES.Q)
+            startForeground(serviceNotificationId.id, notification, foregroundServiceType)
+        else
+            startForeground(serviceNotificationId.id, notification)
+        true
+    } catch (e: Exception) {
+        if (SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
+            Log.w("Service", "ForegroundServiceStartNotAllowedException caught in startForegroundCompat", e)
+            false
+        } else throw e
+    }
 }
 
 /**

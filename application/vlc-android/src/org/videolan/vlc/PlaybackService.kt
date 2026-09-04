@@ -951,8 +951,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     ctx.resources.getString(R.string.loading), "", "", null, false, true,
                     true, speed, isPodcastMode, false, enabledActions, null, pi)
         }
-        startForegroundCompat(NotificationIds.PLAYBACK, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
-        isForeground = true
+        if (startForegroundCompat(NotificationIds.PLAYBACK, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)) {
+            isForeground = true
+        }
         if (stopped) lifecycleScope.launch { hideNotification(true) }
     }
 
@@ -1061,8 +1062,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     if (!VlcMigrationHelper.isLolliPopOrLater || playing || audioFocusHelper.lossTransient) {
                         if (!isForeground) {
                             ctx.launchForeground(Intent(ctx, PlaybackService::class.java)) {
-                                startForegroundCompat(NotificationIds.PLAYBACK, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
-                                isForeground = true
+                                if (startForegroundCompat(NotificationIds.PLAYBACK, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)) {
+                                    isForeground = true
+                                }
                             }
                         } else
                             NotificationManagerCompat.from(ctx).notify(NotificationIds.PLAYBACK.id, notification)
