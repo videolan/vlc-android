@@ -40,6 +40,7 @@ import org.videolan.tools.ENABLE_SWIPE_SEEK
 import org.videolan.tools.ENABLE_VOLUME_GESTURE
 import org.videolan.tools.FASTPLAY_SPEED
 import org.videolan.tools.KEY_AUDIO_BOOST
+import org.videolan.tools.KEY_HEADSET_JUMP_ON_PREVIOUS_NEXT
 import org.videolan.tools.KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY
 import org.videolan.tools.KEY_VIDEO_JUMP_DELAY
 import org.videolan.tools.KEY_VIDEO_LONG_JUMP_DELAY
@@ -130,6 +131,9 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
             }
             KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY -> {
                 Settings.videoDoubleTapJumpDelay = sharedPreferences.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 20)
+            }
+            KEY_HEADSET_JUMP_ON_PREVIOUS_NEXT -> {
+                Settings.headsetJumpOnPreviousNext = sharedPreferences.getBoolean(KEY_HEADSET_JUMP_ON_PREVIOUS_NEXT, false)
             }
             FASTPLAY_SPEED -> {
                 Settings.fastplaySpeed = sharedPreferences.getInt(FASTPLAY_SPEED, 20) / 10f

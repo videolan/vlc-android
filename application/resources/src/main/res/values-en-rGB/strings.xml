@@ -1299,6 +1299,8 @@
     <string name="show_only_favs">Show only favourites</string>
     <string name="ignore_headset_media_button_presses">Ignore headset media button presses</string>
     <string name="ignore_headset_media_button_presses_summary">Useful, for instance, if you are using a headset with broken physical buttons</string>
+    <string name="headset_jump_on_previous_next">Jump on previous/next</string>
+    <string name="headset_jump_on_previous_next_summary">When previous/next is pressed, jump back/forward in the current media by the time specified in "Double tap time delay"</string>
     <string name="replace_playlist">Replace playlist</string>
 
     <!-- Remote access -->
