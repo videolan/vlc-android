@@ -238,11 +238,11 @@
     <string name="remote_keyboard_navigation">Klavye gezinmesi</string>
 
     <string name="server_add_title">Sık kullanılanlara yeni sunucu ekle</string>
-    <string name="server_domain_hint">Sunucu adresi (etki alanı ya da IP)</string>
-    <string name="server_share_hint">Ağ paylaşımı adı (ya da IP adresi)</string>
+    <string name="server_domain_hint">Sunucu adresi (sunucu adı ya da IP adresi)</string>
+    <string name="server_share_hint">Sunucu adresi (sunucu adı ya da IP adresi)</string>
     <string name="server_folder_hint">Klasör yolu (isteğe bağlı)</string>
     <string name="server_username_hint">Kullanıcı adı</string>
-    <string name="server_servername_hint">Sunucu adı, kolaylık olması için</string>
+    <string name="server_servername_hint">Görüntülenecek ad (isteğe bağlı)</string>
     <string name="server_port">Bağlantı noktası: </string>
     <string name="login">Oturum aç</string>
     <string name="password">Parola</string>
@@ -255,9 +255,9 @@
     <string name="favorite_removed">Sık kullanılanlardan çıkarıldı</string>
 
     <string name="streams">Akışlar</string>
-    <string name="open_mrl_dialog_msg">Ağ adresini yazın: örneğin http://, mms:// ya da rtsp://</string>
-    <string name="invalid_location">%1$s konumu oynatılamadı.</string>
-    <string name="missing_location">Bu ortam kullanılamayan depolama biriminde bulunduğundan oynatılamaz.</string>
+    <string name="open_mrl_dialog_msg">Bir ağ adresi yazın. Örnek: http://, mms://, or rtsp://</string>
+    <string name="invalid_location">%1$s konumundaki ortam oynatılamadı.</string>
+    <string name="missing_location">Bu ortam kullanılamayan bir depolama aygıtında olduğundan oynatılamaz.</string>
 
     <string name="search">Arama</string>
 
@@ -636,6 +636,8 @@
     <string name="no_internet_connection">İnternet bağlantınızı denetleyin</string>
     <string name="retry">Yeniden dene</string>
     <string name="open_subs_download_error">OpenSubtitles şu anda kullanılamıyor. Lütfen bir süre sonra yeniden deneyin</string>
+    <string name="open_subs_download_link_error">OpenSubtitles ile ilgili bir sorun çıktı. Lütfen bir süre sonra yeniden deneyin</string>
+
     <string name="network_browsing">Yerel ağ</string>
     <string name="browsing">Göz at</string>
 
@@ -1332,6 +1334,12 @@
     <string name="ra_otp_title">Uzaktan erişim oturum açma girişimi</string>
     <string name="ra_otp_subtitle">Bu girişimi siz yaptıysanız bu kodu diğer aygıta yazın</string>
     <string name="ra_otp_not_me">Ben değilim</string>
+    <string name="ra_output">Ses çıkışı</string>
+    <string name="ra_play_on_browser">Tarayıcıda oynat</string>
+    <string name="ra_play_on_device">Aygıtta oynat</string>
+    <string name="ra_browser_audio_not_found">Ortam bulunamadı veya tarayıcıda oynatılamıyor</string>
+    <string name="ra_browser_audio_unsupported_format">Ses biçimi tarayıcınız tarafından desteklenmiyor</string>
+
     <string name="ra_onboarding_welcome_desc">Android için VLC uygulamasının uzaktan erişim özelliğine hoş geldiniz\Bu özelliği etkinleştirerek bu aygıtın oynatma ve diğer işlemlerini denetleyebileceksiniz</string>
     <string name="ra_onboarding_how_title">Aygıtınızı denetleyin</string>
     <string name="ra_onboarding_how_desc">Aygıtınızdaki oynatmayı denetleyin, dosya gönderin ya da alın ve diğer işlemleri yapın</string>

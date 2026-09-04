@@ -43,6 +43,8 @@
     <string name="playback_controls">დაკვრის სამართავი</string>
     <string name="medialibrary_scan">მედიათეკის მოძიება</string>
     <string name="Medialibrary_progress">მედიათეკის მოძიების მიმდინარე წინსვლა</string>
+    <string name="ml_database_warning">თქვენი მონაცემთა კრებული შეიცავს ყველა თქვენს გასაშვებ ფაილს. გაზიარების შედეგად იხილავენ VLC-ს შემმუშავებლები</string>
+    <string name="logs_warning">შეიძლება შეიცავდეს მონაცემებს თქვენ მიერ გაშვებული ფაილების შესახებ. გაზიარების შედეგად იხილავენ VLC-ს შემმუშავებლები</string>
     <string name="play_from_start">დასაწყისიდან გაშვება</string>
     <string name="play_as_audio">ხმოვან ფაილად გაშვება</string>
     <string name="play_as_video">ვიდეოფაილად გაშვება</string>
@@ -236,11 +238,11 @@
     <string name="remote_keyboard_navigation">კლავიატურით გადასვლა</string>
 
     <string name="server_add_title">ახალი სერვერის დამატება რჩეულებში</string>
-    <string name="server_domain_hint">სერვერის მისამართი (დომენის სახელი ან IP)</string>
-    <string name="server_share_hint">ქსელის გაზიარების სახელი (ან IP მისამართი)</string>
+    <string name="server_domain_hint">სერვერის მისამართი (დასახელება ან IP)</string>
+    <string name="server_share_hint">სერვერის მისამართი (დასახელება ან IP)</string>
     <string name="server_folder_hint">საქაღალდის მდებარეობა (არასავალდებულო)</string>
     <string name="server_username_hint">მომხმარებლის სახელი</string>
-    <string name="server_servername_hint">სერვერის სახელი სიმარტივისთვის</string>
+    <string name="server_servername_hint">გამოსაჩენი სახელი (არასავალდებულო)</string>
     <string name="server_port">პორტი:</string>
     <string name="login">ანგარიში</string>
     <string name="password">პაროლი</string>
@@ -253,9 +255,9 @@
     <string name="favorite_removed">მოცილებულია რჩეულებიდან</string>
 
     <string name="streams">ნაკადები</string>
-    <string name="open_mrl_dialog_msg">ქსელის მისამართი: მაგ. http://, mms:// ან rtsp://</string>
-    <string name="invalid_location">%1$s მისამართიდან ვერ ეშვება.</string>
-    <string name="missing_location">ფაილი მიუწვდომელი მეხსიერებიდანაა და ვერ გაეშვება.</string>
+    <string name="open_mrl_dialog_msg">შეიყვანეთ ქსელის მისამართი: მაგ. http://, mms:// ან rtsp://</string>
+    <string name="invalid_location">ფაილი მდებარეობით %1$s ვერ ეშვება.</string>
+    <string name="missing_location">ეს ფაილი მიუწვდომელი შესანახი მოწყობილობიდანაა და ვერ გაეშვება.</string>
 
     <string name="search">ძიება</string>
 
@@ -434,6 +436,9 @@
     <string name="subtitles_prefs_category">ქვეწარწერები</string>
     <string name="subtitles_size_title">ქვეწარწერის ზომა</string>
     <string name="subtitles_presets_title">ქვეწარწერების მზა პარამეტრები</string>
+    <string name="subtitles_size_nano">ნანო</string>
+    <string name="subtitles_size_micro">მიკრო</string>
+    <string name="subtitles_size_smallest">უმცირესი</string>
     <string name="subtitles_size_small">პატარა</string>
     <string name="subtitles_size_normal">საშუალო</string>
     <string name="subtitles_size_big">დიდი</string>
@@ -631,6 +636,7 @@
     <string name="no_internet_connection">შეამოწმეთ ქსელთან კავშირი</string>
     <string name="retry">გამეორება</string>
     <string name="open_subs_download_error">OpenSubtitles ამჟამად მიუწვდომელია. გთხოვთ კვლავ სცადოთ მოგვიანებით</string>
+    <string name="open_subs_download_link_error">OpenSubtitles რაღაც ხარვეზითაა. გთხოვთ კვლავ სცადოთ მოგვიანებით</string>
 
     <string name="network_browsing">ადგილობრივი ქსელი</string>
     <string name="browsing">არჩევა</string>
@@ -1327,6 +1333,11 @@
     <string name="ra_otp_title">დაშორებული წვდომისთვის შესვლის მცდელობები</string>
     <string name="ra_otp_subtitle">თუ თქვენ იყავით, შეიყვანეთ ეს კოდი სხვა მოწყობილობაზე</string>
     <string name="ra_otp_not_me">არ ვყოფილვარ</string>
+    <string name="ra_output">ხმის გამოტანა</string>
+    <string name="ra_play_on_browser">ბრაუზერში გაშვება</string>
+    <string name="ra_play_on_device">მოწყობილობაზე გაშვება</string>
+    <string name="ra_browser_audio_not_found">ფაილი ვერ მოიძებნა ან ვერ გაეშვება ბრაუზერში</string>
+    <string name="ra_browser_audio_unsupported_format">ხმის ეს სახეობა არაა მხარდაჭერილი თქვენს ბრაუზერში</string>
 
     <string name="ra_onboarding_welcome_desc">გაეცანით დაშორებული წვდომის შესაძლებლობას, რომელსაც გთავაზობთ VLC Android\nმისი ამოქმედებით შეგეძლებათ მოწყობილობაზე მართოთ დაკვრის საშუალებები და კიდევ ბევრი სხვა რამ</string>
     <string name="ra_onboarding_how_title">თქვენი მოწყობილობის მართვა</string>

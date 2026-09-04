@@ -238,11 +238,8 @@
     <string name="remote_keyboard_navigation">Navigazione da a tastera</string>
 
     <string name="server_add_title">Aghjunghje un novu servitore à i favuriti</string>
-    <string name="server_domain_hint">Indirizzu di u servitore (nome di duminiu o IP)</string>
-    <string name="server_share_hint">Nome di spartera di reta (o indirizzu IP)</string>
     <string name="server_folder_hint">Chjassu di u cartulare (ozzionale)</string>
     <string name="server_username_hint">Nome d’utilizatore</string>
-    <string name="server_servername_hint">Nome di u servitore, da cumudità</string>
     <string name="server_port">Portu :</string>
     <string name="login">Identificazione</string>
     <string name="password">Parolla d’intesa</string>
@@ -255,10 +252,6 @@
     <string name="favorite_removed">Cacciatu da i favuriti</string>
 
     <string name="streams">Flussi</string>
-    <string name="open_mrl_dialog_msg">Scrivite un indirizzu di reta : p.i. http://, mms:// o rtsp://</string>
-    <string name="invalid_location">A lucalizazione %1$s ùn pò micca esse sunata.</string>
-    <string name="missing_location">Stu medià pruvene da un discu indispunibule è ùn pò micca esse sunatu.</string>
-
     <string name="search">Ricerca</string>
 
 
@@ -636,6 +629,8 @@
     <string name="no_internet_connection">Verificate a vostra cunnessione internet</string>
     <string name="retry">Pruvà torna</string>
     <string name="open_subs_download_error">Ora OpenSubtitles ùn hè dispunibule. Provate torna in una stonda</string>
+    <string name="open_subs_download_link_error">Ci hè un prublema cù OpenSubtitles. Pruvate torna in una stonda</string>
+
     <string name="network_browsing">Reta lucale</string>
     <string name="browsing">Navigazione</string>
 
@@ -1331,6 +1326,12 @@
     <string name="ra_otp_title">Tentativu di cunnessione à l’accessu à distanza</string>
     <string name="ra_otp_subtitle">S’ella hè voi, stampittate stu codice nant’à l°altru apparechju</string>
     <string name="ra_otp_not_me">Ùn hè micca eiu</string>
+    <string name="ra_output">Esciuta audio</string>
+    <string name="ra_play_on_browser">Leghje cù u navigatore</string>
+    <string name="ra_play_on_device">Leghje cù l’apparechju</string>
+    <string name="ra_browser_audio_not_found">U medià ùn si trova micca o ùn si pò leghje in u navigatore</string>
+    <string name="ra_browser_audio_unsupported_format">Stu furmatu audio ùn hè micca accettatu da u vostru navigatore</string>
+
     <string name="ra_onboarding_welcome_desc">Benvenuta nant’à l’accessu à distanza di VLC per Android\nAttivendulu serete capace di cuntrollà a ripruduzzione di st’apparechju à ancu di più</string>
     <string name="ra_onboarding_how_title">Cuntrollà u vostru apparechju</string>
     <string name="ra_onboarding_how_desc">Cuntrollà a ripruduzzione di u vostru apparechju, mandà o riacquistà schedarii è ancu di più</string>
@@ -1355,7 +1356,7 @@
     <!-- car screens -->
     <string name="help">Aiutu</string>
     <string name="podcast_mode">Modu podcast</string>
-    <string name="podcast_mode_help">I cuntrolli di podcast s’affissanu quandu si leghje una traccia unica chì risponde à unu di quelli criterii :\n\t• Longhezza superiore à 60 minuti\n\t• Longhezza superiore à 15 minuti senza nome d’albumu\n\t• Generu hè %s</string>
+    <string name="podcast_mode_help">I cuntrolli di podcast s’affissanu quandu si leghje una traccia unica chì risponde à unu di quelli criterii :\n\t• Lunghezza superiore à 60 minuti\n\t• Lunghezza superiore à 15 minuti senza nome d’albumu\n\t• Generu hè %s</string>
     <string name="voice_control">Cuntrollu di a voce</string>
     <string name="voice_control_help">VLC pò esse cuntrullatu via Google Assistant dicendu quelle cumande :\n\t• Leghje, Pausa, Piantà, Precedente, Seguente\n\t• Ritrusà, Avanza rapida, Ripete &lt;tuttu|unu|disattivatu&gt;\n\t• Saltà à &lt;una stonda&gt;\n\t• Tralascià &lt;durata&gt;\n\t• Chì hè &lt;st’artista|st’albumu|sta canzona&gt;\n\t• Leghje [artista|albumu|canzona|generu|lista di lettura] &lt;nome&gt;</string>
 

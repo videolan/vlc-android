@@ -44,6 +44,8 @@
     <string name="playback_controls">Controlos de reprodução</string>
     <string name="medialibrary_scan">Pesquisar mediateca</string>
     <string name="Medialibrary_progress">Atualizações do progresso da pesquisa da mediateca </string>
+    <string name="ml_database_warning">A sua base de dados contém a lista de todos os seus ficheiros multimédia. Será partilhada com os programadores do VLC</string>
+    <string name="logs_warning">Pode conter informações sobre os ficheiros multimédia reproduzidos. Essas informações serão partilhadas com os programadores do VLC</string>
     <string name="play_from_start">Reproduzir do início</string>
     <string name="play_as_audio">Reproduzir como áudio</string>
     <string name="play_as_video">Reproduzir como vídeo</string>
@@ -247,11 +249,8 @@
     <string name="remote_keyboard_navigation">Navegação por teclado</string>
 
     <string name="server_add_title">Adicionar um novo servidor aos favoritos</string>
-    <string name="server_domain_hint">Endereço do servidor (nome do domínio ou IP)</string>
-    <string name="server_share_hint">Nome da partilha de rede (ou endereço de IP)</string>
     <string name="server_folder_hint">Caminho da pasta (opcional)</string>
     <string name="server_username_hint">Nome de utilizador</string>
-    <string name="server_servername_hint">Nome do servidor, para conveniência</string>
     <string name="server_port">Porta:</string>
     <string name="login">Iniciar sessão</string>
     <string name="password">Palavra-passe</string>
@@ -264,10 +263,6 @@
     <string name="favorite_removed">Removido dos favoritos</string>
 
     <string name="streams">Transmissões</string>
-    <string name="open_mrl_dialog_msg">Insira o endereço de rede: por exemplo, http://, mms:// ou rtsp://</string>
-    <string name="invalid_location">A localização %1$s não pode ser reproduzida.</string>
-    <string name="missing_location">Este ficheiro está num armazenamento indisponível e por isso não pode ser reproduzido.</string>
-
     <string name="search">Procurar</string>
 
 
@@ -445,6 +440,9 @@
     <string name="subtitles_prefs_category">Legendas</string>
     <string name="subtitles_size_title">Tamanho das Legendas</string>
     <string name="subtitles_presets_title">Ajustes predefinidos das legendas</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Micro</string>
+    <string name="subtitles_size_smallest">Mais pequeno</string>
     <string name="subtitles_size_small">Pequeno</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Grande</string>
@@ -642,6 +640,7 @@
     <string name="no_internet_connection">Verifique a sua ligação à Internet</string>
     <string name="retry">Repetir</string>
     <string name="open_subs_download_error">OpenSubtitles está atualmente indisponível. Por favor, tente novamente mais tarde</string>
+    <string name="open_subs_download_link_error">Há um problema com o OpenSubtitles. Por favor, tente novamente mais tarde</string>
 
     <string name="network_browsing">Rede Local</string>
     <string name="browsing">Navegação</string>
@@ -1342,6 +1341,11 @@
     <string name="ra_otp_title">Tentativa de início de sessão de acesso remoto</string>
     <string name="ra_otp_subtitle">Se for você, introduza este código no outro dispositivo</string>
     <string name="ra_otp_not_me">Não sou eu</string>
+    <string name="ra_output">Saída de áudio</string>
+    <string name="ra_play_on_browser">Reproduzir no navegador</string>
+    <string name="ra_play_on_device">Reproduzir no dispositivo</string>
+    <string name="ra_browser_audio_not_found">O ficheiro multimédia não foi encontrado ou não pode ser reproduzido no navegador</string>
+    <string name="ra_browser_audio_unsupported_format">Este formato de áudio não é suportado pelo seu navegador</string>
 
     <string name="ra_onboarding_welcome_desc">Bem-vindo ao acesso remoto do VLC para Android.\nAo ativá-lo, poderá controlar a reprodução deste dispositivo e muito mais</string>
     <string name="ra_onboarding_how_title">Controlar o seu dispositivo</string>

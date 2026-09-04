@@ -200,8 +200,6 @@
     <string name="jump_to_time">Ir al tiempo</string>
     <string name="subtitle_select">Seleccionar subtítulo</string>
     <string name="server_add_title">Agregar un nuevo servidor a favoritos</string>
-    <string name="server_domain_hint"> Dirección del servidor (nombre del dominio o IP)</string>
-    <string name="server_share_hint">Nombre de red compartida (o dirección IP)</string>
     <string name="server_folder_hint">Ruta de carpeta (opcional)</string>
     <string name="server_username_hint">Nombre de usuario</string>
     <string name="server_port">Puerto:</string>
@@ -216,8 +214,6 @@
     <string name="favorite_removed">Eliminado de favoritos</string>
 
     <string name="streams">Transmisiones</string>
-    <string name="open_mrl_dialog_msg">Introducir dirección de red: p. ej. http://, mms:// o rtsp://</string>
-    <string name="invalid_location">La ubicación %1$s no se puede reproducir.</string>
     <string name="search">Busqueda</string>
 
 

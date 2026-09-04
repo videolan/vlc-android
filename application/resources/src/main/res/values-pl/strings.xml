@@ -192,8 +192,6 @@
     <string name="jump_to_time">Skocz do czasu</string>
     <string name="subtitle_select">Wybierz plik z napisami</string>
     <string name="server_add_title">Dodaj nowy serwer do ulubionych</string>
-    <string name="server_domain_hint">Adres serwera (nazwa domeny lub adres IP)</string>
-    <string name="server_share_hint">Nazwa udziału sieciowego (lub adres IP)</string>
     <string name="server_folder_hint">Ścieżka folderu (opcjonalnie)</string>
     <string name="server_username_hint">Nazwa użytkownika</string>
     <string name="server_port">Port: </string>
@@ -208,8 +206,6 @@
     <string name="favorite_removed">Usunięto z ulubionych</string>
 
     <string name="streams">Strumienie</string>
-    <string name="open_mrl_dialog_msg">Podaj adres sieciowy: np. http://, mms:// lub rtsp://</string>
-    <string name="invalid_location">Pozycja %1$s nie może zostać odtworzona.</string>
     <string name="search">Szukaj</string>
 
 

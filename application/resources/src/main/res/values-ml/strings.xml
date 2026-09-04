@@ -176,11 +176,8 @@
     <string name="jump_to_time">സമയത്തിലേക്ക് ചാടുക</string>
     <string name="subtitle_select">സബ്ടൈറ്റില്‍ ഫയല്‍ തിരഞ്ഞെടുക്കുക</string>
     <string name="server_add_title">പുതിയ സര്‍വര്‍ ഇഷ്ടപ്പെട്ടതിലേക്ക് ചേര്‍ക്കുക</string>
-    <string name="server_domain_hint">സെര്‍വര്‍ വിലാസം (ഡൊമൈന്‍ നാമം അല്ലെങ്കില്‍ ഐപി)</string>
-    <string name="server_share_hint">ശ്രിന്ഘല ഷെയറിന്റെ പേര് ( അല്ലെങ്കിൽ ഐപി അഡ്രസ് ) </string>
     <string name="server_folder_hint">ഫോള്‍ഡറിലേക്കുള്ള വഴി (നിര്‍ബന്ധമില്ലാത്തത്)</string>
     <string name="server_username_hint">ഉപയോക്തൃനാമം</string>
-    <string name="server_servername_hint">സെർവറിന്റെ പേര്, സൗകര്യാർത്ഥം</string>
     <string name="server_port">പോർട്ട്</string>
     <string name="login">പ്രവേശനം</string>
     <string name="password">രഹസ്യവാക്ക്</string>
@@ -193,10 +190,6 @@
     <string name="favorite_removed">ഇഷ്ട്പ്പെട്ടവയില്‍ നിന്നും നീക്കം ചെയ്തു</string>
 
     <string name="streams">സ്ട്രീമുകൾ </string>
-    <string name="open_mrl_dialog_msg">ശ്രിന്ഘല വിലാസം തരു. ഉദാഹരണം :  http://, mms:// or rtsp://</string>
-    <string name="invalid_location">%1$sഎന്ന സ്ഥലത്തുള്ളവ കാണാനാവില്ല</string>
-    <string name="missing_location">ഈ മീഡിയ ലഭ്യമല്ലാത്ത സ്റ്റോറേജിൽ നിന്നുള്ളതാണ്, പ്ലേ ചെയ്യാൻ കഴിയില്ല.</string>
-
     <string name="search">തിരയുക</string>
 
 

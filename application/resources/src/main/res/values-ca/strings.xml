@@ -238,11 +238,11 @@
     <string name="remote_keyboard_navigation">Navegació amb teclat</string>
 
     <string name="server_add_title">Afegeix un servidor als preferits</string>
-    <string name="server_domain_hint">Adreça del servidor (nom de domini o IP)</string>
-    <string name="server_share_hint">Nom del recurs compartit de xarxa (o adreça IP)</string>
+    <string name="server_domain_hint">Adreça del servidor (nom d\'amfitrió o adreça IP)</string>
+    <string name="server_share_hint">Adreça del servidor (nom d\'amfitrió o adreça IP)</string>
     <string name="server_folder_hint">Ruta del directori (opcional)</string>
     <string name="server_username_hint">Nom d\'usuari</string>
-    <string name="server_servername_hint">Nom del servidor, per conveniència</string>
+    <string name="server_servername_hint">Nom per mostrar (opcional)</string>
     <string name="server_port">Port:</string>
     <string name="login">Accés </string>
     <string name="password">Contrasenya</string>
@@ -255,9 +255,9 @@
     <string name="favorite_removed">Suprimit dels preferits</string>
 
     <string name="streams">Fluxos de dades</string>
-    <string name="open_mrl_dialog_msg">Introdueix l\'adreça de xarxa: p. ex. http://, mms:// o rtsp://</string>
-    <string name="invalid_location">No es pot reproduir la ruta %1$s.</string>
-    <string name="missing_location">Aquest element multimèdia no es pot reproduir perquè s\'ubica en un dispositiu no disponible.</string>
+    <string name="open_mrl_dialog_msg">Introduïu una adreça de xarxa, com ara http://, mms:// o rtsp://</string>
+    <string name="invalid_location">No es pot reproduir el contingut multimèdia a %1$s.</string>
+    <string name="missing_location">Aquest contingut multimèdia es troba en un dispositiu d\'emmagatzematge no disponible i no es pot reproduir.</string>
 
     <string name="search">Cerca</string>
 

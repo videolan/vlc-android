@@ -179,11 +179,8 @@
     <string name="subtitle_select">انتخاب فایل زیرنویس</string>
     <string name="wait_before_sleep">لطفا صبر کنید تا رسانه فعلی تمام شود</string>
     <string name="server_add_title">یک سرور جدید به موارد دلخواه اضافه کنید</string>
-    <string name="server_domain_hint">آدرس سرور (نام دامنه یا IP)</string>
-    <string name="server_share_hint">نام اشتراک شبکه (یا آدرس IP)</string>
     <string name="server_folder_hint">مسیر پوشه (اختیاری)</string>
     <string name="server_username_hint">نام کاربری</string>
-    <string name="server_servername_hint">نام سرور، برای راحتی</string>
     <string name="server_port">درگاه :</string>
     <string name="login">ورود به حساب</string>
     <string name="password">رمز عبور</string>
@@ -196,10 +193,6 @@
     <string name="favorite_removed">از موارد دلخواه حذف شده</string>
 
     <string name="streams">جریان‌ها</string>
-    <string name="open_mrl_dialog_msg">نشانی شبکه را وارد کنید؛ مانند: http://‎ و mms://‎ یا rtsp://‎</string>
-    <string name="invalid_location">محل %1$s قابل پخش نیست</string>
-    <string name="missing_location">این رسانه متعلق به حافظه ای خارج ار دسترس میباشد و قابل پخش نیست</string>
-
     <string name="search">جستجو</string>
 
 

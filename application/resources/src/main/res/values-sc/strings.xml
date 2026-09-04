@@ -238,11 +238,8 @@
     <string name="remote_keyboard_navigation">Navigatzione dae tecladu</string>
 
     <string name="server_add_title">Annanghe unu server nou a sos preferidos</string>
-    <string name="server_domain_hint">Indiritzu server (nùmene domìniu o IP)</string>
-    <string name="server_share_hint">Nùmene cumpartzidura de retza (o indiritzu IP)</string>
     <string name="server_folder_hint">Àndala cartella (optzionale)</string>
     <string name="server_username_hint">Nùmene impreadore</string>
-    <string name="server_servername_hint">Nùmene de su serbidore, pro comodidade</string>
     <string name="server_port">Ghenna:</string>
     <string name="login">Nùmene impreadore</string>
     <string name="password">Crae de intrada</string>
@@ -255,10 +252,6 @@
     <string name="favorite_removed">Bogadu dae sos preferidos</string>
 
     <string name="streams">Flussos</string>
-    <string name="open_mrl_dialog_msg">Dìgita un\'indiritzu de retza: pro es. http://, mms:// o rtsp://</string>
-    <string name="invalid_location">Sa positzione %1$s non podet èssere riproduida.</string>
-    <string name="missing_location">Custu elementu multimediale benit dae una memòria chi no est a disponimentu e non si podet riproduire.</string>
-
     <string name="search">Chirca</string>
 
 

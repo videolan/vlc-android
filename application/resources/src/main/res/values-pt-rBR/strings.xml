@@ -214,11 +214,8 @@
     <string name="remote_keyboard_navigation">Navegação por teclado</string>
 
     <string name="server_add_title">Adicionar um novo servidor aos favoritos</string>
-    <string name="server_domain_hint">Endereço do servidor (nome ou IP)</string>
-    <string name="server_share_hint">Nome do compartilhamento de rede (ou endereço IP)</string>
     <string name="server_folder_hint">Caminho da pasta (opcional)</string>
     <string name="server_username_hint">Nome de usuário</string>
-    <string name="server_servername_hint">Nome do servidor, por conveniência</string>
     <string name="server_port">Porta:</string>
     <string name="login">Ingressar</string>
     <string name="password">Senha</string>
@@ -231,10 +228,6 @@
     <string name="favorite_removed">Excluído dos favoritos</string>
 
     <string name="streams">transmissões</string>
-    <string name="open_mrl_dialog_msg">Digite o endereço de rede: Ex.: http://, mms:// ou rtsp://</string>
-    <string name="invalid_location">Não é possível reproduzir na área %1$s.</string>
-    <string name="missing_location">Essa mídia está em um armazenamento indisponível e não pode ser reproduzida.</string>
-
     <string name="search">Pesquisar</string>
 
 
@@ -586,7 +579,6 @@
     <string name="no_internet_connection">Verifique a sua conexão com a Internet</string>
     <string name="retry">Tentar novamente</string>
     <string name="open_subs_download_error">O OpenSubtitles está indisponível. Por favor, tente novamente mais tarde</string>
-
     <string name="network_browsing">Rede</string>
     <string name="browsing">Procurando</string>
 

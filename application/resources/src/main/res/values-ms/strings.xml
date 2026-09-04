@@ -37,6 +37,7 @@
     </plurals>
 
     <string name="play">Main</string>
+    <string name="quick_play">Main pantas</string>
     <string name="playback">Main balik</string>
     <string name="playback_controls">Kawalan main balik</string>
     <string name="medialibrary_scan">Imbas pustaka media</string>
@@ -64,6 +65,9 @@
     <string name="set_song_question">Tetapkan \'%1$s\' sebagai nada dering?</string>
     <string name="info">Maklumat</string>
     <string name="confirm_delete">Padam fail \'%1$s\' ?</string>
+    <string name="equalizer_overwrite_warning">Penyama ini sudah wujud</string>
+    <string name="overwrite">Tulis ganti</string>
+    <string name="equalizer_name">Nama Penyama</string>
     <string name="confirm_replace_playlist">Anda pasti mahu menggantikan senarai main \'%1$s\'?</string>
     <string name="confirm_delete_message">Tindakan ini kekal dan tidak boleh dikembalikan.</string>
     <string name="confirm_delete_album">Padam album \'%1$s\'?</string>
@@ -205,11 +209,8 @@
     <string name="remote_keyboard_navigation">Pengemudian papan kekunci</string>
 
     <string name="server_add_title">Tambah satu pelayan baharu ke kegemaran</string>
-    <string name="server_domain_hint">Alamat pelayan (nama domain atau IP)</string>
-    <string name="server_share_hint">Nama perkongsian rangkaian (atau alamat IP)</string>
     <string name="server_folder_hint">Laluan folder (pilihan)</string>
     <string name="server_username_hint">Nama Pengguna</string>
-    <string name="server_servername_hint">Nama pelayan, lebih baik</string>
     <string name="server_port">Port: </string>
     <string name="login">Daftar Masuk</string>
     <string name="password">Kata Laluan</string>
@@ -222,10 +223,6 @@
     <string name="favorite_removed">Dibuang daripada kegemaran</string>
 
     <string name="streams">Strim</string>
-    <string name="open_mrl_dialog_msg">Masukkan alamat rangkaian: cth. http://, mms:// atau rtsp://</string>
-    <string name="invalid_location">Lokasi %1$s tidak dapat dimainkan.</string>
-    <string name="missing_location">Media ini berasal daripada storan yang tidak tersedia dan tidak dapat dimainkan.</string>
-
     <string name="search">Gelintar</string>
 
 
@@ -585,7 +582,6 @@
     <string name="no_internet_connection">Periksa sambungan internet anda</string>
     <string name="retry">Cuba lagi</string>
     <string name="open_subs_download_error">OpenSubtitles tidak tersedia buat masa ini. Sila cuba lagi kemudian</string>
-
     <string name="network_browsing">Rangkaian Setempat</string>
     <string name="browsing">Pelayaran</string>
 
@@ -1257,7 +1253,6 @@
     <string name="ra_otp_title">Percubaan daftar masuk capaian jauh</string>
     <string name="ra_otp_subtitle">Jika memang anda, masukkan kod ini dalam peranti lain</string>
     <string name="ra_otp_not_me">Bukan saya</string>
-
     <string name="ra_onboarding_welcome_desc">Selamat datang ke capaian jauh VLC untuk Android\nDengan mendayakannya, anda akan berupaya mengawal main balik peranti ini dan banyak lagi kelebihan lain</string>
     <string name="ra_onboarding_how_title">Kawal peranti anda</string>
     <string name="ra_onboarding_how_desc">Kawal main balik peranti anda, hantar atau terima fail dan banyak lagi</string>

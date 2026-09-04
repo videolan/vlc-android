@@ -222,11 +222,8 @@
     <string name="reset_on_interaction">Adderaouekaat kement interaktadenn</string>
     <string name="default_sleep_timer_summary">%1$s, gortoz fin ar media: %2$s, adderaouiñ an interaktadenn: %3$s</string>
     <string name="server_add_title">Ouzhpennañ ur servijer nevez d\'ar sinedoù</string>
-    <string name="server_domain_hint">Chomlec\'h ar servijer (anv an domani pe IP)</string>
-    <string name="server_share_hint">Anv rannañ kenrouedad (pe chomlec\'h IP)</string>
     <string name="server_folder_hint">Hent an teuliad (diret)</string>
     <string name="server_username_hint">Anv-implijader</string>
-    <string name="server_servername_hint">Anv ar servijer, evit aesaat</string>
     <string name="server_port">Porzh:</string>
     <string name="login">Anaouder</string>
     <string name="password">Ger-tremen</string>
@@ -239,10 +236,6 @@
     <string name="favorite_removed">Dilamet diouzh ar re garetañ</string>
 
     <string name="streams">Froudoù</string>
-    <string name="open_mrl_dialog_msg">Ebarzhiñ ar chomlec\'h kenrouedad: http://, mms:// pe rtsp:// da skouer</string>
-    <string name="invalid_location">Ne c\'hall ket bezañ lennet al lec\'hiadur %1$s.</string>
-    <string name="missing_location">Dont a ra ar meziant-mañ eus ul lec\'h-stokañ dizimplijadus ha n\'hall ket bezañ lennet.</string>
-
     <string name="search">Klask</string>
 
 

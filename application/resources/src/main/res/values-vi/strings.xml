@@ -183,11 +183,8 @@
     <string name="reset_on_interaction">Đặt lại trên mọi tương tác</string>
     <string name="default_sleep_timer_summary">%1$s, chờ phương tiện kết thúc: %2$s, đặt lại trên tương tác: %3$s</string>
     <string name="server_add_title">Thêm máy chủ mới vào danh sách yêu thích</string>
-    <string name="server_domain_hint">Địa chỉ máy chủ (tên miền hoặc IP)</string>
-    <string name="server_share_hint">Tên mạng chia sẻ (hoặc IP)</string>
     <string name="server_folder_hint">Đường dẫn thư mục (tuỳ chọn)</string>
     <string name="server_username_hint">Tên người dùng</string>
-    <string name="server_servername_hint">Tên máy chủ, để thuận tiện</string>
     <string name="server_port">Cổng:</string>
     <string name="login">Đăng nhập</string>
     <string name="password">Mật khẩu</string>
@@ -200,10 +197,6 @@
     <string name="favorite_removed">Xóa khỏi yêu thích</string>
 
     <string name="streams">Luồng</string>
-    <string name="open_mrl_dialog_msg">Nhập địa chỉ mạng: ví dụ http://, mms:// hoặc rtsp://</string>
-    <string name="invalid_location">Vị trí %1$s không thể phát được.</string>
-    <string name="missing_location">Phương tiện này đến từ kho lưu trữ không có sẵn và không thể được phát.</string>
-
     <string name="search">Tìm kiếm</string>
 
 
@@ -1177,7 +1170,6 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="ra_otp_title">Nỗ lực đăng nhập truy cập từ xa</string>
     <string name="ra_otp_subtitle">Nếu là bạn, hãy nhập mã này trên thiết bị kia</string>
     <string name="ra_otp_not_me">Không phải tôi</string>
-
     <string name="ra_onboarding_welcome_desc">Chào mừng bạn đến với VLC dành cho quyền truy cập từ xa của Android\Bằng cách bật nó, bạn sẽ có thể kiểm soát quá trình phát lại của thiết bị này và hơn thế nữa</string>
     <string name="ra_onboarding_how_title">Kiểm soát thiết bị của bạn</string>
     <string name="ra_onboarding_how_desc">Kiểm soát việc phát lại thiết bị của bạn, gửi hoặc truy xuất tệp và hơn thế nữa</string>

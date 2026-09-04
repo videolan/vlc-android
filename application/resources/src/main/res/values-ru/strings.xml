@@ -193,11 +193,8 @@
     <string name="jump_to_time">Перейти ко времени</string>
     <string name="subtitle_select">Выбрать файл субтитров</string>
     <string name="server_add_title">Добавление сервера в Избранное</string>
-    <string name="server_domain_hint">Адрес сервера (доменное имя или IP)</string>
-    <string name="server_share_hint">Имя сетевого ресурса (или IP-адрес)</string>
     <string name="server_folder_hint">Путь к папке (необязательный)</string>
     <string name="server_username_hint">Имя пользователя</string>
-    <string name="server_servername_hint">Имя сервера, для удобства</string>
     <string name="server_port">Порт:</string>
     <string name="login">Войти</string>
     <string name="password">Пароль</string>
@@ -210,10 +207,6 @@
     <string name="favorite_removed">Удалено из избранного</string>
 
     <string name="streams">Потоки</string>
-    <string name="open_mrl_dialog_msg">Сетевой адрес MRL: http://, mms:// или rtsp://</string>
-    <string name="invalid_location">Воспроизвести %1$s нельзя.</string>
-    <string name="missing_location">Этот медиаобъект в недоступном хранилище, воспроизвести его нельзя.</string>
-
     <string name="search">Искать</string>
 
 

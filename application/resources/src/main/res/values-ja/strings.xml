@@ -227,11 +227,11 @@
     <string name="remote_keyboard_navigation">キーボードナビゲーション</string>
 
     <string name="server_add_title">お気に入りにサーバーを追加</string>
-    <string name="server_domain_hint">サーバーアドレス(ドメイン名またはIP)</string>
-    <string name="server_share_hint">ネットワーク共有名(またはIPアドレス)</string>
+    <string name="server_domain_hint">サーバーアドレス(ホスト名またはIP)</string>
+    <string name="server_share_hint">サーバーアドレス(ホスト名またはIP)</string>
     <string name="server_folder_hint">フォルダーパス(オプション)</string>
     <string name="server_username_hint">ユーザー名</string>
-    <string name="server_servername_hint">サーバー名, 利便性のために</string>
+    <string name="server_servername_hint">表示名(オプション)</string>
     <string name="server_port">ポート番号:</string>
     <string name="login">ログイン</string>
     <string name="password">パスワード</string>
@@ -244,9 +244,9 @@
     <string name="favorite_removed">お気に入りから削除されました</string>
 
     <string name="streams">ストリーム</string>
-    <string name="open_mrl_dialog_msg">ネットワークMRLを入力: 例 http://, mms:// または rtsp://</string>
-    <string name="invalid_location">その場所 %1$s は再生できません</string>
-    <string name="missing_location">このメディアは現在利用不可能なストレージ上にあるため再生できません。</string>
+    <string name="open_mrl_dialog_msg">http://、mms://または、rtsp://のようなネットワークアドレスを入力してください</string>
+    <string name="invalid_location">このメディアは %1$s では再生できません。</string>
+    <string name="missing_location">このメディアは利用できないストレージデバイスにあるため再生できません。</string>
 
     <string name="search">検索</string>
 
@@ -762,7 +762,7 @@
     <string name="login_error">無効なクレデンシャル</string>
     <string name="unknown_error">予期しないエラー</string>
     <string name="browse_folder">フォルダーの参照</string>
-    <string name="listen">Listen</string>
+    <string name="listen">聞く</string>
     <string name="apply_to_bt">bluetoothデバイスへ適用</string>
     <string name="episodes">エピソード</string>
     <string name="movies">映画</string>
@@ -1347,8 +1347,8 @@
 
     <!-- car screens -->
     <string name="help">ヘルプ</string>
-    <string name="podcast_mode">Podcastモード</string>
-    <string name="podcast_mode_help">Podcastのコントロールは以下のいずれかの条件を満たす単一トラックを再生するときに表示されます:\n\t• 長さが60分を超える場合\n\t• アルバム名がなく、長さが15分を超える場合\n\t• ジャンルが %s の場合</string>
+    <string name="podcast_mode">ポッドキャストモード</string>
+    <string name="podcast_mode_help">ポッドキャストのコントロールは以下のいずれかの条件を満たす単一トラックを再生するときに表示されます:\n\t• 長さが60分を超える場合\n\t• アルバム名がなく、長さが15分を超える場合\n\t• ジャンルが %s の場合</string>
     <string name="voice_control">音声制御</string>
     <string name="voice_control_help">VLCはGoogleアシスタントを通じて次のコマンドを話すことで制御することができます:\n\t• 再生、一時停止、停止、前へ、次へ\n\t• 巻き戻し、早送り、繰り返し、 &lt;すべて|一つのみ|停止&gt;\n\t• &lt;指定時間&gt; にジャンプ、 &lt;間隔&gt; をスキップ\n\t• これは何ですか &lt;アーティスト|アルバム|曲&gt;\n\t• [アーティスト|アルバム|曲|ジャンル|プレイリスト] &lt;名前&gt; を再生</string>
 

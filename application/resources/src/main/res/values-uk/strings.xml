@@ -239,11 +239,8 @@
     <string name="remote_keyboard_navigation">Навігація клавіатурою</string>
 
     <string name="server_add_title">Додати новий сервер до обраного</string>
-    <string name="server_domain_hint">Адреса сервера (назва домену чи IP)</string>
-    <string name="server_share_hint">Спільна назва мережі (або IP-адреса)</string>
     <string name="server_folder_hint">Шлях до теки (необов\'язково)</string>
     <string name="server_username_hint">Ім’я користувача</string>
-    <string name="server_servername_hint">Назва сервера, для зручності</string>
     <string name="server_port">Порт:</string>
     <string name="login">Вхід</string>
     <string name="password">Пароль</string>
@@ -256,10 +253,6 @@
     <string name="favorite_removed">Вилучено з обраного</string>
 
     <string name="streams">Потоки</string>
-    <string name="open_mrl_dialog_msg">Уведіть мережеву MRL-адресу, наприклад, http://, mms:// або rtsp://</string>
-    <string name="invalid_location">Розташування %1$s не можливо відтворити.</string>
-    <string name="missing_location">Цей медіафайл лежить на недоступному носієві, а тому його неможливо відтворити.</string>
-
     <string name="search">Пошук</string>
 
 
@@ -620,7 +613,6 @@
     <string name="no_internet_connection">Перевірте ваше з\'єднання з інтернетом</string>
     <string name="retry">Повторити</string>
     <string name="open_subs_download_error">OpenSubtitles недоступні. Будь ласка, спробуйте знову пізніше </string>
-
     <string name="network_browsing">Локальна мережа</string>
     <string name="browsing">Огляд</string>
 
@@ -1307,7 +1299,6 @@
     <string name="ra_otp_title">Спроба входу до віддаленого доступу</string>
     <string name="ra_otp_subtitle">Якщо це ви, введіть цей код на іншому пристрої</string>
     <string name="ra_otp_not_me">Це не я</string>
-
     <string name="ra_onboarding_welcome_desc">Ласкаво просимо до віддаленого доступу VLC для Android\nУвімкнувши його, ви зможете керувати відтворенням на цьому пристрої тощо.</string>
     <string name="ra_onboarding_how_title">Керуйте своїм пристроєм</string>
     <string name="ra_onboarding_how_desc">Керуйте відтворенням на своєму пристрої, надсилайте та отримуйте файли тощо</string>

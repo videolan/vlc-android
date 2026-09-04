@@ -236,11 +236,8 @@
     <string name="remote_keyboard_navigation">Toetsenbordnavigatie</string>
 
     <string name="server_add_title">Nieuwe server aan favorieten toevoegen</string>
-    <string name="server_domain_hint">Server-adres (domeinnaam of IP)</string>
-    <string name="server_share_hint">Netwerkshare-naam (of IP-adres)</string>
     <string name="server_folder_hint">Pad naar map (optioneel)</string>
     <string name="server_username_hint">Gebruikersnaam</string>
-    <string name="server_servername_hint">Servernaam, voor het gemak</string>
     <string name="server_port">Poort:</string>
     <string name="login">Login</string>
     <string name="password">Wachtwoord</string>
@@ -253,10 +250,6 @@
     <string name="favorite_removed">Verwijderd uit favorieten</string>
 
     <string name="streams">Streams</string>
-    <string name="open_mrl_dialog_msg">Geef netwerk-MRL op: bijvoorbeeld http://, mms:// of rtsp://</string>
-    <string name="invalid_location">De locatie %1$s kan niet afgespeeld worden.</string>
-    <string name="missing_location">Dit medium staat op een niet-beschikbare opslag en kan niet worden afgespeeld.</string>
-
     <string name="search">Zoeken</string>
 
 
@@ -631,7 +624,6 @@
     <string name="no_internet_connection">Controleer uw internetverbinding</string>
     <string name="retry">Opnieuw proberen</string>
     <string name="open_subs_download_error">OpenSubtitles is niet beschikbaar. Probeer het later opnieuw.</string>
-
     <string name="network_browsing">Lokaal netwerk</string>
     <string name="browsing">Bladeren</string>
 
@@ -1327,7 +1319,6 @@
     <string name="ra_otp_title">Aanmeldingspoging voor externe toegang</string>
     <string name="ra_otp_subtitle">Als u dit bent, voer dan deze code in op het andere apparaat</string>
     <string name="ra_otp_not_me">Dit ben ik niet</string>
-
     <string name="ra_onboarding_welcome_desc">Welkom bij externe toegang in VLC voor Android\nDoor deze functie in te schakelen, kunt u het afspelen op dit apparaat regelen en nog veel meer.</string>
     <string name="ra_onboarding_how_title">Uw apparaat bedienen</string>
     <string name="ra_onboarding_how_desc">Bedien de afspeelfuncties van uw apparaat, verstuur of haal bestanden op en nog veel meer.</string>

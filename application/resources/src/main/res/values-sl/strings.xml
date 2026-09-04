@@ -260,11 +260,8 @@
     <string name="remote_keyboard_navigation">NAvigacija s tipkovnico</string>
 
     <string name="server_add_title">Dodaj nov strežnik med priljubljene</string>
-    <string name="server_domain_hint">Naslov strežnika (ime domene ali naslov IP)</string>
-    <string name="server_share_hint">Ime strežnika souporabe (ali naslov IP)</string>
     <string name="server_folder_hint">Pot do mape (neobvezno)</string>
     <string name="server_username_hint">Uporabniško ime</string>
-    <string name="server_servername_hint">Ime strežnika</string>
     <string name="server_port">Vrata:</string>
     <string name="login">Prijava</string>
     <string name="password">Geslo</string>
@@ -277,10 +274,6 @@
     <string name="favorite_removed">Odstranjeno iz priljubljenih</string>
 
     <string name="streams">Pretoki</string>
-    <string name="open_mrl_dialog_msg">Omrežni naslov http://, mms:// ali rtsp://.</string>
-    <string name="invalid_location">Posnetkov z mesta %1$s ni mogoče predvajati.</string>
-    <string name="missing_location">Ta vsebina je z nosilca, ki ni na voljo, zato je ni mogoče predvajati.</string>
-
     <string name="search">Poišči</string>
 
 
@@ -655,7 +648,6 @@
     <string name="no_internet_connection">Preverite internetno povezavo</string>
     <string name="retry">Ponovno poskusi</string>
     <string name="open_subs_download_error">OpenSubtitles trenutno ni na voljo. Poskusite kasneje</string>
-
     <string name="network_browsing">Krajevno omrežje</string>
     <string name="browsing">Brskanje</string>
 
@@ -1359,7 +1351,6 @@
     <string name="ra_otp_title">Poskusi prijav za oddaljeni dostop</string>
     <string name="ra_otp_subtitle">Če ste to vi, vnesite to kodo na drugi napravi</string>
     <string name="ra_otp_not_me">To nisem jaz</string>
-
     <string name="ra_onboarding_welcome_desc">Dobrodošli v oddaljenem dostopu za VLC za Android.\nZ vklopom tega je mogoče nadzorovati predvajanje te naprave in več.</string>
     <string name="ra_onboarding_how_title">Nadzorujte napravo</string>
     <string name="ra_onboarding_how_desc">Nadzorujte predvajanje naprave, pošljite ali pridobite datoteke in več</string>

@@ -235,11 +235,8 @@
     <string name="remote_keyboard_navigation">التنقل عبر لوحة المفاتيح</string>
 
     <string name="server_add_title">أضِف خادوما جديدا إلى المفضلة</string>
-    <string name="server_domain_hint">عنوان الخادوم (اسم النطاق أو IP)</string>
-    <string name="server_share_hint">اسم مشاركة الشبكة (او عنوان آي بي IP )</string>
     <string name="server_folder_hint">مسار المجلد (اختياري)</string>
     <string name="server_username_hint">اسم المستخدم</string>
-    <string name="server_servername_hint">اسم الخادم، لسهولة الاستخدام</string>
     <string name="server_port">المنفذ:</string>
     <string name="login">تسجيل الدخول</string>
     <string name="password">كلمة السر</string>
@@ -252,10 +249,6 @@
     <string name="favorite_removed">أُزيلت من المفضلة</string>
 
     <string name="streams">دفق</string>
-    <string name="open_mrl_dialog_msg">أدخِل عنوان الشبكة على سبيل المثال: http: // أو mms: // أو rtsp: //</string>
-    <string name="invalid_location">لا يمكن قراءة الموقع %1$s .</string>
-    <string name="missing_location">إن مكان تخزين هذا الوسيط غير متاح، لذلك لا يمكن تشغيله.</string>
-
     <string name="search">ابحث</string>
 
 
@@ -1049,7 +1042,6 @@
     <string name="ra_new_code">أرسل رمزًا جديدًا</string>
     <string name="ra_code">أدخل هذا الرمز: %s</string>
     <string name="ra_otp_not_me">ليس أنا</string>
-
     <string name="ra_onboarding_how_title">السيطرة على جهازك</string>
     <string name="ra_onboarding_otp_title">المصادقة</string>
     <string name="ra_onboarding_content_desc">اختر ما يمكن الوصول إليه وما لا يمكن الوصول إليه</string>

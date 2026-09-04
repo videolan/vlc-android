@@ -238,11 +238,11 @@
     <string name="remote_keyboard_navigation">Tastaturnavigation</string>
 
     <string name="server_add_title">Einen neuen Server zu den Favoriten hinzufügen</string>
-    <string name="server_domain_hint">Serveradresse (Domainname oder IP)</string>
-    <string name="server_share_hint">Netzwerkfreigabename (oder IP-Adresse)</string>
+    <string name="server_domain_hint">Serveradresse (Hostname oder IP-Adresse)</string>
+    <string name="server_share_hint">Serveradresse (Hostname oder IP-Adresse)</string>
     <string name="server_folder_hint">Ordnerpfad (optional)</string>
     <string name="server_username_hint">Benutzername</string>
-    <string name="server_servername_hint">Servername, der Einfachheit halber</string>
+    <string name="server_servername_hint">Anzeigename (optional)</string>
     <string name="server_port">Port: </string>
     <string name="login">Benutzername</string>
     <string name="password">Passwort</string>
@@ -255,9 +255,9 @@
     <string name="favorite_removed">Von Favoriten entfernt</string>
 
     <string name="streams">Streams</string>
-    <string name="open_mrl_dialog_msg">Adresse eingeben: z.B. http://, mms:// oder rtsp://</string>
-    <string name="invalid_location">Ort %1$s kann nicht abgespielt werden.</string>
-    <string name="missing_location">Diese Medien stammen aus einem nicht verfügbaren Speicher und können nicht abgespielt werden.</string>
+    <string name="open_mrl_dialog_msg">Eine Netzwerkadresse eingeben, z. B. http://, mms:// oder rtsp://.</string>
+    <string name="invalid_location">Die Medien unter %1$s können nicht abgespielt werden.</string>
+    <string name="missing_location">Dieses Medium befindet sich auf einem nicht verfügbaren Speichermedium und kann nicht abgespielt werden.</string>
 
     <string name="search">Suchen</string>
 

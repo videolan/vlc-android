@@ -227,11 +227,8 @@
     <string name="remote_keyboard_navigation">鍵盤導覽</string>
 
     <string name="server_add_title">新增伺服器至收藏</string>
-    <string name="server_domain_hint">伺服器地址（網域名稱或 IP 位址）</string>
-    <string name="server_share_hint">網路共享名稱（或 IP 位址）</string>
     <string name="server_folder_hint">資料夾路徑 (可選)</string>
     <string name="server_username_hint">使用者名稱</string>
-    <string name="server_servername_hint">伺服器名稱（方便之後使用）</string>
     <string name="server_port">連接埠:</string>
     <string name="login">登入</string>
     <string name="password">密碼</string>
@@ -244,10 +241,6 @@
     <string name="favorite_removed">已從收藏中移除</string>
 
     <string name="streams">串流</string>
-    <string name="open_mrl_dialog_msg">請輸入網址：例如 http://、mms:// 或 rtsp://</string>
-    <string name="invalid_location">位置 %1$s 無法被播放。</string>
-    <string name="missing_location">此媒體來自不可用的儲存空間，無法播放。</string>
-
     <string name="search">搜尋</string>
 
 

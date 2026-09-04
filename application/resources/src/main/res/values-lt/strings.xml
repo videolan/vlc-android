@@ -224,11 +224,8 @@
     <string name="remote_keyboard_navigation">Naršymas klaviatūra</string>
 
     <string name="server_add_title">Pridėti naują mėgst. serverį</string>
-    <string name="server_domain_hint">Serverio adresas (domeno vardas ar IP)</string>
-    <string name="server_share_hint">Bendrinamo tinklo vardas (arba IP adresas)</string>
     <string name="server_folder_hint">Aplanko kelias (nebūtinas)</string>
     <string name="server_username_hint">Naudotojo vardas</string>
-    <string name="server_servername_hint">Serverio vardas (patogumui)</string>
     <string name="server_port">Prievadas:</string>
     <string name="login">Naudotojo vardas</string>
     <string name="password">Slaptažodis</string>
@@ -241,10 +238,6 @@
     <string name="favorite_removed">Pašalintas iš mėgstamiausių</string>
 
     <string name="streams">Srautai</string>
-    <string name="open_mrl_dialog_msg">Įveskite tinklo adresą, pvz.: http://, mms:// ar rtsp://</string>
-    <string name="invalid_location">Nepavyko atkurti %1$s</string>
-    <string name="missing_location">Ši medijos rinkmena yra nepasiekiamoje saugykloje ir jos negalima atkurti.</string>
-
     <string name="search">Paieška</string>
 
 
@@ -596,7 +589,6 @@
     <string name="no_internet_connection">Patikrinkite interneto ryšį</string>
     <string name="retry">Pakartoti</string>
     <string name="open_subs_download_error">„OpenSubtitles“ šiuo metu nepasiekiamas. Bandykite dar kartą vėliau</string>
-
     <string name="network_browsing">Vietinis tinklas</string>
     <string name="browsing">Naršymas</string>
 
@@ -1278,7 +1270,6 @@
     <string name="ra_otp_title">Nuotolinės prieigos prisijungimo bandymas</string>
     <string name="ra_otp_subtitle">Jei tai Jūs, įveskite šį kodą kitame įrenginyje</string>
     <string name="ra_otp_not_me">Tai ne aš</string>
-
     <string name="ra_onboarding_welcome_desc">Sveiki atvykę į VLC, skirtos „Android“ sistemai, nuotolinės prieigos nuostatas.\nJas įgalinę galėsite valdyti šio įrenginio atkūrimą ir dar daugiau</string>
     <string name="ra_onboarding_how_title">Įrenginio valdymas</string>
     <string name="ra_onboarding_how_desc">Valdykite savo įrenginio atkūrimą, siųskite arba gaukite rinkmenas ir dar daugiau</string>

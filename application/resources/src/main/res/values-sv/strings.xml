@@ -13,9 +13,9 @@
     <string name="sortby_album_name">Albumnamn</string>
     <string name="sortby_length">Längd</string>
     <string name="sortby_date">Datum</string>
-    <string name="sortby_last_modified_date">Lades nyligen till</string>
+    <string name="sortby_last_modified_date">Senast ändrade</string>
     <string name="sortby_insertion">Datum tillagd</string>
-    <string name="sortby_date_last_modified">Senast tillagda</string>
+    <string name="sortby_date_last_modified">Senast ändrade</string>
     <string name="sortby_date_insertion">Datum tillagd</string>
     <string name="sortby_date_release">Utgivningsdatum</string>
     <string name="sortby_media_number">Medianummer</string>
@@ -27,8 +27,8 @@
     <string name="sort_alpha_desc">Ö → A</string>
     <string name="sortby_length_asc">Kortast först</string>
     <string name="sortby_length_desc">Längst först</string>
-    <string name="sortby_number_asc">Större videogrupper</string>
-    <string name="sortby_number_desc">Mindre videogrupper</string>
+    <string name="sortby_number_asc">Mindre videogrupper</string>
+    <string name="sortby_number_desc">Större videogrupper</string>
     <string name="sort_date_asc">Äldst först</string>
     <string name="sort_date_desc">Nyast först</string>
 
@@ -50,8 +50,8 @@
     <string name="play_as_video">Spela upp som video</string>
     <string name="return_to_video">Håll ned på omslaget för att återställa videon</string>
     <string name="video_app_switch_title">Bakgrunds-/BiB-läge</string>
-    <string name="video_app_switch_summary">Välj VLC:s beteende när du växlar till en annan applikation ifrån videouppspelning</string>
-    <string name="play_pip_title">Spela upp videor i Bild i bild-läge</string>
+    <string name="video_app_switch_summary">Välj hur VLC ska bete sig när du lämnar appen under videouppspelning</string>
+    <string name="play_pip_title">Spela upp videor i bild-i-bild-läge</string>
     <string name="play_as_audio_background">Spela upp videor i bakgrunden</string>
     <string name="append">Lägg till i uppspelningskö</string>
     <string name="insert_next">Kölägg nästa</string>
@@ -94,7 +94,7 @@
     <string name="unknown_album">Okänt album</string>
     <string name="unknown_genre">Okänd genre</string>
     <string name="songs">Låtar</string>
-    <string name="track_info_copied_to_clipboard">Spårinformation kopierades till urklipp</string>
+    <string name="track_info_copied_to_clipboard">Spårinformationen kopierades till urklippet</string>
 
     <string name="artists">Artister</string>
     <string name="albums">Album</string>
@@ -165,10 +165,10 @@
     <string name="nosubfolder">Ingen undermapp</string>
     <string name="directorynotfound">Sökvägen \"%1$s\" hittades inte.</string>
     <string name="nohistory">Du har ännu ingen uppspelningshistorik.</string>
-    <string name="cant_ban_root">Du kan inte bannlysa en rotmapp</string>
+    <string name="cant_ban_root">Rotmappen kan inte uteslutas</string>
 
     <string name="cover_art">Omslagsbild</string>
-    <string name="shuffle_all_title">Blanda allting</string>
+    <string name="shuffle_all_title">Blanda allt</string>
     <string name="shuffle_title">Blandningsläge</string>
     <string name="shuffle">Blanda av</string>
     <string name="shuffle_on">Blanda på</string>
@@ -238,11 +238,11 @@
     <string name="remote_keyboard_navigation">Tangentbordsnavigering</string>
 
     <string name="server_add_title">Lägg till en ny server i favoriter</string>
-    <string name="server_domain_hint">Serveradress (domännamn eller IP)</string>
-    <string name="server_share_hint">Nätverkets delningsnamn (eller IP-adress)</string>
+    <string name="server_domain_hint">Serveradress</string>
+    <string name="server_share_hint">Nätverksresurs (valfritt)</string>
     <string name="server_folder_hint">Mappnamn (valfritt)</string>
     <string name="server_username_hint">Användarnamn</string>
-    <string name="server_servername_hint">Servernamn, för bekvämlighetens skull</string>
+    <string name="server_servername_hint">Servernamn</string>
     <string name="server_port">Port: </string>
     <string name="login">Logga in</string>
     <string name="password">Lösenord</string>
@@ -255,9 +255,9 @@
     <string name="favorite_removed">Togs bort från favoriter</string>
 
     <string name="streams">Strömmar</string>
-    <string name="open_mrl_dialog_msg">Ange nätverksadress: d.v.s. http://, mms:// eller rtsp://</string>
-    <string name="invalid_location">Platsen %1$s kan inte spelas upp.</string>
-    <string name="missing_location">Denna mediafil kommer från ett otillgängligt lagringsutrymme och kan inte spelas upp.</string>
+    <string name="open_mrl_dialog_msg">Ange en nätverksadress</string>
+    <string name="invalid_location">Ogiltig adress</string>
+    <string name="missing_location">Ange en adress</string>
 
     <string name="search">Sök</string>
 
@@ -267,7 +267,7 @@
     <string name="video_resume_playback_title">Historik för videouppspelningskö</string>
     <string name="video_resume_playback_summary">Gör det möjligt att spara videouppspelningskön för att kunna återuppta senare</string>
     <string name="audio_resume_playback_title">Historik för ljuduppspelningskö</string>
-    <string name="audio_resume_playback_warning">Om historiken för ljuduppspelningskön inaktiveras kan det  leda till beteendeproblem.\nEfter att ha inaktiverat detta kommer du inte längre kunna återuppta uppspelning från:\n\n\n- En bluetoothenhet\n\t- Widgeten\n\t- Mediaaviseringen</string>
+    <string name="audio_resume_playback_warning">Om historiken för ljuduppspelningskön inaktiveras kan vissa funktioner sluta fungera.\nDu kommer inte längre att kunna återuppta uppspelningen från:\n\n– en Bluetooth-enhet\n– widgeten\n– mediaaviseringen</string>
     <string name="playback_history_warning">När uppspelningshistoriken inaktiveras kommer historiken, mediaförloppet och synliga markörer att döljas. Appen fortsätter att spara din aktivitet och återställer den om historiken aktiveras igen.\nOm du vill sluta spara din aktivitet helt och hållet använder du i stället inkognitoläget.\nDu kan också rensa din historik i historikmenyn eller i de avancerade inställningarna.</string>
     <string name="audio_resume_playback_summary">Gör det möjligt att spara ljuduppspelningskön för att kunna återuppta senare</string>
 
@@ -337,9 +337,9 @@
     <string name="add_custom_path">Lägg till anpassad sökväg</string>
     <string name="add_custom_path_description">Ange ytterligare valfria kataloger att söka igenom:</string>
     <string name="remove_custom_path">Ta bort anpassad sökväg</string>
-    <string name="group_ban_folder">Bannlys mappen från mediabiblioteket</string>
-    <string name="ban_folder">Bannlys mapp</string>
-    <string name="ban_folder_explanation">Om du bannlyser mappen kommer du inte att kunna se mappens mediafiler i appens video- eller ljudavsnitt, men de är fortfarande tillgängliga via filväljaren.\nFör att upphäva bannlysningen går du till inställningarna, %s och trycker länge på mappen.</string>
+    <string name="group_ban_folder">Uteslut mappen från mediabiblioteket</string>
+    <string name="ban_folder">Uteslut mapp</string>
+    <string name="ban_folder_explanation">Om mappen utesluts visas dess mediafiler inte i appens video- eller ljudavsnitt, men de är fortfarande åtkomliga via filväljaren.\nDu kan ta med mappen igen genom att gå till inställningarna, %s, och trycka länge på mappen.</string>
 
     <string name="hardware_acceleration">Hårdvaruacceleration</string>
     <string name="hardware_acceleration_summary">Inaktiverad: Bättre stabilitet\nAvkodning: Kan förbättra prestandan\nFull: Kan förbättra prestandan ytterligare</string>
@@ -352,17 +352,17 @@
     <string name="screen_orientation">Skärmorientering för video</string>
     <string name="screen_orientation_sensor">Automatiskt (sensor)</string>
     <string name="screen_orientation_portrait">Porträtt</string>
-    <string name="screen_orientation_portrait_reverse">Omvänt porträtt</string>
+    <string name="screen_orientation_portrait_reverse">Omvänt stående</string>
     <string name="screen_orientation_landscape">Landskap</string>
-    <string name="screen_orientation_landscape_reverse">Omvänt landskap</string>
-    <string name="screen_orientation_landscape_sensor">Landskap (sensor)</string>
+    <string name="screen_orientation_landscape_reverse">Omvänt liggande</string>
+    <string name="screen_orientation_landscape_sensor">Liggande (sensor)</string>
     <string name="screen_orientation_last_locked">Senast låsta orientering</string>
     <string name="enable_black_theme">Mörkt tema</string>
     <string name="dark_theme">Mörkt tema</string>
     <string name="theme_auto">Automatiskt tema</string>
     <string name="subtitle_text_encoding">Textkodning för undertexter</string>
     <string name="subtitle_preferred_language">Föredraget språk för undertexter</string>
-    <string name="daynight_title">Dagnattläge</string>
+    <string name="daynight_title">Dag-/nattläge</string>
     <string name="daynight_follow_system_title">Följ systemläge</string>
     <string name="no_track_preference">Inget föredraget språk</string>
     <string name="track_preference">Föredraget spår: %s</string>
@@ -371,7 +371,7 @@
 
     <string name="interface_prefs_screen">Gränssnitt</string>
     <string name="interface_secondary_display_category_title">Sekundär skärm</string>
-    <string name="interface_secondary_display_category_summary">Inställningar när sekundära skärmar ansluts (HDMI/Chromecast)</string>
+    <string name="interface_secondary_display_category_summary">Inställningar för anslutna sekundära skärmar (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Föredra klon</string>
     <string name="enable_clone_mode_summary">Klona enhetens skärm utan fjärrstyrning</string>
 
@@ -615,7 +615,7 @@
     <string name="custom_libvlc_options">Anpassade libVLC-alternativ</string>
     <string name="custom_libvlc_options_invalid">Ogiltiga libVLC-alternativ!</string>
     <string name="dav1d_thread_number">Trådnummer för Dav1d</string>
-    <string name="dav1d_thread_number_invalid">Ogiltigt trådnummer! (>=1)</string>
+    <string name="dav1d_thread_number_invalid">Ogiltigt trådnummer! (&gt;=1)</string>
     <string name="browser_quick_play">Snabbuppspelning i filväljarmenyn</string>
     <string name="browser_quick_play_summary">Lägger till ett menyalternativ för snabbuppspelning i filväljaren. Detta gör att mediafiler läser in snabbare på bekostnad av vissa metadata</string>
     <string name="browser_quick_play_default">Snabbuppspelning som standardåtgärd</string>
@@ -723,10 +723,10 @@
     <string name="allow_pip_description">Du måste bevilja denna behörighet för att VLC ska kunna visa din video i bild-i-bild-läget.</string>
     <string name="permission_ask_again">Bevilja behörighet </string>
     <string name="pick_file">Välj en fil</string>
-    <string name="permission_not_granted">Behörighet beviljades inte</string>
-    <string name="permission_expanation_no_allow">Du kommer varken kunna upptäcka din media automatiskt eller använda externa undertexter</string>
+    <string name="permission_not_granted">Behörighet har inte beviljats</string>
+    <string name="permission_expanation_no_allow">Du kommer varken upptäcka dina mediafiler automatiskt eller använda externa undertexter</string>
     <string name="permission_expanation_allow">Du kommer endast kunna spela upp strömmar eller nätverksmedia</string>
-    <string name="permission_onboarding_no_perm">Du kommer inte kunna upptäcka din media automatiskt.\nDu kommer endast kunna spela upp media via strömmar eller nätverk</string>
+    <string name="permission_onboarding_no_perm">Du kommer inte upptäcka dina mediafiler automatiskt.\nDu kommer endast kunna spela upp strömmar eller nätverksmedia</string>
     <string name="permission_onboarding_perm_media">Du kommer endast kunna upptäcka standardmediafiler automatiskt</string>
     <string name="permission_onboarding_perm_all">Du kommer att upptäcka alla dina filer automatiskt för att kunna spela upp alla typer av mediefiler, även de konstiga, eller komprimerade filer</string>
     <string name="exit_app">Avsluta VLC</string>
@@ -945,7 +945,7 @@
     <string name="welcome_beta_title">VLC-beta</string>
     <string name="welcome_beta_description">Välkommen till VLC:s betaprogram.\nNotera att denna version kan ha vissa fel.</string>
     <string name="welcome_beta_description_bugs">Om du upptäcker ett fel, rapportera det i vårt forum eller felhanteringssystem.</string>
-    <string name="welcome_beta_description_crashes">Öppna Om > Återkoppling och använd knappen Kontakta supportteamet om en bugg eller krasch inträffar.</string>
+    <string name="welcome_beta_description_crashes">Öppna Om &gt; Återkoppling och använd knappen Kontakta supportteamet om en bugg eller krasch inträffar.</string>
     <string name="send">Skicka</string>
     <string name="send_crash_action_title">Vad vill du göra?</string>
     <string name="report_a_bug">Rapportera en bugg</string>
