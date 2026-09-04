@@ -164,7 +164,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun getRate() = if (mediaplayer.hasMedia() && !mediaplayer.isReleased && playbackState != PlaybackStateCompat.STATE_STOPPED) mediaplayer.rate else 1.0f
 
-    fun setSpuDelay(delay: Long) = mediaplayer.setSpuDelay(delay)
+    fun setSpuDelay(delay: Long) = !mediaplayer.isReleased && mediaplayer.hasMedia() && mediaplayer.setSpuDelay(delay)
 
     fun setVideoTrackEnabled(enabled: Boolean) = mediaplayer.setVideoTrackEnabled(enabled)
 
@@ -172,13 +172,13 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun addSubtitleTrack(uri: Uri, select: Boolean) = mediaplayer.addSlave(IMedia.Slave.Type.Subtitle, uri, select)
 
-    fun getSpuTracks(): Array<out VlcTrack>? = mediaplayer.getAllSpuTracks()
+    fun getSpuTracks(): Array<out VlcTrack>? = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.getAllSpuTracks() else emptyArray()
 
-    fun getSpuTrack() = mediaplayer.getSelectedSpuTrack()?.getId() ?: "-1"
+    fun getSpuTrack() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.getSelectedSpuTrack()?.getId() ?: "-1" else "-1"
 
-    fun setSpuTrack(index: String) = mediaplayer.setSpuTrack(index)
+    fun setSpuTrack(index: String) = !mediaplayer.isReleased && mediaplayer.hasMedia() && mediaplayer.setSpuTrack(index)
 
-    fun getSpuTracksCount() = mediaplayer.getSpuTracksCount()
+    fun getSpuTracksCount() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.getSpuTracksCount() else 0
 
     fun setAudioDelay(delay: Long) = mediaplayer.setAudioDelay(delay)
 
