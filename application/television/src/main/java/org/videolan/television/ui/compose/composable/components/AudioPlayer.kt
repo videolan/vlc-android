@@ -81,16 +81,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.input.key.type
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -100,7 +94,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -130,8 +123,7 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 private enum class PlayerDisplayState {
     Hidden,
     Badge,
-    Expanded,
-    Pinned
+    Expanded
 }
 
 private const val AUDIO_PLAYER_ANIMATION_DURATION = 500
@@ -198,7 +190,6 @@ fun AudioPlayer(
     forceExpanded: Boolean = false,
     focusRequester: FocusRequester = remember { FocusRequester() }
 ) {
-    val focusManager = LocalFocusManager.current
     val mainContentFocusRequester = LocalMainContentFocusRequester.current
     var sliderPosition by remember { mutableFloatStateOf(0f) }
     sliderPosition = ((progress?.time ?: 0).toFloat() / (progress?.length ?: 1)).coerceIn(0F, 1F)
@@ -209,8 +200,7 @@ fun AudioPlayer(
         derivedStateOf {
             when {
                 !visible -> PlayerDisplayState.Hidden
-                isPinned -> PlayerDisplayState.Pinned
-                isFocused -> PlayerDisplayState.Expanded
+                isPinned || isFocused -> PlayerDisplayState.Expanded
                 else -> PlayerDisplayState.Badge
             }
         }
@@ -239,15 +229,6 @@ fun AudioPlayer(
             .fillMaxHeight()
             .onFocusChanged { isFocused = it.hasFocus }
             .focusRequester(focusRequester)
-            .onKeyEvent {
-                if (it.key == Key.DirectionRight && it.type == KeyEventType.KeyDown) {
-                    if (!focusManager.moveFocus(FocusDirection.Right)) {
-                        mainContentFocusRequester.requestFocus()
-                        return@onKeyEvent true
-                    }
-                }
-                false
-            }
     ) {
         Box(modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.CenterStart) {
             AnimatedContent(
@@ -273,7 +254,7 @@ fun AudioPlayer(
                 contentAlignment = Alignment.CenterStart
             ) { state ->
                 when (state) {
-                    PlayerDisplayState.Expanded, PlayerDisplayState.Pinned -> {
+                    PlayerDisplayState.Expanded -> {
                         AudioPlayerExpanded(
                             sharedTransitionScope = this@SharedTransitionLayout,
                             animatedVisibilityScope = this@AnimatedContent,
@@ -291,7 +272,8 @@ fun AudioPlayer(
                             onTogglePlayPause = onTogglePlayPause,
                             isPinned = isPinned,
                             onPinToggled = onPinToggled,
-                            playPauseFocusRequester = playPauseFocusRequester
+                            playPauseFocusRequester = playPauseFocusRequester,
+                            mainContentFocusRequester = mainContentFocusRequester
                         )
                     }
 
@@ -300,7 +282,9 @@ fun AudioPlayer(
                             AudioPlayerBadge(
                                 sharedTransitionScope = this@SharedTransitionLayout,
                                 animatedVisibilityScope = this@AnimatedContent,
-                                modifier = Modifier.padding(start = 32.dp),
+                                modifier = Modifier
+                                    .padding(start = 32.dp)
+                                    .focusProperties { right = mainContentFocusRequester },
                                 playerState = cachedPlayerState,
                                 sliderPosition = sliderPosition,
                                 coverBitmap = coverBitmap
@@ -318,7 +302,7 @@ fun AudioPlayer(
 
     var initialLaunch by remember { mutableStateOf(true) }
     LaunchedEffect(displayState) {
-        if ((displayState == PlayerDisplayState.Expanded || displayState == PlayerDisplayState.Pinned) && (requestFocus || !initialLaunch)) {
+        if (displayState == PlayerDisplayState.Expanded && (requestFocus || !initialLaunch)) {
             playPauseFocusRequester.requestFocus()
         }
         initialLaunch = false
@@ -344,8 +328,13 @@ private fun AudioPlayerExpanded(
     onTogglePlayPause: () -> Unit,
     isPinned: Boolean,
     onPinToggled: (Boolean) -> Unit,
-    playPauseFocusRequester: FocusRequester
+    playPauseFocusRequester: FocusRequester,
+    mainContentFocusRequester: FocusRequester
 ) {
+    val closeFocusRequester = remember { FocusRequester() }
+    val pinFocusRequester = remember { FocusRequester() }
+    val expandFocusRequester = remember { FocusRequester() }
+
     Column(
         modifier = Modifier
             .padding(vertical = 32.dp)
@@ -375,10 +364,15 @@ private fun AudioPlayerExpanded(
             horizontalAlignment = Alignment.End
         ) {
 
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
+            Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp).focusGroup()) {
                 LabeledIconButton(
                     label = stringResource(R.string.stop),
                     vectorImage = Icons.Outlined.Close,
+                    modifier = Modifier
+                        .focusRequester(closeFocusRequester)
+                        .focusProperties {
+                            right = pinFocusRequester
+                        }
                 ) {
                     onStop()
                 }
@@ -386,12 +380,24 @@ private fun AudioPlayerExpanded(
                 LabeledIconButton(
                     label = if (isPinned) "Unpin" else "Pin",
                     vectorImage = if (isPinned) Icons.Filled.PushPin else Icons.Outlined.PushPin,
+                    modifier = Modifier
+                        .focusRequester(pinFocusRequester)
+                        .focusProperties {
+                            left = closeFocusRequester
+                            right = expandFocusRequester
+                        }
                 ) {
                     onPinToggled(!isPinned)
                 }
                 LabeledIconButton(
                     label = stringResource(R.string.open_audio_player),
                     vectorImage = Icons.Outlined.OpenInFull,
+                    modifier = Modifier
+                        .focusRequester(expandFocusRequester)
+                        .focusProperties {
+                            left = pinFocusRequester
+                            right = mainContentFocusRequester
+                        }
                 ) {
                     onOpenFull()
                 }
@@ -467,16 +473,23 @@ private fun AudioPlayerExpanded(
                 }) {
                     onJump(false)
                 }
-                LabeledIconButton(stringResource(R.string.talkback_action_forward, Settings.audioJumpDelay), painterResource = painterResource(R.drawable.ic_player_forward_10), customImage = {  tint ->
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            painterResource(R.drawable.ic_player_forward_10),
-                            contentDescription = stringResource(R.string.talkback_action_forward, Settings.audioJumpDelay),
-                            tint = tint
-                        )
-                        Text(Settings.audioJumpDelay.toString(), fontSize = 7.sp, color = tint)
+                LabeledIconButton(
+                    stringResource(R.string.talkback_action_forward, Settings.audioJumpDelay),
+                    painterResource = painterResource(R.drawable.ic_player_forward_10),
+                    modifier = Modifier.focusProperties {
+                        right = mainContentFocusRequester
+                    },
+                    customImage = {  tint ->
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                painterResource(R.drawable.ic_player_forward_10),
+                                contentDescription = stringResource(R.string.talkback_action_forward, Settings.audioJumpDelay),
+                                tint = tint
+                            )
+                            Text(Settings.audioJumpDelay.toString(), fontSize = 7.sp, color = tint)
+                        }
                     }
-                }) {
+                ) {
                     onJump(true)
                 }
                 Spacer(modifier = Modifier.weight(1F))
@@ -538,7 +551,10 @@ private fun AudioPlayerExpanded(
                     label = stringResource(R.string.next),
                     painterResource = painterResource(R.drawable.ic_next),
                     modifier = Modifier
-                        .padding(vertical = 4.dp),
+                        .padding(vertical = 4.dp)
+                        .focusProperties {
+                            right = mainContentFocusRequester
+                        },
                 ) {
                     onNext()
                 }
