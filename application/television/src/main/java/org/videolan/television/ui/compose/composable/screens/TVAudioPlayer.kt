@@ -743,7 +743,7 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
 
                             Image(
                                 bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
-                                contentDescription = "Map snapshot",
+                                contentDescription = null,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
                                     .fillMaxHeight()
@@ -752,7 +752,7 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
                         } else {
                             Image(
                                 painter = painterResource(id = getTvIconRes(item)),
-                                contentDescription = "Map snapshot",
+                                contentDescription = null,
                                 modifier = Modifier
                                     .fillMaxHeight()
                                     .aspectRatio(1F)
