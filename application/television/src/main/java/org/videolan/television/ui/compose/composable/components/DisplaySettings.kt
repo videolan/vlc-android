@@ -384,7 +384,7 @@ private fun PlaybackActionsItem(current: MediaListEntry, context: Context) {
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
                         tint = MaterialTheme.colorScheme.onSurface,
-                        contentDescription = "DropDown Icon"
+                        contentDescription = null
                     )
                 }
                 DropdownMenu(
@@ -452,7 +452,7 @@ private fun VideoGroupingItem(
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
                         tint = MaterialTheme.colorScheme.onSurface,
-                        contentDescription = "DropDown Icon"
+                        contentDescription = null
                     )
                 }
                 DropdownMenu(
