@@ -324,7 +324,7 @@ object SettingsFactory {
                 defaultValue = true
             ),
             SettingItem.Toggle(
-                key = KEY_AUDIO_SHOW_BOOkMARK_BUTTONS,
+                key = KEY_AUDIO_SHOW_BOOKMARK_BUTTONS,
                 title = R.string.show_bookmark_buttons,
                 summary = R.string.show_bookmark_buttons_summary,
                 defaultValue = true
@@ -334,7 +334,7 @@ object SettingsFactory {
                 title = R.string.show_bookmark_markers,
                 summary = R.string.show_bookmark_markers_summary,
                 defaultValue = true,
-                dependencyKey = KEY_AUDIO_SHOW_BOOkMARK_BUTTONS
+                dependencyKey = KEY_AUDIO_SHOW_BOOKMARK_BUTTONS
             )
         )
     )

@@ -127,6 +127,9 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.videolan.television.ui.compose.composable.components.AudioControlsBottomSheet
 import org.videolan.tools.KEY_BLURRED_COVER_BACKGROUND
+import org.videolan.tools.KEY_AUDIO_SHOW_BOOKMARK_BUTTONS
+import org.videolan.tools.KEY_AUDIO_SHOW_BOOKMARK_MARKERS
+import org.videolan.tools.KEY_AUDIO_SHOW_CHAPTER_BUTTONS
 import androidx.compose.runtime.produceState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -310,8 +313,20 @@ fun TVAudioPlayer(
 fun Bookmarks(bookmarkModel: BookmarkModel = viewModel(), viewModel: PlaylistModel = viewModel()) {
     val context = LocalContext.current
     val activity = LocalActivity.current
+    val settings = remember { Settings.getInstance(context) }
     val showBookmarks = viewModel.showBookmarks.observeAsState()
     val bookmarkList = bookmarkModel.dataset.observeAsState()
+
+    val showBookmarkButtons by produceState(initialValue = settings.getBoolean(KEY_AUDIO_SHOW_BOOKMARK_BUTTONS, true)) {
+        Settings.audioControlsChanges.collect {
+            value = settings.getBoolean(KEY_AUDIO_SHOW_BOOKMARK_BUTTONS, true)
+        }
+    }
+    val showBookmarkMarkers by produceState(initialValue = settings.getBoolean(KEY_AUDIO_SHOW_BOOKMARK_MARKERS, true)) {
+        Settings.audioControlsChanges.collect {
+            value = settings.getBoolean(KEY_AUDIO_SHOW_BOOKMARK_MARKERS, true)
+        }
+    }
 
     if (showBookmarks.value == true) {
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -358,66 +373,70 @@ fun Bookmarks(bookmarkModel: BookmarkModel = viewModel(), viewModel: PlaylistMod
                         }
                     }
                 }
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                    LabeledIconButton(
-                        stringResource(R.string.previous_bookmark),
-                        painterResource = painterResource(R.drawable.ic_player_bookmark_previous),
-                        onClick = {
-                            bookmarkModel.findPrevious()?.let {
-                                bookmarkModel.service?.setTime(it.time)
-                            }
-                        },
-                        modifier = Modifier.padding(horizontal = 4.dp),
-                        tint = White
-                    )
-                    AudioJumpButton(forward = false, viewModel = viewModel)
+                if (showBookmarkButtons) {
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                        LabeledIconButton(
+                            stringResource(R.string.previous_bookmark),
+                            painterResource = painterResource(R.drawable.ic_player_bookmark_previous),
+                            onClick = {
+                                bookmarkModel.findPrevious()?.let {
+                                    bookmarkModel.service?.setTime(it.time)
+                                }
+                            },
+                            modifier = Modifier.padding(horizontal = 4.dp),
+                            tint = White
+                        )
+                        AudioJumpButton(forward = false, viewModel = viewModel)
 
-                    AudioJumpButton(forward = true, viewModel = viewModel)
+                        AudioJumpButton(forward = true, viewModel = viewModel)
 
-                    LabeledIconButton(
-                        stringResource(R.string.next_bookmark),
-                        painterResource = painterResource(R.drawable.ic_player_bookmark_next),
-                        onClick = {
-                            bookmarkModel.findNext()?.let {
-                                bookmarkModel.service?.setTime(it.time)
-                            }
-                        },
-                        modifier = Modifier.padding(horizontal = 4.dp),
-                        tint = White
-                    )
+                        LabeledIconButton(
+                            stringResource(R.string.next_bookmark),
+                            painterResource = painterResource(R.drawable.ic_player_bookmark_next),
+                            onClick = {
+                                bookmarkModel.findNext()?.let {
+                                    bookmarkModel.service?.setTime(it.time)
+                                }
+                            },
+                            modifier = Modifier.padding(horizontal = 4.dp),
+                            tint = White
+                        )
+                    }
                 }
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(16.dp),
-                contentAlignment = Alignment.Center
-            ) {
-
-                //background
+            if (showBookmarkMarkers) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.6F)
-                        .fillMaxHeight()
-                        .background(BlackTransparent90)
-                )
-                BoxWithConstraints (
-                    modifier = Modifier
-                        .padding(horizontal = 32.dp)
                         .fillMaxWidth()
-                        .fillMaxHeight()
+                        .height(16.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    val boxWithConstraintsScope = this
-                    val containerWidth = boxWithConstraintsScope.maxWidth.value - 16
-                    viewModel.service?.currentMediaWrapper?.length?.let { mediaLength ->
-                        bookmarkList.value?.forEach { bookmark ->
-                            Icon(
-                                painterResource(R.drawable.ic_bookmark_marker),
-                                contentDescription = "",
-                                tint = White,
-                                modifier = Modifier
-                                    .offset(x = (bookmark.time.toFloat() * containerWidth / mediaLength.toFloat()).dp)
-                            )
+
+                    //background
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(0.6F)
+                            .fillMaxHeight()
+                            .background(BlackTransparent90)
+                    )
+                    BoxWithConstraints (
+                        modifier = Modifier
+                            .padding(horizontal = 32.dp)
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                    ) {
+                        val boxWithConstraintsScope = this
+                        val containerWidth = boxWithConstraintsScope.maxWidth.value - 16
+                        viewModel.service?.currentMediaWrapper?.length?.let { mediaLength ->
+                            bookmarkList.value?.forEach { bookmark ->
+                                Icon(
+                                    painterResource(R.drawable.ic_bookmark_marker),
+                                    contentDescription = "",
+                                    tint = White,
+                                    modifier = Modifier
+                                        .offset(x = (bookmark.time.toFloat() * containerWidth / mediaLength.toFloat()).dp)
+                                )
+                            }
                         }
                     }
                 }
@@ -554,6 +573,15 @@ fun AudioCover(coverListener:(Bitmap?) -> Unit, viewModel: PlaylistModel = viewM
 
 @Composable
 fun ChapterSwitcher(viewModel: PlaylistModel = viewModel()) {
+    val context = LocalContext.current
+    val settings = remember { Settings.getInstance(context) }
+    val showChapterButtons by produceState(initialValue = settings.getBoolean(KEY_AUDIO_SHOW_CHAPTER_BUTTONS, true)) {
+        Settings.audioControlsChanges.collect {
+            value = settings.getBoolean(KEY_AUDIO_SHOW_CHAPTER_BUTTONS, true)
+        }
+    }
+    if (!showChapterButtons) return
+
     viewModel.service?.let { service ->
         var currentChapters by remember { mutableStateOf<Pair<MediaWrapper, List<MediaPlayer.Chapter>?>?>(null) }
         viewModel.currentMediaWrapper?.let { media ->
@@ -750,6 +778,18 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
                             MiniVisualizer(MaterialTheme.colorScheme.secondary)
                         }
                 }
+            }
+            val showTrackNumbers by Settings.audioShowTrackNumbers.observeAsState(false)
+            if (showTrackNumbers) {
+                Text(
+                    text = if (item.trackNumber > 0) "${item.trackNumber}." else "",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier
+                        .padding(start = 4.dp, end = 8.dp)
+                        .widthIn(min = 20.dp)
+                )
             }
             Column(
                 modifier = Modifier
