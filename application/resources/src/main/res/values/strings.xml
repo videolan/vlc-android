@@ -1268,6 +1268,8 @@
     <string name="enable_screenshot_button">Show the screenshot button</string>
     <string name="enable_screenshot_button_and_gesture">Button and gesture</string>
     <string name="open_audio_player">Open audio player</string>
+    <string name="pin_audio_player">Pin audio player</string>
+    <string name="unpin_audio_player">Unpin audio player</string>
 
 
 
