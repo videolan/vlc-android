@@ -378,7 +378,7 @@ private fun AudioPlayerExpanded(
                 }
                 Spacer(modifier = Modifier.weight(1F))
                 LabeledIconButton(
-                    label = if (isPinned) "Unpin" else "Pin",
+                    label = if (isPinned) stringResource(R.string.unpin_audio_player) else stringResource(R.string.pin_audio_player),
                     vectorImage = if (isPinned) Icons.Filled.PushPin else Icons.Outlined.PushPin,
                     modifier = Modifier
                         .focusRequester(pinFocusRequester)
