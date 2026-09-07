@@ -409,7 +409,7 @@ private fun AudioPlayerExpanded(
                 if (coverBitmap != null) {
                     Image(
                         bitmap = coverBitmap.asImageBitmap(),
-                        contentDescription = "Map snapshot",
+                        contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -424,7 +424,7 @@ private fun AudioPlayerExpanded(
                 } else {
                     Image(
                         painter = painterResource(id = R.drawable.ic_song_big),
-                        contentDescription = "Map snapshot",
+                        contentDescription = null,
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(1F)

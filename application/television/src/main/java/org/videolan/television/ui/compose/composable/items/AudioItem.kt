@@ -221,7 +221,7 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                 if (mapBitmap.value?.second != null) {
                     Image(
                         bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
-                        contentDescription = "Map snapshot",
+                        contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxSize()
@@ -230,7 +230,7 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                 } else {
                     Image(
                         painter = painterResource(id = getTvIconRes(item)),
-                        contentDescription = "Map snapshot",
+                        contentDescription = null,
                         colorFilter = ColorFilter.tint(if (item.itemType == MediaLibraryItem.TYPE_DUMMY && item.id == HEADER_ADD_STREAM) MaterialTheme.colorScheme.primary else WhiteTransparent70),
                         modifier = Modifier
                             .padding(24.dp)
@@ -444,14 +444,14 @@ fun AudioItemList(
 
                                     Image(
                                         bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
-                                        contentDescription = "Map snapshot",
+                                        contentDescription = null,
                                         contentScale = ContentScale.Crop,
                                         modifier = Modifier.fillMaxSize()
                                     )
                                 } else {
                                     Image(
                                         painter = painterResource(id = getTvIconRes(item)),
-                                        contentDescription = "Map snapshot",
+                                        contentDescription = null,
                                         modifier = Modifier
                                             .fillMaxSize()
                                             .background(MaterialTheme.colorScheme.surfaceVariant)

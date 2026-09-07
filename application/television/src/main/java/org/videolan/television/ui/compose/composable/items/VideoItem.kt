@@ -151,7 +151,7 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                 if (mapBitmap.value?.second != null) {
                     Image(
                         bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
-                        contentDescription = "Map snapshot",
+                        contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -160,7 +160,7 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                 } else {
                     Image(
                         painter = painterResource(id = R.drawable.ic_video),
-                        contentDescription = "Map snapshot",
+                        contentDescription = null,
                         colorFilter = ColorFilter.tint(WhiteTransparent70),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -348,7 +348,7 @@ fun VideoItemList(video: MediaLibraryItem, position: Int, entry: MediaListEntry,
                 if (mapBitmap.value?.second != null) {
                     Image(
                         bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
-                        contentDescription = "Map snapshot",
+                        contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxHeight()
@@ -357,7 +357,7 @@ fun VideoItemList(video: MediaLibraryItem, position: Int, entry: MediaListEntry,
                 } else {
                     Image(
                         painter = painterResource(id = R.drawable.ic_video),
-                        contentDescription = "Map snapshot",
+                        contentDescription = null,
                         modifier = Modifier
                             .fillMaxHeight()
                             .background(MaterialTheme.colorScheme.surfaceVariant)
