@@ -48,6 +48,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import org.videolan.television.ui.compose.composable.components.BoundedFocusRequesterMap
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
@@ -360,8 +361,8 @@ internal fun BrowserListContent(
         mutableStateOf(initialFocusedItem) 
     }
     
-    // Stability fix: Maintain a persistent map of requesters.
-    val focusRequesters = remember { HashMap<String, FocusRequester>() }
+    // Stability fix: Maintain a persistent bounded map of requesters.
+    val focusRequesters = remember { BoundedFocusRequesterMap() }
     
     // Sync the map with current items immediately during composition
     // We wrap this in remember(items) to satisfy the @RememberInComposition requirement

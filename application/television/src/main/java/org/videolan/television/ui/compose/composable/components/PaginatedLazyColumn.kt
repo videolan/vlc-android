@@ -41,7 +41,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -56,6 +55,27 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.ui.compose.theme.Orange50
+
+/**
+ * A bounded [LinkedHashMap] that automatically evicts the least recently accessed entries
+ * when the size exceeds [maxSize]. This prevents unbounded memory growth while retaining
+ * focus requesters for active/visible items.
+ */
+class BoundedFocusRequesterMap(
+    private val maxSize: Int = 200
+) : LinkedHashMap<String, FocusRequester>(maxSize, 0.75f, true) {
+    override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, FocusRequester>?): Boolean {
+        return size > maxSize
+    }
+}
+
+private fun getItemKey(item: MediaLibraryItem, index: Int): String {
+    return if (item.id != 0L) {
+        item.id.toString()
+    } else {
+        "0_${item.itemType}_${item.title}_$index"
+    }
+}
 
 /**
  * Paginated lazy grid
@@ -91,10 +111,8 @@ fun PaginatedGrid(
     },
     content: @Composable (item: MediaLibraryItem, index: Int,  modifier: Modifier) -> Unit
 ) {
-    val focusRequesters = remember {
-        HashMap<Long, FocusRequester>()
-    }
-    var lastFocusedItem by rememberSaveable { mutableLongStateOf(0L) }
+    val focusRequesters = remember { BoundedFocusRequesterMap() }
+    var lastFocusedItemKey by rememberSaveable { mutableStateOf("") }
     var focusRestored by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(items.loadState.refresh) {
@@ -109,8 +127,9 @@ fun PaginatedGrid(
             .focusGroup()
             .focusProperties {
                 onEnter = {
-                    if (lastFocusedItem != 0L)
-                        focusRequesters[lastFocusedItem]?.requestFocus()
+                    if (lastFocusedItemKey.isNotEmpty()) {
+                        focusRequesters[lastFocusedItemKey]?.requestFocus()
+                    }
                 }
             },
         verticalArrangement = verticalArrangement,
@@ -122,10 +141,11 @@ fun PaginatedGrid(
             // Accessing loadState and refreshVersion here triggers recomposition
             val isRefreshing = items.loadState.refresh is LoadState.Loading
             items[index]?.let { video ->
-                val requester = focusRequesters.getOrPut(video.id) { FocusRequester() }
+                val itemKey = getItemKey(video, index)
+                val requester = focusRequesters.getOrPut(itemKey) { FocusRequester() }
 
-                if (!focusRestored && video.id == lastFocusedItem && !isRefreshing) {
-                    LaunchedEffect(video.id) {
+                if (!focusRestored && itemKey == lastFocusedItemKey && !isRefreshing) {
+                    LaunchedEffect(itemKey) {
                         requester.requestFocus()
                         focusRestored = true
                     }
@@ -135,7 +155,7 @@ fun PaginatedGrid(
                     video, index, Modifier
                         .onFocusChanged {
                             if (it.isFocused) {
-                                lastFocusedItem = video.id
+                                lastFocusedItemKey = itemKey
                                 focusRestored = true
                             }
                         }
@@ -185,10 +205,8 @@ fun PaginatedList(
     },
     content: @Composable (item: MediaLibraryItem, index: Int, modifier: Modifier) -> Unit
 ) {
-    val focusRequesters = remember {
-        HashMap<Long, FocusRequester>()
-    }
-    var lastFocusedItem by rememberSaveable { mutableLongStateOf(0L) }
+    val focusRequesters = remember { BoundedFocusRequesterMap() }
+    var lastFocusedItemKey by rememberSaveable { mutableStateOf("") }
     var focusRestored by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(items.loadState.refresh) {
@@ -202,8 +220,9 @@ fun PaginatedList(
             .focusGroup()
             .focusProperties {
                 onEnter = {
-                    if (lastFocusedItem != 0L)
-                        focusRequesters[lastFocusedItem]?.requestFocus()
+                    if (lastFocusedItemKey.isNotEmpty()) {
+                        focusRequesters[lastFocusedItemKey]?.requestFocus()
+                    }
                 }
             },
         verticalArrangement = verticalArrangement,
@@ -214,10 +233,11 @@ fun PaginatedList(
             // Accessing loadState and refreshVersion here triggers recomposition
             val isRefreshing = items.loadState.refresh is LoadState.Loading
             items[index]?.let { video ->
-                val requester = focusRequesters.getOrPut(video.id) { FocusRequester() }
+                val itemKey = getItemKey(video, index)
+                val requester = focusRequesters.getOrPut(itemKey) { FocusRequester() }
 
-                if (!focusRestored && video.id == lastFocusedItem && !isRefreshing) {
-                    LaunchedEffect(video.id) {
+                if (!focusRestored && itemKey == lastFocusedItemKey && !isRefreshing) {
+                    LaunchedEffect(itemKey) {
                         requester.requestFocus()
                         focusRestored = true
                     }
@@ -227,7 +247,7 @@ fun PaginatedList(
                     video, index, Modifier
                         .onFocusChanged {
                             if (it.isFocused) {
-                                lastFocusedItem = video.id
+                                lastFocusedItemKey = itemKey
                                 focusRestored = true
                             }
                         }
