@@ -27,7 +27,7 @@ import android.os.Bundle
 import androidx.preference.CheckBoxPreference
 import org.videolan.tools.KEY_AUDIO_JUMP_DELAY
 import org.videolan.tools.KEY_AUDIO_LONG_JUMP_DELAY
-import org.videolan.tools.KEY_AUDIO_SHOW_BOOkMARK_BUTTONS
+import org.videolan.tools.KEY_AUDIO_SHOW_BOOKMARK_BUTTONS
 import org.videolan.tools.KEY_AUDIO_SHOW_TRACK_NUMBERS
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
@@ -70,8 +70,8 @@ class PreferencesAudioControls : BasePreferenceFragment(), SharedPreferences.OnS
             KEY_AUDIO_SHOW_TRACK_NUMBERS -> {
                 Settings.audioShowTrackNumbers.postValue(sharedPreferences.getBoolean(KEY_AUDIO_SHOW_TRACK_NUMBERS, false))
             }
-            KEY_AUDIO_SHOW_BOOkMARK_BUTTONS -> {
-                if (!sharedPreferences.getBoolean(KEY_AUDIO_SHOW_BOOkMARK_BUTTONS, true)) {
+            KEY_AUDIO_SHOW_BOOKMARK_BUTTONS -> {
+                if (!sharedPreferences.getBoolean(KEY_AUDIO_SHOW_BOOKMARK_BUTTONS, true)) {
                     bookmarkMarkersPreference.isChecked = false
                 }
             }

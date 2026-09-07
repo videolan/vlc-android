@@ -79,7 +79,7 @@ import org.videolan.tools.AUDIO_HINGE_ON_RIGHT
 import org.videolan.tools.AUDIO_PLAY_PROGRESS_MODE
 import org.videolan.tools.KEY_AUDIO_PLAYER_SHOW_COVER
 import org.videolan.tools.KEY_AUDIO_SHOW_BOOKMARK_MARKERS
-import org.videolan.tools.KEY_AUDIO_SHOW_BOOkMARK_BUTTONS
+import org.videolan.tools.KEY_AUDIO_SHOW_BOOKMARK_BUTTONS
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.KEY_SHOW_TRACK_INFO
 import org.videolan.tools.PREF_PLAYLIST_TIPS_SHOWN
@@ -514,7 +514,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.previousChapter?.visibility = View.VISIBLE
         }
 
-        if (isShowingCover() && !bookmarkModel.dataset.isEmpty() && settings.getBoolean(KEY_AUDIO_SHOW_BOOkMARK_BUTTONS, true)) {
+        if (isShowingCover() && !bookmarkModel.dataset.isEmpty() && settings.getBoolean(KEY_AUDIO_SHOW_BOOKMARK_BUTTONS, true)) {
             binding.audioForwardBookmark.setVisible()
             binding.audioRewindBookmark.setVisible()
         } else {
