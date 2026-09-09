@@ -466,6 +466,7 @@ fun Route.authenticatedFileRouting(appContext: Context, scope: CoroutineScope, s
     }
     // Download a file previously prepared
     get("/download") {
+        if (!checkPermission(settings) { settings.getBoolean(REMOTE_ACCESS_FILE_BROWSER_CONTENT, false) }) return@get
         val requested = call.request.queryParameters["file"] ?: run {
             call.respond(HttpStatusCode.BadRequest, "Missing file parameter")
             return@get

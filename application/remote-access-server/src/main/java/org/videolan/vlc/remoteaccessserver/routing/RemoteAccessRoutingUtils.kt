@@ -25,6 +25,7 @@
 package org.videolan.vlc.remoteaccessserver.routing
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.text.format.Formatter
 import android.util.Log
 import androidx.core.net.toUri
@@ -34,7 +35,9 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.content.OutgoingContent
 import io.ktor.http.content.TextContent
 import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.call
 import io.ktor.server.response.respond
+import io.ktor.util.pipeline.PipelineContext
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -46,6 +49,7 @@ import org.videolan.resources.util.observeLiveDataUntil
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.remoteaccessserver.RemoteAccessOTP
 import org.videolan.vlc.remoteaccessserver.RemoteAccessServer
+import org.videolan.vlc.remoteaccessserver.RemoteAccessSession.verifyLogin
 import org.videolan.vlc.remoteaccessserver.websockets.RemoteAccessWebSockets
 import org.videolan.vlc.util.*
 import java.io.File
@@ -263,4 +267,20 @@ internal fun File.isSafelyWithin(parentDir: File): Boolean {
     val canonicalParent = parentDir.canonicalFile.path
     val canonicalChild = this.canonicalFile.path
     return canonicalChild == canonicalParent || canonicalChild.startsWith(canonicalParent + File.separator)
+}
+
+/**
+ * Verifies session authentication and evaluates a permission predicate.
+ * Responds with HTTP 403 Forbidden and returns false if permission check fails.
+ */
+internal suspend inline fun PipelineContext<Unit, ApplicationCall>.checkPermission(
+    settings: SharedPreferences,
+    predicate: () -> Boolean
+): Boolean {
+    verifyLogin(settings)
+    if (!predicate()) {
+        call.respond(HttpStatusCode.Forbidden)
+        return false
+    }
+    return true
 }

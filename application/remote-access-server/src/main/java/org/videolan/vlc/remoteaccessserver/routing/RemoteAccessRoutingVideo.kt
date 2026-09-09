@@ -43,10 +43,7 @@ import org.videolan.vlc.remoteaccessserver.utils.serveVideos
 fun Route.videoRouting(appContext: Context, settings: SharedPreferences) {
     // List of all the videos
     get("/video-list") {
-        if (!settings.serveVideos(appContext)) {
-            call.respond(HttpStatusCode.Forbidden)
-            return@get
-        }
+        if (!checkPermission(settings) { settings.serveVideos(appContext) }) return@get
         val grouping = call.request.queryParameters["grouping"]?.toInt() ?: 0
         val groupId = call.request.queryParameters["group"]?.toLong() ?: 0L
         val folderId = call.request.queryParameters["folder"]?.toLong() ?: 0L
