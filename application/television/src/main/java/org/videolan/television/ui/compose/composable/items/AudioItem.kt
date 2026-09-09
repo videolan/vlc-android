@@ -25,16 +25,20 @@
 package org.videolan.television.ui.compose.composable.items
 
 import android.graphics.Bitmap
+import android.util.Log
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.aspectRatio
@@ -48,7 +52,6 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -104,7 +107,6 @@ import org.videolan.television.ui.compose.composable.components.MiniVisualizer
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.BlackTransparent70
 import org.videolan.television.ui.compose.theme.Transparent
-import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent25
 import org.videolan.television.ui.compose.theme.WhiteTransparent70
@@ -112,8 +114,6 @@ import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.television.ui.compose.utils.getDescriptionAnnotated
 import org.videolan.television.ui.compose.utils.inlineContentMap
-import org.videolan.television.ui.compose.utils.vlcBorder
-import org.videolan.television.ui.compose.utils.vlcShadow
 import org.videolan.television.util.FAVORITE_FLAG
 import org.videolan.vlc.gui.helpers.getTvIconRes
 import org.videolan.vlc.media.PlaylistManager
@@ -158,36 +158,67 @@ fun AudioItem(
 }
 
 @Composable
-fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, modifier: Modifier = Modifier, spannableDescription: Boolean = false, browserRoot: Boolean = false, description: String? = null, topStartContent: @Composable (BoxScope.() -> Unit)? = null, onClick: () -> Unit) {
+fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, modifier: Modifier = Modifier, initialFocused: Boolean = false, spannableDescription: Boolean = false, browserRoot: Boolean = false, description: String? = null, topStartContent: @Composable (BoxScope.() -> Unit)? = null, onClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
-    var focused by remember { mutableStateOf(false) }
+    var focused by remember { mutableStateOf(initialFocused) }
     if (item != mapBitmap.value?.first) mapBitmap.value = null
     var expanded by remember { mutableStateOf(false) }
 
+    // Pure GPU transform animations - NO layout measurement shifts so grid scroll never jumps!
+    val scale by animateFloatAsState(
+        targetValue = if (focused) 1.12f else 1.0f,
+        animationSpec = tween(durationMillis = 180),
+        label = "cardScale"
+    )
+    val shadowElevation by animateDpAsState(
+        targetValue = if (focused) 14.dp else 0.dp,
+        animationSpec = tween(durationMillis = 180),
+        label = "shadowElevation"
+    )
+    val containerColor by animateColorAsState(
+        targetValue = if (focused) MaterialTheme.colorScheme.surfaceVariant else Transparent,
+        animationSpec = tween(durationMillis = 180),
+        label = "containerColor"
+    )
+    val outerBorderColor by animateColorAsState(
+        targetValue = if (focused) MaterialTheme.colorScheme.onSurface else Transparent,
+        animationSpec = tween(durationMillis = 180),
+        label = "outerBorderColor"
+    )
 
     val isRound = item is Artist || item is Genre
-    val shape = if (isRound) CircleShape else MaterialTheme.shapes.medium
-    val cardPadding = if (isRound) PaddingValues(start = VlcTVTheme.dimens.itemFocusGlowRadius, top = VlcTVTheme.dimens.itemFocusGlowRadius, end = VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 4.dp) else PaddingValues(0.dp)
+    val outerShape = RoundedCornerShape(12.dp)
 
-    Column(modifier = modifier
-        .zIndex(if (focused) 1f else 0f)) {
-        Card(
-            shape = shape,
-            border = vlcBorder(focused),
-            colors = CardDefaults.cardColors(containerColor = if (isRound) Transparent else MaterialTheme.colorScheme.surfaceVariant),
-            modifier = Modifier
-                .padding(cardPadding)
-                .align(Alignment.CenterHorizontally)
-                .onFocusChanged {
-                    focused = it.isFocused
+    // Outer unscaled Box anchors focus and bringIntoView to fixed unscaled grid cell bounds
+    // so DPAD LEFT/RIGHT navigation across a row NEVER triggers unpredictable vertical scroll!
+    Box(
+        modifier = modifier
+            .zIndex(if (focused) 100f else 0f)
+            .onFocusChanged {
+                focused = it.isFocused
+                if (it.isFocused) {
+                    Log.d("VLC_GridScroll", "🎯 ITEM FOCUSED -> Pos: $position, Title: '${item.title}'")
                 }
-                .vlcShadow(focused, shape)
+            }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .graphicsLayer {
+                    scaleX = scale
+                    scaleY = scale
+                }
+                .shadow(shadowElevation, outerShape)
+                .background(containerColor, outerShape)
+                .border(
+                    border = if (focused) BorderStroke(2.5.dp, outerBorderColor) else BorderStroke(0.dp, Transparent),
+                    shape = outerShape
+                )
+                .clip(outerShape)
                 .combinedClickable(
                     onClick = onClick,
-                    onLongClick = {
-                        expanded = true
-                    },
+                    onLongClick = { expanded = true },
                     indication = null,
                     interactionSource = null
                 )
@@ -195,145 +226,142 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                     awaitPointerEventScope {
                         while (true) {
                             val event = awaitPointerEvent()
-                            if (event.type == PointerEventType.Enter) {
-                                focused = true
-                            }
-                            if (event.type == PointerEventType.Exit) {
-                                focused = false
-                            }
-                            if (event.type == PointerEventType.Press &&
-                                event.buttons.isSecondaryPressed
-                            ) {
+                            if (event.type == PointerEventType.Enter) focused = true
+                            if (event.type == PointerEventType.Exit) focused = false
+                            if (event.type == PointerEventType.Press && event.buttons.isSecondaryPressed) {
                                 event.changes.forEach { e -> e.consume() }
                                 expanded = true
                             }
                         }
                     }
-                }
+                },
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
-                contentAlignment = Alignment.BottomEnd,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1F)
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
-            ) {
-                if (mapBitmap.value?.second != null) {
-                    Image(
-                        bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clip(shape)
-                    )
-                } else {
-                    Image(
-                        painter = painterResource(id = getTvIconRes(item)),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(if (item.itemType == MediaLibraryItem.TYPE_DUMMY && item.id == HEADER_ADD_STREAM) MaterialTheme.colorScheme.primary else WhiteTransparent70),
-                        modifier = Modifier
-                            .padding(24.dp)
-                            .fillMaxSize()
-                    )
-                    LaunchedEffect(key1 = item) {
-                        coroutineScope.launch {
-                            if (item !is DummyItem)
-                                mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 320))
+            val thumbShape = if (isRound) CircleShape else RoundedCornerShape(8.dp)
+                Box(
+                contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1F)
+                    .padding(if (isRound) 10.dp else 0.dp)
+                    .clip(thumbShape)
+                    .background(if (isRound) Transparent else MaterialTheme.colorScheme.surfaceVariant)
+                ) {
+                    if (mapBitmap.value?.second != null) {
+                        Image(
+                            bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource(id = getTvIconRes(item)),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(if (item.itemType == MediaLibraryItem.TYPE_DUMMY && item.id == HEADER_ADD_STREAM) MaterialTheme.colorScheme.primary else WhiteTransparent70),
+                            modifier = Modifier
+                                .padding(if (isRound) 12.dp else 24.dp)
+                                .fillMaxSize()
+                        )
+                        LaunchedEffect(key1 = item) {
+                            coroutineScope.launch {
+                                if (item !is DummyItem)
+                                    mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 320))
+                            }
+                        }
+                    }
+                    if (item is MediaWrapper && browserRoot)
+                        (if (item.type != MediaWrapper.TYPE_DIR && item.uri.scheme?.contains("file") == false) null else item.uri.scheme)?.let {
+                            Text(
+                                it, modifier = Modifier
+                                    .padding(8.dp)
+                                    .background(BlackTransparent70)
+                                    .padding(4.dp)
+                            )
+                        }
+                    if (item is MediaWrapper && item.type == MediaWrapper.TYPE_VIDEO && item.seen > 0) {
+                        Box(
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .align(Alignment.TopEnd)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_check),
+                                contentDescription = stringResource(R.string.media_seen),
+                                modifier = Modifier
+                                    .background(BlackTransparent50, RoundedCornerShape(4.dp))
+                                    .padding(4.dp),
+                            )
+                        }
+                    }
+                    val isFavorite = item.isFavorite || (item as? MediaWrapper)?.hasFlag(FAVORITE_FLAG) == true
+                    if (isFavorite) {
+                        Icon(
+                            painterResource(R.drawable.ic_favorite),
+                            contentDescription = stringResource(R.string.favorite),
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .background(BlackTransparent50, CircleShape)
+                                .padding(4.dp)
+                                .size(16.dp),
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    if (topStartContent != null) {
+                        Box(modifier = Modifier.align(Alignment.TopStart)) {
+                            topStartContent()
                         }
                     }
                 }
-                if (item is MediaWrapper && browserRoot)
-                    (if (item.type != MediaWrapper.TYPE_DIR && item.uri.scheme?.contains("file") == false) null else item.uri.scheme)?.let {
-                        Text(
-                            it, modifier = Modifier
-                                .padding(8.dp)
-                                .background(BlackTransparent70)
-                                .padding(4.dp)
-                        )
-                    }
-                if (item is MediaWrapper && item.type == MediaWrapper.TYPE_VIDEO && item.seen > 0) {
-                    Box(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .align(Alignment.TopEnd)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_check),
-                            contentDescription = stringResource(R.string.media_seen),
-                            modifier = Modifier
-                                .background(BlackTransparent50, RoundedCornerShape(4.dp))
-                                .padding(4.dp),
-                        )
-                    }
-                }
-                val isFavorite = item.isFavorite || (item as? MediaWrapper)?.hasFlag(FAVORITE_FLAG) == true
-                if (isFavorite) {
-                    Icon(
-                        painterResource(R.drawable.ic_favorite),
-                        contentDescription = stringResource(R.string.favorite),
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .background(BlackTransparent50, CircleShape)
-                            .padding(4.dp)
-                            .size(16.dp),
-                        tint = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                if (topStartContent != null) {
-                    Box(modifier = Modifier.align(Alignment.TopStart)) {
-                        topStartContent()
-                    }
-                }
-            }
-            if (expanded)
-                ItemOptions(item, position, entry, onDismiss =  {
-                    expanded = false
-                })
-        }
-        Column(
-            modifier = Modifier.fillMaxWidth().padding(top = if (isRound) 0.dp else 4.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                item.title ?: "",
-                maxLines = 1,
-                overflow = if (focused) TextOverflow.Visible else TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.labelLarge,
-                fontWeight = if (focused) FontWeight.Bold else FontWeight.Normal,
-                color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(top = 4.dp)
-                    .fillMaxWidth()
-                    .fadingMarquee(edgeWidth = 4.dp, marqueeOnlyOnFocus = true, isFocused = focused)
-            )
-            val context = LocalContext.current
-            val finalDescription = if (isRound) {
-                when (item) {
-                    is Artist -> context.resources.getQuantityString(org.videolan.vlc.R.plurals.albums_quantity, item.albumsCount, item.albumsCount)
-                    is Genre -> context.resources.getQuantityString(org.videolan.vlc.R.plurals.track_quantity, item.tracksCount, item.tracksCount)
-                    else -> description ?: item.description
-                }
-            } else description ?: item.description
-            val annotatedDescription = if (spannableDescription) finalDescription.getDescriptionAnnotated() else AnnotatedString(finalDescription ?: "")
-            if (annotatedDescription.isNotEmpty()) {
-                Text(
-                    text = annotatedDescription,
-                    maxLines = 1,
-                    style = MaterialTheme.typography.bodySmall,
-                    overflow = TextOverflow.Ellipsis,
-                    textAlign = TextAlign.Center,
+                Column(
                     modifier = Modifier
-                        .padding(horizontal = 4.dp)
-                        .fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                    inlineContent = if (spannableDescription) inlineContentMap else emptyMap()
-                )
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp, vertical = 6.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        item.title ?: "",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.Medium,
+                        color = if (focused) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fadingMarquee(edgeWidth = 4.dp, marqueeOnlyOnFocus = true, isFocused = focused)
+                    )
+                    val context = LocalContext.current
+                    val finalDescription = if (isRound) {
+                        when (item) {
+                            is Artist -> context.resources.getQuantityString(org.videolan.vlc.R.plurals.albums_quantity, item.albumsCount, item.albumsCount)
+                            is Genre -> context.resources.getQuantityString(org.videolan.vlc.R.plurals.track_quantity, item.tracksCount, item.tracksCount)
+                            else -> description ?: item.description
+                        }
+                    } else description ?: item.description
+                    val annotatedDescription = if (spannableDescription) finalDescription.getDescriptionAnnotated() else AnnotatedString(finalDescription ?: "")
+                    if (annotatedDescription.isNotEmpty()) {
+                        Text(
+                            text = annotatedDescription,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fadingMarquee(edgeWidth = 4.dp, marqueeOnlyOnFocus = true, isFocused = focused)
+                        )
+                    }
+                }
+                if (expanded)
+                    ItemOptions(item, position, entry, onDismiss = {
+                        expanded = false
+                    })
             }
         }
     }
-}
 
 @Composable
 fun AudioItemList(
@@ -568,12 +596,43 @@ fun AudioItemList(
 @Composable
 private fun AudioItemCardPreview() {
     VlcPreview {
-        AudioItemCard(
-            item = DummyItem(1, "Song Title", "Artist Name - Album Name"),
-            position = 0,
-            entry = MediaListEntry.ALBUMS,
-            onClick = {}
-        )
+        Box(modifier = Modifier.padding(32.dp).size(200.dp)) {
+            AudioItemCard(
+                item = DummyItem(1, "Song Title", "Artist Name - Album Name"),
+                position = 0,
+                entry = MediaListEntry.ALBUMS,
+                onClick = {}
+            )
+        }
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun AudioItemCardGridPreview() {
+    val sampleItems = listOf(
+        DummyItem(1, "A Place of Peace and Beauty", "Ethereal Ephemera"),
+        DummyItem(2, "A really long album name to test the UI of VLC and see if it causes issues", "A long artist name to trigger marquee"),
+        DummyItem(3, "Archangel", "Mortified Rage"),
+        DummyItem(4, "Best Of 2017 - Sommerhits", "Various Artists")
+    )
+    VlcPreview {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(28.dp),
+            modifier = Modifier.padding(32.dp)
+        ) {
+            sampleItems.forEachIndexed { index, item ->
+                Box(modifier = Modifier.weight(1f)) {
+                    AudioItemCard(
+                        item = item,
+                        position = index,
+                        entry = MediaListEntry.ALBUMS,
+                        initialFocused = (index == 1),
+                        onClick = {}
+                    )
+                }
+            }
+        }
     }
 }
 
