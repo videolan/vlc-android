@@ -57,6 +57,8 @@ import org.videolan.vlc.util.slugify
 import org.videolan.vlc.util.toByteArray
 import java.io.File
 
+private const val TAG = "RARoutingResources"
+
 fun Route.resourceRouting(appContext: Context, settings: SharedPreferences) {
     // Download a media file
     get("/prepare-download") {
@@ -364,7 +366,7 @@ fun Route.resourceRouting(appContext: Context, settings: SharedPreferences) {
                 }
             }
         } catch (e: Exception) {
-            Log.e("networkShareReplace", e.message, e)
+            Log.e(TAG, e.message, e)
         }
         call.respond(HttpStatusCode.NotFound, "")
     }

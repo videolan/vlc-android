@@ -90,11 +90,12 @@ internal suspend fun getLogsFiles(context: Context): List<LogFile> = withContext
             result.add(LogFile(it.path, if (it.name.startsWith("vlc_logcat_remote_access")) "web" else "device", Date(it.lastModified())))
     }
 
-    val crashFolder = File(context.getExternalFilesDir(null)!!.absolutePath)
-    val crashFiles = crashFolder.listFiles()
-    crashFiles?.forEach {
-        if (it.isFile && it.name.startsWith("vlc_crash"))
-            result.add(LogFile(it.path, "crash", Date(it.lastModified())))
+    context.getExternalFilesDir(null)?.let { crashFolder ->
+        val crashFiles = crashFolder.listFiles()
+        crashFiles?.forEach {
+            if (it.isFile && it.name.startsWith("vlc_crash"))
+                result.add(LogFile(it.path, "crash", Date(it.lastModified())))
+        }
     }
 
     return@withContext result
