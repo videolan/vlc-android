@@ -26,6 +26,8 @@ package org.videolan.television.ui.compose.composable.screens
 
 import android.content.ClipboardManager
 import android.content.Context
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.gestures.LocalBringIntoViewSpec
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -51,6 +53,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.television.ui.compose.composable.items.AudioItem
 import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.television.ui.compose.utils.TvGridBringIntoViewSpec
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.tools.isValidUrl
 import org.videolan.vlc.media.MediaUtils
@@ -96,6 +99,7 @@ fun StreamScreen(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun StreamScreen(
     dataset: List<MediaLibraryItem>,
@@ -154,24 +158,26 @@ fun StreamScreen(
         Spacer(modifier = Modifier.height(32.dp))
 
         // Recent Streams Grid
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 150.dp),
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(
-                bottom = VlcTVTheme.dimens.overscanVertical,
-                top = VlcTVTheme.dimens.itemFocusGlowRadius,
-                start = VlcTVTheme.dimens.overscanHorizontal,
-                end = VlcTVTheme.dimens.overscanHorizontal
-            ),
-            horizontalArrangement = Arrangement.spacedBy(24.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
-        ) {
-            itemsIndexed(dataset) { index, item ->
-                AudioItem(
-                    audios = dataset,
-                    entry = MediaListEntry.STREAMS,
-                    index = index
-                ) { onItemClick(item) }
+        CompositionLocalProvider(LocalBringIntoViewSpec provides TvGridBringIntoViewSpec) {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 150.dp),
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(
+                    bottom = VlcTVTheme.dimens.overscanVertical,
+                    top = 36.dp,
+                    start = VlcTVTheme.dimens.overscanHorizontal,
+                    end = VlcTVTheme.dimens.overscanHorizontal
+                ),
+                horizontalArrangement = Arrangement.spacedBy(24.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                itemsIndexed(dataset) { index, item ->
+                    AudioItem(
+                        audios = dataset,
+                        entry = MediaListEntry.STREAMS,
+                        index = index
+                    ) { onItemClick(item) }
+                }
             }
         }
     }

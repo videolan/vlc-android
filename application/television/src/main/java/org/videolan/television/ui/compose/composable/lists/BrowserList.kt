@@ -27,6 +27,8 @@ package org.videolan.television.ui.compose.composable.lists
 import android.app.Application
 import android.util.Log
 import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.gestures.LocalBringIntoViewSpec
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -37,9 +39,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,6 +53,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import org.videolan.television.ui.compose.composable.components.BoundedFocusRequesterMap
+import org.videolan.television.ui.compose.utils.TvGridBringIntoViewSpec
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
@@ -335,6 +340,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun BrowserListContent(
     modifier: Modifier = Modifier,
@@ -433,44 +439,46 @@ internal fun BrowserListContent(
         ) {
             val gridFocusRequester = remember { FocusRequester() }
             if (currentInCard) {
-                LazyVerticalGrid(
-                    GridCells.Fixed(6),
-                    Modifier
-                        .fillMaxSize()
-                        .graphicsLayer(clip = false)
-                        .focusRequester(gridFocusRequester),
-                    gridState,
-                    PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
-                    verticalArrangement = Arrangement.spacedBy(40.dp),
-                    horizontalArrangement = Arrangement.spacedBy(VlcTVTheme.dimens.itemFocusGlowRadius)
-                ) {
-                    items(count = items.size, key = { index -> (items[index] as? MediaWrapper)?.uri?.toString() ?: items[index].id.toString() }) { index ->
-                        items[index].let { item ->
-                            val itemKey = (item as? MediaWrapper)?.uri?.toString() ?: item.id.toString()
-                            // Access descriptionUpdates here to trigger recomposition without disposing the node
-                            val currentUpdate = if (descriptionUpdates?.first == index) descriptionUpdates.second else null
-                            
-                            androidx.compose.runtime.key(itemKey) {
-                                onItemRendered(item)
-                                val requester = focusRequesters[itemKey] ?: FocusRequester.Default
-                                AudioItemCard(
-                                    item, index, entry, Modifier
-                                        .focusRequester(requester)
-                                        .onFocusChanged {
-                                            if (it.isFocused) {
-                                                lastFocusedItem = itemKey
-                                            } else if (lastFocusedItem == itemKey) {
-                                                Log.d("BrowserFocus", "Item focus LOST: $itemKey. hasFocus: ${it.hasFocus}, isFocused: ${it.isFocused}")
-                                            }
-                                        }, 
-                                    spannableDescription = true, 
-                                    // Use the update if available, otherwise fallback to item description
-                                    description = currentUpdate ?: item.description,
-                                    onClick = { onClick(item, index, lastFocusedItem) }
-                                )
-                            }
-                        }
+                CompositionLocalProvider(LocalBringIntoViewSpec provides TvGridBringIntoViewSpec) {
+                    LazyVerticalGrid(
+                        GridCells.Fixed(6),
+                        Modifier
+                            .fillMaxSize()
+                            .graphicsLayer(clip = false)
+                            .focusRequester(gridFocusRequester),
+                        gridState,
+                        PaddingValues(top = 36.dp, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
+                        verticalArrangement = Arrangement.spacedBy(40.dp),
+                        horizontalArrangement = Arrangement.spacedBy(VlcTVTheme.dimens.itemFocusGlowRadius)
+                    ) {
+                        items(count = items.size, key = { index -> (items[index] as? MediaWrapper)?.uri?.toString() ?: items[index].id.toString() }) { index ->
+                            items[index].let { item ->
+                                val itemKey = (item as? MediaWrapper)?.uri?.toString() ?: item.id.toString()
+                                // Access descriptionUpdates here to trigger recomposition without disposing the node
+                                val currentUpdate = if (descriptionUpdates?.first == index) descriptionUpdates.second else null
 
+                                key(itemKey) {
+                                    onItemRendered(item)
+                                    val requester = focusRequesters[itemKey] ?: FocusRequester.Default
+                                    AudioItemCard(
+                                        item, index, entry, Modifier
+                                            .focusRequester(requester)
+                                            .onFocusChanged {
+                                                if (it.isFocused) {
+                                                    lastFocusedItem = itemKey
+                                                } else if (lastFocusedItem == itemKey) {
+                                                    Log.d("BrowserFocus", "Item focus LOST: $itemKey. hasFocus: ${it.hasFocus}, isFocused: ${it.isFocused}")
+                                                }
+                                            }, 
+                                        spannableDescription = true, 
+                                        // Use the update if available, otherwise fallback to item description
+                                        description = currentUpdate ?: item.description,
+                                        onClick = { onClick(item, index, lastFocusedItem) }
+                                    )
+                                }
+                            }
+
+                        }
                     }
                 }
             } else {

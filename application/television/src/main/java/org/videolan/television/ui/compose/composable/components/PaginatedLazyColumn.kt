@@ -24,8 +24,10 @@
 
 package org.videolan.television.ui.compose.composable.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusGroup
+import androidx.compose.foundation.gestures.LocalBringIntoViewSpec
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -39,6 +41,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,6 +58,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.ui.compose.theme.Orange50
+import org.videolan.television.ui.compose.utils.TvGridBringIntoViewSpec
 
 /**
  * A bounded [LinkedHashMap] that automatically evicts the least recently accessed entries
@@ -90,6 +94,7 @@ private fun getItemKey(item: MediaLibraryItem, index: Int): String {
  * @param loaderAspectRatio Aspect ratio for the loader
  * @param content Composable to render each item
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PaginatedGrid(
     modifier: Modifier = Modifier,
@@ -121,55 +126,57 @@ fun PaginatedGrid(
         }
     }
 
-    LazyVerticalGrid(
-        columns = columns,
-        modifier = modifier
-            .focusGroup()
-            .focusProperties {
-                onEnter = {
-                    if (lastFocusedItemKey.isNotEmpty()) {
-                        focusRequesters[lastFocusedItemKey]?.requestFocus()
-                    }
-                }
-            },
-        verticalArrangement = verticalArrangement,
-        horizontalArrangement = horizontalArrangement,
-        contentPadding = contentPadding,
-        state = listState
-    ) {
-        items(count = items.itemCount) { index ->
-            // Accessing loadState and refreshVersion here triggers recomposition
-            val isRefreshing = items.loadState.refresh is LoadState.Loading
-            items[index]?.let { video ->
-                val itemKey = getItemKey(video, index)
-                val requester = focusRequesters.getOrPut(itemKey) { FocusRequester() }
-
-                if (!focusRestored && itemKey == lastFocusedItemKey && !isRefreshing) {
-                    LaunchedEffect(itemKey) {
-                        requester.requestFocus()
-                        focusRestored = true
-                    }
-                }
-
-                content(
-                    video, index, Modifier
-                        .onFocusChanged {
-                            if (it.isFocused) {
-                                lastFocusedItemKey = itemKey
-                                focusRestored = true
-                            }
+    CompositionLocalProvider(LocalBringIntoViewSpec provides TvGridBringIntoViewSpec) {
+        LazyVerticalGrid(
+            columns = columns,
+            modifier = modifier
+                .focusGroup()
+                .focusProperties {
+                    onEnter = {
+                        if (lastFocusedItemKey.isNotEmpty()) {
+                            focusRequesters[lastFocusedItemKey]?.requestFocus()
                         }
-                        .focusRequester(requester))
-            } ?: Box(modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp)
-                .background(Orange50))
+                    }
+                },
+            verticalArrangement = verticalArrangement,
+            horizontalArrangement = horizontalArrangement,
+            contentPadding = contentPadding,
+            state = listState
+        ) {
+            items(count = items.itemCount) { index ->
+                // Accessing loadState and refreshVersion here triggers recomposition
+                val isRefreshing = items.loadState.refresh is LoadState.Loading
+                items[index]?.let { video ->
+                    val itemKey = getItemKey(video, index)
+                    val requester = focusRequesters.getOrPut(itemKey) { FocusRequester() }
 
-        }
+                    if (!focusRestored && itemKey == lastFocusedItemKey && !isRefreshing) {
+                        LaunchedEffect(itemKey) {
+                            requester.requestFocus()
+                            focusRestored = true
+                        }
+                    }
 
-        if (items.loadState.append == LoadState.Loading) {
-            item {
-                appendPlaceholder()
+                    content(
+                        video, index, Modifier
+                            .onFocusChanged {
+                                if (it.isFocused) {
+                                    lastFocusedItemKey = itemKey
+                                    focusRestored = true
+                                }
+                            }
+                            .focusRequester(requester))
+                } ?: Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .background(Orange50))
+
+            }
+
+            if (items.loadState.append == LoadState.Loading) {
+                item {
+                    appendPlaceholder()
+                }
             }
         }
     }

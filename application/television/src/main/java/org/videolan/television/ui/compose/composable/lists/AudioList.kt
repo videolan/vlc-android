@@ -377,7 +377,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                             columns = GridCells.Fixed(4),
                             verticalArrangement = Arrangement.spacedBy(40.dp),
                             horizontalArrangement = Arrangement.spacedBy(VlcTVTheme.dimens.itemFocusGlowRadius),
-                            contentPadding = PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
+                            contentPadding = PaddingValues(top = 36.dp, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
                             modifier = Modifier
                                 .fillMaxSize()
                                 .graphicsLayer(clip = false)
