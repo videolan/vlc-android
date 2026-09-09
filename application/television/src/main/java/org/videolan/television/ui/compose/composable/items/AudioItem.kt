@@ -27,6 +27,7 @@ package org.videolan.television.ui.compose.composable.items
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -180,26 +181,39 @@ fun AudioItemCard(
     if (item != mapBitmap.value?.first) mapBitmap.value = null
     var expanded by remember { mutableStateOf(false) }
 
+    val animDuration = 180
+    val animEasing = FastOutSlowInEasing
+
     // Pure GPU transform animations - NO layout measurement shifts so grid scroll never jumps!
     val scale by animateFloatAsState(
         targetValue = if (focused) 1.12f else 1.0f,
-        animationSpec = tween(durationMillis = 180),
+        animationSpec = tween(durationMillis = animDuration, easing = animEasing),
         label = "cardScale"
     )
     val shadowElevation by animateDpAsState(
         targetValue = if (focused) 14.dp else 0.dp,
-        animationSpec = tween(durationMillis = 180),
+        animationSpec = tween(durationMillis = animDuration, easing = animEasing),
         label = "shadowElevation"
+    )
+    val shadowAlpha by animateFloatAsState(
+        targetValue = if (focused) 1f else 0f,
+        animationSpec = tween(durationMillis = animDuration, easing = animEasing),
+        label = "shadowAlpha"
     )
     val activeContainerColor by animateColorAsState(
         targetValue = if (focused) (containerColor ?: MaterialTheme.colorScheme.surfaceVariant) else Transparent,
-        animationSpec = tween(durationMillis = 180),
+        animationSpec = tween(durationMillis = animDuration, easing = animEasing),
         label = "containerColor"
     )
     val outerBorderColor by animateColorAsState(
         targetValue = if (focused) MaterialTheme.colorScheme.onSurface else Transparent,
-        animationSpec = tween(durationMillis = 180),
+        animationSpec = tween(durationMillis = animDuration, easing = animEasing),
         label = "outerBorderColor"
+    )
+    val titleTextColor by animateColorAsState(
+        targetValue = if (focused) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
+        animationSpec = tween(durationMillis = animDuration, easing = animEasing),
+        label = "titleTextColor"
     )
 
     val isRound = item is Artist || item is Genre
@@ -209,14 +223,25 @@ fun AudioItemCard(
     // so DPAD LEFT/RIGHT navigation across a row NEVER triggers unpredictable vertical scroll!
     Box(
         modifier = modifier
-            .zIndex(if (focused) 100f else 0f)
+            .zIndex(if (focused || scale > 1.001f) 100f else 0f)
             .onFocusChanged {
                 focused = it.isFocused
-                if (it.isFocused) {
-                    Log.d("VLC_GridScroll", "🎯 ITEM FOCUSED -> Pos: $position, Title: '${item.title}'")
-                }
             }
     ) {
+        if (shadowAlpha > 0f) {
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .graphicsLayer {
+                        scaleX = scale
+                        scaleY = scale
+                        alpha = shadowAlpha
+                    }
+                    .shadow(shadowElevation, outerShape)
+                    .background(containerColor ?: MaterialTheme.colorScheme.surfaceVariant, outerShape)
+            )
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -224,10 +249,9 @@ fun AudioItemCard(
                     scaleX = scale
                     scaleY = scale
                 }
-                .shadow(shadowElevation, outerShape)
                 .background(activeContainerColor, outerShape)
                 .border(
-                    border = if (focused) BorderStroke(2.5.dp, outerBorderColor) else BorderStroke(0.dp, Transparent),
+                    border = if (outerBorderColor.alpha > 0.01f) BorderStroke(2.5.dp, outerBorderColor) else BorderStroke(0.dp, Transparent),
                     shape = outerShape
                 )
                 .clip(outerShape)
@@ -340,7 +364,7 @@ fun AudioItemCard(
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Medium,
-                        color = if (focused) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = titleTextColor,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .fillMaxWidth()
