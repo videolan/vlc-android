@@ -102,13 +102,14 @@ fun Route.publicFileRouting(appContext: Context, settings: SharedPreferences) {
                     fileDescription = part.value
                 }
                 is PartData.FileItem -> {
-                    File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/uploads").mkdirs()
+                    val uploadDir = File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/uploads")
+                    uploadDir.mkdirs()
                     fileName = part.originalFileName as String
                     val fileBytes = part.streamProvider().readBytes()
-                    val file = File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/uploads/$fileName")
-                    if (file.canonicalFile.parent?.startsWith(File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/uploads").absolutePath) != true) {
-                        call.respond(HttpStatusCode.Unauthorized)
-                        throw (IllegalStateException("${file.canonicalFile.parent} is not a valid path"))
+                    val file = File(uploadDir, fileName)
+                    if (!file.isSafelyWithin(uploadDir)) {
+                        call.respond(HttpStatusCode.Forbidden, "Invalid file path")
+                        return@forEachPart
                     }
                     file.writeBytes(fileBytes)
                 }
@@ -134,9 +135,9 @@ fun Route.publicFileRouting(appContext: Context, settings: SharedPreferences) {
                     uploadDir.mkdirs()
                     val fileName = part.originalFileName?.let { File(it).name } ?: "subtitle.srt"
                     val file = File(uploadDir, fileName)
-                    if (!file.canonicalFile.canonicalPath.startsWith(uploadDir.canonicalPath + File.separator)) {
-                        call.respond(HttpStatusCode.Unauthorized)
-                        throw (IllegalStateException("${file.canonicalFile.parent} is not a valid path"))
+                    if (!file.isSafelyWithin(uploadDir)) {
+                        call.respond(HttpStatusCode.Forbidden, "Invalid file path")
+                        return@forEachPart
                     }
                     part.streamProvider().use { input ->
                         file.outputStream().use { output ->
@@ -470,12 +471,12 @@ fun Route.authenticatedFileRouting(appContext: Context, scope: CoroutineScope, s
             return@get
         }
 
-        val baseDir = File(RemoteAccessServer.getInstance(appContext).downloadFolder).canonicalFile
-        val dstFile = File(baseDir, requested).canonicalFile
+        val baseDir = File(RemoteAccessServer.getInstance(appContext).downloadFolder)
+        val dstFile = File(baseDir, requested)
 
         // Enforce that the resolved path stays within the intended download directory
-        if (!dstFile.path.startsWith(baseDir.path + File.separator)) {
-            call.respond(HttpStatusCode.BadRequest, "Invalid file path")
+        if (!dstFile.isSafelyWithin(baseDir)) {
+            call.respond(HttpStatusCode.Forbidden, "Invalid file path")
             return@get
         }
 

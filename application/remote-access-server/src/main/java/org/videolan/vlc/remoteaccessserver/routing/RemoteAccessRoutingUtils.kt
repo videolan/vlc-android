@@ -255,3 +255,12 @@ class FormattedDateJsonAdapter : JsonAdapter<Date>() {
 internal suspend fun ApplicationCall.respondJson(text: String, status: HttpStatusCode? = null, configure: OutgoingContent.() -> Unit = {}) {
     respond(TextContent(text, ContentType.Application.Json, status).apply(configure))
 }
+
+/**
+ * Safely checks if a file resides within the target directory, preventing path traversal attacks.
+ */
+internal fun File.isSafelyWithin(parentDir: File): Boolean {
+    val canonicalParent = parentDir.canonicalFile.path
+    val canonicalChild = this.canonicalFile.path
+    return canonicalChild == canonicalParent || canonicalChild.startsWith(canonicalParent + File.separator)
+}
