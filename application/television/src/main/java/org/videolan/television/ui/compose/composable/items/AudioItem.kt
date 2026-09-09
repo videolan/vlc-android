@@ -132,6 +132,7 @@ fun AudioItem(
     isLast: Boolean = false,
     spannableDescription: Boolean = false,
     browserRoot: Boolean = false,
+    containerColor: Color? = null,
     onClick: () -> Unit
 ) {
     if (inCard)
@@ -142,6 +143,7 @@ fun AudioItem(
             modifier = modifier,
             spannableDescription = spannableDescription,
             browserRoot = browserRoot,
+            containerColor = containerColor,
             onClick = onClick
         )
     else
@@ -153,12 +155,25 @@ fun AudioItem(
             isFirst = isFirst,
             isLast = isLast,
             spannableDescription = spannableDescription,
+            containerColor = containerColor,
             onClick = onClick
         )
 }
 
 @Composable
-fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, modifier: Modifier = Modifier, initialFocused: Boolean = false, spannableDescription: Boolean = false, browserRoot: Boolean = false, description: String? = null, topStartContent: @Composable (BoxScope.() -> Unit)? = null, onClick: () -> Unit) {
+fun AudioItemCard(
+    item: MediaLibraryItem,
+    position: Int,
+    entry: MediaListEntry,
+    modifier: Modifier = Modifier,
+    initialFocused: Boolean = false,
+    spannableDescription: Boolean = false,
+    browserRoot: Boolean = false,
+    description: String? = null,
+    containerColor: Color? = null,
+    topStartContent: @Composable (BoxScope.() -> Unit)? = null,
+    onClick: () -> Unit
+) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(initialFocused) }
@@ -176,8 +191,8 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
         animationSpec = tween(durationMillis = 180),
         label = "shadowElevation"
     )
-    val containerColor by animateColorAsState(
-        targetValue = if (focused) MaterialTheme.colorScheme.surfaceVariant else Transparent,
+    val activeContainerColor by animateColorAsState(
+        targetValue = if (focused) (containerColor ?: MaterialTheme.colorScheme.surfaceVariant) else Transparent,
         animationSpec = tween(durationMillis = 180),
         label = "containerColor"
     )
@@ -210,7 +225,7 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                     scaleY = scale
                 }
                 .shadow(shadowElevation, outerShape)
-                .background(containerColor, outerShape)
+                .background(activeContainerColor, outerShape)
                 .border(
                     border = if (focused) BorderStroke(2.5.dp, outerBorderColor) else BorderStroke(0.dp, Transparent),
                     shape = outerShape
@@ -245,7 +260,7 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                         .aspectRatio(1F)
                     .padding(if (isRound) 10.dp else 0.dp)
                     .clip(thumbShape)
-                    .background(if (isRound) Transparent else MaterialTheme.colorScheme.surfaceVariant)
+                    .background(if (isRound) Transparent else (containerColor ?: MaterialTheme.colorScheme.surfaceVariant))
                 ) {
                     if (mapBitmap.value?.second != null) {
                         Image(
