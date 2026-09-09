@@ -335,7 +335,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                             columns = GridCells.Fixed(3),
                             verticalArrangement = Arrangement.spacedBy(40.dp),
                             horizontalArrangement = Arrangement.spacedBy(VlcTVTheme.dimens.itemFocusGlowRadius),
-                            contentPadding = PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
+                            contentPadding = PaddingValues(top = 36.dp, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
                             loaderAspectRatio = 16f / 9,
                             modifier = Modifier
                                 .fillMaxSize()
