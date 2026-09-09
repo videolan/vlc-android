@@ -56,8 +56,8 @@ fun Route.searchRouting(appContext: Context, settings: SharedPreferences) {
         call.request.queryParameters["search"]?.let { query ->
             val searchAggregate = appContext.getFromMl { search(query, Settings.includeMissing, false) }
 
-            searchAggregate?.let { result ->
-                val results = RemoteAccessServer.SearchResults(
+            val results = searchAggregate?.let { result ->
+                RemoteAccessServer.SearchResults(
                     result.albums?.filterNotNull()?.map { it.toPlayQueueItem() }
                         ?: listOf(),
                     result.artists?.filterNotNull()?.map { it.toPlayQueueItem(appContext) }
@@ -71,8 +71,8 @@ fun Route.searchRouting(appContext: Context, settings: SharedPreferences) {
                     result.tracks?.filterNotNull()?.map { it.toPlayQueueItem() }
                         ?: listOf(),
                 )
-                call.respondJson(convertToJson(results))
-            }
+            } ?: RemoteAccessServer.SearchResults(listOf(), listOf(), listOf(), listOf(), listOf(), listOf())
+            call.respondJson(convertToJson(results))
             return@get
         }
         call.respondJson(convertToJson(RemoteAccessServer.SearchResults(listOf(), listOf(), listOf(), listOf(), listOf(), listOf())))

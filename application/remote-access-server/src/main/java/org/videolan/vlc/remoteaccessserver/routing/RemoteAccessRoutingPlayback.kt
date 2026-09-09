@@ -236,6 +236,7 @@ fun Route.playbackRouting(appContext: Context, scope: CoroutineScope, settings: 
                 }
                 if (medias[0].type == MediaWrapper.TYPE_VIDEO && !appContext.awaitAppIsForegroung()) {
                     call.respond(HttpStatusCode.Forbidden, appContext.getString(R.string.ra_not_in_foreground))
+                    return@get
                 }
                 MediaUtils.openList(appContext, medias.toList(), 0)
                 call.respond(HttpStatusCode.OK)
