@@ -457,6 +457,7 @@ fun AudioCategoryScreenContent(
                                             item = album,
                                             position = i,
                                             entry = MediaListEntry.ALBUMS,
+                                            containerColor = darkMutedColor,
                                             modifier = if (i == 0) Modifier.focusRequester(listFocusRequester) else Modifier,
                                             topStartContent = {
                                                 val year = album.getYear()
