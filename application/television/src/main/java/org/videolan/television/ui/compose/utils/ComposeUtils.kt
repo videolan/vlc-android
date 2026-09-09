@@ -30,8 +30,10 @@ import android.net.Uri
 import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.gestures.BringIntoViewSpec
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.InlineTextContent
@@ -78,6 +80,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.util.fileReplacementMarker
 import org.videolan.vlc.util.folderReplacementMarker
+import kotlin.math.abs
 
 
 fun CharSequence?.getDescriptionAnnotated(): AnnotatedString  {
@@ -220,6 +223,39 @@ fun Modifier.vlcShadow(focused: Boolean, shape: Shape) = this.dropShadow(
         offset = DpOffset(x = 0.dp, 0.dp)
     )
 )
+
+/**
+ * Custom [BringIntoViewSpec] for TV horizontal content lines (e.g. History, Streams, Storages).
+ * Prevents vertical scroll bounce on parent scroll containers during horizontal DPAD navigation.
+ */
+@OptIn(ExperimentalFoundationApi::class)
+val TvContentLineBringIntoViewSpec = object : BringIntoViewSpec {
+    override fun calculateScrollDistance(offset: Float, size: Float, containerSize: Float): Float {
+        val safeTop = 40f
+        val safeBottom = containerSize - 80f
+        val itemBottom = offset + size
+
+        if (offset >= safeTop && itemBottom <= safeBottom) {
+            return 0f
+        }
+        return if (offset < safeTop) offset - safeTop else itemBottom - safeBottom
+    }
+}
+
+/**
+ * Custom [BringIntoViewSpec] for TV grids (e.g. PaginatedGrid).
+ * Positions focused row center near ~42% from top of grid viewport for optimal TV centering.
+ */
+@OptIn(ExperimentalFoundationApi::class)
+val TvGridBringIntoViewSpec = object : BringIntoViewSpec {
+    override fun calculateScrollDistance(offset: Float, size: Float, containerSize: Float): Float {
+        val targetPivotY = containerSize * 0.42f
+        val itemCenterY = offset + (size / 2f)
+        val delta = itemCenterY - targetPivotY
+
+        return if (abs(delta) <= 80f) 0f else delta
+    }
+}
 
 @Composable
 fun rememberAudioCoverBitmap(coverUrl: String?, size: Int): Bitmap? {
