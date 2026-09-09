@@ -26,15 +26,22 @@ package org.videolan.television.ui.compose.composable.items
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -56,10 +63,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.isSecondaryPressed
 import androidx.compose.ui.input.pointer.pointerInput
@@ -67,6 +77,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -81,14 +92,13 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
 import org.videolan.television.ui.compose.composable.components.ItemOptions
 import org.videolan.television.ui.compose.theme.BlackTransparent50
+import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.theme.WhiteTransparent70
 import org.videolan.television.ui.compose.utils.VlcPreview
-import org.videolan.television.ui.compose.utils.conditional
-import org.videolan.television.ui.compose.utils.vlcBorder
-import org.videolan.television.ui.compose.utils.vlcShadow
+import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.television.util.FAVORITE_FLAG
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.ThumbnailsProvider
@@ -96,27 +106,60 @@ import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.getPresenceDescription
 
 @Composable
-fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, modifier: Modifier = Modifier, initialFocused: Boolean = false, onClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
-    var focused by remember { mutableStateOf(false) }
+    var focused by remember { mutableStateOf(initialFocused) }
     val context = LocalContext.current
     if (video != mapBitmap.value?.first) mapBitmap.value = null
     var expanded by remember { mutableStateOf(false) }
 
-    Column(modifier = modifier
-        .zIndex(if (focused) 1f else 0f)) {
-        Card(
-            border = vlcBorder(focused),
+    val scale by animateFloatAsState(
+        targetValue = if (focused) 1.12f else 1.0f,
+        animationSpec = tween(durationMillis = 180),
+        label = "videoScale"
+    )
+    val shadowElevation by animateDpAsState(
+        targetValue = if (focused) 14.dp else 0.dp,
+        animationSpec = tween(durationMillis = 180),
+        label = "shadowElevation"
+    )
+    val containerColor by animateColorAsState(
+        targetValue = if (focused) MaterialTheme.colorScheme.surfaceVariant else Transparent,
+        animationSpec = tween(durationMillis = 180),
+        label = "containerColor"
+    )
+    val outerBorderColor by animateColorAsState(
+        targetValue = if (focused) MaterialTheme.colorScheme.onSurface else Transparent,
+        animationSpec = tween(durationMillis = 180),
+        label = "outerBorderColor"
+    )
+
+    val outerShape = RoundedCornerShape(12.dp)
+
+    Box(
+        modifier = modifier
+            .zIndex(if (focused) 100f else 0f)
+            .onFocusChanged {
+                focused = it.isFocused
+            }
+    ) {
+        Column(
             modifier = Modifier
-                .onFocusChanged {
-                    focused = it.isFocused
+                .fillMaxWidth()
+                .graphicsLayer {
+                    scaleX = scale
+                    scaleY = scale
                 }
-                .vlcShadow(focused, MaterialTheme.shapes.medium)
+                .shadow(shadowElevation, outerShape)
+                .background(containerColor, outerShape)
+                .border(
+                    border = if (focused) BorderStroke(2.5.dp, outerBorderColor) else BorderStroke(0.dp, Transparent),
+                    shape = outerShape
+                )
+                .clip(outerShape)
                 .combinedClickable(
-                    onClick = {
-                        onClick()
-                    },
+                    onClick = onClick,
                     onLongClick = {
                         expanded = true
                     },
@@ -141,21 +184,23 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                             }
                         }
                     }
-                }
+                },
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            val thumbShape = RoundedCornerShape(8.dp)
             Box(
                 modifier = Modifier
-                    .wrapContentHeight()
-                    .padding(0.dp)
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9)
+                    .clip(thumbShape)
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
             ) {
                 if (mapBitmap.value?.second != null) {
                     Image(
                         bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(16f / 9)
+                        modifier = Modifier.fillMaxSize()
                     )
                 } else {
                     Image(
@@ -163,8 +208,8 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(WhiteTransparent70),
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(16f / 9)
+                            .padding(24.dp)
+                            .fillMaxSize()
                     )
                     LaunchedEffect(key1 = video) {
                         coroutineScope.launch {
@@ -203,58 +248,72 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                         )
                     }
                 }
+                val lastTime = (video as? MediaWrapper)?.displayTime ?: -1
+                if (lastTime > 0) {
+                    val max = ((video as MediaWrapper).length / 1000).toInt()
+                    val progress = (lastTime / 1000).toInt()
+                    LinearProgressIndicator(
+                        trackColor = WhiteTransparent50,
+                        gapSize = 0.dp,
+                        strokeCap = StrokeCap.Butt,
+                        progress = { progress.toFloat() / max },
+                        drawStopIndicator = {},
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.BottomCenter),
+                    )
+                }
             }
-            val lastTime = (video as? MediaWrapper)?.displayTime ?: -1
-            if (lastTime > 0) {
-                val max = ((video as MediaWrapper).length / 1000).toInt()
-                val progress = (lastTime / 1000).toInt()
-                LinearProgressIndicator(
-                    trackColor = WhiteTransparent50,
-                    gapSize = 0.dp,
-                    strokeCap = StrokeCap.Butt,
-                    progress = { progress.toFloat() / max },
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-        }
-        if (expanded)
-            ItemOptions(video, position, entry, onDismiss = {
-                expanded = false
-            })
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Column(
-                modifier = Modifier.weight(1f).padding(top = 8.dp)
+
+            if (expanded)
+                ItemOptions(video, position, entry, onDismiss = {
+                    expanded = false
+                })
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 6.dp)
             ) {
-                Text(
-                    video.title ?: "",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier
-                        .padding(start = 4.dp, end = 4.dp, top = 4.dp)
-                        .fillMaxWidth()
-                        .conditional(focused, { Modifier.basicMarquee(initialDelayMillis = 0) }, { Modifier })
-                )
-                Text(
-                    video.getVideoDescription(context, false) ?: "",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                    modifier = Modifier
-                        .padding(start = 4.dp, end = 4.dp)
-                        .fillMaxWidth()
-                )
-            }
-            if (video.isFavorite || (video as? MediaWrapper)?.hasFlag(FAVORITE_FLAG) == true) {
-                Icon(
-                    painterResource(R.drawable.ic_favorite),
-                    contentDescription = stringResource(R.string.favorite),
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(16.dp)
-                )
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        video.title ?: "",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.Medium,
+                        color = if (focused) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fadingMarquee(edgeWidth = 4.dp, marqueeOnlyOnFocus = true, isFocused = focused)
+                    )
+                    val descriptionText = video.getVideoDescription(context, false) ?: ""
+                    if (descriptionText.isNotEmpty()) {
+                        Text(
+                            descriptionText,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 2.dp)
+                        )
+                    }
+                }
+                if (video.isFavorite || (video as? MediaWrapper)?.hasFlag(FAVORITE_FLAG) == true) {
+                    Icon(
+                        painterResource(R.drawable.ic_favorite),
+                        contentDescription = stringResource(R.string.favorite),
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .size(16.dp),
+                        tint = if (focused) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
     }
@@ -449,12 +508,44 @@ fun VideoItemList(video: MediaLibraryItem, position: Int, entry: MediaListEntry,
 @Composable
 private fun VideoItemPreview() {
     VlcPreview {
-        VideoItem(
-            video = DummyItem(1, "Video Title", "1:20:30"),
-            entry = MediaListEntry.VIDEO,
-            position = 0,
-            onClick = {},
-        )
+        Box(modifier = Modifier
+            .padding(32.dp)
+            .size(200.dp)) {
+            VideoItem(
+                video = DummyItem(1, "Video Title", "1:20:30"),
+                entry = MediaListEntry.VIDEO,
+                position = 0,
+                onClick = {},
+            )
+        }
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun VideoItemGridPreview() {
+    val sampleVideos = listOf(
+        DummyItem(1, "A Place of Peace and Beauty Movie", "1:42:00"),
+        DummyItem(2, "A really long video title to test the UI of VLC and see if it causes issues", "2:15:30"),
+        DummyItem(3, "Archangel Live Concert", "0:58:12"),
+    )
+    VlcPreview {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(28.dp),
+            modifier = Modifier.padding(32.dp)
+        ) {
+            sampleVideos.forEachIndexed { index, item ->
+                Box(modifier = Modifier.weight(1f)) {
+                    VideoItem(
+                        video = item,
+                        entry = MediaListEntry.VIDEO,
+                        position = index,
+                        initialFocused = (index == 1),
+                        onClick = {}
+                    )
+                }
+            }
+        }
     }
 }
 
