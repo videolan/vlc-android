@@ -88,7 +88,7 @@ import java.io.OutputStreamWriter
 
 private const val TAG = "RARoutingFile"
 
-fun Route.publicFileRouting(appContext: Context, settings: SharedPreferences) {
+fun Route.authenticatedFileRouting(appContext: Context, scope: CoroutineScope, settings: SharedPreferences) {
     // Upload a file to the device
     post("/upload-media") {
         verifyLogin(settings)
@@ -258,9 +258,6 @@ fun Route.publicFileRouting(appContext: Context, settings: SharedPreferences) {
 
         call.respondJson(convertToJson(result))
     }
-}
-
-fun Route.authenticatedFileRouting(appContext: Context, scope: CoroutineScope, settings: SharedPreferences) {
     post("/logs") {
         val formParameters = try {
             call.receiveParameters()

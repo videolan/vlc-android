@@ -43,7 +43,6 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     staticFiles("", File(getServerFiles(appContext)))
 
     publicAuthRouting(appContext, scope, settings)
-    publicFileRouting(appContext, settings)
     publicCommonRouting(appContext)
 
     authenticate("user_session", optional = RemoteAccessServer.byPassAuth) {
