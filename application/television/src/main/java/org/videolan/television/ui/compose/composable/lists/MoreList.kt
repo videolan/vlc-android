@@ -27,7 +27,9 @@ package org.videolan.television.ui.compose.composable.lists
 import android.content.Intent
 import android.util.Log
 import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.focusGroup
+import androidx.compose.foundation.gestures.LocalBringIntoViewSpec
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,6 +38,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -71,6 +74,7 @@ import org.videolan.television.ui.compose.composable.components.ContentLine
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.VLCButton
 import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.television.ui.compose.utils.TvContentLineBringIntoViewSpec
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.preferences.PreferencesActivity
 import org.videolan.television.util.showParent
@@ -173,6 +177,7 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MoreScreenContent(
     history: List<MediaLibraryItem>?,
@@ -194,65 +199,67 @@ fun MoreScreenContent(
     val isPreview = LocalInspectionMode.current
     val canReadStorage = if (isPreview) true else Permissions.canReadStorage(LocalContext.current)
 
-    Column(
-        modifier = Modifier
-            .focusProperties {
-                onExit = { onFocusExit() }
-            }
-            .verticalScroll(rememberScrollState())
-            .padding(bottom = 96.dp)
-            .focusGroup()
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.Center,
+    CompositionLocalProvider(LocalBringIntoViewSpec provides TvContentLineBringIntoViewSpec) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.CenterHorizontally)
                 .focusProperties {
-                    onEnter = { firstItemFocusRequester.requestFocus() }
+                    onExit = { onFocusExit() }
                 }
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 96.dp)
                 .focusGroup()
         ) {
-            VLCButton(R.drawable.ic_settings, R.string.preferences, modifier = Modifier.focusRequester(firstItemFocusRequester)) {
-                onSettingsClick()
-            }
-            if (canReadStorage)
-                VLCButton(R.drawable.ic_medialibrary_scan, R.string.refresh) {
-                    if (isPreview || !Medialibrary.getInstance().isWorking) {
-                        onRefreshClick()
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)
+                    .focusProperties {
+                        onEnter = { firstItemFocusRequester.requestFocus() }
                     }
+                    .focusGroup()
+            ) {
+                VLCButton(R.drawable.ic_settings, R.string.preferences, modifier = Modifier.focusRequester(firstItemFocusRequester)) {
+                    onSettingsClick()
                 }
-            VLCButton(R.drawable.ic_more_about, R.string.about) {
-                onAboutClick()
-            }
-        }
-
-        if (historyLoading || isWorking || !history.isNullOrEmpty()) {
-            ContentLine(
-                items = history,
-                entry = MediaListEntry.HISTORY,
-                historyLoading = historyLoading,
-                text = R.string.history,
-                onItemClick = { index -> history?.get(index)?.let { onItemClick(it, index) } }
-            )
-        }
-
-        InvalidationComposable(streams) { invalidate ->
-            if (invalidateEntry == MediaListEntry.STREAMS) {
-                onInvalidate {
-                    if (BuildConfig.DEBUG) Log.d("MoreScreenContent", "Stream found: invalidate")
-                    invalidate()
+                if (canReadStorage)
+                    VLCButton(R.drawable.ic_medialibrary_scan, R.string.refresh) {
+                        if (isPreview || !Medialibrary.getInstance().isWorking) {
+                            onRefreshClick()
+                        }
+                    }
+                VLCButton(R.drawable.ic_more_about, R.string.about) {
+                    onAboutClick()
                 }
-                onRefreshDone()
             }
-            ContentLine(
-                items = streams,
-                entry = MediaListEntry.STREAMS,
-                historyLoading = streamsLoading,
-                text = R.string.streams,
-                onItemClick = { index -> streams?.get(index)?.let { onItemClick(it, index) } },
-                onClick = onStreamsTitleClick
-            )
+
+            if (historyLoading || isWorking || !history.isNullOrEmpty()) {
+                ContentLine(
+                    items = history,
+                    entry = MediaListEntry.HISTORY,
+                    historyLoading = historyLoading,
+                    text = R.string.history,
+                    onItemClick = { index -> history?.get(index)?.let { onItemClick(it, index) } }
+                )
+            }
+
+            InvalidationComposable(streams) { invalidate ->
+                if (invalidateEntry == MediaListEntry.STREAMS) {
+                    onInvalidate {
+                        if (BuildConfig.DEBUG) Log.d("MoreScreenContent", "Stream found: invalidate")
+                        invalidate()
+                    }
+                    onRefreshDone()
+                }
+                ContentLine(
+                    items = streams,
+                    entry = MediaListEntry.STREAMS,
+                    historyLoading = streamsLoading,
+                    text = R.string.streams,
+                    onItemClick = { index -> streams?.get(index)?.let { onItemClick(it, index) } },
+                    onClick = onStreamsTitleClick
+                )
+            }
         }
     }
 }

@@ -27,12 +27,15 @@ package org.videolan.television.ui.compose.composable.lists
 import android.app.Application
 import android.util.Log
 import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.focusGroup
+import androidx.compose.foundation.gestures.LocalBringIntoViewSpec
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -58,6 +61,7 @@ import org.videolan.television.ui.MediaInfoActivity
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.components.ContentLine
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
+import org.videolan.television.ui.compose.utils.TvContentLineBringIntoViewSpec
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.vlc.BuildConfig
@@ -80,6 +84,7 @@ import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
 import java.security.SecureRandom
 import kotlin.math.min
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     val context = LocalContext.current
@@ -139,62 +144,64 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityVi
     }
 
 
-    Column(
-        modifier = Modifier
-            .focusProperties {
-                onExit = {
-                    onFocusExit()
+    CompositionLocalProvider(LocalBringIntoViewSpec provides TvContentLineBringIntoViewSpec) {
+        Column(
+            modifier = Modifier
+                .focusProperties {
+                    onExit = {
+                        onFocusExit()
+                    }
+                    onEnter = {
+                        onFocusEnter()
+                    }
                 }
-                onEnter = {
-                    onFocusEnter()
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 96.dp)
+                .focusGroup()
+        ) {
+            val activity = LocalActivity.current
+            val onClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
+                TvUtil.openMedia(activity as FragmentActivity, item)
+            }
+
+            val favoritesModelDescriptionUpdates = favoritesModel.provider.descriptionUpdate.observeAsState()
+            if (!favorites.isNullOrEmpty())
+                InvalidationComposable(favoritesModelDescriptionUpdates.value) {
+                    ContentLine(
+                        favorites,
+                        MediaListEntry.BROWSER.apply { isRoot = true },
+                        false,
+                        R.string.favorites,
+                        titleFocusable = false,
+                        spannableDescription = true,
+                        onItemClick = { onClick(favorites!![it], it) })
                 }
-            }
-            .verticalScroll(rememberScrollState())
-            .padding(bottom = 96.dp)
-            .focusGroup()
-    ) {
-        val activity = LocalActivity.current
-        val onClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
-            TvUtil.openMedia(activity as FragmentActivity, item)
-        }
 
-        val favoritesModelDescriptionUpdates = favoritesModel.provider.descriptionUpdate.observeAsState()
-        if (!favorites.isNullOrEmpty())
-            InvalidationComposable(favoritesModelDescriptionUpdates.value) {
-                ContentLine(
-                    favorites,
-                    MediaListEntry.BROWSER.apply { isRoot = true },
-                    false,
-                    R.string.favorites,
-                    titleFocusable = false,
-                    spannableDescription = true,
-                    onItemClick = { onClick(favorites!![it], it) })
-            }
+            val storagesModelDescriptionUpdates = browserModel.provider.descriptionUpdate.observeAsState()
 
-        val storagesModelDescriptionUpdates = browserModel.provider.descriptionUpdate.observeAsState()
-
-        if (!storages.isNullOrEmpty())
-            InvalidationComposable(storagesModelDescriptionUpdates.value) {
-                ContentLine(
-                    storages,
-                    MediaListEntry.BROWSER.apply { isRoot = true },
-                    false,
-                    R.string.browser_storages,
-                    titleFocusable = false,
-                    spannableDescription = true,
-                    onItemClick = { onClick(storages!![it], it) })
+            if (!storages.isNullOrEmpty())
+                InvalidationComposable(storagesModelDescriptionUpdates.value) {
+                    ContentLine(
+                        storages,
+                        MediaListEntry.BROWSER.apply { isRoot = true },
+                        false,
+                        R.string.browser_storages,
+                        titleFocusable = false,
+                        spannableDescription = true,
+                        onItemClick = { onClick(storages!![it], it) })
+                }
+            InvalidationComposable(networks.value) {
+                if (!networks.value.isEmpty())
+                    ContentLine(
+                        networks.value,
+                        MediaListEntry.BROWSER.apply { isRoot = true },
+                        false,
+                        R.string.network_browsing,
+                        titleFocusable = false,
+                        browserRoot = true,
+                        spannableDescription = true,
+                        onItemClick = { index -> onClick(networks.value[index], index) })
             }
-        InvalidationComposable(networks.value) {
-            if (!networks.value.isEmpty())
-                ContentLine(
-                    networks.value,
-                    MediaListEntry.BROWSER.apply { isRoot = true },
-                    false,
-                    R.string.network_browsing,
-                    titleFocusable = false,
-                    browserRoot = true,
-                    spannableDescription = true,
-                    onItemClick = { index -> onClick(networks.value[index], index) })
         }
     }
 }
