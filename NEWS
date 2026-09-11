@@ -1,3 +1,10 @@
+Changes between 3.7.2 Beta 1 and 3.7.2 Beta 2:
+------------------
+ * Manage video playback audio/subtitle tracks using the Remote access
+ * Various Remote Access fixes
+ * Fix some playback issues
+ * Crash and behavior fixes
+
 Changes between 3.7.1 and 3.7.2 Beta 1:
 ------------------
  * Video player: fix resume after screen off
