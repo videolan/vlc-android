@@ -87,7 +87,7 @@ On Debian/Ubuntu, install the required dependencies:
 ```bash
 sudo apt install automake ant autopoint cmake build-essential libtool-bin \
     patch pkg-config protobuf-compiler ragel subversion unzip git \
-    openjdk-8-jre openjdk-8-jdk flex python wget
+    default-jre default-jdk flex python3 wget gettext
 ```
 
 Setup the build environment:
