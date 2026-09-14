@@ -85,7 +85,7 @@ fi
 ##############################
 diagnostic "Setting up the Remote Access project"
 
-# Release tags are shared with build.gradle (remoteAccessVersion)
+# Release tags are shared with build.gradle.kts (remoteAccessVersion)
 REMOTE_ACCESS_PROPERTIES="$(cd "$(dirname "$0")" && pwd -P)/remoteaccess.properties"
 [ -f "$REMOTE_ACCESS_PROPERTIES" ] || fail "Remote access: $REMOTE_ACCESS_PROPERTIES not found"
 read_remote_access_version()

@@ -1,9 +1,9 @@
 [versions]
 # Build system & Plugins
-agp = "9.1.1"
+agp = "9.4.1"
 kotlin = "2.2.10"
 kotlinx-coroutines = "1.7.1"
-ksp = "2.3.2"
+ksp = "2.3.6"
 vanniktech-publish = "0.34.0"
 desugar-jdk-libs = "2.0.4"
 

@@ -21,12 +21,12 @@
  *  ***************************************************************************
  */
 apply plugin: 'com.android.library'
-apply plugin: "com.vanniktech.maven.publish"
 
 def abi = project.hasProperty('vlcLibVariant') ? project.getProperty('vlcLibVariant') : 'all'
 ext {
     library_version = "$rootProject.ext.medialibraryVersion"
 }
+
 android {
     namespace = 'org.videolan.medialibrary'
 
@@ -101,4 +101,6 @@ dependencies {
     testImplementation "org.robolectric:robolectric:4.3.1"
 }
 
-apply from: '../buildsystem/publish.gradle'
+if (file('../buildsystem/publish.gradle.kts').exists()) {
+    apply from: '../buildsystem/publish.gradle.kts'
+}
