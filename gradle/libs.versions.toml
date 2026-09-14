@@ -1,0 +1,159 @@
+[versions]
+# Build system & Plugins
+agp = "9.1.1"
+kotlin = "2.2.10"
+kotlinx-coroutines = "1.7.1"
+ksp = "2.3.2"
+vanniktech-publish = "0.34.0"
+desugar-jdk-libs = "2.0.4"
+
+# AndroidX Core & UI
+androidx-core = "1.12.0"
+androidx-appcompat = "1.6.1"
+androidx-activity = "1.8.2"
+androidx-fragment = "1.6.2"
+androidx-annotation = "1.7.1"
+androidx-recyclerview = "1.3.2"
+androidx-preference = "1.2.1"
+androidx-constraintlayout = "2.1.4"
+androidx-viewpager2 = "1.0.0"
+androidx-window = "1.1.0"
+androidx-media = "1.6.0"
+androidx-car-app = "1.7.0-beta03"
+androidx-palette = "1.0.0"
+androidx-gridlayout = "1.0.0"
+androidx-multidex = "2.0.1"
+androidx-legacy = "1.0.0"
+
+# Architecture Components
+lifecycle = "2.5.1"
+room = "2.6.1"
+paging = "3.2.1"
+
+# TV / Leanback
+androidx-leanback = "1.0.0"
+
+# Material Design
+material = "1.11.0"
+
+# Database & Network
+sqlite-jdbc = "3.36.0"
+retrofit = "2.7.1"
+moshi = "1.8.0"
+ktor = "2.3.7"
+okhttp = "4.2.1"
+
+# Utility Third Party
+konfetti = "2.0.4"
+zxing = "3.4.0"
+colorpicker = "1.1.0"
+leakcanary = "2.12"
+
+# Testing
+junit = "4.13.2"
+junit-ext = "1.1.5"
+espresso = "3.5.1"
+mockito = "2.25.0"
+mockk = "1.9.3"
+powermock = "2.0.2"
+robolectric = "4.3.1"
+arch-core-testing = "2.2.0"
+livedata-testing = "1.2.0"
+test-runner = "1.4.0"
+orchestrator = "1.4.2"
+test-core = "1.5.0"
+uiautomator = "2.2.0"
+falcon = "2.2.0"
+screengrab = "2.1.0"
+
+[libraries]
+# Desugaring
+desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
+
+# Kotlin
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+
+# AndroidX Core
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+androidx-core = { module = "androidx.core:core", version.ref = "androidx-core" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
+androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "androidx-fragment" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recyclerview" }
+androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "androidx-preference" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "androidx-viewpager2" }
+androidx-window = { module = "androidx.window:window", version.ref = "androidx-window" }
+androidx-media = { module = "androidx.media:media", version.ref = "androidx-media" }
+androidx-car-app = { module = "androidx.car.app:app", version.ref = "androidx-car-app" }
+androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "androidx-palette" }
+androidx-gridlayout = { module = "androidx.gridlayout:gridlayout", version.ref = "androidx-gridlayout" }
+androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "androidx-multidex" }
+androidx-legacy-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "androidx-legacy" }
+
+# Lifecycle & Architecture
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "lifecycle" }
+androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycle" }
+
+# Room & Database
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
+sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite-jdbc" }
+
+# Paging
+androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "paging" }
+
+# Leanback / TV
+androidx-leanback = { module = "androidx.leanback:leanback", version.ref = "androidx-leanback" }
+androidx-leanback-preference = { module = "androidx.leanback:leanback-preference", version.ref = "androidx-leanback" }
+androidx-tvprovider = { module = "androidx.tvprovider:tvprovider", version.ref = "androidx-leanback" }
+
+# Material
+material = { module = "com.google.android.material:material", version.ref = "material" }
+
+# Network / Utilities
+okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+konfetti-xml = { module = "nl.dionsegijn:konfetti-xml", version.ref = "konfetti" }
+zxing-core = { module = "com.google.zxing:core", version.ref = "zxing" }
+colorpicker = { module = "com.jaredrummler:colorpicker", version.ref = "colorpicker" }
+leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
+
+# Testing
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "junit-ext" }
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "test-runner" }
+androidx-test-rules = { module = "androidx.test:rules", version.ref = "test-core" }
+androidx-test-core = { module = "androidx.test:core", version.ref = "test-core" }
+androidx-test-orchestrator = { module = "androidx.test:orchestrator", version.ref = "orchestrator" }
+androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+androidx-test-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "espresso" }
+androidx-test-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espresso" }
+androidx-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "arch-core-testing" }
+livedata-testing-ktx = { module = "com.jraska.livedata:testing-ktx", version.ref = "livedata-testing" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+powermock-api-mockito2 = { module = "org.powermock:powermock-api-mockito2", version.ref = "powermock" }
+powermock-module-junit4 = { module = "org.powermock:powermock-module-junit4", version.ref = "powermock" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiautomator" }
+falcon = { module = "com.jraska:falcon", version.ref = "falcon" }
+screengrab = { module = "tools.fastlane:screengrab", version.ref = "screengrab" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech-publish" }
