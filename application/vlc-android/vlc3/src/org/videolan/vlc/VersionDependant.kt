@@ -1,6 +1,7 @@
 package org.videolan.vlc
 
 import android.content.Context
+import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
@@ -95,3 +96,9 @@ fun MediaPlayer.unselectTrackType(type: Int) {
 fun getDisableTrack(context: Context) : VlcTrack {
     throw IllegalStateException("This is a VLC 4 only API. It should not be called by VLC 3")
 }
+
+/**
+ * Scan the system fonts and build the fontconfig cache. VLC3 builds fontconfig for Android, so
+ * this actually does the scan. See [org.videolan.vlc.util.FontCache].
+ */
+fun LibVLC.buildFontCacheIfSupported(): Boolean = buildFontCache()
