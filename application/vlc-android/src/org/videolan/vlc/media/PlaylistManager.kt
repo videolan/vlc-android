@@ -89,6 +89,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.FontCache
 import org.videolan.vlc.util.awaitMedialibraryStarted
 import org.videolan.vlc.util.isSchemeFD
 import org.videolan.vlc.util.isSchemeHttpOrHttps
@@ -481,6 +482,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     suspend fun playIndex(index: Int, flags: Int = 0, forceResume:Boolean = false, forceRestart:Boolean = false) {
+        // The fonts are scanned when the first text renderer is created, which would otherwise
+        // delay the playback by several seconds on the first run. See [FontCache]
+        // Wait before reading any state, as the queue can change in the meantime
+        FontCache.await(service) {
+            service.showToast(service.getString(R.string.font_cache_building), Toast.LENGTH_LONG)
+        }
+
         videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")

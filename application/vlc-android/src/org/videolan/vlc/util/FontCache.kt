@@ -24,6 +24,7 @@ package org.videolan.vlc.util
 
 import android.content.Context
 import android.os.Build
+import android.os.SystemClock
 import android.util.Log
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
@@ -38,12 +39,16 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.buildFontCacheIfSupported
 import java.io.File
+import java.util.concurrent.atomic.AtomicLong
 
 private const val TAG = "VLC/FontCache"
 private const val SYSTEM_FONTS_DIR = "/system/fonts"
 /** Give up after this many failed builds, so that a device which can't store the cache
  * doesn't delay every playback. */
 private const val MAX_FAILURES = 3
+/** Don't warn about the running build more often than this, which is how long a
+ * [android.widget.Toast.LENGTH_LONG] toast stays on screen. */
+private const val WAIT_NOTIFICATION_INTERVAL = 3500L
 
 /**
  * Builds the fontconfig font cache ahead of playback.
@@ -58,6 +63,8 @@ private const val MAX_FAILURES = 3
 object FontCache {
 
     private var job: Deferred<Boolean>? = null
+    /** When a caller was last told about the running build, see [await] */
+    private val lastWaitNotification = AtomicLong(-WAIT_NOTIFICATION_INTERVAL)
 
     /**
      * Start the build if it's needed, and return the running job.
@@ -88,16 +95,23 @@ object FontCache {
 
     /**
      * Wait for the font cache to be built, if a build is needed and still running.
-     * @param onWait called before waiting, and only when there is something to wait for
+     * @param onWait called before waiting, only when there is something to wait for, and at most
+     * once per [WAIT_NOTIFICATION_INTERVAL], so that playbacks started in a row warn only once
      */
-    suspend fun await(context: Context, onWait: () -> Unit = {}) {
+    suspend fun await(context: Context, onWait: (() -> Unit)? = null) {
         val pending = start(context) ?: return
-        if (!pending.isCompleted) onWait()
+        if (onWait != null && !pending.isCompleted && shouldNotifyWait()) onWait()
         try {
             pending.await()
         } catch (e: Exception) {
             Log.e(TAG, "Failed to build the font cache", e)
         }
+    }
+
+    private fun shouldNotifyWait(): Boolean {
+        val now = SystemClock.elapsedRealtime()
+        val last = lastWaitNotification.get()
+        return now - last >= WAIT_NOTIFICATION_INTERVAL && lastWaitNotification.compareAndSet(last, now)
     }
 
     private fun build(context: Context): Boolean {

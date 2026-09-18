@@ -264,6 +264,7 @@
     <string name="load_3_period" translatable="false">...</string>
 
     <string name="invalid_location">The media at %1$s cannot be played.</string>
+    <string name="font_cache_building">Preparing the fonts for the first playback, this can take a few seconds</string>
     <string name="missing_location">This media is on an unavailable storage device and cannot be played.</string>
 
     <string name="search">Search</string>
