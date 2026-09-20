@@ -50,7 +50,12 @@ android {
             storealias=androiddebugkey
             storepwd=android
              */
-            if (project.hasProperty('keyStoreFile')) {
+            if (System.getenv('CI') == 'true' && System.getenv('CM_KEYSTORE_PATH')) {
+                storeFile file(System.getenv('CM_KEYSTORE_PATH'))
+                storePassword System.getenv('CM_KEYSTORE_PASSWORD')
+                keyAlias System.getenv('CM_KEY_ALIAS')
+                keyPassword System.getenv('CM_KEY_PASSWORD')
+            } else if (project.hasProperty('keyStoreFile')) {
                 storeFile file(project.findProperty('keyStoreFile'))
                 keyAlias project.findProperty('storealias')
                 if (System.getenv('PASSWORD_KEYSTORE') != null && !System.getenv('PASSWORD_KEYSTORE').isEmpty()) {
@@ -86,6 +91,7 @@ android {
         }
         vlcBundle {
             initWith release
+            signingConfig = signingConfigs.release
             matchingFallbacks = ['release']
         }
         vlcBundleAmazon {

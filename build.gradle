@@ -61,9 +61,9 @@ allprojects {
 
 ext {
     appId = "com.sandalbar.mixwave"
-    versionCode = 3070115
+    versionCode = (project.findProperty('versionCode') ?: 3070118).toInteger()
     vlcMajorVersion = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? 4 : 3
-    versionName = '1.0.1'
+    versionName = project.findProperty('versionName') ?: '1.0.0'
     remoteAccessVersion = '0.20.0'
     libvlcVersion = vlcMajorVersion == 3 ? '3.7.5' :'4.0.0-eap29'
     medialibraryVersion = '0.13.22' + (vlcMajorVersion == 3 ? '' : '-vlc4')
