@@ -147,7 +147,7 @@ class RemoteAccessService : LifecycleService(), CoroutineScope by MainScope() {
         filter.addAction(ACTION_START_SERVER)
         filter.addAction(ACTION_DISABLE_SERVER)
         filter.addAction(ACTION_RESTART_SERVER)
-        registerReceiverCompat(receiver, filter, false)
+        registerReceiverCompat(receiver, filter, false, "$packageName.permission.REMOTE_ACCESS_CONTROL")
     }
 
     private fun forceForeground() {

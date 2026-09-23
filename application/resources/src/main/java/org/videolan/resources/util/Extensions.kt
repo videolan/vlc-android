@@ -224,14 +224,22 @@ fun Service.startForegroundCompat(serviceNotificationId: NotificationIds, notifi
 /**
  * Use the new registerReceiver API when needed
  *
+ * Below API 33 there is no equivalent of [Context.RECEIVER_NOT_EXPORTED]: passing
+ * `exported = false` on those versions still leaves the receiver reachable from other
+ * apps. If that matters for a given receiver, also pass [permission] so senders are
+ * required to hold it on every API level.
+ *
  * @param receiver the receiver to register
  * @param filter the filter to apply
  * @param exported true if it needs to be exported
+ * @param permission a signature-level permission senders must hold, or null for none
  */
 @SuppressLint("UnspecifiedRegisterReceiverFlag")
-fun Context.registerReceiverCompat(receiver: BroadcastReceiver, filter: IntentFilter, exported: Boolean) {
+fun Context.registerReceiverCompat(receiver: BroadcastReceiver, filter: IntentFilter, exported: Boolean, permission: String? = null) {
     if (SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-        registerReceiver(receiver, filter, if (exported) Context.RECEIVER_EXPORTED else Context.RECEIVER_NOT_EXPORTED)
+        registerReceiver(receiver, filter, permission, null, if (exported) Context.RECEIVER_EXPORTED else Context.RECEIVER_NOT_EXPORTED)
+    else if (permission != null)
+        registerReceiver(receiver, filter, permission, null)
     else
         registerReceiver(receiver, filter)
 }

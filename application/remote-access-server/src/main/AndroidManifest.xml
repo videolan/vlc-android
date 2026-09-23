@@ -26,6 +26,12 @@
     <uses-sdk tools:overrideLibrary="androidx.security"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
+    <!-- Restricts who can send the Remote Access control broadcasts (start/stop/restart/disable) -->
+    <permission
+        android:name="${applicationId}.permission.REMOTE_ACCESS_CONTROL"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="${applicationId}.permission.REMOTE_ACCESS_CONTROL" />
+
     <application>
         <service
                 android:name=".RemoteAccessService"
