@@ -29,7 +29,7 @@
     <application>
         <service
                 android:name=".RemoteAccessService"
-                android:exported="true"
+                android:exported="false"
                 android:foregroundServiceType="specialUse">
             <property
                     android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"

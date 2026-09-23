@@ -125,6 +125,12 @@ class RemoteAccessService : LifecycleService(), CoroutineScope by MainScope() {
         super.onCreate()
         if (AndroidUtil.isOOrLater) forceForeground()
            lifecycleScope.launch(Dispatchers.IO) {
+               if (!Settings.getInstance(this@RemoteAccessService)
+                       .getBoolean(KEY_ENABLE_REMOTE_ACCESS, false)
+               ) {
+                   withContext(Dispatchers.Main) { stopSelf() }
+                   return@launch
+               }
                server = RemoteAccessServer.getInstance(applicationContext)
                if (!Settings.getInstance(this@RemoteAccessService)
                        .getBoolean(KEY_REMOTE_ACCESS_LAST_STATE_STOPPED, false)
