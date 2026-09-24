@@ -76,6 +76,12 @@ fun Route.playbackRouting(appContext: Context, scope: CoroutineScope, settings: 
         val append = call.request.queryParameters["append"] == "true"
         val asAudio = call.request.queryParameters["audio"] == "true"
         val path = call.request.queryParameters["path"]
+        
+        if (!isPathSafeForRemoteAccess(path)) {
+            call.respond(HttpStatusCode.Forbidden)
+            return@get
+        }
+
         call.request.queryParameters["id"]?.let { id ->
 
             val medias = appContext.getFromMl {
@@ -180,6 +186,12 @@ fun Route.playbackRouting(appContext: Context, scope: CoroutineScope, settings: 
                     call.respond(HttpStatusCode.NotFound)
                     return@get
                 }
+                
+                if (!isPathSafeForRemoteAccess(path)) {
+                    call.respond(HttpStatusCode.Forbidden)
+                    return@get
+                }
+
                 val decodedPath = Uri.decode(path)
 
                 val dataset = LiveDataset<MediaLibraryItem>()
