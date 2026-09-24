@@ -26,6 +26,7 @@ package org.videolan.vlc.remoteaccessserver.routing
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import android.text.format.Formatter
 import android.util.Log
 import androidx.core.net.toUri
@@ -268,6 +269,32 @@ internal fun File.isSafelyWithin(parentDir: File): Boolean {
     val canonicalParent = parentDir.canonicalFile.path
     val canonicalChild = this.canonicalFile.path
     return canonicalChild == canonicalParent || canonicalChild.startsWith(canonicalParent + File.separator)
+}
+
+/**
+ * Safely checks if a path is allowed to be accessed via Remote Access.
+ * This prevents arbitrary file reads of internal application data.
+ */
+internal fun isPathSafeForRemoteAccess(path: String?): Boolean {
+    if (path.isNullOrBlank()) return true
+    val uri = Uri.decode(path).toUri()
+    // Allow non-file schemes (e.g. smb://, ftp://, http://)
+    if (uri.scheme != null && uri.scheme != "file") return true
+
+    val pathStr = uri.path ?: return false
+    return try {
+        val canonicalPath = File(pathStr).canonicalPath
+        // Explicitly deny anything under /data/ (app private data)
+        if (canonicalPath.startsWith("/data/")) return false
+
+        // Ensure it's in known external storage directories or standard paths
+        val allowedRoots = AndroidDevices.externalStorageDirectories
+        allowedRoots.any { root ->
+            canonicalPath == root || canonicalPath.startsWith(root + File.separator)
+        } || canonicalPath.startsWith("/storage/") || canonicalPath.startsWith("/sdcard/")
+    } catch (e: Exception) {
+        false
+    }
 }
 
 /**
