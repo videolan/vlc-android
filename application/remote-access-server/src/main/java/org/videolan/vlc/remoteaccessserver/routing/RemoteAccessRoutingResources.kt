@@ -105,6 +105,10 @@ fun Route.resourceRouting(appContext: Context, settings: SharedPreferences) {
                     //simple media. It's a direct download
                     appContext.getFromMl { getMedia(id.toLong()) }?.let { media ->
                         media.uri.path?.let { path ->
+                            if (!isPathSafeForRemoteAccess(path)) {
+                                call.respond(HttpStatusCode.Forbidden)
+                                return@get
+                            }
                             val file = File(path)
                             val name = media.title.slugify("_") + media.uri.toString().substring(media.uri.toString().lastIndexOf("."))
                             call.response.header(
@@ -141,6 +145,10 @@ fun Route.resourceRouting(appContext: Context, settings: SharedPreferences) {
         val path = media.uri.path
         if (path == null || !media.uri.scheme.isSchemeFile()) {
             call.respond(HttpStatusCode.NotFound)
+            return@get
+        }
+        if (!isPathSafeForRemoteAccess(path)) {
+            call.respond(HttpStatusCode.Forbidden)
             return@get
         }
         val file = File(path)
