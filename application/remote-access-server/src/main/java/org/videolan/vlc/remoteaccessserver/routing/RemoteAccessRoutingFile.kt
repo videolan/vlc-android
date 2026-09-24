@@ -388,6 +388,12 @@ fun Route.authenticatedFileRouting(appContext: Context, scope: CoroutineScope, s
             call.respond(HttpStatusCode.NotFound)
             return@get
         }
+
+        if (!isPathSafeForRemoteAccess(path)) {
+            call.respond(HttpStatusCode.Forbidden)
+            return@get
+        }
+
         val decodedPath = Uri.decode(path)
 
         val dataset = LiveDataset<MediaLibraryItem>()
