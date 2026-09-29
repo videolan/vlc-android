@@ -40,6 +40,7 @@ import io.ktor.server.routing.post
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.videolan.vlc.remoteaccessserver.RemoteAccessOTP
+import org.videolan.vlc.remoteaccessserver.RemoteAccessServer
 import org.videolan.vlc.remoteaccessserver.RemoteAccessSession
 import org.videolan.vlc.remoteaccessserver.websockets.RemoteAccessWebSockets
 import org.videolan.vlc.util.RemoteAccessUtils
@@ -50,6 +51,10 @@ fun Route.publicAuthRouting(appContext: Context, scope: CoroutineScope, settings
     //the client is requesting a new code.
     // if the formparameters "challenge" is sent. Remove the corresponding code
     post("/code") {
+        if (!RemoteAccessServer.getInstance(appContext).isHttpsPort(call.request.local.serverPort)) {
+            call.respond(HttpStatusCode.Forbidden)
+            return@post
+        }
         val formParameters = try {
             call.receiveParameters()
         } catch (_: Exception) {
@@ -67,6 +72,10 @@ fun Route.publicAuthRouting(appContext: Context, scope: CoroutineScope, settings
     }
     //Verify the code and inject the cookie if valid
     post("/verify-code") {
+        if (!RemoteAccessServer.getInstance(appContext).isHttpsPort(call.request.local.serverPort)) {
+            call.respond(HttpStatusCode.Forbidden)
+            return@post
+        }
         val formParameters = try {
             call.receiveParameters()
         } catch (e: Exception) {

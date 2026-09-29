@@ -32,6 +32,10 @@ import kotlinx.coroutines.CoroutineScope
 import org.videolan.tools.Settings
 import org.videolan.vlc.remoteaccessserver.RemoteAccessServer
 import org.videolan.vlc.remoteaccessserver.RemoteAccessServer.Companion.getServerFiles
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.ApplicationCallPipeline
+import io.ktor.server.application.call
+import io.ktor.server.response.respond
 import java.io.File
 
 /**
@@ -40,12 +44,22 @@ import java.io.File
  */
 fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     val settings = Settings.getInstance(appContext)
+    
+    // Unprotected static files and common public routes (served on both HTTP and HTTPS)
     staticFiles("", File(getServerFiles(appContext)))
-
-    publicAuthRouting(appContext, scope, settings)
     publicCommonRouting(appContext)
 
+    publicAuthRouting(appContext, scope, settings)
+
     authenticate("user_session", optional = RemoteAccessServer.byPassAuth) {
+        intercept(ApplicationCallPipeline.Call) {
+            val server = RemoteAccessServer.getInstance(appContext)
+            if (!server.isHttpsPort(call.request.local.serverPort)) {
+                call.respond(HttpStatusCode.Forbidden)
+                finish()
+            }
+        }
+        
         authenticatedAuthRouting()
         mediaRouting(appContext, scope, settings)
         authenticatedFileRouting(appContext, scope, settings)

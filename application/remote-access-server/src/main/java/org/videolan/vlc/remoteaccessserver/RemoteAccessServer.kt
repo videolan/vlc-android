@@ -830,6 +830,19 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     }
 
     /**
+     * Checks if a given port is the HTTPS port
+     *
+     * @param port the port to test
+     * @return true if the port is the HTTPS port
+     */
+    fun isHttpsPort(port: Int): Boolean {
+        if (::engine.isInitialized) {
+            return engine.environment.connectors.firstOrNull { it.type.name == "HTTPS" }?.port == port
+        }
+        return false
+    }
+
+    /**
      * Returns the server addresses as a list
      *
      * @return the server addresses
