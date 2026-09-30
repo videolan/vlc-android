@@ -65,8 +65,8 @@ ext {
     vlcMajorVersion = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? 4 : 3
     versionName = vlcMajorVersion == 3 ? '3.7.2 Beta 2' : '4.0.0-preview - ' + versionCode
     remoteAccessVersion = '0.22.0'
-    libvlcVersion = vlcMajorVersion == 3 ? '3.7.6' :'4.0.0-eap29'
-    medialibraryVersion = (vlcMajorVersion == 3 ? '0.13.23' : '0.13.22-vlc4')
+    libvlcVersion = vlcMajorVersion == 3 ? '3.7.7' :'4.0.0-eap29'
+    medialibraryVersion = (vlcMajorVersion == 3 ? '0.13.24' : '0.13.22-vlc4')
 
     targetJVM = JavaVersion.VERSION_1_8
     targetJVMKotlin = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
