@@ -33,9 +33,9 @@ import org.videolan.vlc.providers.medialibrary.PlaylistsProvider
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 class PlaylistsViewModel(context: Context, type: Playlist.Type) : MedialibraryViewModel(context) {
-    val displayModeKey: String = "display_mode_playlists_$type"
+    val displayModeKey: String = "display_mode_playlist_rows_$type"
     val provider = PlaylistsProvider(context, this, type)
-    var providerInCard = true
+    var providerInCard = false
     override val providers : Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
 
     init {
