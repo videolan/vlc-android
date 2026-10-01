@@ -104,6 +104,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_marginHorizontal="4dp"
                 android:contentDescription="@string/play"
                 android:minWidth="48dp"
                 android:text=""
@@ -114,6 +115,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
                 android:checked="true"
                 android:text="@string/audio_mixer_loop"
                 app:iconSize="24dp" />
@@ -122,6 +124,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
                 android:text="@string/clear" />
     </LinearLayout>
 
