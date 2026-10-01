@@ -182,7 +182,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
             list.adapter = adapters[i]
             list.addOnScrollListener(scrollListener)
         }
-        ItemTouchHelper(SwipeDragItemTouchHelperCallback(songsAdapter, swipeFlags = ItemTouchHelper.LEFT)).attachToRecyclerView(lists[TRACKS_TAB])
+        ItemTouchHelper(SwipeDragItemTouchHelperCallback(songsAdapter, swipeFlags = ItemTouchHelper.LEFT, swipeThreshold = 0.25f)).attachToRecyclerView(lists[TRACKS_TAB])
         mixerTouchHelper = ItemTouchHelper(SwipeDragItemTouchHelperCallback(mixerAdapter, true)).also { it.attachToRecyclerView(lists[MIXER_TAB]) }
         viewPager.setOnTouchListener { _, _ -> true }
         swipeRefreshLayout.setOnRefreshListener {

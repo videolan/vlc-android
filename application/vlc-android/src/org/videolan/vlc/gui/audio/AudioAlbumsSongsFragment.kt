@@ -143,7 +143,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
 
         songsList.adapter = songsAdapter
         albumsList.adapter = albumsAdapter
-        ItemTouchHelper(SwipeDragItemTouchHelperCallback(songsAdapter, swipeFlags = ItemTouchHelper.LEFT)).attachToRecyclerView(songsList)
+        ItemTouchHelper(SwipeDragItemTouchHelperCallback(songsAdapter, swipeFlags = ItemTouchHelper.LEFT, swipeThreshold = 0.25f)).attachToRecyclerView(songsList)
         viewPager.offscreenPageLimit = MODE_TOTAL - 1
         audioPagerAdapter = AudioPagerAdapter(arrayOf(viewPager.getChildAt(MODE_ALBUM), viewPager.getChildAt(MODE_SONG)), titles)
         @Suppress("UNCHECKED_CAST")
