@@ -18,6 +18,14 @@
             android:textStyle="bold"
             android:visibility="gone" />
 
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/audio_list"
+            android:layout_width="@dimen/default_content_width"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:clipToPadding="false" />
+
     <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,6 +105,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
+            android:layout_marginBottom="96dp"
             android:paddingHorizontal="16dp">
 
         <com.google.android.material.button.MaterialButton
@@ -128,11 +137,4 @@
                 android:text="@string/clear" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/audio_list"
-            android:layout_width="@dimen/default_content_width"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:clipToPadding="false" />
 </LinearLayout>
