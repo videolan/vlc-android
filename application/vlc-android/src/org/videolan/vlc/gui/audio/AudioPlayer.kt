@@ -517,14 +517,23 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 }
             else binding.bookmarkMarkerContainer.removeAllViews()
             if (isShowingCover()) {
+                binding.audioForward10.setVisible()
+                binding.audioRewind10.setVisible()
+                binding.audioForwardText.setVisible()
+                binding.audioRewindText.setVisible()
+            } else {
                 binding.audioForward10.setGone()
                 binding.audioRewind10.setGone()
+                binding.audioForwardText.setGone()
+                binding.audioRewindText.setGone()
             }
         } else {
             binding.audioForwardBookmark.setGone()
             binding.audioRewindBookmark.setGone()
             binding.audioForward10.setGone()
             binding.audioRewind10.setGone()
+            binding.audioForwardText.setGone()
+            binding.audioRewindText.setGone()
         }
 
         binding.songTitle?.text = if (!chapter.isNullOrEmpty()) chapter else  playlistModel.title

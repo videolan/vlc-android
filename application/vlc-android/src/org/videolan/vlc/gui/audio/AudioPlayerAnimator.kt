@@ -173,10 +173,10 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
 
         hidePlaylistConstraint.setVisibility(R.id.songs_list, View.GONE)
         hidePlaylistConstraint.setVisibility(R.id.cover_media_switcher, View.VISIBLE)
-        hidePlaylistConstraint.setVisibility(R.id.audio_rewind_10, View.GONE)
-        hidePlaylistConstraint.setVisibility(R.id.audio_rewind_text, View.GONE)
-        hidePlaylistConstraint.setVisibility(R.id.audio_forward_10, View.GONE)
-        hidePlaylistConstraint.setVisibility(R.id.audio_forward_text, View.GONE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_rewind_10, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_rewind_text, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_forward_10, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_forward_text, View.VISIBLE)
         hidePlaylistConstraint.setVisibility(R.id.audio_forward_bookmark, View.GONE)
         hidePlaylistConstraint.setVisibility(R.id.audio_rewind_bookmark, View.GONE)
         headerHidePlaylistConstraint.clear(R.id.playback_chips, ConstraintSet.BOTTOM)
@@ -186,6 +186,10 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
 
         hidePlaylistLandscapeConstraint.setVisibility(R.id.songs_list, View.GONE)
         hidePlaylistLandscapeConstraint.setVisibility(R.id.cover_media_switcher, View.VISIBLE)
+        hidePlaylistLandscapeConstraint.setVisibility(R.id.audio_rewind_10, View.VISIBLE)
+        hidePlaylistLandscapeConstraint.setVisibility(R.id.audio_rewind_text, View.VISIBLE)
+        hidePlaylistLandscapeConstraint.setVisibility(R.id.audio_forward_10, View.VISIBLE)
+        hidePlaylistLandscapeConstraint.setVisibility(R.id.audio_forward_text, View.VISIBLE)
         hidePlaylistLandscapeConstraint.setVisibility(R.id.track_info_container, View.VISIBLE)
         if (showTabletControls()) {
             hidePlaylistLandscapeConstraint.constrainHeight(R.id.track_info_container, ConstraintSet.WRAP_CONTENT)
