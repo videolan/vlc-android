@@ -173,6 +173,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
         for (i in 0 until MODE_TOTAL) {
             @Suppress("UNCHECKED_CAST")
             setupLayoutManager(viewModel.providersInCard[i], lists[i], viewModel.providers[i] as MedialibraryProvider<MediaLibraryItem>, adapters[i], spacing)
+            if (i == PLAYLISTS_TAB) setPlaylistListFullWidth()
             (lists[i].layoutManager as LinearLayoutManager).recycleChildrenOnDetach = true
             val list = lists[i]
             list.adapter = adapters[i]
@@ -217,6 +218,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
                 viewModel.providersInCard[currentTab] = value as Boolean
                 @Suppress("UNCHECKED_CAST")
                 setupLayoutManager(viewModel.providersInCard[currentTab], lists[currentTab], viewModel.providers[currentTab] as MedialibraryProvider<MediaLibraryItem>, adapters[currentTab], spacing)
+                if (currentTab == PLAYLISTS_TAB) setPlaylistListFullWidth()
                 lists[currentTab].adapter = adapters[currentTab]
                 if (currentTab == TRACKS_TAB && songsAdapter.currentMedia != null) {
                     songsAdapter.currentMedia = null
@@ -266,6 +268,13 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
         }
         outState.putIntegerArrayList(KEY_LISTS_POSITIONS, positions)
         super.onSaveInstanceState(outState)
+    }
+
+    private fun setPlaylistListFullWidth() {
+        if (viewModel.providersInCard[PLAYLISTS_TAB]) return
+        lists[PLAYLISTS_TAB].layoutParams = lists[PLAYLISTS_TAB].layoutParams.apply {
+            width = ViewGroup.LayoutParams.MATCH_PARENT
+        }
     }
 
     private fun setupModels() {
