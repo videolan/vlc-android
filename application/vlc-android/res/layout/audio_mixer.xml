@@ -102,9 +102,12 @@
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/audio_mixer_off"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/audio_mixer_turn_off"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/play"
+                android:minWidth="48dp"
+                android:text=""
+                app:icon="@drawable/ic_play"
                 app:iconSize="24dp" />
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/audio_mixer_loop"

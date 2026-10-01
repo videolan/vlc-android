@@ -308,8 +308,9 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
             val media = service?.mixerMedia ?: AudioMixerProvider.selected(requireContext())
             selected.text = media?.title?.let { getString(R.string.audio_mixer_selected_track, it) }
             selected.visibility = if (media == null) View.GONE else View.VISIBLE
-            toggle.text = getString(if (service?.mixerEnabled == true) R.string.audio_mixer_on else R.string.audio_mixer_turn_off)
-            toggle.setIconResource(if (service?.mixerEnabled == true) R.drawable.ic_playasaudio_on else R.drawable.ic_playasaudio_off)
+            val mixerEnabled = service?.mixerEnabled == true
+            toggle.contentDescription = getString(if (mixerEnabled) R.string.pause else R.string.play)
+            toggle.setIconResource(if (mixerEnabled) R.drawable.ic_pause_player else R.drawable.ic_play)
             toggle.isEnabled = media != null
             loop.isChecked = service?.mixerLoop ?: true
             loop.setIconResource(if (loop.isChecked) R.drawable.ic_repeat_all else R.drawable.ic_repeat)
