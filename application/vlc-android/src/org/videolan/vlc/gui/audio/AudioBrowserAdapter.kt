@@ -133,7 +133,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
             else -> AppContextProvider.appContext
         }
         listImageWidth = ctx.resources.getDimension(R.dimen.audio_browser_item_size).toInt()
-        if (playlistStyle) listImageWidth = 72.dp
+        if (playlistStyle) listImageWidth = 108.dp
         defaultCover = getAudioIconDrawable(ctx, type, false)
         defaultCoverCard = getAudioIconDrawable(ctx, type, true)
     }
@@ -327,9 +327,9 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
             binding.imageWidth = listImageWidth
             binding.playlistStyle = playlistStyle
             if (playlistStyle) {
-                binding.root.minimumHeight = 88.dp
-                binding.mediaCover.layoutParams.height = 72.dp
-                binding.selectorImage.layoutParams.height = 72.dp
+                binding.root.minimumHeight = 124.dp
+                binding.mediaCover.layoutParams.height = listImageWidth
+                binding.selectorImage.layoutParams.height = listImageWidth
                 binding.title.textSize = 16f
                 binding.subtitle.textSize = 14f
                 binding.itemMore.visibility = View.GONE
