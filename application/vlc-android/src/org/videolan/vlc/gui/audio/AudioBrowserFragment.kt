@@ -30,6 +30,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.asFlow
@@ -111,6 +112,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
     private lateinit var playlistModel: PlaylistModel
     private var mixerTouchHelper: ItemTouchHelper? = null
     private var refreshMixerControls: (() -> Unit)? = null
+    private var playlistDisplayMode: ImageButton? = null
 
     private val lists = mutableListOf<RecyclerView>()
     private lateinit var settings: SharedPreferences
@@ -165,6 +167,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
         }
 
         if (!::songsAdapter.isInitialized) setupModels()
+        setupPlaylistControls(views[PLAYLISTS_TAB])
         if (viewModel.showResumeCard) {
             (requireActivity() as AudioPlayerContainerActivity).proposeCard()
             viewModel.showResumeCard = false
@@ -226,6 +229,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
                 }
                 activity?.invalidateOptionsMenu()
                 Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], value)
+                if (currentTab == PLAYLISTS_TAB) updatePlaylistDisplayButton()
             }
             ONLY_FAVS -> {
                 viewModel.providers[currentTab].showOnlyFavs(value as Boolean)
@@ -289,11 +293,43 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
             songsAdapter.setCurrentlyPlaying(playlistModel.playing)
             delay(50L)
         }.launchWhenStarted(lifecycleScope)
-        playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
+        playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, playlistStyle = true).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
         mixerAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
         mixerAdapter.currentMedia = PlaybackService.instance?.mixerMedia ?: AudioMixerProvider.selected(requireContext())
         adapters = arrayOf(songsAdapter, playlistAdapter, mixerAdapter)
         setupProvider()
+    }
+
+    private fun setupPlaylistControls(view: View) {
+        view.findViewById<View>(R.id.playlist_sort).setOnClickListener { showDisplaySettings() }
+        playlistDisplayMode = view.findViewById<ImageButton>(R.id.playlist_display_mode).apply {
+            setOnClickListener { onDisplaySettingChanged(DISPLAY_IN_CARDS, !viewModel.providersInCard[PLAYLISTS_TAB]) }
+        }
+        updatePlaylistDisplayButton()
+    }
+
+    private fun updatePlaylistDisplayButton() {
+        val inCards = viewModel.providersInCard[PLAYLISTS_TAB]
+        playlistDisplayMode?.apply {
+            setImageResource(if (inCards) R.drawable.ic_tv_browser_list else R.drawable.ic_tv_browser_grid)
+            contentDescription = getString(if (inCards) R.string.display_in_list else R.string.display_in_grid)
+        }
+    }
+
+    private fun showDisplaySettings() {
+        val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia, Medialibrary.SORT_INSERTIONDATE).filter {
+            viewModel.providers[currentTab].canSortBy(it)
+        }
+        DisplaySettingsDialog.newInstance(
+                displayInCards = viewModel.providersInCard[currentTab],
+                showAllArtists = null,
+                onlyFavs = viewModel.providers[currentTab].onlyFavorites,
+                sorts = sorts,
+                currentSort = viewModel.providers[currentTab].sort,
+                currentSortDesc = viewModel.providers[currentTab].desc,
+                defaultPlaybackActions = getDefaultActionMediaType().getDefaultPlaybackActions(settings),
+                defaultActionType = getString(getDefaultActionMediaType().title)
+        ).show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
     }
 
     private fun setupMixerControls(view: View) {
@@ -419,23 +455,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
                 true
             }
             R.id.ml_menu_display_options -> {
-                //filter all sorts and keep only applicable ones
-                val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia, Medialibrary.SORT_INSERTIONDATE).filter {
-                    viewModel.providers[currentTab].canSortBy(it)
-                }
-
-                //Open the display settings Bottom sheet
-                DisplaySettingsDialog.newInstance(
-                    displayInCards = viewModel.providersInCard[currentTab],
-                    showAllArtists = null,
-                    onlyFavs = viewModel.providers[currentTab].onlyFavorites,
-                    sorts = sorts,
-                    currentSort = viewModel.providers[currentTab].sort,
-                    currentSortDesc = viewModel.providers[currentTab].desc,
-                    defaultPlaybackActions = getDefaultActionMediaType().getDefaultPlaybackActions(settings),
-                    defaultActionType = getString(getDefaultActionMediaType().title)
-                )
-                        .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
+                showDisplaySettings()
                 true
             }
             else -> super.onOptionsItemSelected(item)

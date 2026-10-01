@@ -63,6 +63,10 @@
         <variable
                 name="selected"
                 type="boolean" />
+
+        <variable
+                name="playlistStyle"
+                type="boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -272,7 +276,7 @@
                 android:onClick="@{holder::onMoreClick}"
                 android:padding="8dp"
                 android:scaleType="center"
-                android:visibility="@{isPresent &amp;&amp; !inSelection ? View.VISIBLE : View.INVISIBLE}"
+                android:visibility="@{isPresent &amp;&amp; !inSelection &amp;&amp; !playlistStyle ? View.VISIBLE : View.INVISIBLE}"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"

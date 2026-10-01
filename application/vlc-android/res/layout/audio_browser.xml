@@ -42,7 +42,7 @@
 
                 <include layout="@layout/audio_recyclerview" />
 
-                <include layout="@layout/audio_recyclerview" />
+                <include layout="@layout/audio_playlist_recyclerview" />
 
                 <include layout="@layout/audio_mixer" />
             </androidx.viewpager.widget.ViewPager>

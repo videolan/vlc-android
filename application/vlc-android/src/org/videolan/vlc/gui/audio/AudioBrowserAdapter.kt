@@ -56,6 +56,7 @@ import org.videolan.resources.interfaces.FocusListener
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.Settings
+import org.videolan.tools.dp
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
@@ -84,7 +85,8 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
         protected val eventsHandler: IEventsHandler<MediaLibraryItem>,
         protected val listEventsHandler: IListEventsHandler? = null,
         protected val reorderable: Boolean = false,
-        internal var cardSize: Int = SHOW_IN_LIST
+        internal var cardSize: Int = SHOW_IN_LIST,
+        private val playlistStyle: Boolean = false
 ) : PagedListAdapter<MediaLibraryItem,
         AudioBrowserAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK),
         FastScroller.SeparatedAdapter, MultiSelectAdapter<MediaLibraryItem>, SwipeDragHelperAdapter
@@ -131,6 +133,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
             else -> AppContextProvider.appContext
         }
         listImageWidth = ctx.resources.getDimension(R.dimen.audio_browser_item_size).toInt()
+        if (playlistStyle) listImageWidth = 72.dp
         defaultCover = getAudioIconDrawable(ctx, type, false)
         defaultCoverCard = getAudioIconDrawable(ctx, type, true)
     }
@@ -322,11 +325,20 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
                 }
             }
             binding.imageWidth = listImageWidth
+            binding.playlistStyle = playlistStyle
+            if (playlistStyle) {
+                binding.root.minimumHeight = 88.dp
+                binding.mediaCover.layoutParams.height = 72.dp
+                binding.selectorImage.layoutParams.height = 72.dp
+                binding.title.textSize = 16f
+                binding.subtitle.textSize = 14f
+                binding.itemMore.visibility = View.GONE
+            }
         }
 
         override fun selectView(selected: Boolean) {
             binding.setVariable(BR.selected, selected)
-            binding.itemMore.visibility = if (multiSelectHelper.inActionMode) View.INVISIBLE else View.VISIBLE
+            binding.itemMore.visibility = if (playlistStyle || multiSelectHelper.inActionMode) View.INVISIBLE else View.VISIBLE
         }
 
         override fun setItem(item: MediaLibraryItem?) {
