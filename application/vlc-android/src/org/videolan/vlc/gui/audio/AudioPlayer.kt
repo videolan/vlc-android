@@ -589,18 +589,21 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         when (repeatType) {
             PlaybackStateCompat.REPEAT_MODE_ONE -> {
                 arrayOf(binding.repeat, binding.headerRepeat).forEach {
+                    it.isSelected = true
                     it.setImageResource(R.drawable.ic_repeat_one_audio)
                     it.contentDescription = ctx.getString(R.string.repeat_single)
                 }
             }
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
                 arrayOf(binding.repeat, binding.headerRepeat).forEach {
+                    it.isSelected = true
                     it.setImageResource(R.drawable.ic_repeat_all_audio)
                     it.contentDescription = ctx.getString(R.string.repeat_all)
                 }
             }
             else -> {
                 arrayOf(binding.repeat, binding.headerRepeat).forEach {
+                    it.isSelected = false
                     it.setImageResource(R.drawable.ic_repeat_audio)
                     it.contentDescription = ctx.getString(R.string.repeat_none)
                 }
