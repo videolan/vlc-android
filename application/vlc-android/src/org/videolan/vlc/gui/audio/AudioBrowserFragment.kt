@@ -211,6 +211,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
     }
 
     override fun onDestroy() {
+        (activity as? AudioPlayerContainerActivity)?.setMixerControlsAtNavigation(false)
         viewPager.setOnTouchListener(null)
         super.onDestroy()
     }
@@ -665,6 +666,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
     }
 
     private fun updateMainPlayerForTab() {
+        (activity as? AudioPlayerContainerActivity)?.setMixerControlsAtNavigation(currentTab == MIXER_TAB)
         if (currentTab == MIXER_TAB) (activity as? AudioPlayerContainerActivity)?.hideAudioPlayer()
         else showMainPlayerIfNeeded()
     }

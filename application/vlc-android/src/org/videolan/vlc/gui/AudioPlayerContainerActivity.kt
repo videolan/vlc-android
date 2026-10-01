@@ -139,6 +139,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
     private var showAudioPlayerWhenResumed = false
 
     private var playerShown = false
+    private var mixerControlsAtNavigation = false
     val tipsDelegate: AudioTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioTipsDelegate(this) }
     val playlistTipsDelegate: AudioPlaylistTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioPlaylistTipsDelegate(this) }
     private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@AudioPlayerContainerActivity) }
@@ -255,10 +256,16 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
         // insets from soft nav buttons
         var bottomMargin = if (this is MainActivity && isTablet()) 0 else bottomInset
         // Bottom bar navigation
-        bottomMargin += if (this is MainActivity && !isTablet()) 108.dp else 0
+        bottomMargin += if (this is MainActivity && !isTablet()) (if (mixerControlsAtNavigation) 84.dp else 108.dp) else 0
         //mini player
         bottomMargin += if (::playerBehavior.isInitialized && playerBehavior.state != STATE_HIDDEN) 72.dp else 0 + 4.dp
         fragmentContainer.setPadding(fragmentContainer.paddingLeft, fragmentContainer.paddingTop, fragmentContainer.paddingRight, bottomMargin)
+    }
+
+    fun setMixerControlsAtNavigation(enabled: Boolean) {
+        if (mixerControlsAtNavigation == enabled) return
+        mixerControlsAtNavigation = enabled
+        if (::fragmentContainer.isInitialized) setContentBottomPadding()
     }
 
     /**
