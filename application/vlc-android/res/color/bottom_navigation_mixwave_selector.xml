@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/orange500" android:state_checked="true" />
-    <item android:color="@color/white_transparent_60" />
+    <item android:color="?attr/colorControlHighlight" android:state_checked="true" />
+    <item android:color="?attr/bottom_navigation_color" />
 </selector>
