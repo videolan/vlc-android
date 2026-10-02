@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Í lagi</string>
     <string name="cancel">Hætta við</string>
     <string name="other">Annað</string>
@@ -43,7 +43,7 @@
     <string name="play_as_video">Spila sem myndskeið</string>
     <string name="return_to_video">Ýttu lengi á kápu til að endurheimta myndskeiðið</string>
     <string name="video_app_switch_title">Bakgrunns/Mynd-í-mynd-hamur</string>
-    <string name="video_app_switch_summary">Veldu hegðun Mix Wave þegar skipt er í annað forrit úr afspilun myndskeiðs</string>
+    <string name="video_app_switch_summary">Veldu hegðun Osho Discourse þegar skipt er í annað forrit úr afspilun myndskeiðs</string>
     <string name="play_pip_title">Spila myndskeið í mynd-í-mynd (PiP) ham</string>
     <string name="play_as_audio_background">Spila myndskeið í bakgrunni</string>
     <string name="append">Bæta við spilunarbiðröð</string>
@@ -251,12 +251,12 @@
     <string name="hold_to_stop">Halda til að stöðva</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Útgáfuauðkenni</string>
     <string name="about">Um</string>
-    <string name="about_vlc_text">Mix Wave fyrir Android™ er yfirfærð útgáfa af Mix Wave margmiðlunarspilaranum, eins vinsælasta opna/frjálsa margmiðlunarspilarans. Android™ útgáfan getur lesið flestar skrár og netstreymi.</string>
+    <string name="about_vlc_text">Osho Discourse fyrir Android™ er yfirfærð útgáfa af Osho Discourse margmiðlunarspilaranum, eins vinsælasta opna/frjálsa margmiðlunarspilarans. Android™ útgáfan getur lesið flestar skrár og netstreymi.</string>
     <string name="authors">Höfundar</string>
-    <string name="vlc_authors">og höfundar Mix Wave.</string>
+    <string name="vlc_authors">og höfundar Osho Discourse.</string>
     <string name="is_compiled_by">Vistþýtt af</string>
     <string name="sources">Grunnkóði</string>
     <string name="libraries">Aðgerðasöfn</string>
@@ -391,8 +391,8 @@
     <string name="replaygain_track">Spor</string>
     <string name="replaygain_album">Albúm</string>
     <string name="aout">Hljóðúttak</string>
-    <string name="aout_summary">Breyttu aðferðinni sem Mix Wave notar til að senda út hljóð.</string>
-    <string name="audio_ducking_title">Lækka hljóðstyrk Mix Wave við tilkynningar</string>
+    <string name="aout_summary">Breyttu aðferðinni sem Osho Discourse notar til að senda út hljóð.</string>
+    <string name="audio_ducking_title">Lækka hljóðstyrk Osho Discourse við tilkynningar</string>
     <string name="audio_ducking_summary">Gerir auðveldara að heyra raddtilkynningar, leiðbeiningar við leiðsögn eða aðra raddaðstoð</string>
     <string name="casting_category">Útvörpun (casting)</string>
     <string name="remote_access">Fjaraðgangur</string>
@@ -479,7 +479,7 @@
     <string name="start_logging">Byrja annálsskráningu</string>
     <string name="stop_logging">Stöðva annálsskráningu</string>
     <string name="clear_log">Hreinsa annál</string>
-    <string name="log_service_title">Mix Wave atvikaskráning í gangi</string>
+    <string name="log_service_title">Osho Discourse atvikaskráning í gangi</string>
     <string name="log_service_text">Opna stjórnskjá fyrir annála</string>
     <string name="copy_to_clipboard">Afrita á klippispjald</string>
     <string name="copied_to_clipboard">Afritaði annál á klippispjald.</string>
@@ -489,9 +489,9 @@
     <string name="http_user_agent">HTTP aðgangsbúnaður</string>
     <string name="custom_libvlc_options">Sérsniðnir libVLC valkostir</string>
     <string name="custom_libvlc_options_invalid">Ógildir libVLC valkostir!</string>
-    <string name="serious_crash">Því miður kom upp alvarleg villa og loka varð Mix Wave.</string>
-    <string name="help_us_send_log">Hjálpaðu okkur við að bæta Mix Wave með því að senda inn eftirfarandi hrunskýrslu:</string>
-    <string name="restart_vlc">Endurræsa Mix Wave</string>
+    <string name="serious_crash">Því miður kom upp alvarleg villa og loka varð Osho Discourse.</string>
+    <string name="help_us_send_log">Hjálpaðu okkur við að bæta Osho Discourse með því að senda inn eftirfarandi hrunskýrslu:</string>
+    <string name="restart_vlc">Endurræsa Osho Discourse</string>
     <string name="send_log">Senda annál</string>
     <string name="sending_log">Sendi annál…</string>
 
@@ -541,26 +541,26 @@
     <string name="music_now_playing">Í afspilun núna</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Hvítir Mix Wave-viðmótshlutar</string>
-    <string name="widget_name_b">Dökkir Mix Wave-viðmótshlutar</string>
-    <string name="widget_name_mini_player">Mix Wave smáspilari</string>
+    <string name="widget_name_w">Hvítir Osho Discourse-viðmótshlutar</string>
+    <string name="widget_name_b">Dökkir Osho Discourse-viðmótshlutar</string>
+    <string name="widget_name_mini_player">Osho Discourse smáspilari</string>
     <string name="whats_next">Hvað næst?</string>
     <string name="click_here">Smelltu hér til að sjá nánari upplýsingar.</string>
-    <string name="allow_storage_access_title">Leyfa Mix Wave að fá aðgang að hljóð- og myndskeiðaskrám</string>
-    <string name="allow_storage_access_description">Mix Wave þarf að fá þessa heimild hjá þér til að fá aðgang að margmiðlunarskrám á þessu tæki.</string>
+    <string name="allow_storage_access_title">Leyfa Osho Discourse að fá aðgang að hljóð- og myndskeiðaskrám</string>
+    <string name="allow_storage_access_description">Osho Discourse þarf að fá þessa heimild hjá þér til að fá aðgang að margmiðlunarskrám á þessu tæki.</string>
     <string name="never_ask_again">Ekki spyrja aftur</string>
-    <string name="allow_settings_access_ringtone_title">Leyfa Mix Wave að setja hringitón</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave þarf að fá þessa heimild hjá þér til að setja þetta lag upp sem hringitón.</string>
-    <string name="allow_settings_access_brightness_title">Leyfa Mix Wave að stilla birtustigsham</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave þarf að fá þessa heimild hjá þér til að breyta birtustigshamnum.</string>
-    <string name="allow_draw_overlays_title">Leyfa Mix Wave-spilaranum að spretta upp yfir aðra forritsglugga</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave þarf að fá þessa heimild hjá þér til að birta myndskeið í sprettglugga ofan á öðrum forritum.</string>
+    <string name="allow_settings_access_ringtone_title">Leyfa Osho Discourse að setja hringitón</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse þarf að fá þessa heimild hjá þér til að setja þetta lag upp sem hringitón.</string>
+    <string name="allow_settings_access_brightness_title">Leyfa Osho Discourse að stilla birtustigsham</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse þarf að fá þessa heimild hjá þér til að breyta birtustigshamnum.</string>
+    <string name="allow_draw_overlays_title">Leyfa Osho Discourse-spilaranum að spretta upp yfir aðra forritsglugga</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse þarf að fá þessa heimild hjá þér til að birta myndskeið í sprettglugga ofan á öðrum forritum.</string>
     <string name="permission_ask_again">Gefa heimild</string>
     <string name="pick_file">Veldu skrá</string>
     <string name="permission_not_granted">Heimild ekki veitt</string>
-    <string name="exit_app">Loka Mix Wave</string>
-    <string name="exit_app_msg">Ertu viss um að þú viljir hætta í Mix Wave?</string>
-    <string name="widget_explanation_title">Mix Wave-viðmótshlutar</string>
+    <string name="exit_app">Loka Osho Discourse</string>
+    <string name="exit_app_msg">Ertu viss um að þú viljir hætta í Osho Discourse?</string>
+    <string name="widget_explanation_title">Osho Discourse-viðmótshlutar</string>
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller spor</string>
     <string name="fastscroller_handle">FastScroller haldfang</string>
@@ -599,7 +599,7 @@
     <string name="length">Lengd</string>
     <string name="tv_settings_hint">Ýttu lengi á \'Í lagi\'-hnappinn til að merkja/afmerkja möppur</string>
     <string name="ml_external_storage_title">Ný ytri gagnageymsla fannst</string>
-    <string name="ml_external_storage_msg">Vilt þú að Mix Wave bæti %1$s tækinu í margmiðlunarsafnið þitt?</string>
+    <string name="ml_external_storage_msg">Vilt þú að Osho Discourse bæti %1$s tækinu í margmiðlunarsafnið þitt?</string>
     <string name="ml_external_storage_accept">Já</string>
     <string name="ml_external_storage_decline">Nei</string>
     <string name="auto_last_added_media">Síðast bætt við</string>
@@ -629,8 +629,8 @@
     <string name="browser_storages">Gagnageymslur</string>
     <string name="msg_delete_failed">Mistókst að eyða gögnum %1$s</string>
     <string name="renderer_list_title">Skjáir</string>
-    <string name="sdcard_permission_dialog_title">Þú þarft að gefa Mix Wave skrifaðgang að minniskortinu þínu</string>
-    <string name="sdcard_permission_dialog_message">Mix Wave getur ekki eytt þessari skrá án skrifheimilda.\nFarðu í minniskortið og smelltu á \"Velja\".\nÞú gætir fyrst þurft að smella á \"Birta minniskort\" í valmyndinni efst til hægri</string>
+    <string name="sdcard_permission_dialog_title">Þú þarft að gefa Osho Discourse skrifaðgang að minniskortinu þínu</string>
+    <string name="sdcard_permission_dialog_message">Osho Discourse getur ekki eytt þessari skrá án skrifheimilda.\nFarðu í minniskortið og smelltu á \"Velja\".\nÞú gætir fyrst þurft að smella á \"Birta minniskort\" í valmyndinni efst til hægri</string>
     <string name="dialog_sd_wizard">Sýna mér</string>
     <string name="renderers_disconnect">Aftengjast</string>
     <string name="audio_digital_failed">Mistókst að breyta stöðu stafræns hljóðúttaks</string>
@@ -645,7 +645,7 @@
     <string name="playback_rewind">Spóla til baka</string>
     <string name="playback_forward">Spóla hratt áfram</string>
     <string name="ml_wizard_scan_checkbox">Leita að margmiðlunarskrám á tækinu</string>
-    <string name="ml_wizard_description">Veldu hvort Mix Wave eigi að leita á öllu geymsluminni tækisins við skipulagningu margmiðlunarsafnsins eða hvort það eigi að hegða sér eins og einfaldur margmiðlunarspilari með innbyggðum vafra.</string>
+    <string name="ml_wizard_description">Veldu hvort Osho Discourse eigi að leita á öllu geymsluminni tækisins við skipulagningu margmiðlunarsafnsins eða hvort það eigi að hegða sér eins og einfaldur margmiðlunarspilari með innbyggðum vafra.</string>
     <string name="tv_my_new_videos">Ný myndskeið</string>
     <string name="otg_device_title">OTG-tæki</string>
     <string name="browser">Vafri</string>
@@ -679,25 +679,25 @@
     <string name="ctx_player_subs_track">Skjátextaspor</string>
     <string name="ctx_pip_title">Sprettspilari</string>
     <string name="device_dialog_title">Ytra tæki var tengt</string>
-    <string name="device_dialog_message">Þú varst að stinga geymslutæki í samband við sjónvarpsboxið þitt, viltu opna það með Mix Wave?</string>
+    <string name="device_dialog_message">Þú varst að stinga geymslutæki í samband við sjónvarpsboxið þitt, viltu opna það með Osho Discourse?</string>
     <string name="videos_folders_title">Myndskeið eftir möppum</string>
     <string name="videos_groups_title">Hópar myndskeiða</string>
     <string name="video_save_clone_mode">Virkja klónunarham sjálfvirkt?</string>
     <string name="video_remote_enable">Skipta yfir í fjarstýringarham</string>
     <string name="video_remote_disable">Tvítaka skjá</string>
     <string name="removed_from_playlist_anonymous">Atriði fjarlægð af spilunarlista</string>
-    <string name="welcome_title">Velkomin í Mix Wave!</string>
+    <string name="welcome_title">Velkomin í Osho Discourse!</string>
     <string name="welcome_subtitle">Frjálsi og opni margmiðlunarspilarinn</string>
-    <string name="permission_media">Mix Wave þarf að fá heimild hjá þér fyrir aðgang að margmiðlunarskrám á þessu tæki</string>
-    <string name="medialibrary_scan_explanation">Mix Wave getur skannað tækið sjálfvirkt til að skipuleggja margmiðlunarsafnið þitt.</string>
+    <string name="permission_media">Osho Discourse þarf að fá heimild hjá þér fyrir aðgang að margmiðlunarskrám á þessu tæki</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse getur skannað tækið sjálfvirkt til að skipuleggja margmiðlunarsafnið þitt.</string>
     <string name="onboarding_theme_title">Gerðu þig heimakominn</string>
     <string name="done">Búið</string>
     <string name="onboarding_scan_title">Finndu margmiðlunargögnin þín sjálfvirkt</string>
-    <string name="onboarding_all_set">Mix Wave er tilbúið!</string>
-    <string name="daynight_system_explanation">Mix Wave mun skipta sjálfvirkt í dökkan ham í samræmi við kerfisstillingar</string>
-    <string name="daynight_legacy_explanation">Mix Wave mun skipta sjálfvirkt í næturham á viðeigandi tíma</string>
-    <string name="onboarding_scanning_enable">Láta Mix Wave leita að margmiðlunarskrám á tækinu</string>
-    <string name="onboarding_scan_customize">Leyfðu mér að velja hvaða möppur Mix Wave mun skanna</string>
+    <string name="onboarding_all_set">Osho Discourse er tilbúið!</string>
+    <string name="daynight_system_explanation">Osho Discourse mun skipta sjálfvirkt í dökkan ham í samræmi við kerfisstillingar</string>
+    <string name="daynight_legacy_explanation">Osho Discourse mun skipta sjálfvirkt í næturham á viðeigandi tíma</string>
+    <string name="onboarding_scanning_enable">Láta Osho Discourse leita að margmiðlunarskrám á tækinu</string>
+    <string name="onboarding_scan_customize">Leyfðu mér að velja hvaða möppur Osho Discourse mun skanna</string>
     <string name="button_medialibrary_preferences">Fara í kjörstillingar margmiðlunarsafns</string>
     <string name="light_theme">Ljóst þema</string>
     <string name="add">Bæta við</string>
@@ -733,13 +733,13 @@
     <string name="display_in_grid">Birta í reitum</string>
     <string name="dump_db_succes">Dembdi gagnagrunni á rót innri gagnageymslu</string>
     <string name="dump_db_failure">Mistókst að demba gagnagrunni</string>
-    <string name="send_crash_title">Hrunskýrslugerð Mix Wave</string>
-    <string name="send_crash_description">Með því að senda okkur upplýsingar um hrunið hjá þér, þá ertu að hjálpa okkur við að bæta stöðugleika Mix Wave.</string>
+    <string name="send_crash_title">Hrunskýrslugerð Osho Discourse</string>
+    <string name="send_crash_description">Með því að senda okkur upplýsingar um hrunið hjá þér, þá ertu að hjálpa okkur við að bæta stöðugleika Osho Discourse.</string>
     <string name="send_crash_warning">Gakktu úr skugga um að þú fjarlægir öll viðkvæm gögn sem þú vilt ekki að sendist með.</string>
     <string name="include_medialib">Hafðu með gagnagrunninn þinn</string>
-    <string name="vlc_reporter">Mix Wave-skýrslugerð</string>
-    <string name="welcome_beta_title">Mix Wave-prófunarútgáfa</string>
-    <string name="welcome_beta_description">Velkomin í Mix Wave-beta prófunarútgáfuna.\nAthugaðu að þessi útgáfa gæti innihaldið ýmsar villur í kóða.</string>
+    <string name="vlc_reporter">Osho Discourse-skýrslugerð</string>
+    <string name="welcome_beta_title">Osho Discourse-prófunarútgáfa</string>
+    <string name="welcome_beta_description">Velkomin í Osho Discourse-beta prófunarútgáfuna.\nAthugaðu að þessi útgáfa gæti innihaldið ýmsar villur í kóða.</string>
     <string name="welcome_beta_description_bugs">Ef þú rekst á villu, skaltu endilega tilkynna hana á spjallsvæðinu okkar eða í villuskráningunni.</string>
     <string name="send">Senda</string>
     <string name="send_crash_action_title">Hvað viltu gera?</string>
@@ -831,18 +831,18 @@
     <string name="sub_result_by_name_season">Árgangur %s</string>
     <string name="sub_result_by_name_episode">Þáttur %s</string>
     <string name="sub_result_by_file">Niðurstöður fyrir skrána þína</string>
-    <string name="donate">Hjálpa Mix Wave</string>
-    <string name="donate_desc">Styddu við sjálfboðaliðana sem þróa Mix Wave</string>
+    <string name="donate">Hjálpa Osho Discourse</string>
+    <string name="donate_desc">Styddu við sjálfboðaliðana sem þróa Osho Discourse</string>
     <string name="donate_subscribtion">Ég myndi vilja að þetta væri mánaðarlegur stuðningur</string>
     <string name="donate_send">Byrjaðu stuðning þinn</string>
-    <string name="donation_description">Styrkurinn frá þér mun hjálpa okkur að:\nBæta Mix Wave forritið fyrir Android\nStyðja við Mix Wave-samtökin</string>
+    <string name="donation_description">Styrkurinn frá þér mun hjálpa okkur að:\nBæta Osho Discourse forritið fyrir Android\nStyðja við Osho Discourse-samtökin</string>
     <string name="subscription_purchased">Þú ert með áskrift að mánaðarlegri styrkveitingu</string>
     <string name="subscription_cancel">Þú getur sagt upp áskriftinni í Play Store</string>
     <string name="subscription_cancel_tv">Hvernig er hægt að segja upp áskrift</string>
     <string name="donate_unsubscribe_tv">Til að segja upp áskriftinni skaltu opna %s á síma eða tölvu eða skanna þennan kóða:</string>
-    <string name="tip_jar">Hjálpa Mix Wave</string>
+    <string name="tip_jar">Hjálpa Osho Discourse</string>
     <string name="thank_you">Takk fyrir</string>
-    <string name="thank_you_desc">Takk fyrir styrkinn frá þér!\nÞetta mun hjálpa okkur við að bæta Mix Wave!</string>
+    <string name="thank_you_desc">Takk fyrir styrkinn frá þér!\nÞetta mun hjálpa okkur við að bæta Osho Discourse!</string>
     <string name="donate_again">Styrkja forritið aftur</string>
 
     <string name="mark_as_played">Merkja sem spilað</string>
@@ -859,7 +859,7 @@
     <string name="air_action_next">Næsta atriði í afspilun</string>
     <string name="air_action_previous">Fyrra atriði í afspilun</string>
     <string name="allow_otg">Leyfa OTG-aðgang</string>
-    <string name="allow_otg_description">Veldu það OTG-drif sem þú vilt leyfa að hafi aðgang að Mix Wave.</string>
+    <string name="allow_otg_description">Veldu það OTG-drif sem þú vilt leyfa að hafi aðgang að Osho Discourse.</string>
     <string name="timeout_infinite">Óendanlegt</string>
     <string name="video_hud_timeout">Töf við að fela stýringar myndspilara</string>
     <string name="video_hud_timeout_summary">%ss</string>
@@ -891,7 +891,7 @@
     <string name="bookmark_added">Bókamerki bætt við</string>
     <string name="show">Sýna</string>
     <string name="optional_features">Valkvæðir eiginleikar</string>
-    <string name="start_vlc">Ræsa Mix Wave</string>
+    <string name="start_vlc">Ræsa Osho Discourse</string>
     <string name="jump_delay_summary">%s sekúndur</string>
     <string name="move_up">Færa upp</string>
     <string name="move_down">Færa niður</string>
@@ -934,7 +934,7 @@
     <string name="widget_show_cover">Birta kápu</string>
     <string name="seek_backward_content_description">Leita %s sekúndur afturábak</string>
     <string name="seek_forward_content_description">Leita %s sekúndur áfram</string>
-    <string name="open_vlc">Opna Mix Wave</string>
+    <string name="open_vlc">Opna Osho Discourse</string>
     <string name="playing">Spilandi</string>
     <string name="disable_track">Gera spor óvirkt</string>
     <string name="ascending">Hækkandi</string>

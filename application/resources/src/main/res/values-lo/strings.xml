@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">ຕົກລົງ</string>
     <string name="cancel">ຍົກເລີກ</string>
     <string name="other">ອື່ນໆ</string>
@@ -29,7 +29,7 @@
     <string name="play_as_audio">ຫຼິ້ນໃນຮູບແບບສຽງ</string>
     <string name="play_as_video">ຫຼິ້ນໃນຮູບແບບວິດີໂອ</string>
     <string name="video_app_switch_title">ໂໝດພື້ນຫຼັງ/PiP</string>
-    <string name="video_app_switch_summary">ເລືອກຄຸນລັກສະນະ Mix Wave ໃນເວລາທີ່ທ່ານປ່ຽນໄປໃຊ້ແອັບພລິເຄຊັນອື່ນຈາກການຫຼິ້ນວິດີໂອ</string>
+    <string name="video_app_switch_summary">ເລືອກຄຸນລັກສະນະ Osho Discourse ໃນເວລາທີ່ທ່ານປ່ຽນໄປໃຊ້ແອັບພລິເຄຊັນອື່ນຈາກການຫຼິ້ນວິດີໂອ</string>
     <string name="play_pip_title">ຫຼິ້ນວິດີໂອໃນໂໝດ Picture-in-picture</string>
     <string name="play_as_audio_background">ຫຼິ້ນວິດີໂອໃນພື້ນຫຼັງ</string>
     <string name="insert_next">ໃສ່ຕໍ່ໄປ</string>
@@ -153,7 +153,7 @@
     <string name="hold_to_stop">ກົດຄ້າງໄວ້ເພື່ອຢຸດ</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">ປັບປຸງໃໝ່</string>
     <string name="about">ກ່ຽວກັບ</string>
     <!-- Preferences -->
@@ -173,6 +173,6 @@
     <string name="subtitles_size_big">ໃຫຍ່</string>
     <string name="subtitles_size_huge">ມະຫຶມາ</string>
     <string name="network_browsing">ເຄືອຂ່າຍທ້ອງຖິ່ນ</string>
-    <string name="allow_storage_access_title">ອະນຸຍາດໃຫ້ Mix Wave ເຂົ້າເຖິິງໄຟລ໌ວິດີໂອແລະສຽງ</string>
+    <string name="allow_storage_access_title">ອະນຸຍາດໃຫ້ Osho Discourse ເຂົ້າເຖິິງໄຟລ໌ວິດີໂອແລະສຽງ</string>
     <string name="next">ຕໍ່ໄປ</string>
     </resources>

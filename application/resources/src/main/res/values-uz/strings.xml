@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Bekor qilish</string>
     <string name="other">Boshqa</string>
@@ -92,7 +92,7 @@
     <string name="jump_to_time">Vaqt bo‘yicha o‘tish</string>
     <string name="subtitle_select">Subtitr faylini tanlang</string>
     <string name="encountered_error_title">Ijro etishda xato</string>
-    <string name="encountered_error_message">Mix Wave`da ushbu media bilan muammo boʻldi.\nMedia kutubxonasini yangilashga harakat qiling.</string>
+    <string name="encountered_error_message">Osho Discourse`da ushbu media bilan muammo boʻldi.\nMedia kutubxonasini yangilashga harakat qiling.</string>
     <string name="invalid_location">%1$s manzilidagi media faylni ijro etib bo‘lmaydi.</string>
     <string name="search">Izlash</string>
 
@@ -157,9 +157,9 @@
     <string name="dump_logcat">logcat jurnaliga yuklash</string>
     <string name="dump_logcat_success">Logcat muvaffaqiyatli tarzda %1$sga yuklandi.</string>
     <string name="dump_logcat_failure">Logcat yuklash amalga oshmadi.</string>
-    <string name="serious_crash">Kechirasiz, jiddiy xatolik yuz bergani sababli Mix Wave majburan yopiladi.</string>
-    <string name="help_us_send_log">Quyidagi ishdan chiqish holatlari jurnalini yuborish orqali Mix Wave dasturini takomillashtirishga yordam bering:</string>
-    <string name="restart_vlc">Mix Wave’ni qayta ishga tushirish</string>
+    <string name="serious_crash">Kechirasiz, jiddiy xatolik yuz bergani sababli Osho Discourse majburan yopiladi.</string>
+    <string name="help_us_send_log">Quyidagi ishdan chiqish holatlari jurnalini yuborish orqali Osho Discourse dasturini takomillashtirishga yordam bering:</string>
+    <string name="restart_vlc">Osho Discourse’ni qayta ishga tushirish</string>
     <string name="send_log">Jurnalni yuborish</string>
     <string name="sending_log">Jurnal yuborilmoqda</string>
 

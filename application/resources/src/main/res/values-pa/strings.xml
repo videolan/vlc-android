@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">ਠੀਕ ਹੈ</string>
     <string name="cancel">ਰੱਦ ਕਰੋ</string>
     <string name="other">ਹੋਰ</string>
@@ -100,7 +100,7 @@
     <string name="jump_to_time">ਸਮੇਂ ਉੱਤੇ ਜਾਓ</string>
     <string name="subtitle_select">ਸਬ-ਟਾਈਟਲ ਫਾਇਲ ਚੁਣੋ</string>
     <string name="encountered_error_title">ਪਲੇਅਬੈਕ ਗਲਤੀ</string>
-    <string name="encountered_error_message">Mix Wave ਨੂੰ ਇਸ ਮੀਡਿਆ ਨਾਲ ਸਮੱਸਿਆ ਆਈ ਹੈ।\nਕਿਰਪਾ ਕਰਕੇ ਮੀਡਿਆ ਲਾਇਬਰੇਰੀ ਨੂੰ ਤਾਜ਼ਾ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</string>
+    <string name="encountered_error_message">Osho Discourse ਨੂੰ ਇਸ ਮੀਡਿਆ ਨਾਲ ਸਮੱਸਿਆ ਆਈ ਹੈ।\nਕਿਰਪਾ ਕਰਕੇ ਮੀਡਿਆ ਲਾਇਬਰੇਰੀ ਨੂੰ ਤਾਜ਼ਾ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</string>
     <string name="invalid_location">ਟਿਕਾਣਾ %1$s ਚਲਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।</string>
     <string name="search">ਖੋਜ</string>
 
@@ -146,7 +146,7 @@
     <string name="clear_log">ਲਾਗ ਸਾਫ਼ ਕਰੋ</string>
     <string name="copy_to_clipboard">ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ ਕਰੋ</string>
     <string name="copied_to_clipboard">ਲਾਗ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ ਕੀਤਾ</string>
-    <string name="restart_vlc">Mix Wave ਮੁੜ-ਚਾਲੂ ਕਰੋ</string>
+    <string name="restart_vlc">Osho Discourse ਮੁੜ-ਚਾਲੂ ਕਰੋ</string>
     <string name="send_log">ਲਾਗ ਭੇਜੋ</string>
     <string name="next">ਅੱਗੇ</string>
     </resources>

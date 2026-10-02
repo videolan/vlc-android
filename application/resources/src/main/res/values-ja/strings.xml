@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">OK</string>
     <string name="cancel">キャンセル</string>
     <string name="other">その他</string>
@@ -42,8 +42,8 @@
     <string name="playback_controls">再生コントロール</string>
     <string name="medialibrary_scan">メディアライブラリ検索</string>
     <string name="Medialibrary_progress">メディアライブラリ検索状況の更新</string>
-    <string name="ml_database_warning">あなたのメディアはすべてデータベースに含まれており、Mix Waveの開発者に共有されます。</string>
-    <string name="logs_warning">あなたが再生したメディアの情報が含まれている可能性があり、それらもMix Waveの開発者に共有されます。</string>
+    <string name="ml_database_warning">あなたのメディアはすべてデータベースに含まれており、Osho Discourseの開発者に共有されます。</string>
+    <string name="logs_warning">あなたが再生したメディアの情報が含まれている可能性があり、それらもOsho Discourseの開発者に共有されます。</string>
     <string name="play_from_start">最初から再生</string>
     <string name="play_as_audio">オーディオとして再生</string>
     <string name="play_as_video">ビデオとして再生</string>
@@ -304,12 +304,12 @@
     <string name="hold_to_stop">停止を保持</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">リビジョン</string>
-    <string name="about">Mix Waveについて</string>
-    <string name="about_vlc_text">Mix Wave for Android™ はポピュラーなオープンソースのメディアプレイヤーであるMix Waveメディアプレイヤーの移植版です。Android™ 版は多くのファイルとネットワークストリームを読み込むことが可能です。</string>
+    <string name="about">Osho Discourseについて</string>
+    <string name="about_vlc_text">Osho Discourse for Android™ はポピュラーなオープンソースのメディアプレイヤーであるOsho Discourseメディアプレイヤーの移植版です。Android™ 版は多くのファイルとネットワークストリームを読み込むことが可能です。</string>
     <string name="authors">作成者</string>
-    <string name="vlc_authors">およびMix Waveの著作者。</string>
+    <string name="vlc_authors">およびOsho Discourseの著作者。</string>
     <string name="is_compiled_by">コンパイラー</string>
     <string name="is_signed_by">署名</string>
     <string name="sources">ソースコード</string>
@@ -489,7 +489,7 @@
     <string name="replaygain_album">アルバム</string>
     <string name="aout">オーディオ出力</string>
     <string name="aout_summary">オーディオ出力に使用するメソッドを変更します。</string>
-    <string name="audio_ducking_title">通知時にMix Waveの音量を下げる</string>
+    <string name="audio_ducking_title">通知時にOsho Discourseの音量を下げる</string>
     <string name="audio_ducking_summary">音声通知、ナビゲーションまたはアシスタント会話を聴き取りやすくする</string>
     <string name="casting_category">キャスティング</string>
     <string name="remote_access">リモートアクセス</string>
@@ -566,7 +566,7 @@
     <string name="clear_media_db">メディアデータベースをクリア</string>
     <string name="clear_media_database_summary">データベースをクリアして最初からやり直す</string>
     <string name="clear_app_data">アプリケーションデータをクリア</string>
-    <string name="clear_app_data_summary">Mix Wave for Androidのデータをクリア</string>
+    <string name="clear_app_data_summary">Osho Discourse for Androidのデータをクリア</string>
     <string name="clear_history">履歴をクリア</string>
     <string name="clear_history_message">履歴、現在のプレイリストと進行状況を失います。</string>
     <string name="set_locale">ロケールの設定</string>
@@ -592,7 +592,7 @@
     <string name="start_logging">ログを開始</string>
     <string name="stop_logging">ログを停止</string>
     <string name="clear_log">ログを消去</string>
-    <string name="log_service_title">Mix Waveログの記録</string>
+    <string name="log_service_title">Osho Discourseログの記録</string>
     <string name="log_service_text">ログコンソールを開く</string>
     <string name="copy_to_clipboard">クリップボードにコピー</string>
     <string name="copied_to_clipboard">クリップボードにコピーされたログ</string>
@@ -610,10 +610,10 @@
     <string name="browser_quick_play_default">デフォルトのアクションにクイックプレイを設定</string>
     <string name="browser_quick_play_default_summary">有効化するとブラウザの項目をタップするとクイックプレイを利用して再生します</string>
 
-    <string name="serious_crash">深刻なエラーが発生したため、Mix Waveを終了しました。</string>
-    <string name="help_us_send_log">以下のクラッシュログを送信することでMix Waveの改善に協力してください:</string>
+    <string name="serious_crash">深刻なエラーが発生したため、Osho Discourseを終了しました。</string>
+    <string name="help_us_send_log">以下のクラッシュログを送信することでOsho Discourseの改善に協力してください:</string>
     <string name="ml_crash_send">メディアライブラリがクラッシュしました。ログを送信して開発者にフィードバックします。</string>
-    <string name="restart_vlc">Mix Waveの再起動</string>
+    <string name="restart_vlc">Osho Discourseの再起動</string>
     <string name="send_log">ログの送信</string>
     <string name="sending_log">ログを送信中…</string>
 
@@ -658,7 +658,7 @@
     <string name="medialibrary_directories">メディアライブラリフォルダー</string>
 
     <!--What's new-->
-    <string name="whats_new_title">Mix Wave for Android %s の更新情報</string>
+    <string name="whats_new_title">Osho Discourse for Android %s の更新情報</string>
     <string name="whats_new_37_equalizer_text">イコライザーを一から見直しました。より使いやすくなり、デフォルトのプリセットを無効化できるようになり、バックアップ、復元、共有も可能になりました。</string>
     <string name="whats_new_37_import_export">設定のバックアップと復元機能を改善しました。イコライザープリセットを含む、より多くの設定をバックアップできるようになりました。</string>
     <string name="whats_new_37_android_auto">ストア側の新たな制約により、Android Autoの設定はすべてモバイルアプリに移行しました。モバイルアプリは、あなたのカーエクスペリエンスを変えるための新たな場所となります。</string>
@@ -667,7 +667,7 @@
 <!--    update-->
     <string name="update_title">アップデートがあります</string>
     <string name="install_nightly_title">ナイトリーバージョンをインストール</string>
-    <string name="update_text">Mix Wave for Androidの新しいナイトリーリリースがあります!\n\nこのメッセージはあなたがナイトリー版を利用しているため表示されています。</string>
+    <string name="update_text">Osho Discourse for Androidの新しいナイトリーリリースがあります!\n\nこのメッセージはあなたがナイトリー版を利用しているため表示されています。</string>
     <string name="install_text">ナイトリーバージョンは自動的に最新の機能と修正が行われて更新されています。\n\nすぐにダウンロードしますか?</string>
 
     <string name="open_in_browser">ブラウザーで開く</string>
@@ -688,28 +688,28 @@
     <string name="music_now_playing">再生中</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Mix Wave白色ウィジェット</string>
-    <string name="widget_name_b">Mix Waveダークウィジェット</string>
-    <string name="widget_name_mini_player">Mix Waveミニプレイヤー</string>
+    <string name="widget_name_w">Osho Discourse白色ウィジェット</string>
+    <string name="widget_name_b">Osho Discourseダークウィジェット</string>
+    <string name="widget_name_mini_player">Osho Discourseミニプレイヤー</string>
     <string name="widget_old_text">私たちのWebサイトが更新されました!</string>
     <string name="widget_old_description_start">お知らせです!改善されたウィジェットをリリースしました。\n応答性が良く、カスタマイズも可能です。</string>
     <string name="whats_next">さて、次は?</string>
     <string name="widget_old_description_end">あなたのラウンチャーにウィジェットが使われていることを検出しましたが、残念ながら新しいものと互換性がありません。\nご使用中のラウンチャーに依存しますが、古いウィジェットを削除して新しいものと入れ替える必要があるかも知れません。</string>
     <string name="click_here">ここをクリックすると詳細を表示します。</string>
-    <string name="allow_storage_access_title">Mix Waveがビデオとオーディオファイルにアクセスすることを許可</string>
-    <string name="allow_storage_access_description">このデバイスのメディアファイルにアクセスするためにMix Waveに許可を与える必要があります。</string>
-    <string name="partial_content">Mix Waveがすべてのファイルにアクセスできません</string>
+    <string name="allow_storage_access_title">Osho Discourseがビデオとオーディオファイルにアクセスすることを許可</string>
+    <string name="allow_storage_access_description">このデバイスのメディアファイルにアクセスするためにOsho Discourseに許可を与える必要があります。</string>
+    <string name="partial_content">Osho Discourseがすべてのファイルにアクセスできません</string>
     <string name="partial_content_description">Android 11で使用する場合、アプリケーションはデバイスのすべてのファイルにアクセスするために特別な権限が必要です。\n\n%s</string>
     <string name="never_ask_again">問い合わせない</string>
     <string name="never_show_again">表示しない(将来のバージョンでも継続)</string>
-    <string name="allow_settings_access_ringtone_title">Mix Waveに着信音の設定を許可</string>
-    <string name="allow_settings_access_ringtone_description">この音楽を着信音に設定するためにMix Waveに許可を与える必要があります。</string>
-    <string name="allow_settings_access_brightness_title">Mix Waveが輝度モードを変更することを許可</string>
-    <string name="allow_settings_access_brightness_description">輝度モードを変更するためにMix Waveに許可を与える必要があります。</string>
+    <string name="allow_settings_access_ringtone_title">Osho Discourseに着信音の設定を許可</string>
+    <string name="allow_settings_access_ringtone_description">この音楽を着信音に設定するためにOsho Discourseに許可を与える必要があります。</string>
+    <string name="allow_settings_access_brightness_title">Osho Discourseが輝度モードを変更することを許可</string>
+    <string name="allow_settings_access_brightness_description">輝度モードを変更するためにOsho Discourseに許可を与える必要があります。</string>
     <string name="allow_draw_overlays_title">他のアプリケーション上へポップアップ表示を許可</string>
-    <string name="allow_sdraw_overlays_description">他のアプリケーションの上にビデオをポップアップ表示するためにMix Waveに許可を与える必要があります。</string>
-    <string name="allow_pip">Mix Waveプレイヤーがピクチャーインピクチャーで表示することを許可</string>
-    <string name="allow_pip_description">ピクチャーインピクチャーモードで表示するためにMix Waveに権限を与える必要があります。</string>
+    <string name="allow_sdraw_overlays_description">他のアプリケーションの上にビデオをポップアップ表示するためにOsho Discourseに許可を与える必要があります。</string>
+    <string name="allow_pip">Osho Discourseプレイヤーがピクチャーインピクチャーで表示することを許可</string>
+    <string name="allow_pip_description">ピクチャーインピクチャーモードで表示するためにOsho Discourseに権限を与える必要があります。</string>
     <string name="permission_ask_again">許可する</string>
     <string name="pick_file">ファイルの取り出し</string>
     <string name="permission_not_granted">権限が付与されていません</string>
@@ -718,9 +718,9 @@
     <string name="permission_onboarding_no_perm">メディアを自動検出することはできません。\n再生できるのはストリームまたはネットワークメディアのみです。</string>
     <string name="permission_onboarding_perm_media">自動検出できるのは、標準のメディアファイルのみです。</string>
     <string name="permission_onboarding_perm_all">すべてのファイルを自動検出して、変なメディアや圧縮ファイルを含むすべてのタイプのメディアを再生できるようになります</string>
-    <string name="exit_app">Mix Waveを閉じる</string>
-    <string name="exit_app_msg">本当にMix Waveを終了してもいいですか?</string>
-    <string name="widget_explanation_title">Mix Waveウィジェット</string>
+    <string name="exit_app">Osho Discourseを閉じる</string>
+    <string name="exit_app_msg">本当にOsho Discourseを終了してもいいですか?</string>
+    <string name="widget_explanation_title">Osho Discourseウィジェット</string>
     <string name="widget_explanation_size">ウィジェットは異なるサイズとフレーバーを楽しむことができます</string>
     <string name="widget_explanation_resize">ウィジェットを長押しするとタイプの変更やサイズをお好みに合わせて変更することができます。</string>
     <string name="widget_explanation_end">ウィジェットは自由にカスタマイズすることができます。あなたの想像を解き放ちデザインしてください。</string>
@@ -807,8 +807,8 @@
     <string name="browser_storages">ストレージ</string>
     <string name="msg_delete_failed">メディアの削除に失敗しました%1$s</string>
     <string name="renderer_list_title">ディスプレイ</string>
-    <string name="sdcard_permission_dialog_title">SDカードへの書き込み権をMix Waveに与えてください</string>
-    <string name="sdcard_permission_dialog_message">書き込み権が無いとMix Waveがこのファイルを削除することができません。\nSDカードで\"選択\"をクリックしてください。\n右上のメニューで”SDカードの表示\"をクリックする必要があるかも知れません。</string>
+    <string name="sdcard_permission_dialog_title">SDカードへの書き込み権をOsho Discourseに与えてください</string>
+    <string name="sdcard_permission_dialog_message">書き込み権が無いとOsho Discourseがこのファイルを削除することができません。\nSDカードで\"選択\"をクリックしてください。\n右上のメニューで”SDカードの表示\"をクリックする必要があるかも知れません。</string>
     <string name="dialog_sd_wizard">SDカードへのアクセスを許可</string>
     <string name="renderers_disconnect">切断</string>
     <string name="audio_digital_failed">オーディオデジタル出力状態の変更に失敗しました。</string>
@@ -823,7 +823,7 @@
     <string name="playback_rewind">戻す</string>
     <string name="playback_forward">高速に進める</string>
     <string name="ml_wizard_scan_checkbox">メディアコンテンツをデバイス上で検索</string>
-    <string name="ml_wizard_description">Mix Waveがデバイスのストレージを検索してメディアライブラリーを管理するか、または統合されたブラウザーとともに単純なプレイヤーとして使用するか選択してください。</string>
+    <string name="ml_wizard_description">Osho Discourseがデバイスのストレージを検索してメディアライブラリーを管理するか、または統合されたブラウザーとともに単純なプレイヤーとして使用するか選択してください。</string>
     <string name="tv_my_new_videos">新しいマイビデオ</string>
     <string name="cast_option_title">他のスクリーンにメディアをキャストする</string>
     <string name="otg_device_title">OTGデバイス</string>
@@ -862,29 +862,29 @@
     <string name="ctx_player_subs_track">字幕トラック</string>
     <string name="ctx_pip_title">ポップアッププレイヤー</string>
     <string name="device_dialog_title">外部デバイスが接続されました</string>
-    <string name="device_dialog_message">TVボックスに新しいストレージデバイスが接続されました。そのデバイスをMix Waveで使用しますか?</string>
+    <string name="device_dialog_message">TVボックスに新しいストレージデバイスが接続されました。そのデバイスをOsho Discourseで使用しますか?</string>
     <string name="videos_folders_title">フォルダーごとにビデオをグループ化</string>
     <string name="videos_groups_title">ビデオグループ</string>
     <string name="video_save_clone_mode">自動的にクローンモードを有効化しますか?</string>
     <string name="video_remote_enable">リモートコントロールモードに切替</string>
     <string name="video_remote_disable">スクリーン複製</string>
     <string name="removed_from_playlist_anonymous">プレイリストから項目が削除されました</string>
-    <string name="welcome_title">Mix Waveにようこそ!</string>
+    <string name="welcome_title">Osho Discourseにようこそ!</string>
     <string name="welcome_subtitle">フリーでオープンソースのマルチメディアプレイヤー</string>
     <string name="permission_media">デバイスのメディアにアクセスするために許可が必要です</string>
     <string name="permission_video">デバイスのビデオメディアにアクセスするために許可が必要です</string>
     <string name="permission_audio">デバイスのオーディオメディアにアクセスするために許可が必要です</string>
     <string name="medialibrary_scan_explanation">メディアコレクションを整理するために自動的にデバイス上のメディアを検索します。</string>
-    <string name="player_title_fd_warning">ストレージへの権限がない場合、Mix Waveはメディアのタイトルを読み込んだり進捗を書き込むことができません</string>
+    <string name="player_title_fd_warning">ストレージへの権限がない場合、Osho Discourseはメディアのタイトルを読み込んだり進捗を書き込むことができません</string>
     <string name="onboarding_theme_title">ご家庭での個人的な利用</string>
     <string name="done">完了</string>
     <string name="onboarding_scan_title">メディアの自動検索</string>
-    <string name="onboarding_all_set">Mix Waveの設定完了!</string>
+    <string name="onboarding_all_set">Osho Discourseの設定完了!</string>
     <string name="onboarding_permission_given">メディアの自動検索を利用できます。外部の字幕もストリームの再生やネットワークメディアの再生で同様に使用できます。</string>
     <string name="daynight_system_explanation">システム設定に従ってダークモードに自動的に切り替える</string>
     <string name="daynight_legacy_explanation">時間によって自動的に夜間モードに切り替える</string>
     <string name="onboarding_scanning_enable">デバイスのメディアコンテンツを検索</string>
-    <string name="onboarding_scan_customize">Mix Waveが検索するフォルダを選択</string>
+    <string name="onboarding_scan_customize">Osho Discourseが検索するフォルダを選択</string>
     <string name="button_medialibrary_preferences">メディアライブラリーの設定へ移動</string>
     <string name="light_theme">明いテーマ</string>
     <string name="add">追加</string>
@@ -896,7 +896,7 @@
     <string name="popup_force_legacy_title">カスタムピクチャーインピクチャーポップアップを使用</string>
     <string name="popup_force_legacy_summary">サイズ変更可能なカスタムピクチャーインピクチャーポップアップを使用</string>
     <string name="restore_background_video_title">バックグラウンドからビデオを復元</string>
-    <string name="restore_background_video_summary">Mix Wave for Androidを起動した時、バックグランドからビデオを復元する</string>
+    <string name="restore_background_video_summary">Osho Discourse for Androidを起動した時、バックグランドからビデオを復元する</string>
     <string name="device_default">デバイスのデフォルト</string>
     <string name="track_number">%d トラック</string>
     <string name="jump_to">ジャンプ先</string>
@@ -923,16 +923,16 @@
     <string name="display_in_grid">グリッド表示</string>
     <string name="dump_db_succes">内部ストレージのルートにデータベースのダンプが生成されました</string>
     <string name="dump_db_failure">データベースのダンプに失敗しました</string>
-    <string name="send_crash_title">Mix Waveクラッシュレポーター</string>
-    <string name="send_crash_description">あなたのクラッシュの事象を送信することでMix Waveの品質を向上することにご協力頂けます。</string>
+    <string name="send_crash_title">Osho Discourseクラッシュレポーター</string>
+    <string name="send_crash_description">あなたのクラッシュの事象を送信することでOsho Discourseの品質を向上することにご協力頂けます。</string>
     <string name="send_crash_warning">あなたが送信を望まない個人情報は削除することが可能です。</string>
     <string name="include_medialib">あなたのデータベースを含む</string>
     <string name="include_logs">あなたのログを含む</string>
-    <string name="vlc_reporter">Mix Waveレポーター</string>
-    <string name="welcome_beta_title">Mix Waveベータ</string>
-    <string name="welcome_beta_description">Mix Waveのベータプログラムへようこそ。\nこのバージョンはバグが残存しているかもしれません。</string>
+    <string name="vlc_reporter">Osho Discourseレポーター</string>
+    <string name="welcome_beta_title">Osho Discourseベータ</string>
+    <string name="welcome_beta_description">Osho Discourseのベータプログラムへようこそ。\nこのバージョンはバグが残存しているかもしれません。</string>
     <string name="welcome_beta_description_bugs">バグに気づいたら、私達のフォームまたは、バグトラッカーからレポートをお願いいたします。</string>
-    <string name="welcome_beta_description_crashes">バグやクラッシュに遭遇した場合、「Mix Waveについて」を開いてフィードバックフォームからサポートチームにコンタクトしてください。</string>
+    <string name="welcome_beta_description_crashes">バグやクラッシュに遭遇した場合、「Osho Discourseについて」を開いてフィードバックフォームからサポートチームにコンタクトしてください。</string>
     <string name="send">送信</string>
     <string name="send_crash_action_title">どのようにしますか?</string>
     <string name="report_a_bug">バグをレポート</string>
@@ -974,8 +974,8 @@
     <string name="recently_played">最近再生されたもの</string>
     <string name="recently_added">最近追加されたもの</string>
     <string name="playback_multiple_errors">複数のメディアは再生できません</string>
-    <string name="clear_media_db_message">作成したプレイリスト、ブックマーク、進捗が失われますが、Mix Wave for Androidの設定は保存されます</string>
-    <string name="clear_app_data_message">作成したプレイリスト、ブックマーク、進捗、Mix Wave for Androidの設定が失われます</string>
+    <string name="clear_media_db_message">作成したプレイリスト、ブックマーク、進捗が失われますが、Osho Discourse for Androidの設定は保存されます</string>
+    <string name="clear_app_data_message">作成したプレイリスト、ブックマーク、進捗、Osho Discourse for Androidの設定が失われます</string>
     <string name="clear">クリア</string>
     <string name="abrepeat_add_first_marker">開始点を設定</string>
     <string name="abrepeat_add_second_marker">終了点を設定</string>
@@ -1031,18 +1031,18 @@
     <string name="sub_result_by_name_hearing_impaired">聴覚障害のみ</string>
 
     <string name="sub_result_by_file">あなたのファイルに対する結果</string>
-    <string name="donate">Mix Waveを支援</string>
-    <string name="donate_desc">ボランティアがMix Waveを開発することを支援します</string>
+    <string name="donate">Osho Discourseを支援</string>
+    <string name="donate_desc">ボランティアがOsho Discourseを開発することを支援します</string>
     <string name="donate_subscribtion">毎月の支援を希望します</string>
     <string name="donate_send">支援を始める</string>
-    <string name="donation_description">あなたのご支援がMix Waveアソシエーションによる\nアンドロイド用Mix Waveアプリの改善を\nサポートします</string>
+    <string name="donation_description">あなたのご支援がOsho Discourseアソシエーションによる\nアンドロイド用Osho Discourseアプリの改善を\nサポートします</string>
     <string name="subscription_purchased">月次の支援に申し込みました</string>
     <string name="subscription_cancel">プレイストアで支援を停止することが可能です</string>
     <string name="subscription_cancel_tv">支援の停止方法</string>
     <string name="donate_unsubscribe_tv">支援を停止するには、スマートフォンまたはコンピューターから %s を開くか、このコードをスキャンしてください:</string>
-    <string name="tip_jar">Mix Waveを支援</string>
+    <string name="tip_jar">Osho Discourseを支援</string>
     <string name="thank_you">ありがとうございます</string>
-    <string name="thank_you_desc">支援の申し込みありがとうございます!\nMix Waveの改善に役立てさせて頂きます!</string>
+    <string name="thank_you_desc">支援の申し込みありがとうございます!\nOsho Discourseの改善に役立てさせて頂きます!</string>
     <string name="donate_again">アプリの支援を再開</string>
 
     <string name="mark_as_played">再生済みとしてマーク</string>
@@ -1060,7 +1060,7 @@
     <string name="air_action_next">次の項目を再生</string>
     <string name="air_action_previous">前の項目を再生</string>
     <string name="allow_otg">OTGアクセスの許可</string>
-    <string name="allow_otg_description">Mix Waveに対してアクセスを許可するOTGドライブを選択してください。</string>
+    <string name="allow_otg_description">Osho Discourseに対してアクセスを許可するOTGドライブを選択してください。</string>
     <string name="timeout_infinite">無限</string>
     <string name="video_hud_timeout">ビデオプレイヤーが隠れた遅延をコントロール</string>
     <string name="video_hud_timeout_summary">%s秒</string>
@@ -1128,7 +1128,7 @@
     <string name="optional_features_warning">この機能はベータであり、クラッシュを起こしたり、機能が変わることがあります</string>
     <string name="network_indexing">ネットワークのインデックス化</string>
     <string name="network_indexing_warning">現在、ネットワークのインデックス化はベータです。\n既知の問題:\nパフォーマンスの低下\n\n他の問題が発生した場合、フォーラムに報告してください。</string>
-    <string name="start_vlc">Mix Waveを起動</string>
+    <string name="start_vlc">Osho Discourseを起動</string>
     <string name="jump_delay">進める/戻るの遅延時間</string>
     <string name="long_jump_delay">長押しによる進める/戻るの遅延時間</string>
     <string name="jump_delay_summary">%s 秒</string>
@@ -1152,7 +1152,7 @@
     <string name="lock_use_sensor_summary">スクリーン方向がロックされている時、センサーの検知で反転を許可する</string>
     <string name="start">開始</string>
     <string name="notification_permission">通知権限</string>
-    <string name="notification_permission_explanation">Mix Waveは通知を送信するために許可が必要です。\nアプリケーションがメディアをスキャンする時、およびカスタムピクチャーインピクチャーを使用する時のみ通知を行います。\n通知を拒否してもMix Waveは動作しますが、通知が行われなくなります。</string>
+    <string name="notification_permission_explanation">Osho Discourseは通知を送信するために許可が必要です。\nアプリケーションがメディアをスキャンする時、およびカスタムピクチャーインピクチャーを使用する時のみ通知を行います。\n通知を拒否してもOsho Discourseは動作しますが、通知が行われなくなります。</string>
     <string name="permission">権限</string>
     <string name="permission_no_access">ファイルアクセスがありません</string>
     <string name="permissions">権限</string>
@@ -1219,7 +1219,7 @@
     <string name="widget_show_configure_summary">もし表示されなかったとしても右上の部分をタップすることで設定を開くことができます。</string>
     <string name="seek_backward_content_description"> %s 秒前へシーク</string>
     <string name="seek_forward_content_description"> %s 秒先へシーク</string>
-    <string name="open_vlc">Mix Waveを開く</string>
+    <string name="open_vlc">Osho Discourseを開く</string>
     <string name="playing">再生中</string>
     <string name="disable_track">トラックを無効化</string>
     <string name="ascending">昇順</string>
@@ -1324,7 +1324,7 @@
     <string name="ra_browser_audio_not_found">メディアが見つからないかブラウザで再生できません</string>
     <string name="ra_browser_audio_unsupported_format">このオーディオフォーマットはあなたのブラウザでサポートされていません</string>
 
-    <string name="ra_onboarding_welcome_desc">Android版Mix Waveのリモートアクセスにようこそ\nこれを有効化すると、このデバイスの再生などを制御できるようになります</string>
+    <string name="ra_onboarding_welcome_desc">Android版Osho Discourseのリモートアクセスにようこそ\nこれを有効化すると、このデバイスの再生などを制御できるようになります</string>
     <string name="ra_onboarding_how_title">デバイスの制御</string>
     <string name="ra_onboarding_how_desc">デバイスの再生、ファイルの送信または受信などを制御</string>
     <string name="ra_onboarding_ssl_title">データ暗号化</string>
@@ -1350,7 +1350,7 @@
     <string name="podcast_mode">Podcastモード</string>
     <string name="podcast_mode_help">Podcastのコントロールは以下のいずれかの条件を満たす単一トラックを再生するときに表示されます:\n\t• 長さが60分を超える場合\n\t• アルバム名がなく、長さが15分を超える場合\n\t• ジャンルが %s の場合</string>
     <string name="voice_control">音声制御</string>
-    <string name="voice_control_help">Mix WaveはGoogleアシスタントを通じて次のコマンドを話すことで制御することができます:\n\t• 再生、一時停止、停止、前へ、次へ\n\t• 巻き戻し、早送り、繰り返し、 &lt;すべて|一つのみ|停止&gt;\n\t• &lt;指定時間&gt; にジャンプ、 &lt;間隔&gt; をスキップ\n\t• これは何ですか &lt;アーティスト|アルバム|曲&gt;\n\t• [アーティスト|アルバム|曲|ジャンル|プレイリスト] &lt;名前&gt; を再生</string>
+    <string name="voice_control_help">Osho DiscourseはGoogleアシスタントを通じて次のコマンドを話すことで制御することができます:\n\t• 再生、一時停止、停止、前へ、次へ\n\t• 巻き戻し、早送り、繰り返し、 &lt;すべて|一つのみ|停止&gt;\n\t• &lt;指定時間&gt; にジャンプ、 &lt;間隔&gt; をスキップ\n\t• これは何ですか &lt;アーティスト|アルバム|曲&gt;\n\t• [アーティスト|アルバム|曲|ジャンル|プレイリスト] &lt;名前&gt; を再生</string>
 
     <string name="network" >ネットワーク</string>
     <string name="metered_connection">接続が従量制のストリームに対するアクション</string>

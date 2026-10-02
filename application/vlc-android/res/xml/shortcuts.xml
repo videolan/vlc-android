@@ -10,7 +10,7 @@
             android:shortcutLongLabel="@string/resume_audio_playback_long_title">
         <intent
             android:action="vlc.shortcut.resume"
-            android:targetPackage="com.sandalbar.mixwave"
+            android:targetPackage="com.oshodiscourse"
             android:targetClass="org.videolan.vlc.StartActivity" />
         <categories android:name="vlc.shortcut.category" />
     </shortcut>
@@ -22,7 +22,7 @@
         android:shortcutLongLabel="@string/directories" >
         <intent
             android:action="vlc.shortcut.browser"
-            android:targetPackage="com.sandalbar.mixwave"
+            android:targetPackage="com.oshodiscourse"
             android:targetClass="org.videolan.vlc.StartActivity" />
         <categories android:name="vlc.shortcut.category" />
     </shortcut>
@@ -35,7 +35,7 @@
         tools:targetApi="n_mr1">
         <intent
             android:action="vlc.shortcut.video"
-            android:targetPackage="com.sandalbar.mixwave"
+            android:targetPackage="com.oshodiscourse"
             android:targetClass="org.videolan.vlc.StartActivity" />
         <categories android:name="vlc.shortcut.category" />
     </shortcut>
@@ -47,7 +47,7 @@
         android:shortcutLongLabel="@string/audio">
         <intent
             android:action="vlc.shortcut.audio"
-            android:targetPackage="com.sandalbar.mixwave"
+            android:targetPackage="com.oshodiscourse"
             android:targetClass="org.videolan.vlc.StartActivity" />
         <categories android:name="vlc.shortcut.category" />
     </shortcut>
@@ -59,7 +59,7 @@
         android:shortcutLongLabel="@string/audio_mixer">
         <intent
             android:action="vlc.shortcut.audio_mixer"
-            android:targetPackage="com.sandalbar.mixwave"
+            android:targetPackage="com.oshodiscourse"
             android:targetClass="org.videolan.vlc.StartActivity" />
         <categories android:name="vlc.shortcut.category" />
     </shortcut>

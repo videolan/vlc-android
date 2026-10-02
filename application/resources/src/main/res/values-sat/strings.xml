@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">ᱴᱷᱤᱠ</string>
     <string name="cancel">ᱵᱟᱹᱰᱨᱟᱹ</string>
     <string name="other">ᱟᱞᱟᱫᱟ</string>
@@ -35,7 +35,7 @@
     <string name="play_as_audio">ᱥᱟᱲᱮ ᱞᱮᱠᱷᱟ ᱯᱞᱮ</string>
     <string name="play_as_video">ᱣᱤᱰᱤᱭᱚ ᱞᱮᱠᱷᱟ ᱯᱮᱞ</string>
     <string name="video_app_switch_title">ᱵᱮᱠᱜᱨᱟᱩᱸᱰ/PiP ᱢᱳᱰ</string>
-    <string name="video_app_switch_summary">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱵᱮᱠ ᱠᱷᱚᱱ ᱚᱞᱜᱟ ᱮᱯᱞᱤᱠᱮᱥᱚᱱ ᱛᱮ ᱪᱟᱞᱟᱜ ᱡᱷᱚᱜ Mix Wave ᱵᱮᱵᱷᱟᱨ ᱵᱟᱪᱷᱟᱣ ᱢᱮ</string>
+    <string name="video_app_switch_summary">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱵᱮᱠ ᱠᱷᱚᱱ ᱚᱞᱜᱟ ᱮᱯᱞᱤᱠᱮᱥᱚᱱ ᱛᱮ ᱪᱟᱞᱟᱜ ᱡᱷᱚᱜ Osho Discourse ᱵᱮᱵᱷᱟᱨ ᱵᱟᱪᱷᱟᱣ ᱢᱮ</string>
     <string name="play_pip_title">ᱪᱤᱛᱟᱹᱨᱼᱟᱨᱼᱪᱤᱛᱟᱹ ᱢᱳᱰ ᱨᱮ ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮ ᱢᱮ</string>
     <string name="play_as_audio_background">ᱵᱮᱠᱜᱽᱨᱟᱩᱱᱰ ᱨᱮ ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮ ᱢᱮ</string>
     <string name="insert_next">ᱤᱱᱟᱹ ᱛᱟᱭᱚᱢ ᱛᱚᱵᱮᱫᱽ ᱢᱮ</string>
@@ -199,7 +199,7 @@
     <string name="streams">ᱥᱴᱨᱤᱢᱠᱚ</string>
     <string name="open_mrl_dialog_msg">ᱱᱮᱴᱣᱟᱨᱠ ᱴᱷᱤᱠᱬᱟᱹ ᱟᱫᱮᱨ ᱢᱮ: ᱡᱮᱢᱚᱱ http://, mms:// ᱟᱨ ᱵᱟᱝ rtsp://</string>
     <string name="encountered_error_title">ᱯᱞᱮᱵᱮᱠ ᱵᱷᱩᱞ</string>
-    <string name="encountered_error_message">ᱱᱚᱶᱟ ᱢᱮᱰᱤᱭᱟ ᱥᱟᱞᱟᱜᱽ Mix Wave ᱵᱷᱤᱞ ᱮ ᱧᱟᱢ ᱠᱮᱜᱼᱟᱭ ᱾\n ᱫᱟᱭᱟᱠᱟᱛᱮ ᱢᱮᱰᱤᱭᱟ ᱞᱟᱭᱵᱨᱮᱨᱭ ᱨᱤᱯᱷᱨᱮᱥ ᱠᱟᱛᱮ ᱧᱮᱞ ᱵᱤᱲᱟᱹᱣ ᱢᱮ᱾</string>
+    <string name="encountered_error_message">ᱱᱚᱶᱟ ᱢᱮᱰᱤᱭᱟ ᱥᱟᱞᱟᱜᱽ Osho Discourse ᱵᱷᱤᱞ ᱮ ᱧᱟᱢ ᱠᱮᱜᱼᱟᱭ ᱾\n ᱫᱟᱭᱟᱠᱟᱛᱮ ᱢᱮᱰᱤᱭᱟ ᱞᱟᱭᱵᱨᱮᱨᱭ ᱨᱤᱯᱷᱨᱮᱥ ᱠᱟᱛᱮ ᱧᱮᱞ ᱵᱤᱲᱟᱹᱣ ᱢᱮ᱾</string>
     <string name="invalid_location">ᱡᱟᱭᱜᱟ %1$s ᱵᱟᱝ ᱯᱞᱮ ᱫᱟᱲᱮᱭᱟᱜ ᱠᱟᱱᱟ᱾</string>
     <string name="missing_location">ᱱᱚᱶᱟ ᱢᱮᱰᱤᱭᱟ ᱫᱚ ᱵᱟᱹᱱᱩᱜᱼᱟᱱ ᱫᱚᱦᱚ ᱡᱟᱭᱜᱟ ᱠᱷᱚᱱ ᱢᱮᱱᱟᱜᱼᱟ ᱟᱨ ᱯᱞᱮ ᱵᱟᱭ ᱜᱟᱱᱚᱜᱼᱟ ᱾</string>
 
@@ -242,10 +242,10 @@
     <string name="hold_to_stop">ᱥᱟᱵ ᱠᱟᱛᱮ ᱛᱤᱸᱜᱩ ᱪᱷᱚ</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">ᱫᱚᱦᱲᱟᱭᱮᱱ</string>
     <string name="about">ᱵᱟᱵᱚᱛ</string>
-    <string name="vlc_authors">ᱟᱨ Mix Wave ᱚᱱᱚᱞᱤᱭᱟᱹᱠᱚ ᱾</string>
+    <string name="vlc_authors">ᱟᱨ Osho Discourse ᱚᱱᱚᱞᱤᱭᱟᱹᱠᱚ ᱾</string>
     <string name="feedback_forum">ᱯᱷᱤᱻᱰᱵᱮᱠ ᱯᱷᱚᱨᱢ</string>
 
     <!-- Preferences -->
@@ -332,8 +332,8 @@
     <string name="enable_play_on_headset_insertion">ᱦᱮᱰᱥᱮᱴ ᱠᱷᱟᱹᱲ ᱯᱚᱨᱮ ᱞᱟᱦᱟᱭ ᱪᱷᱚ</string>
     <string name="enable_play_on_headset_insertion_summary">ᱵᱟᱝᱠᱷᱟᱵ ᱯᱚᱡᱽ ᱢᱮ</string>
     <string name="aout">ᱥᱟᱲᱮ ᱟᱩᱴᱯᱩᱴ</string>
-    <string name="aout_summary">Mix Wave ᱵᱮᱵᱷᱟᱨᱟ ᱮᱫ ᱟᱩᱴᱯᱩᱴ ᱥᱟᱲᱮ ᱛᱚᱨᱠᱟ ᱵᱚᱫᱚᱞ ᱢᱮ</string>
-    <string name="audio_ducking_title">ᱱᱚᱴᱤᱯᱷᱤᱠᱮᱥᱚᱱ ᱡᱷᱚᱜ Mix Wave ᱣᱚᱞᱭᱩᱢ ᱠᱚᱢ ᱢᱟᱭ</string>
+    <string name="aout_summary">Osho Discourse ᱵᱮᱵᱷᱟᱨᱟ ᱮᱫ ᱟᱩᱴᱯᱩᱴ ᱥᱟᱲᱮ ᱛᱚᱨᱠᱟ ᱵᱚᱫᱚᱞ ᱢᱮ</string>
+    <string name="audio_ducking_title">ᱱᱚᱴᱤᱯᱷᱤᱠᱮᱥᱚᱱ ᱡᱷᱚᱜ Osho Discourse ᱣᱚᱞᱭᱩᱢ ᱠᱚᱢ ᱢᱟᱭ</string>
     <string name="audio_ducking_summary">ᱥᱟᱲᱮ ᱱᱚᱴᱤᱯᱷᱤᱠᱮᱥᱚᱱᱠᱚ, ᱱᱮᱵᱷᱤᱜᱮᱥᱚᱱ ᱫᱤᱥᱟᱹ ᱩᱫᱩᱜ ᱟᱨ ᱵᱟᱝ ᱮᱥᱤᱥᱴᱮᱸᱴ ᱨᱚᱲ ᱠᱚ ᱟᱸᱡᱚᱢ ᱨᱮ ᱜᱚᱲᱚ ᱮᱢᱟᱭ ᱾ </string>
     <string name="casting_category">ᱠᱟᱥᱴᱤᱝ</string>
     <string name="casting_switch_title">ᱣᱟᱨᱞᱮᱥᱥ ᱠᱟᱥᱴᱤᱝ</string>
@@ -395,7 +395,7 @@
     <string name="start_logging">ᱞᱚᱜᱤᱝ ᱮᱦᱚᱵ ᱢᱮ</string>
     <string name="stop_logging">ᱞᱚᱜᱤᱝ ᱵᱚᱸᱫᱚᱭ ᱢᱮ</string>
     <string name="clear_log">ᱞᱚᱜ ᱯᱷᱟᱨᱪᱟᱭ ᱢᱮ</string>
-    <string name="log_service_title">Mix Wave ᱞᱚᱜᱽ ᱠᱚ ᱨᱮᱠᱚᱰᱤᱝ</string>
+    <string name="log_service_title">Osho Discourse ᱞᱚᱜᱽ ᱠᱚ ᱨᱮᱠᱚᱰᱤᱝ</string>
     <string name="log_service_text">ᱞᱚᱜᱽ ᱠᱚᱱᱥᱚᱞ ᱠᱷᱩᱞᱟᱹᱭ ᱢᱮ</string>
     <string name="copy_to_clipboard">ᱠᱞᱤᱯᱵᱚᱰ ᱛᱮ ᱱᱚᱠᱚᱞ ᱢᱮ</string>
     <string name="copied_to_clipboard">ᱠᱞᱤᱯᱵᱚᱰ ᱛᱮ ᱞᱚᱜᱽ ᱱᱚᱠᱚᱞ ᱢᱮ ᱾</string>
@@ -404,9 +404,9 @@
     <string name="dump_logcat_failure">ᱞᱚᱜᱽᱠᱮᱴ ᱰᱟᱹᱢᱼᱯ ᱰᱤᱜᱟᱹᱣ ᱮᱱᱟ ᱾</string>
     <string name="custom_libvlc_options">ᱠᱟᱹᱥᱴᱚᱢ libVLC ᱚᱯᱥᱚᱱᱠᱚ</string>
     <string name="custom_libvlc_options_invalid">ᱵᱷᱩᱞ libVLC ᱚᱯᱥᱚᱱᱠᱚ!</string>
-    <string name="serious_crash">ᱟᱹᱱᱷᱚᱨᱪᱩᱱᱮᱴᱞᱭ, ᱟᱹᱰᱤ ᱜᱚᱢᱵᱷᱤᱨ ᱵᱷᱩᱞ ᱦᱩᱭ ᱟᱠᱟᱱᱟ ᱟᱨ Mix Wave ᱵᱚᱸᱫ ᱛᱮ ᱦᱩᱭᱩᱜᱼᱟ ᱾</string>
-    <string name="help_us_send_log">ᱞᱟᱛᱟᱨ ᱨᱮᱭᱟᱜ ᱠᱨᱮᱥ ᱞᱳᱜᱽ ᱠᱩᱞ ᱠᱟᱛᱮᱡ Mix Wave ᱩᱛᱷᱱᱟᱹᱣ ᱨᱮ ᱜᱚᱲᱚ ᱟᱞᱮ ᱢᱮ:</string>
-    <string name="restart_vlc">Mix Wave ᱫᱚᱦᱲᱟ ᱮᱦᱚᱵ ᱢᱮ</string>
+    <string name="serious_crash">ᱟᱹᱱᱷᱚᱨᱪᱩᱱᱮᱴᱞᱭ, ᱟᱹᱰᱤ ᱜᱚᱢᱵᱷᱤᱨ ᱵᱷᱩᱞ ᱦᱩᱭ ᱟᱠᱟᱱᱟ ᱟᱨ Osho Discourse ᱵᱚᱸᱫ ᱛᱮ ᱦᱩᱭᱩᱜᱼᱟ ᱾</string>
+    <string name="help_us_send_log">ᱞᱟᱛᱟᱨ ᱨᱮᱭᱟᱜ ᱠᱨᱮᱥ ᱞᱳᱜᱽ ᱠᱩᱞ ᱠᱟᱛᱮᱡ Osho Discourse ᱩᱛᱷᱱᱟᱹᱣ ᱨᱮ ᱜᱚᱲᱚ ᱟᱞᱮ ᱢᱮ:</string>
+    <string name="restart_vlc">Osho Discourse ᱫᱚᱦᱲᱟ ᱮᱦᱚᱵ ᱢᱮ</string>
     <string name="send_log">ᱞᱚᱜᱽ ᱠᱩᱞ ᱢᱮ</string>
     <string name="sending_log">ᱞᱚᱜ ᱠᱩᱞ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ…</string>
 
@@ -447,19 +447,19 @@
     <string name="music_now_playing">ᱱᱤᱛᱚᱜ ᱯᱞᱮᱜ ᱠᱟᱱᱟ</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Mix Wave ᱯᱩᱸᱰ ᱣᱤᱡᱮᱴ</string>
-    <string name="widget_name_b">Mix Wave ᱧᱩᱛ ᱣᱤᱡᱮᱴ</string>
+    <string name="widget_name_w">Osho Discourse ᱯᱩᱸᱰ ᱣᱤᱡᱮᱴ</string>
+    <string name="widget_name_b">Osho Discourse ᱧᱩᱛ ᱣᱤᱡᱮᱴ</string>
     <string name="allow_storage_access_title">ᱵᱷᱤ ᱮᱞ ᱥᱤ ᱨᱮ ᱵᱷᱤᱰᱤᱭᱳ ᱟᱨ ᱫᱟᱲᱮ ᱯᱷᱟᱭᱤᱞ ᱦᱟᱛᱟᱣ ᱜᱮᱭᱟᱭ</string>
-    <string name="allow_storage_access_description">Mix Wave ᱱᱚᱶᱟ ᱰᱤᱵᱷᱟᱭᱤᱥ ᱨᱮᱭᱟᱜ ᱢᱤᱰᱤᱭᱟ ᱨᱮᱫ ᱨᱮ ᱪᱟᱞᱟᱜ ᱞᱟᱹᱜᱤᱫ ᱟᱢ ᱱᱚᱶᱟ ᱚᱱᱩᱢᱚᱛᱤ ᱮᱢ ᱞᱟᱹᱠᱛᱤᱭᱟᱢ ᱠᱟᱱᱟ᱾</string>
+    <string name="allow_storage_access_description">Osho Discourse ᱱᱚᱶᱟ ᱰᱤᱵᱷᱟᱭᱤᱥ ᱨᱮᱭᱟᱜ ᱢᱤᱰᱤᱭᱟ ᱨᱮᱫ ᱨᱮ ᱪᱟᱞᱟᱜ ᱞᱟᱹᱜᱤᱫ ᱟᱢ ᱱᱚᱶᱟ ᱚᱱᱩᱢᱚᱛᱤ ᱮᱢ ᱞᱟᱹᱠᱛᱤᱭᱟᱢ ᱠᱟᱱᱟ᱾</string>
     <string name="allow_settings_access_ringtone_title">ᱵᱷᱤ ᱮᱞ ᱥᱤ ᱠᱷᱚᱱ ᱨᱤᱝᱴᱚᱱ ᱥᱮᱴ ᱫᱟᱲᱮᱭᱟᱜ-ᱟᱢ</string>
-    <string name="allow_settings_access_ringtone_description">ᱱᱚᱶᱟ ᱥᱮᱨᱮᱧ ᱨᱤᱝᱴᱚᱱ ᱞᱮᱠᱟᱛᱮ ᱥᱮᱴ ᱞᱟᱹᱜᱤᱫ Mix Wave ᱨᱮᱭᱟᱜ ᱱᱚᱶᱟ ᱚᱱᱩᱢᱚᱛᱤ ᱮᱢ ᱞᱟᱹᱠᱛᱤᱭᱟᱢ ᱠᱟᱱᱟ᱾</string>
+    <string name="allow_settings_access_ringtone_description">ᱱᱚᱶᱟ ᱥᱮᱨᱮᱧ ᱨᱤᱝᱴᱚᱱ ᱞᱮᱠᱟᱛᱮ ᱥᱮᱴ ᱞᱟᱹᱜᱤᱫ Osho Discourse ᱨᱮᱭᱟᱜ ᱱᱚᱶᱟ ᱚᱱᱩᱢᱚᱛᱤ ᱮᱢ ᱞᱟᱹᱠᱛᱤᱭᱟᱢ ᱠᱟᱱᱟ᱾</string>
     <string name="allow_settings_access_brightness_title">ᱵᱷᱤ ᱮᱞ ᱥᱤ ᱠᱷᱚᱱ ᱵᱽᱨᱟᱭᱴᱱᱮᱥ ᱢᱚᱰ ᱠᱚᱢ ᱵᱚᱫᱚᱞ ᱫᱟᱲᱮᱭᱟᱜ-ᱟ</string>
-    <string name="allow_settings_access_brightness_description">ᱟᱢᱟᱜ ᱢᱟᱨᱥᱟᱞ ᱢᱳᱰ ᱵᱚᱫᱚᱞ ᱞᱟᱹᱜᱤᱫ Mix Wave ᱨᱮᱭᱟᱜ ᱱᱚᱶᱟ ᱚᱱᱩᱢᱚᱛᱤ ᱮᱢ ᱞᱟᱹᱠᱛᱤᱭᱟᱢ ᱠᱟᱱᱟ᱾</string>
-    <string name="allow_draw_overlays_title">Mix Wave ᱯᱞᱮᱭᱟᱨ ᱮᱴᱟᱜ ᱮᱯ ᱠᱚ ᱪᱮᱛᱟᱱ ᱯᱚᱯᱟᱯ ᱨᱮᱭᱟᱜ ᱚᱱᱩᱢᱚᱛᱤ ᱮᱢᱟᱭ ᱢᱮ</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave ᱮᱴᱟᱜ ᱮᱯ ᱠᱚ ᱪᱮᱛᱟᱱ ᱨᱮ ᱟᱢᱟᱜ ᱵᱷᱤᱰᱤᱭᱳ ᱯᱚᱯᱟᱯ ᱨᱮ ᱩᱫᱩᱜ ᱞᱟᱹᱜᱤᱫ ᱟᱢᱟᱜ ᱚᱱᱩᱢᱚᱛᱤ ᱞᱟᱹᱠᱛᱤᱭᱟᱭ ᱠᱟᱱᱟ᱾</string>
+    <string name="allow_settings_access_brightness_description">ᱟᱢᱟᱜ ᱢᱟᱨᱥᱟᱞ ᱢᱳᱰ ᱵᱚᱫᱚᱞ ᱞᱟᱹᱜᱤᱫ Osho Discourse ᱨᱮᱭᱟᱜ ᱱᱚᱶᱟ ᱚᱱᱩᱢᱚᱛᱤ ᱮᱢ ᱞᱟᱹᱠᱛᱤᱭᱟᱢ ᱠᱟᱱᱟ᱾</string>
+    <string name="allow_draw_overlays_title">Osho Discourse ᱯᱞᱮᱭᱟᱨ ᱮᱴᱟᱜ ᱮᱯ ᱠᱚ ᱪᱮᱛᱟᱱ ᱯᱚᱯᱟᱯ ᱨᱮᱭᱟᱜ ᱚᱱᱩᱢᱚᱛᱤ ᱮᱢᱟᱭ ᱢᱮ</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse ᱮᱴᱟᱜ ᱮᱯ ᱠᱚ ᱪᱮᱛᱟᱱ ᱨᱮ ᱟᱢᱟᱜ ᱵᱷᱤᱰᱤᱭᱳ ᱯᱚᱯᱟᱯ ᱨᱮ ᱩᱫᱩᱜ ᱞᱟᱹᱜᱤᱫ ᱟᱢᱟᱜ ᱚᱱᱩᱢᱚᱛᱤ ᱞᱟᱹᱠᱛᱤᱭᱟᱭ ᱠᱟᱱᱟ᱾</string>
     <string name="permission_ask_again">ᱚᱱᱩᱢᱚᱛᱤ ᱮᱢ</string>
-    <string name="exit_app">Mix Wave ᱵᱚᱸᱫᱚᱭ ᱢᱮ</string>
-    <string name="exit_app_msg">ᱪᱮᱫ ᱟᱢ ᱜᱚᱴᱟ ᱢᱮᱱᱟᱢ-ᱟ Mix Wave ᱟᱱᱟᱜ ᱞᱟᱹᱜᱤᱫ ᱛᱮ?</string>
+    <string name="exit_app">Osho Discourse ᱵᱚᱸᱫᱚᱭ ᱢᱮ</string>
+    <string name="exit_app_msg">ᱪᱮᱫ ᱟᱢ ᱜᱚᱴᱟ ᱢᱮᱱᱟᱢ-ᱟ Osho Discourse ᱟᱱᱟᱜ ᱞᱟᱹᱜᱤᱫ ᱛᱮ?</string>
     <!-- fast scroller -->
     <string name="fastscroller_track">ᱞᱚᱜᱚᱱᱥᱠᱨᱚᱞᱟᱹᱨ ᱴᱨᱟᱠ</string>
     <string name="fastscroller_handle">ᱞᱚᱜᱚᱱᱥᱠᱨᱚᱞᱟᱹᱨ ᱦᱮᱸᱰᱟᱹᱞ</string>
@@ -494,7 +494,7 @@
     <string name="length">ᱡᱤᱞᱤᱧ</string>
     <string name="tv_settings_hint">ᱥᱟᱵᱟᱫ ᱜᱟᱫᱮᱞ ᱠᱚ ᱪᱮᱠ/ᱟᱹᱱᱪᱮᱠ ᱞᱟᱹᱜᱤᱫ ᱴᱷᱤᱠ ᱵᱩᱛᱟᱹᱢ ᱡᱩᱨ ᱥᱟᱸᱦᱤᱡ ᱚᱛᱟᱭ ᱢᱮ</string>
     <string name="ml_external_storage_title">ᱱᱟᱶᱟ ᱵᱟᱦᱨᱮ ᱫᱚᱦᱚ ᱡᱟᱭᱜᱟ ᱧᱟᱢ ᱮᱱᱟ</string>
-    <string name="ml_external_storage_msg">ᱟᱢ ᱪᱮᱫ ᱡᱷᱚᱛᱚ ᱞᱮᱠᱷᱟᱛᱮ Mix Wave ᱥᱟᱫᱷᱚᱱ %1$s ᱟᱢᱟᱜ ᱢᱮᱰᱤᱭᱟ ᱞᱟᱭᱵᱽᱨᱮᱨᱭ ᱨᱮ ᱥᱮᱞᱮᱫ ᱥᱟᱱᱟᱢ ᱠᱟᱱᱟ ᱥᱮ?</string>
+    <string name="ml_external_storage_msg">ᱟᱢ ᱪᱮᱫ ᱡᱷᱚᱛᱚ ᱞᱮᱠᱷᱟᱛᱮ Osho Discourse ᱥᱟᱫᱷᱚᱱ %1$s ᱟᱢᱟᱜ ᱢᱮᱰᱤᱭᱟ ᱞᱟᱭᱵᱽᱨᱮᱨᱭ ᱨᱮ ᱥᱮᱞᱮᱫ ᱥᱟᱱᱟᱢ ᱠᱟᱱᱟ ᱥᱮ?</string>
     <string name="ml_external_storage_accept">ᱦᱮᱸ</string>
     <string name="ml_external_storage_decline">ᱵᱟᱝ</string>
     <string name="auto_last_added_media">ᱢᱩᱪᱟᱹᱫ ᱥᱮᱞᱮᱫ</string>
@@ -557,7 +557,7 @@
     <string name="videos_folders_title">ᱣᱤᱰᱤᱭᱚ ᱠᱚ ᱯᱚᱴᱚᱢ ᱫᱟᱨᱟᱭ ᱛᱮ</string>
     <string name="videos_groups_title">ᱣᱤᱰᱤᱭᱚ ᱜᱟᱫᱮᱞ ᱠᱚ</string>
     <string name="video_remote_disable">ᱰᱟᱯᱞᱤᱠᱮᱴ ᱥᱠᱨᱤᱱ</string>
-    <string name="welcome_title">Mix Wave ᱨᱮ ᱥᱟᱹᱜᱩᱱ ᱫᱟᱨᱟᱢ!</string>
+    <string name="welcome_title">Osho Discourse ᱨᱮ ᱥᱟᱹᱜᱩᱱ ᱫᱟᱨᱟᱢ!</string>
     <string name="onboarding_theme_title">ᱟᱢ ᱞᱟᱹᱜᱤᱫ ᱚᱲᱟᱜ ᱵᱮᱱᱟᱣ ᱢᱮ</string>
     <string name="done">ᱦᱩᱭᱮᱱᱟ</string>
     <string name="light_theme">ᱢᱟᱨᱥᱟᱞ ᱩᱭᱦᱟᱹᱨ</string>
@@ -581,9 +581,9 @@
     <string name="remove_current">ᱱᱤᱛᱚᱜ-ᱟ ᱚᱪᱚᱜ ᱢᱮ</string>
     <string name="display_in_list">ᱞᱤᱥᱴᱤ ᱨᱮ ᱩᱫᱩᱜ</string>
     <string name="display_in_grid">ᱡᱟᱸᱜᱽᱞᱟ ᱨᱮ ᱩᱫᱩᱜ</string>
-    <string name="vlc_reporter">Mix Wave ᱨᱤᱯᱚᱴᱟᱹᱨ</string>
-    <string name="welcome_beta_title">Mix Wave ᱵᱤᱴᱟ</string>
-    <string name="welcome_beta_description">Mix Wave ᱵᱮᱴᱟ ᱯᱨᱚᱜᱽᱨᱟᱢ ᱨᱮ ᱥᱟᱹᱜᱩᱱ ᱫᱟᱨᱟᱢ ᱾\nᱫᱚᱭᱟᱠᱟᱛᱮ ᱱᱚᱴ ᱠᱟᱜ ᱯᱮ ᱱᱚᱶᱟ ᱵᱷᱟᱹᱨᱥᱚᱱ ᱨᱮ ᱵᱟᱹᱜ ᱠᱚ ᱮᱢᱟᱱ ᱛᱟᱦᱮᱸ ᱫᱟᱲᱮᱭᱟᱜᱼᱟ ᱾</string>
+    <string name="vlc_reporter">Osho Discourse ᱨᱤᱯᱚᱴᱟᱹᱨ</string>
+    <string name="welcome_beta_title">Osho Discourse ᱵᱤᱴᱟ</string>
+    <string name="welcome_beta_description">Osho Discourse ᱵᱮᱴᱟ ᱯᱨᱚᱜᱽᱨᱟᱢ ᱨᱮ ᱥᱟᱹᱜᱩᱱ ᱫᱟᱨᱟᱢ ᱾\nᱫᱚᱭᱟᱠᱟᱛᱮ ᱱᱚᱴ ᱠᱟᱜ ᱯᱮ ᱱᱚᱶᱟ ᱵᱷᱟᱹᱨᱥᱚᱱ ᱨᱮ ᱵᱟᱹᱜ ᱠᱚ ᱮᱢᱟᱱ ᱛᱟᱦᱮᱸ ᱫᱟᱲᱮᱭᱟᱜᱼᱟ ᱾</string>
     <string name="send">ᱠᱩᱞ ᱢᱮ</string>
     <string name="send_crash_action_title">ᱟᱢ ᱪᱮᱫᱽ ᱠᱚᱨᱟᱣ ᱥᱟᱱᱟᱢ ᱠᱟᱱᱟ?</string>
     <string name="report_a_bug">ᱢᱤᱫ ᱴᱟᱝ ᱵᱚᱜ ᱨᱤᱯᱚᱴ ᱢᱮ</string>
@@ -656,10 +656,10 @@
 
     <string name="swipe_unlock">ᱟᱱᱞᱚᱠ ᱞᱟᱹᱜᱤᱫᱛᱮ ᱥᱣᱟᱤᱯ ᱢᱮ</string>
     <string name="sub_result_by_name_episode">ᱮᱯᱤᱥᱚᱰ %s</string>
-    <string name="donate">Mix Wave ᱜᱚᱲᱚᱟᱭ ᱢᱮ</string>
-    <string name="tip_jar">Mix Wave ᱜᱚᱲᱚ ᱞᱮᱢ</string>
+    <string name="donate">Osho Discourse ᱜᱚᱲᱚᱟᱭ ᱢᱮ</string>
+    <string name="tip_jar">Osho Discourse ᱜᱚᱲᱚ ᱞᱮᱢ</string>
     <string name="thank_you">ᱟᱢ ᱥᱟᱨᱦᱟᱣ</string>
-    <string name="thank_you_desc">ᱟᱢᱟᱜᱽ ᱥᱯᱚᱱᱥᱚᱨᱥᱤᱯᱷ ᱞᱟᱹᱜᱤᱫ ᱟᱢ ᱥᱟᱨᱦᱟᱣ!\nᱱᱚᱶᱟ Mix Wave ᱟᱨᱦᱚᱸ ᱵᱮᱥ ᱪᱚᱨᱚᱠ ᱞᱟᱦᱟ ᱦᱚ ᱪᱷᱚᱭᱟᱭ!</string>
+    <string name="thank_you_desc">ᱟᱢᱟᱜᱽ ᱥᱯᱚᱱᱥᱚᱨᱥᱤᱯᱷ ᱞᱟᱹᱜᱤᱫ ᱟᱢ ᱥᱟᱨᱦᱟᱣ!\nᱱᱚᱶᱟ Osho Discourse ᱟᱨᱦᱚᱸ ᱵᱮᱥ ᱪᱚᱨᱚᱠ ᱞᱟᱦᱟ ᱦᱚ ᱪᱷᱚᱭᱟᱭ!</string>
     <string name="donate_again">ᱮᱯ ᱟᱨᱦᱚᱸ ᱥᱯᱚᱱᱥᱚᱨ ᱢᱮ</string>
 
     <string name="mark_as_played">ᱯᱞᱮ ᱟᱠᱟᱱ ᱞᱮᱠᱷᱟ ᱪᱤᱱᱦᱟᱹ ᱟᱜᱽ ᱢᱮ</string>
@@ -672,7 +672,7 @@
     <string name="air_action_next">ᱯᱞᱮᱵᱮᱠ ᱨᱮᱭᱟᱜ ᱤᱱᱟᱹ ᱛᱟᱭᱚᱱ ᱡᱤᱱᱤᱥ</string>
     <string name="air_action_previous">ᱯᱞᱮᱵᱮᱠ ᱨᱮᱭᱟᱜ ᱢᱟᱲᱟᱝ ᱟᱭᱴᱟᱹᱢ</string>
     <string name="allow_otg">OTG ᱟᱫᱮᱨ ᱪᱷᱚᱭ ᱢᱮ</string>
-    <string name="allow_otg_description">Mix Wave ᱛᱮ ᱟᱫᱮᱨ ᱪᱷᱚ ᱞᱟᱹᱜᱤᱫ ᱫᱚᱭᱟᱠᱟᱛᱮ OTG ᱰᱨᱟᱭᱤᱵᱷ ᱪᱚᱭᱚᱱ ᱢᱮ ᱾</string>
+    <string name="allow_otg_description">Osho Discourse ᱛᱮ ᱟᱫᱮᱨ ᱪᱷᱚ ᱞᱟᱹᱜᱤᱫ ᱫᱚᱭᱟᱠᱟᱛᱮ OTG ᱰᱨᱟᱭᱤᱵᱷ ᱪᱚᱭᱚᱱ ᱢᱮ ᱾</string>
     <string name="timeout_infinite">ᱚᱦᱤᱥᱟᱹᱵᱽ</string>
     <string name="video_hud_timeout">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱭᱟᱹᱨ ᱠᱟᱹᱱᱴᱨᱚᱞ ᱜᱷᱟᱲᱤᱡᱽ ᱩᱠᱩ</string>
     <string name="video_hud_timeout_summary">%ss</string>
@@ -686,7 +686,7 @@
     <string name="soundfont">MIDI ᱥᱟᱲᱮᱯᱷᱚᱸᱴ</string>
     <string name="soundfont_summary">midi ᱥᱟᱲᱮ ᱴᱨᱟᱠ ᱠᱚ ᱯᱞᱮ ᱞᱟᱹᱜᱤᱫ ᱥᱟᱲᱮᱯᱷᱚᱸᱴ ᱨᱮᱫ ᱵᱟᱪᱷᱟᱣ ᱢᱮ</string>
     <string name="search_prefs">ᱥᱮᱸᱫᱽᱨᱟᱣᱟ ᱥᱟᱡᱟᱣᱠᱚ</string>
-    <string name="start_vlc">Mix Wave ᱮᱦᱚᱵᱽ ᱢᱮ</string>
+    <string name="start_vlc">Osho Discourse ᱮᱦᱚᱵᱽ ᱢᱮ</string>
     <string name="add_button">ᱥᱮᱞᱮᱫᱽ ᱢᱮ</string>
     <string name="add_all_button">ᱡᱚᱛᱚ ᱥᱮᱞᱮᱫᱽ ᱢᱮ</string>
     <string name="add_new_only_button">ᱱᱟᱶᱟᱱᱟᱜ ᱠᱷᱟᱹᱞᱤ ᱥᱮᱞᱮᱫ ᱢᱮ</string>

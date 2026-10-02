@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">እሺ</string>
     <string name="cancel">አቋርጥ</string>
     <string name="other">ሌላ</string>
@@ -35,7 +35,7 @@
     <string name="play_as_video">በቪዲዮ አጫዉት</string>
     <string name="return_to_video">ቪዲዮውን ወደነበረበት ለመመለስ ሽፋኑን ረዘም ላለ ጊዜ ይጫኑ</string>
     <string name="video_app_switch_title">ከኋላ/PiP የማጫወቻ ሁኔታ</string>
-    <string name="video_app_switch_summary">ከቪዲዮ ማጫወት ወደ ሌላ መተግበሪያ ሲቀይሩ የMix Wave ባህሪን ይምረጡ</string>
+    <string name="video_app_switch_summary">ከቪዲዮ ማጫወት ወደ ሌላ መተግበሪያ ሲቀይሩ የOsho Discourse ባህሪን ይምረጡ</string>
     <string name="play_pip_title">ቪዲዮዎችን በ Picture-in-picture ሁነታ ያጫውቱ</string>
     <string name="play_as_audio_background">ቪዲዮችን ከበስተጀርባ አጫዉት</string>
     <string name="insert_next">ቀጥለህ አስገባ</string>
@@ -156,7 +156,7 @@
     <string name="hold_to_stop">ተጭነው ይያዙ ለ ማስቆም</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">እትም</string>
     <string name="about">ስለ</string>
     <string name="vlc_authors">እና የ ቪኤልሲ ደራሲዎች</string>

@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Tá go maith</string>
     <string name="cancel">Cealaigh</string>
     <string name="other">Eile</string>
@@ -235,11 +235,11 @@
     <string name="hold_to_stop">Coinnigh greim air chun stad</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Leasú</string>
     <string name="about">Maidir le</string>
     <string name="authors">Údair</string>
-    <string name="vlc_authors">agus Údáir Mix Wave.</string>
+    <string name="vlc_authors">agus Údáir Osho Discourse.</string>
     <string name="is_compiled_by">Tiomsaithe ag</string>
     <string name="sources">An cód foinseach</string>
     <string name="libraries">Leabharlanna</string>
@@ -342,8 +342,8 @@
     <string name="replaygain_track">Rian</string>
     <string name="replaygain_album">Albam</string>
     <string name="aout">Aschur fuaime</string>
-    <string name="aout_summary">Athraigh an modh a bhaineann Mix Wave feidhm as chun fuaim a aschur</string>
-    <string name="audio_ducking_title">Ísligh airde fuaime Mix Wave nuair a fhaightear fógraí</string>
+    <string name="aout_summary">Athraigh an modh a bhaineann Osho Discourse feidhm as chun fuaim a aschur</string>
+    <string name="audio_ducking_title">Ísligh airde fuaime Osho Discourse nuair a fhaightear fógraí</string>
     <string name="audio_ducking_summary">Cabhraíonn sé sin chun fógraí fuaime, treoracha tiomána, nó caint ó chúntóir a chloisteáil</string>
     <string name="casting_category">Teilgean</string>
     <string name="remote_access">Rochtain chianda</string>
@@ -395,8 +395,8 @@
     <string name="enable_verbose_mode">Foclach</string>
     <string name="clear_log">Glan an t-oireas</string>
     <string name="copy_to_clipboard">Macasamhlaigh chuig an ngearrthaisce</string>
-    <string name="serious_crash">Faraor, tharla botún tromchúiseach agus bhí ar Mix Wave dúnadh.</string>
-    <string name="restart_vlc">Atosaigh Mix Wave</string>
+    <string name="serious_crash">Faraor, tharla botún tromchúiseach agus bhí ar Osho Discourse dúnadh.</string>
+    <string name="restart_vlc">Atosaigh Osho Discourse</string>
     <string name="delete_sub_title">Scrios an fotheideal</string>
     <string name="delete_sub_message">An mian leat an fotheideal sin a scriosadh?</string>
     <string name="download_subtitle_title">Íosluchtaigh an Fotheideal</string>
@@ -435,28 +435,28 @@
     <string name="music_now_playing">Á seinm faoi láthair</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Giuirléid Bhán Mix Wave</string>
-    <string name="widget_name_b">Giuirléid Dhubh Mix Wave</string>
-    <string name="widget_name_mini_player">Mionsheinnteoir Mix Wave</string>
+    <string name="widget_name_w">Giuirléid Bhán Osho Discourse</string>
+    <string name="widget_name_b">Giuirléid Dhubh Osho Discourse</string>
+    <string name="widget_name_mini_player">Mionsheinnteoir Osho Discourse</string>
     <string name="widget_old_text">Tá ár gcuid giuirléidí nuashonraithe againn!</string>
     <string name="whats_next">Cad é an chéad rud eile?</string>
     <string name="click_here">Brúigh anseo chun tuilleadh eolais a chur air.</string>
-    <string name="allow_storage_access_title">Lig do Mix Wave físchomhaid agus comhaid fhuaime a rochtain</string>
-    <string name="allow_storage_access_description">Caithfidh tú cead a thabhairt do Mix Wave na comhaid mheáin ar an ngléas seo a rochtain.</string>
-    <string name="partial_content">Ní féidir le Mix Wave gach ceann do de chuid comhaid a rochtain</string>
+    <string name="allow_storage_access_title">Lig do Osho Discourse físchomhaid agus comhaid fhuaime a rochtain</string>
+    <string name="allow_storage_access_description">Caithfidh tú cead a thabhairt do Osho Discourse na comhaid mheáin ar an ngléas seo a rochtain.</string>
+    <string name="partial_content">Ní féidir le Osho Discourse gach ceann do de chuid comhaid a rochtain</string>
     <string name="never_ask_again">Ná fiafraigh riamh arís</string>
     <string name="never_show_again">Ná taispeáin é seo arís, fiú do leaganacha eile amach anseo.</string>
-    <string name="allow_settings_access_ringtone_title">Lig do Mix Wave an ghlaofhuaim a shocrú</string>
-    <string name="allow_settings_access_ringtone_description">Ní mór duit cead a thabhairt do Mix Wave chun an t-amhrán sin a shocrú mar do ghlaofhuaim.</string>
-    <string name="allow_settings_access_brightness_title">Ceadaigh do Mix Wave an mód gile a athrú</string>
-    <string name="allow_draw_overlays_title">Lig don seinnteoir Mix Wave teacht aníos thar fheidhmchláir eile</string>
-    <string name="allow_pip">Lig don seinnteoir Mix Wave an Pictiúr laistigh de Phictiúr a thosú</string>
+    <string name="allow_settings_access_ringtone_title">Lig do Osho Discourse an ghlaofhuaim a shocrú</string>
+    <string name="allow_settings_access_ringtone_description">Ní mór duit cead a thabhairt do Osho Discourse chun an t-amhrán sin a shocrú mar do ghlaofhuaim.</string>
+    <string name="allow_settings_access_brightness_title">Ceadaigh do Osho Discourse an mód gile a athrú</string>
+    <string name="allow_draw_overlays_title">Lig don seinnteoir Osho Discourse teacht aníos thar fheidhmchláir eile</string>
+    <string name="allow_pip">Lig don seinnteoir Osho Discourse an Pictiúr laistigh de Phictiúr a thosú</string>
     <string name="permission_ask_again">Tabhair cead</string>
     <string name="pick_file">Roghnaigh comhad</string>
     <string name="permission_not_granted">Níor tugadh cead</string>
-    <string name="exit_app">Dún Mix Wave</string>
-    <string name="exit_app_msg">An bhfuil tú cinnte gur mian leat scoir ó Mix Wave?</string>
-    <string name="widget_explanation_title">Giuirléidí Mix Wave</string>
+    <string name="exit_app">Dún Osho Discourse</string>
+    <string name="exit_app_msg">An bhfuil tú cinnte gur mian leat scoir ó Osho Discourse?</string>
+    <string name="widget_explanation_title">Giuirléidí Osho Discourse</string>
     <!-- Plugins -->
     <string name="plugins">Breiseáin</string>
     <string name="download_on_device">Íosluchtaigh</string>
@@ -486,7 +486,7 @@
     <string name="resume">Atosaigh</string>
     <string name="length">Fad</string>
     <string name="ml_external_storage_title">Stóras seachtrach nua braite</string>
-    <string name="ml_external_storage_msg">An mian leat go gcuirfidh Mix Wave an gléas 1%1$s a chur le do leabharlann mheán?</string>
+    <string name="ml_external_storage_msg">An mian leat go gcuirfidh Osho Discourse an gléas 1%1$s a chur le do leabharlann mheán?</string>
     <string name="ml_external_storage_accept">Is mian</string>
     <string name="ml_external_storage_decline">Ní mian</string>
     <string name="auto_last_added_media">An ceann deireanach curtha leis</string>
@@ -558,14 +558,14 @@
     <string name="video_save_clone_mode">Gníomhachtaigh go huathoibríoch an mód clóin?</string>
     <string name="video_remote_disable">Dúblaigh an scáileán</string>
     <string name="removed_from_playlist_anonymous">Mír(eanna) a baineadh ón seinmliosta</string>
-    <string name="welcome_title">Fáilte go Mix Wave!</string>
+    <string name="welcome_title">Fáilte go Osho Discourse!</string>
     <string name="welcome_subtitle">An seinnteoir meán saor in aisce agus le foinse oscailte</string>
-    <string name="permission_media">Tá cead uait ag teastáil ó Mix Wave chun meáin ar do ghléas a rochtain</string>
-    <string name="medialibrary_scan_explanation">Is féidir le Mix Wave do ghléas a scrúdú go huathoibríoch chun do bhailiúchán meán a eagrú.</string>
+    <string name="permission_media">Tá cead uait ag teastáil ó Osho Discourse chun meáin ar do ghléas a rochtain</string>
+    <string name="medialibrary_scan_explanation">Is féidir le Osho Discourse do ghléas a scrúdú go huathoibríoch chun do bhailiúchán meán a eagrú.</string>
     <string name="done">Déanta</string>
-    <string name="onboarding_all_set">Tá Mix Wave faoi réir!</string>
-    <string name="daynight_system_explanation">Tiontóidh Mix Wave go huathoibríoch chuig an mód dorcha de réir mar atá sin socraithe sa chóras</string>
-    <string name="daynight_legacy_explanation">Tiontóidh Mix Wave go huathoibríoch chuig an mód oíche ag an am cuí</string>
+    <string name="onboarding_all_set">Tá Osho Discourse faoi réir!</string>
+    <string name="daynight_system_explanation">Tiontóidh Osho Discourse go huathoibríoch chuig an mód dorcha de réir mar atá sin socraithe sa chóras</string>
+    <string name="daynight_legacy_explanation">Tiontóidh Osho Discourse go huathoibríoch chuig an mód oíche ag an am cuí</string>
     <string name="light_theme">An téama geal</string>
     <string name="add">Cuir leis</string>
     <string name="add_to_new_playlist">Cuir leis an seinmliosta nua é</string>
@@ -587,9 +587,9 @@
     <string name="display_in_grid">Taispeáin mar ghreille</string>
     <string name="send_crash_warning">Déan cinnte aon sonraí íogaire nach mian leat a sheoladh a bhaint as.</string>
     <string name="include_medialib">Cuir do bhunachar sonraí san áireamh</string>
-    <string name="vlc_reporter">Tuairisceoir Mix Wave</string>
-    <string name="welcome_beta_title">Mix Wave Béite</string>
-    <string name="welcome_beta_description">Fáilte go ríomhchlár béite Mix Wave.\nTabhair do d\'aire go bhféadfadh fadhbanna a bheith sa leagan seo.</string>
+    <string name="vlc_reporter">Tuairisceoir Osho Discourse</string>
+    <string name="welcome_beta_title">Osho Discourse Béite</string>
+    <string name="welcome_beta_description">Fáilte go ríomhchlár béite Osho Discourse.\nTabhair do d\'aire go bhféadfadh fadhbanna a bheith sa leagan seo.</string>
     <string name="welcome_beta_description_bugs">Má thugann tú fadhb faoi deara, déan í a thuairisciú inár gclár plé nó sa lorgaire fabhtacha.</string>
     <string name="send">Seol</string>
     <string name="send_crash_action_title">Cad is mian leat a dhéanamh?</string>
@@ -676,10 +676,10 @@
     <string name="sub_result_by_name_season">Séasúr %s</string>
     <string name="sub_result_by_name_episode">Eipeasóid %s</string>
     <string name="sub_result_by_file">Torthaí do do chomhad</string>
-    <string name="donate">Cabhraigh le Mix Wave</string>
-    <string name="donate_desc">Tacaigh leis na daoine atá ag tógáil Mix Wave go deonach</string>
+    <string name="donate">Cabhraigh le Osho Discourse</string>
+    <string name="donate_desc">Tacaigh leis na daoine atá ag tógáil Osho Discourse go deonach</string>
     <string name="donate_send">Cuir tús le m\'urraíocht</string>
-    <string name="tip_jar">Cabhraigh le Mix Wave</string>
+    <string name="tip_jar">Cabhraigh le Osho Discourse</string>
     <string name="thank_you">Go raibh maith agat</string>
     <string name="donate_again">Déan urraíocht arís ar an bhfeidhmchlár</string>
 
@@ -716,7 +716,7 @@
     <string name="delete_forever">Scrios go buan é</string>
     <string name="show">Taispeáin</string>
     <string name="optional_features">Gnéithe roghnacha</string>
-    <string name="start_vlc">Tosaigh Mix Wave</string>
+    <string name="start_vlc">Tosaigh Osho Discourse</string>
     <string name="jump_delay_summary">%s soicind</string>
     <string name="move_up">Bog suas é</string>
     <string name="move_down">Bog síos é</string>
@@ -746,7 +746,7 @@
     <string name="widget_background">Cúlra</string>
     <string name="widget_foreground">Tulra</string>
     <string name="widget_show_cover">Taispeáin an clúdach</string>
-    <string name="open_vlc">Oscail Mix Wave</string>
+    <string name="open_vlc">Oscail Osho Discourse</string>
     <string name="playing">Ag seinm</string>
     <string name="disable_track">Díchumasaigh an rian</string>
     <string name="ascending">Ag dul suas</string>

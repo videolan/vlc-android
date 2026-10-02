@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Renunțare</string>
     <string name="other">Altul</string>
@@ -44,14 +44,14 @@
     <string name="playback_controls">Controale redare</string>
     <string name="medialibrary_scan">Scanare bibliotecă media</string>
     <string name="Medialibrary_progress">Progresul scanării actualizărilor bibliotecii media</string>
-    <string name="ml_database_warning">Baza ta de date conține lista tuturor fișierelor tale media. Aceasta va fi partajată cu dezvoltatorii Mix Wave.</string>
-    <string name="logs_warning">Poate conține informații despre fișierele tale media redate. Acestea vor fi partajate cu dezvoltatorii Mix Wave.</string>
+    <string name="ml_database_warning">Baza ta de date conține lista tuturor fișierelor tale media. Aceasta va fi partajată cu dezvoltatorii Osho Discourse.</string>
+    <string name="logs_warning">Poate conține informații despre fișierele tale media redate. Acestea vor fi partajate cu dezvoltatorii Osho Discourse.</string>
     <string name="play_from_start">Redare de la început</string>
     <string name="play_as_audio">Redare ca audio</string>
     <string name="play_as_video">Redare ca video</string>
     <string name="return_to_video">Atinge lung coperta pentru a restabili videoclipul</string>
     <string name="video_app_switch_title">Mod fundal/PIP</string>
-    <string name="video_app_switch_summary">Selectați comportamentul Mix Wave atunci când comutați la altă aplicație din redarea video</string>
+    <string name="video_app_switch_summary">Selectați comportamentul Osho Discourse atunci când comutați la altă aplicație din redarea video</string>
     <string name="play_pip_title">Redați videoclipuri în modul Imagine în imagine</string>
     <string name="play_as_audio_background">Redați videoclipuri în fundal</string>
     <string name="append">Adaugă la coada de redare</string>
@@ -326,12 +326,12 @@
     <string name="hold_to_stop">Apăsați pentru a opri</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Revizie</string>
     <string name="about">Despre</string>
-    <string name="about_vlc_text">Mix Wave pentru Android™ este o portare a media player-ului Mix Wave, popularul media player de tip open source. Versiunea pentru Android™ poate citi majoritatea fișierelor și fluxurilor de rețea.</string>
+    <string name="about_vlc_text">Osho Discourse pentru Android™ este o portare a media player-ului Osho Discourse, popularul media player de tip open source. Versiunea pentru Android™ poate citi majoritatea fișierelor și fluxurilor de rețea.</string>
     <string name="authors">Autori</string>
-    <string name="vlc_authors">și autorii Mix Wave.</string>
+    <string name="vlc_authors">și autorii Osho Discourse.</string>
     <string name="is_compiled_by">este compilată de:</string>
     <string name="is_signed_by">Semnat de</string>
     <string name="sources">Surse</string>
@@ -510,8 +510,8 @@
     <string name="replaygain_track">Pistă</string>
     <string name="replaygain_album">Album</string>
     <string name="aout">Ieșire audio</string>
-    <string name="aout_summary">Schimbă metoda folosită de Mix Wave pentru a reda audio</string>
-    <string name="audio_ducking_title">Redu volumul Mix Wave la notificări</string>
+    <string name="aout_summary">Schimbă metoda folosită de Osho Discourse pentru a reda audio</string>
+    <string name="audio_ducking_title">Redu volumul Osho Discourse la notificări</string>
     <string name="audio_ducking_summary">Ajutor prin redarea notificărilor audio, a instrucțiunilor de navigare sau a asistentului care vorbește</string>
     <string name="casting_category">Redare</string>
     <string name="remote_access">Acces de la distanță</string>
@@ -588,7 +588,7 @@
     <string name="clear_media_db">Curăță baza de date media</string>
     <string name="clear_media_database_summary">Curăță baza de date media pentru a începe din nou</string>
     <string name="clear_app_data">Ștergeți datele aplicației</string>
-    <string name="clear_app_data_summary">Șterge datele Mix Wave pentru Android</string>
+    <string name="clear_app_data_summary">Șterge datele Osho Discourse pentru Android</string>
     <string name="clear_history">Ștergere istoric</string>
     <string name="clear_history_message">O să-ți pierzi istoricul, listele tale de redare curente și progresele tale</string>
     <string name="set_locale">Stabiliţi localizarea</string>
@@ -614,7 +614,7 @@
     <string name="start_logging">Pornește jurnalizarea</string>
     <string name="stop_logging">Oprește jurnalizarea</string>
     <string name="clear_log">Curăță jurnalul</string>
-    <string name="log_service_title">Înregistrarea jurnalului Mix Wave</string>
+    <string name="log_service_title">Înregistrarea jurnalului Osho Discourse</string>
     <string name="log_service_text">Deschide consola jurnal</string>
     <string name="copy_to_clipboard">Copiază în clipboard</string>
     <string name="copied_to_clipboard">Jurnal copiat în clipboard.</string>
@@ -632,10 +632,10 @@
     <string name="browser_quick_play_default">Redare rapidă ca acțiune implicită</string>
     <string name="browser_quick_play_default_summary">Dacă este activat, înregistrarea unui element din navigator îl va reda folosind redarea rapidă</string>
 
-    <string name="serious_crash">Din păcate, o eroare gravă a apărut și Mix Wave-ul trebuie închis.</string>
-    <string name="help_us_send_log">Ajutați-ne să îmbunătățim Mix Wave -ul prin trimiterea următorului jurnal de eroare:</string>
+    <string name="serious_crash">Din păcate, o eroare gravă a apărut și Osho Discourse-ul trebuie închis.</string>
+    <string name="help_us_send_log">Ajutați-ne să îmbunătățim Osho Discourse -ul prin trimiterea următorului jurnal de eroare:</string>
     <string name="ml_crash_send">Biblioteca media tocmai a crăpat. Ajută-ne trimițându-ne jurnalele.</string>
-    <string name="restart_vlc">Repornește Mix Wave</string>
+    <string name="restart_vlc">Repornește Osho Discourse</string>
     <string name="send_log">Trimite jurnalul</string>
     <string name="sending_log">Se trimite jurnalul…</string>
 
@@ -680,7 +680,7 @@
     <string name="medialibrary_directories">Directoarele bibliotecii media</string>
 
     <!--What's new-->
-    <string name="whats_new_title">Ce e nou în Mix Wave pentru Android %s</string>
+    <string name="whats_new_title">Ce e nou în Osho Discourse pentru Android %s</string>
     <string name="whats_new_37_equalizer_text">Egalizatorul a fost refăcut de la zero. Este mai ușor de utilizat, îți permite să dezactivezi presetările implicite și îți permite să-ți faci backup (copie de rezervă), să îți restaurezi și să îți partajezi presetările.</string>
     <string name="whats_new_37_import_export">Am îmbunătățit funcția de backup (de copie de rezervă) și restaurare a setărilor. Acum îți permite să faci backup (copie de rezervă) la mai multe setări, inclusiv la presetările egalizatorului.</string>
     <string name="whats_new_37_android_auto">Din cauza unor noi restricții ale Magazinului Play, setările Android Auto au fost mutate în aplicația mobilă. Aceasta devine noul loc unde îți poți schimba experiența auto.</string>
@@ -689,7 +689,7 @@
 <!--    update-->
     <string name="update_title">O actualizare disponibilă</string>
     <string name="install_nightly_title">Instalează versiunea de noapte</string>
-    <string name="update_text">Este disponibilă o nouă lansare nocturnă a Mix Wave pentru Android!\n\nVezi asta pentru că folosești o subversiune de noapte.</string>
+    <string name="update_text">Este disponibilă o nouă lansare nocturnă a Osho Discourse pentru Android!\n\nVezi asta pentru că folosești o subversiune de noapte.</string>
     <string name="install_text">Versiunile nocturne sunt actualizate automat în fiecare zi cu cele mai recente funcții și remedieri.</string>
 
     <string name="open_in_browser">Deschide în browser</string>
@@ -710,28 +710,28 @@
     <string name="music_now_playing">Acum se reda</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Mix Wave  Widget Alb</string>
-    <string name="widget_name_b">Mix Wave  Widget Intunecat</string>
-    <string name="widget_name_mini_player">Mini player Mix Wave</string>
+    <string name="widget_name_w">Osho Discourse  Widget Alb</string>
+    <string name="widget_name_b">Osho Discourse  Widget Intunecat</string>
+    <string name="widget_name_mini_player">Mini player Osho Discourse</string>
     <string name="widget_old_text">Ne-am actualizat widget-urile!</string>
     <string name="widget_old_description_start">Vești bune! Am lansat widget-uri îmbunătățite.\nEle oferă mai multă capacitate de răspuns și personalizare</string>
     <string name="whats_next">Ce urmează?</string>
     <string name="widget_old_description_end">Am detectat că deja ai widget-uri în launcher-ul tău. Din păcate, ele nu sunt compatibile cu cele noi și îmbunătățite.\nÎn funcție launcher-ul tău, ar putea fi necesar să le ștergi pe cele vechi ca să le înlocuiești.</string>
     <string name="click_here">Apasă aici pentru a afla mai multe.</string>
-    <string name="allow_storage_access_title">Permiteți Mix Wave să acceseze fișiere video și audio</string>
-    <string name="allow_storage_access_description">Mix Wave cere permisiunea pentru a accesa fișierele media de pe acest dispozitiv.</string>
-    <string name="partial_content">Mix Wave nu poate accesa toate fișierele dumneavoastră</string>
+    <string name="allow_storage_access_title">Permiteți Osho Discourse să acceseze fișiere video și audio</string>
+    <string name="allow_storage_access_description">Osho Discourse cere permisiunea pentru a accesa fișierele media de pe acest dispozitiv.</string>
+    <string name="partial_content">Osho Discourse nu poate accesa toate fișierele dumneavoastră</string>
     <string name="partial_content_description">Începând cu Android 11, aplicațiile au nevoie de o permisiune specială pentru a accesa toate fișierele dispozitivului.\n\n\n%s</string>
     <string name="never_ask_again">Să nu mai întrebi niciodată</string>
     <string name="never_show_again">Nu mai afișa niciodată, nici măcar pentru versiunile viitoare</string>
-    <string name="allow_settings_access_ringtone_title">Permite programului Mix Wave să stabilească tonul de apel</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave are nevoie de permisiune pentru a configura acest cântec ca ton de sonerie.</string>
-    <string name="allow_settings_access_brightness_title">Permite programului Mix Wave să modifice modul de luminozitate</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave cere permisiunea pentru a schimba modul pentru luminozitate.</string>
-    <string name="allow_draw_overlays_title">Permite ferestrei de redare a programului Mix Wave să apară peste alte aplicații</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave cere permisiunea să afișeze videoclipul într-o fereastră peste alte aplicații.</string>
-    <string name="allow_pip">Permite playerului Mix Wave să lanseze Picture in Picture</string>
-    <string name="allow_pip_description">Mix Wave are nevoie de tine ca să-i acorzi permisiunea să-ți afișeze videoclipul în modul Picture in Picture.</string>
+    <string name="allow_settings_access_ringtone_title">Permite programului Osho Discourse să stabilească tonul de apel</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse are nevoie de permisiune pentru a configura acest cântec ca ton de sonerie.</string>
+    <string name="allow_settings_access_brightness_title">Permite programului Osho Discourse să modifice modul de luminozitate</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse cere permisiunea pentru a schimba modul pentru luminozitate.</string>
+    <string name="allow_draw_overlays_title">Permite ferestrei de redare a programului Osho Discourse să apară peste alte aplicații</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse cere permisiunea să afișeze videoclipul într-o fereastră peste alte aplicații.</string>
+    <string name="allow_pip">Permite playerului Osho Discourse să lanseze Picture in Picture</string>
+    <string name="allow_pip_description">Osho Discourse are nevoie de tine ca să-i acorzi permisiunea să-ți afișeze videoclipul în modul Picture in Picture.</string>
     <string name="permission_ask_again">Permisiune garantata</string>
     <string name="pick_file">Alege un fișier</string>
     <string name="permission_not_granted">Permisiune neacordată</string>
@@ -740,9 +740,9 @@
     <string name="permission_onboarding_no_perm">Nu îți vei putea descoperi automat conținutul media.\nVei putea să redai doar fluxuri sau conținutul media din rețea</string>
     <string name="permission_onboarding_perm_media">Vei putea să descoperi automat doar fișierele media standard.</string>
     <string name="permission_onboarding_perm_all">Vei putea să îți descoperi automat toate fișierele ca să redai toate tipurile de conținut media, chiar și pe cele ciudate sau fișierele comprimate</string>
-    <string name="exit_app">Inchide Mix Wave -ul</string>
-    <string name="exit_app_msg">Sigur doriți să închideți aplicația Mix Wave?</string>
-    <string name="widget_explanation_title">Widgeturi Mix Wave</string>
+    <string name="exit_app">Inchide Osho Discourse -ul</string>
+    <string name="exit_app_msg">Sigur doriți să închideți aplicația Osho Discourse?</string>
+    <string name="widget_explanation_title">Widgeturi Osho Discourse</string>
     <string name="widget_explanation_size">Widgeturile vin în diferite dimensiuni și arome</string>
     <string name="widget_explanation_resize">Pentru a schimba tipul de widget, apasă lung și folosește mânerele pentru a-l redimensiona la dimensiunea dorită</string>
     <string name="widget_explanation_end">Widgeturile sunt foarte personalizabile. Eliberează-ți creativitatea și fă-le să arate ca tine!</string>
@@ -799,7 +799,7 @@
     <string name="length">Lungime</string>
     <string name="tv_settings_hint">Apăsați lung butonul OK pentru a bifa / debifa directoarele</string>
     <string name="ml_external_storage_title">A fost detectat un nou element de stocare externă</string>
-    <string name="ml_external_storage_msg">Doriești ca Mix Wave să adauge dispozitivul %1$s în biblioteca media?</string>
+    <string name="ml_external_storage_msg">Doriești ca Osho Discourse să adauge dispozitivul %1$s în biblioteca media?</string>
     <string name="ml_external_storage_accept">Da</string>
     <string name="ml_external_storage_decline">Nu</string>
     <string name="auto_last_added_media">Ultimul adăugat</string>
@@ -829,8 +829,8 @@
     <string name="browser_storages">Stocare</string>
     <string name="msg_delete_failed">Eroare la ștergerea fișierului media %1$s</string>
     <string name="renderer_list_title">Afișaje</string>
-    <string name="sdcard_permission_dialog_title">Trebuie permiți accesul Mix Wave pentru scrierea pe cardul SD</string>
-    <string name="sdcard_permission_dialog_message">Mix Wave nu poate șterge acest fișier fără permisiunea de acces la scriere.\nTe rog să accesezi cardul SD și să faci clic pe \"Select\".\nMai întâi clic pe \"Afișează cardul SD\" în meniul din dreapta sus</string>
+    <string name="sdcard_permission_dialog_title">Trebuie permiți accesul Osho Discourse pentru scrierea pe cardul SD</string>
+    <string name="sdcard_permission_dialog_message">Osho Discourse nu poate șterge acest fișier fără permisiunea de acces la scriere.\nTe rog să accesezi cardul SD și să faci clic pe \"Select\".\nMai întâi clic pe \"Afișează cardul SD\" în meniul din dreapta sus</string>
     <string name="dialog_sd_wizard">Afișează</string>
     <string name="renderers_disconnect">Deconectează</string>
     <string name="audio_digital_failed">Eroare la modificarea stării de ieșire Audio Digital</string>
@@ -845,7 +845,7 @@
     <string name="playback_rewind">Derulare înapoi</string>
     <string name="playback_forward">Derulare rapidă înainte</string>
     <string name="ml_wizard_scan_checkbox">Scanare dispozitiv pentru conținutul media</string>
-    <string name="ml_wizard_description">Alegeți dacă Mix Wave va scana spațiul de stocare al dispozitivului pentru a vă organiza biblioteca media sau pur și simplu doriți să îl utilizați ca un simplu player cu un browser integrat.</string>
+    <string name="ml_wizard_description">Alegeți dacă Osho Discourse va scana spațiul de stocare al dispozitivului pentru a vă organiza biblioteca media sau pur și simplu doriți să îl utilizați ca un simplu player cu un browser integrat.</string>
     <string name="tv_my_new_videos">Noile mele videoclipuri</string>
     <string name="cast_option_title">Transmite conținut media pe alt ecran</string>
     <string name="otg_device_title">dispozitiv OTG</string>
@@ -884,29 +884,29 @@
     <string name="ctx_player_subs_track">Pistă subtitluri</string>
     <string name="ctx_pip_title">Pop-Up player</string>
     <string name="device_dialog_title">A fost  introdus un dispozitiv extern</string>
-    <string name="device_dialog_message">Tocmai ați conectat un nou dispozitiv de stocare la TV box, doriți să-l deschideți cu Mix Wave?</string>
+    <string name="device_dialog_message">Tocmai ați conectat un nou dispozitiv de stocare la TV box, doriți să-l deschideți cu Osho Discourse?</string>
     <string name="videos_folders_title">Afișare videoclipuri după dosare</string>
     <string name="videos_groups_title">Grupuri video</string>
     <string name="video_save_clone_mode">Activați automat modul clonă?</string>
     <string name="video_remote_enable">Comutați la modul de control la distanță</string>
     <string name="video_remote_disable">Ecran duplicat</string>
     <string name="removed_from_playlist_anonymous">Element (e) eliminate din lista de redare</string>
-    <string name="welcome_title">Bine ați venit la Mix Wave!</string>
+    <string name="welcome_title">Bine ați venit la Osho Discourse!</string>
     <string name="welcome_subtitle">Playerul multimedia gratuit și open source</string>
-    <string name="permission_media">Mix Wave are nevoie de permisiunea dvs. pentru a accesa fișierele media de pe dispozitivul dvs.</string>
-    <string name="permission_video">Mix Wave are nevoie de permisiunea ta ca să acceseze fișierele media video de pe dispozitivul tău</string>
-    <string name="permission_audio">Mix Wave are nevoie de permisiunea ta ca să acceseze fișierele media audio de pe dispozitivul tău</string>
-    <string name="medialibrary_scan_explanation">Mix Wave vă poate scana automat dispozitivul pentru a vă organiza colecția de fișiere media.</string>
-    <string name="player_title_fd_warning">Fără permisiunea de stocare, Mix Wave nu poate prelua titlul fișierului media și nici nu poate salva progresul</string>
+    <string name="permission_media">Osho Discourse are nevoie de permisiunea dvs. pentru a accesa fișierele media de pe dispozitivul dvs.</string>
+    <string name="permission_video">Osho Discourse are nevoie de permisiunea ta ca să acceseze fișierele media video de pe dispozitivul tău</string>
+    <string name="permission_audio">Osho Discourse are nevoie de permisiunea ta ca să acceseze fișierele media audio de pe dispozitivul tău</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse vă poate scana automat dispozitivul pentru a vă organiza colecția de fișiere media.</string>
+    <string name="player_title_fd_warning">Fără permisiunea de stocare, Osho Discourse nu poate prelua titlul fișierului media și nici nu poate salva progresul</string>
     <string name="onboarding_theme_title">Simțiți-vă ca acasă</string>
     <string name="done">Terminat</string>
     <string name="onboarding_scan_title">Descoperiți automat fișierele dvs. media</string>
-    <string name="onboarding_all_set">Mix Wave este gata setat!</string>
+    <string name="onboarding_all_set">Osho Discourse este gata setat!</string>
     <string name="onboarding_permission_given">Acum puteți să vă descoperiți automat mediile, să folosiți subtitrări externe, precum și să redați fluxuri sau medii de rețea. </string>
-    <string name="daynight_system_explanation">Mix Wave va trece automat la modul întunecat în funcție de setările sistemului</string>
-    <string name="daynight_legacy_explanation">Mix Wave va trece automat la modul noapte la momentul potrivit</string>
-    <string name="onboarding_scanning_enable">Permit ca Mix Wave să caute în dispozitivul meu fișierele media</string>
-    <string name="onboarding_scan_customize">Permiteți-mi să aleg ce foldere va scana Mix Wave</string>
+    <string name="daynight_system_explanation">Osho Discourse va trece automat la modul întunecat în funcție de setările sistemului</string>
+    <string name="daynight_legacy_explanation">Osho Discourse va trece automat la modul noapte la momentul potrivit</string>
+    <string name="onboarding_scanning_enable">Permit ca Osho Discourse să caute în dispozitivul meu fișierele media</string>
+    <string name="onboarding_scan_customize">Permiteți-mi să aleg ce foldere va scana Osho Discourse</string>
     <string name="button_medialibrary_preferences">Accesați preferințele Medialibrary</string>
     <string name="light_theme">Tema luminii</string>
     <string name="add">Adăugați</string>
@@ -918,7 +918,7 @@
     <string name="popup_force_legacy_title">Utilizați fereastra pop-up personalizată Picture-in-Picture</string>
     <string name="popup_force_legacy_summary">Utilizați ferestre pop-up redimensionabile personalizate Picture-in-Picture</string>
     <string name="restore_background_video_title">Restaurează videoclipul din fundal</string>
-    <string name="restore_background_video_summary">Restabilește videoclipul din fundal când redeschizi Mix Wave pentru Android</string>
+    <string name="restore_background_video_summary">Restabilește videoclipul din fundal când redeschizi Osho Discourse pentru Android</string>
     <string name="device_default">Setarea implicită a dispozitivului</string>
     <string name="track_number">%d piste</string>
     <string name="jump_to">Sari la</string>
@@ -949,14 +949,14 @@
     <string name="display_in_grid">Afișare sub formă de grilă</string>
     <string name="dump_db_succes">Baza de date descărcată pe rădăcina de stocare internă</string>
     <string name="dump_db_failure">A eșuat să arunce baza de date</string>
-    <string name="send_crash_title">Mix Wave crash reporter</string>
-    <string name="send_crash_description">Prin trimiterea erorii care a survenit, ne veți ajuta să îmbunătățim stabilitatea Mix Wave.</string>
+    <string name="send_crash_title">Osho Discourse crash reporter</string>
+    <string name="send_crash_description">Prin trimiterea erorii care a survenit, ne veți ajuta să îmbunătățim stabilitatea Osho Discourse.</string>
     <string name="send_crash_warning">Asigurați-vă că eliminați datele sensibile pe care nu doriți să le trimiteți.</string>
     <string name="include_medialib">Includeți baza dvs. de date</string>
     <string name="include_logs">Include-ți jurnalele</string>
-    <string name="vlc_reporter">Reporter Mix Wave</string>
-    <string name="welcome_beta_title">Mix Wave Beta</string>
-    <string name="welcome_beta_description">Bine ați venit la programul Mix Wave beta.\nVă rugăm să rețineți că această versiune poate avea unele erori.</string>
+    <string name="vlc_reporter">Reporter Osho Discourse</string>
+    <string name="welcome_beta_title">Osho Discourse Beta</string>
+    <string name="welcome_beta_description">Bine ați venit la programul Osho Discourse beta.\nVă rugăm să rețineți că această versiune poate avea unele erori.</string>
     <string name="welcome_beta_description_bugs">Dacă observați o eroare, vă rugăm să o raportați în forumul nostru sau în urmăritorul de erori.</string>
     <string name="welcome_beta_description_crashes">Dacă întâmpini o eroare sau o blocare, deschide ecranul Despre și utilizează butonul Feedback > Contactează echipa de asistență.</string>
     <string name="send">Trimite</string>
@@ -1000,8 +1000,8 @@
     <string name="recently_played">Recent redate</string>
     <string name="recently_added">Recent adăugate</string>
     <string name="playback_multiple_errors">Nu pot fi redate mai multe suporturi media</string>
-    <string name="clear_media_db_message">Vă veți pierde progresele, marcajele și listele de redare pe care le-ați creat, dar veți păstra setările Mix Wave pentru Android.</string>
-    <string name="clear_app_data_message">Vă veți pierde progresele, marcajele, listele de redare și toate setările Mix Wave</string>
+    <string name="clear_media_db_message">Vă veți pierde progresele, marcajele și listele de redare pe care le-ați creat, dar veți păstra setările Osho Discourse pentru Android.</string>
+    <string name="clear_app_data_message">Vă veți pierde progresele, marcajele, listele de redare și toate setările Osho Discourse</string>
     <string name="clear">Curăță</string>
     <string name="abrepeat_add_first_marker">Setați punctul de pornire</string>
     <string name="abrepeat_add_second_marker">Setați punctul final</string>
@@ -1057,18 +1057,18 @@
     <string name="sub_result_by_name_hearing_impaired">Doar cu deficiențe de auz</string>
 
     <string name="sub_result_by_file">Rezultatele pentru fișierul dvs.</string>
-    <string name="donate">Ajutor Mix Wave</string>
-    <string name="donate_desc">Sprijină voluntarii care construiesc Mix Wave</string>
+    <string name="donate">Ajutor Osho Discourse</string>
+    <string name="donate_desc">Sprijină voluntarii care construiesc Osho Discourse</string>
     <string name="donate_subscribtion">Aș dori ca aceasta să fie o sponsorizare lunară.</string>
     <string name="donate_send">Începeți sponsorizarea dvs.</string>
-    <string name="donation_description">Sponsorizarea dumneavoastră ne va permite să:\nîmbunătățim aplicația Mix Wave pentru Android\nSusținem Asociația Mix Wave</string>
+    <string name="donation_description">Sponsorizarea dumneavoastră ne va permite să:\nîmbunătățim aplicația Osho Discourse pentru Android\nSusținem Asociația Osho Discourse</string>
     <string name="subscription_purchased">Sunteți abonat la o sponsorizare lunară</string>
     <string name="subscription_cancel">Vă puteți dezabona în Play Store</string>
     <string name="subscription_cancel_tv">Cum să vă dezabonați</string>
     <string name="donate_unsubscribe_tv">Pentru a vă dezabona, vă rugăm să deschideți %s de pe un telefon sau de pe un computer sau scanați acest cod:</string>
-    <string name="tip_jar">Ajutor Mix Wave</string>
+    <string name="tip_jar">Ajutor Osho Discourse</string>
     <string name="thank_you">Vă mulțumim.</string>
-    <string name="thank_you_desc">Vă mulțumim pentru sponsorizare!\nNe va ajuta foarte mult să îmbunătățim Mix Wave!</string>
+    <string name="thank_you_desc">Vă mulțumim pentru sponsorizare!\nNe va ajuta foarte mult să îmbunătățim Osho Discourse!</string>
     <string name="donate_again">Sponsorizați din nou aplicația</string>
 
     <string name="mark_as_played">Marcați ca fiind jucat</string>
@@ -1086,7 +1086,7 @@
     <string name="air_action_next">Următorul element din redare</string>
     <string name="air_action_previous">Articolul anterior în playback</string>
     <string name="allow_otg">Permiteți accesul OTG</string>
-    <string name="allow_otg_description">Vă rugăm să selectați unitatea OTG pentru a permite accesul la Mix Wave.</string>
+    <string name="allow_otg_description">Vă rugăm să selectați unitatea OTG pentru a permite accesul la Osho Discourse.</string>
     <string name="timeout_infinite">Infinit</string>
     <string name="video_hud_timeout">Video player controlează ascunderea întârzierii</string>
     <string name="video_hud_timeout_summary">%ss</string>
@@ -1154,7 +1154,7 @@
     <string name="optional_features_warning">Această funcție este în versiune beta și poate provoca erori și instabilități.</string>
     <string name="network_indexing">Indexarea rețelei</string>
     <string name="network_indexing_warning">Indexarea rețelei este în prezent în versiune beta.\nProbleme cunoscute:\n- Performanță lentă\n\n\nDacă întâmpinați alte probleme, vă rugăm să le raportați pe forumul nostru.</string>
-    <string name="start_vlc">Porniți Mix Wave</string>
+    <string name="start_vlc">Porniți Osho Discourse</string>
     <string name="jump_delay">intârziere de timp pentru funcţia Înainte/Înapoi </string>
     <string name="long_jump_delay">Apăsare lungă pentru funcţia de întarziere înainte/înapoi</string>
     <string name="jump_delay_summary">%s secunde</string>
@@ -1178,7 +1178,7 @@
     <string name="lock_use_sensor_summary">Când orientarea este blocată, utilizați senzorul pentru a permite orientarea inversă.</string>
     <string name="start">Start</string>
     <string name="notification_permission">Permisiune de notificare</string>
-    <string name="notification_permission_explanation">Mix Wave are nevoie de permisiunea ta pentru a trimite notificări.\nAplicația te va notifica numai când îți vei scana fișierele media sau când vei folosi videoclipuri personalizate de tip Imagine în imagine.\nRefuzul acesteia nu va împiedica funcționarea Mix Wave, dar notificările vor fi ascunse.</string>
+    <string name="notification_permission_explanation">Osho Discourse are nevoie de permisiunea ta pentru a trimite notificări.\nAplicația te va notifica numai când îți vei scana fișierele media sau când vei folosi videoclipuri personalizate de tip Imagine în imagine.\nRefuzul acesteia nu va împiedica funcționarea Osho Discourse, dar notificările vor fi ascunse.</string>
     <string name="permission">Permisiune</string>
     <string name="permission_no_access">Fără acces la fișiere</string>
     <string name="permissions">Permisiuni</string>
@@ -1249,7 +1249,7 @@
     <string name="widget_show_configure_summary">Chiar dacă nu este afișat, poți atinge colțul din dreapta sus ca să deschizi configurația</string>
     <string name="seek_backward_content_description">Caută %s secunde înapoi</string>
     <string name="seek_forward_content_description">Caută %s secunde înainte</string>
-    <string name="open_vlc">Deschide Mix Wave-ul</string>
+    <string name="open_vlc">Deschide Osho Discourse-ul</string>
     <string name="playing">Redare</string>
     <string name="disable_track">Dezactivează pista</string>
     <string name="ascending">Ascendent</string>
@@ -1354,7 +1354,7 @@
     <string name="ra_browser_audio_not_found">Conținut media nu a fost găsit sau nu poate fi redat în browser</string>
     <string name="ra_browser_audio_unsupported_format">Acest format audio nu este acceptat de browserul tău.</string>
 
-    <string name="ra_onboarding_welcome_desc">Bun venit la accesul la distanță al lui Mix Wave pentru Android\nPrin activarea acestuia, veți putea controla redarea acestui dispozitiv și multe altele</string>
+    <string name="ra_onboarding_welcome_desc">Bun venit la accesul la distanță al lui Osho Discourse pentru Android\nPrin activarea acestuia, veți putea controla redarea acestui dispozitiv și multe altele</string>
     <string name="ra_onboarding_how_title">Controlează-ți dispozitivul</string>
     <string name="ra_onboarding_how_desc">Controlează redarea, trimiterea sau primirea de fișiere și mai multe funcții pe dispozitivul tău</string>
     <string name="ra_onboarding_ssl_title">Criptare de date</string>
@@ -1380,7 +1380,7 @@
     <string name="podcast_mode">Modul Podcast</string>
     <string name="podcast_mode_help">Comenzile podcastului apar la redarea unei singure piese care îndeplinește unul dintre următoarele criterii:\n\t• Durată mai mare de 60 de minute\n\t• Durată mai mare de 15 minute fără nume de album\n\t• Genul este %s</string>
     <string name="voice_control">Control vocal</string>
-    <string name="voice_control_help">Mix Wave poate fi controlat prin Asistentul Google rostind următoarele comenzi:\n\t• Redare, Pauză, Oprire, Anterior, Următorul\n\t• Derulare înapoi, Derulare rapidă înainte, Repetare &lt;toate|una|oprit&gt;\n\t • Salt la &lt;timp&gt;, Omite &lt;durata&gt;\n\t• Ce este acest &lt;artist|album|melodie&gt;\n\t• Redare [artist|album|cântec|gen|listă de redare] &lt;nume&gt;</string>
+    <string name="voice_control_help">Osho Discourse poate fi controlat prin Asistentul Google rostind următoarele comenzi:\n\t• Redare, Pauză, Oprire, Anterior, Următorul\n\t• Derulare înapoi, Derulare rapidă înainte, Repetare &lt;toate|una|oprit&gt;\n\t • Salt la &lt;timp&gt;, Omite &lt;durata&gt;\n\t• Ce este acest &lt;artist|album|melodie&gt;\n\t• Redare [artist|album|cântec|gen|listă de redare] &lt;nume&gt;</string>
 
     <string name="network" >Rețea</string>
     <string name="metered_connection">Acțiune pentru fluxuri atunci când conexiunea este măsurată</string>

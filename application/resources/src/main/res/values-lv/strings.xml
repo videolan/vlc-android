@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Labi</string>
     <string name="cancel">Atcelt</string>
     <string name="other">Cits</string>
@@ -33,7 +33,7 @@
     <string name="play_as_audio">Atskaņot kā audio</string>
     <string name="play_as_video">Atskaņot kā video</string>
     <string name="video_app_switch_title">Fona/AA režīms</string>
-    <string name="video_app_switch_summary">Izvēlieties Mix Wave darbību, pārslēdzoties uz citu programmu no video atskaņošanas</string>
+    <string name="video_app_switch_summary">Izvēlieties Osho Discourse darbību, pārslēdzoties uz citu programmu no video atskaņošanas</string>
     <string name="play_pip_title">Video demonstrēšana režīmā Attēls attēlā</string>
     <string name="play_as_audio_background">Atskaņot video fonā</string>
     <string name="insert_next">Ievietot nākamo</string>
@@ -168,7 +168,7 @@
 
     <string name="open_mrl_dialog_msg">Ievadiet tīkla adresi: piemēram, http://, mms:// vai rtsp://</string>
     <string name="encountered_error_title">Atskaņošanas kļūda</string>
-    <string name="encountered_error_message">Mix Wave radusies kļūda ar šo multivides failu.\nLūdzu mēģiniet atsvaidzināt multivides bibliotēku.</string>
+    <string name="encountered_error_message">Osho Discourse radusies kļūda ar šo multivides failu.\nLūdzu mēģiniet atsvaidzināt multivides bibliotēku.</string>
     <string name="invalid_location">Resursu ar adresi %1$s nevar atskaņot.</string>
     <string name="search">Meklēt</string>
 
@@ -190,10 +190,10 @@
     <string name="hold_to_stop">Turiet lai apturētu</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Revīzija</string>
     <string name="about">Par</string>
-    <string name="vlc_authors">un Mix Wave autori.</string>
+    <string name="vlc_authors">un Osho Discourse autori.</string>
     <string name="feedback_forum">Atsauksmju forums</string>
 
     <!-- Preferences -->
@@ -279,7 +279,7 @@
     <string name="dump_logcat">Izgāzt logcat log</string>
     <string name="dump_logcat_success">Logcat veiksmīgi izgāza uz %1$s!</string>
     <string name="dump_logcat_failure">Neizdevās izgāzt logcat.</string>
-    <string name="restart_vlc">Pārstartēt Mix Wave</string>
+    <string name="restart_vlc">Pārstartēt Osho Discourse</string>
     <string name="no_result">Rezultātu nav</string>
     <string name="no_internet_connection">Pārbaudiet savu interneta savienojumu</string>
     <string name="browsing">Pārlūkot</string>
@@ -303,8 +303,8 @@
     <string name="music_now_playing">Šobrīd atskaņo</string>
 
     <string name="permission_ask_again">Piešķirt atļauju</string>
-    <string name="exit_app">Aizvērt Mix Wave</string>
-    <string name="exit_app_msg">Vai esat pārliecināts, ka vēlaties iziet no Mix Wave?</string>
+    <string name="exit_app">Aizvērt Osho Discourse</string>
+    <string name="exit_app_msg">Vai esat pārliecināts, ka vēlaties iziet no Osho Discourse?</string>
     <!-- Plugins -->
     <string name="plugins">Spraudņi</string>
     <string name="download_on_device">Lejupielādēt</string>

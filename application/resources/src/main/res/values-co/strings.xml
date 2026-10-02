@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Vai</string>
     <string name="cancel">Abbandunà</string>
     <string name="other">Altru</string>
@@ -43,14 +43,14 @@
     <string name="playback_controls">Cuntrolli di ripruduzzione</string>
     <string name="medialibrary_scan">Analisa di a mediateca</string>
     <string name="Medialibrary_progress">Prugressione di l’analisa di a mediateca</string>
-    <string name="ml_database_warning">A vostra basa di dati cuntene a lista di tutti i vostri medià. Serà sparta cù i sviluppatori di Mix Wave.</string>
-    <string name="logs_warning">Pò cuntene infurmazioni nant’à i vostri medià letti. Seranu sparte cù i sviluppatori di Mix Wave.</string>
+    <string name="ml_database_warning">A vostra basa di dati cuntene a lista di tutti i vostri medià. Serà sparta cù i sviluppatori di Osho Discourse.</string>
+    <string name="logs_warning">Pò cuntene infurmazioni nant’à i vostri medià letti. Seranu sparte cù i sviluppatori di Osho Discourse.</string>
     <string name="play_from_start">Sunà da u principiu</string>
     <string name="play_as_audio">Sunà cum’è audio</string>
     <string name="play_as_video">Sunà cum’è video</string>
     <string name="return_to_video">Longa picchicciata nant’à a cuprendula per risturà a video</string>
     <string name="video_app_switch_title">Modu di fondu o fiura-nant’à-fiura (PIP)</string>
-    <string name="video_app_switch_summary">Selezziunà u cumpurtamentu di Mix Wave quandu si passa da a ripruduzzione video à un’altra appiecazione</string>
+    <string name="video_app_switch_summary">Selezziunà u cumpurtamentu di Osho Discourse quandu si passa da a ripruduzzione video à un’altra appiecazione</string>
     <string name="play_pip_title">Sunà e video in modu fiura-nant’à-fiura (PIP)</string>
     <string name="play_as_audio_background">Sunà e video in modu di fondu</string>
     <string name="append">Aghjunghje à a fila d’attesa di lettura</string>
@@ -315,12 +315,12 @@
     <string name="hold_to_stop">Mantene per piantà</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Revisione</string>
     <string name="about">Apprupositu</string>
-    <string name="about_vlc_text">Mix Wave per Android™ hè una purtera di Mix Wave media player, u lettore medià pupulare à fonte aperta. A versione Android™ pò leghje tutti i schedarii è i flussi di a reta.</string>
+    <string name="about_vlc_text">Osho Discourse per Android™ hè una purtera di Osho Discourse media player, u lettore medià pupulare à fonte aperta. A versione Android™ pò leghje tutti i schedarii è i flussi di a reta.</string>
     <string name="authors">Autori</string>
-    <string name="vlc_authors">è l’autori di Mix Wave.</string>
+    <string name="vlc_authors">è l’autori di Osho Discourse.</string>
     <string name="is_compiled_by">Cumpilatu da</string>
     <string name="is_signed_by">Firmatu da</string>
     <string name="sources">Codice di fonte</string>
@@ -499,8 +499,8 @@
     <string name="replaygain_track">Traccia</string>
     <string name="replaygain_album">Albumu</string>
     <string name="aout">Esciuta audio</string>
-    <string name="aout_summary">Cambià u metoda chì Mix Wave impiega per l’esciuta audio s’ellu ùn funzioneghja micca</string>
-    <string name="audio_ducking_title">Diminuisce u vulume di Mix Wave in casu di nutificazione</string>
+    <string name="aout_summary">Cambià u metoda chì Osho Discourse impiega per l’esciuta audio s’ellu ùn funzioneghja micca</string>
+    <string name="audio_ducking_title">Diminuisce u vulume di Osho Discourse in casu di nutificazione</string>
     <string name="audio_ducking_summary">Aiuta à stà à sente e nutificazioni aidio, l’istruzzioni parlate di navigazione o d’assistenza</string>
     <string name="casting_category">Diffusione</string>
     <string name="remote_access">Accessu à distanza</string>
@@ -577,7 +577,7 @@
     <string name="clear_media_db">Viutà a banca di dati medià</string>
     <string name="clear_media_database_summary">Squassa a basa di dati per riprincipià à zeru</string>
     <string name="clear_app_data">Squassà i dati di l’appiecazione</string>
-    <string name="clear_app_data_summary">Squassà i dati di Mix Wave per Android</string>
+    <string name="clear_app_data_summary">Squassà i dati di Osho Discourse per Android</string>
     <string name="clear_history">Viutà a cronolugia di lettura</string>
     <string name="clear_history_message">Pirderete a vostra cronolugia, e vostre liste di lettura attuale è e vostre prugressioni</string>
     <string name="set_locale">Definisce a lingua</string>
@@ -603,7 +603,7 @@
     <string name="start_logging">Principià l’arregistramentu di messaghju</string>
     <string name="stop_logging">Piantà l’arregistramentu di messaghju</string>
     <string name="clear_log">Viutà u ghjurnale di i messaghji</string>
-    <string name="log_service_title">Arregistramentu di i ghjurnali di Mix Wave</string>
+    <string name="log_service_title">Arregistramentu di i ghjurnali di Osho Discourse</string>
     <string name="log_service_text">Apre u dialogu di u ghjurnale di i messaghji</string>
     <string name="copy_to_clipboard">Cupià ver di u preme’papei</string>
     <string name="copied_to_clipboard">Ghjurnale di i messaghji cupiatu ver di u preme’papei.</string>
@@ -621,10 +621,10 @@
     <string name="browser_quick_play_default">Lettura rapida cum’è azzione predefinita</string>
     <string name="browser_quick_play_default_summary">S’è st’ozzione hè attivata, picchichjà un elementu di u navigatore u leghjerà impieghendu a lettura rapida</string>
 
-    <string name="serious_crash">Per disgrazia, un sbagliu seriu hè accadutu è Mix Wave hè statu chjosu.</string>
-    <string name="help_us_send_log">Aiutateci à megliurà Mix Wave mandenduci quellu ghjurnale d’accidente :</string>
+    <string name="serious_crash">Per disgrazia, un sbagliu seriu hè accadutu è Osho Discourse hè statu chjosu.</string>
+    <string name="help_us_send_log">Aiutateci à megliurà Osho Discourse mandenduci quellu ghjurnale d’accidente :</string>
     <string name="ml_crash_send">A mediateca hè dannighjata. Aiutateci mandendu u ghjurnale di i messaghji.</string>
-    <string name="restart_vlc">Rilancià Mix Wave</string>
+    <string name="restart_vlc">Rilancià Osho Discourse</string>
     <string name="send_log">Mandà u ghjurnale di i messaghji</string>
     <string name="sending_log">Inviu di u ghjurnale…</string>
 
@@ -667,7 +667,7 @@
     <string name="medialibrary_directories">Cartulari di a mediateca</string>
 
     <!--What's new-->
-    <string name="whats_new_title">Ciò chì hè novu in Mix Wave per Android %s</string>
+    <string name="whats_new_title">Ciò chì hè novu in Osho Discourse per Android %s</string>
     <string name="whats_new_37_equalizer_text">L’ugualizatore hè statu ripensatu sanu. U so impiegu hè più faciule, vi permette di disattivà e prerigature predefinite è di fà salvaguardia, risturazione è spartera di e vostre prerigature.</string>
     <string name="whats_new_37_import_export">Avemu amendatu a funzione di salvaguardia è di risturazione di i parametri. Ora, vi permette di fà a salvaguardia d’altri parametri, cum’è e prerigature di l’ugualizatore.</string>
     <string name="whats_new_37_android_auto">Per via di certi custrizzioni nove imposte da u Store, i parametri Android Auto sò stati dispiazzati tutti versu l’appiecazione mubile. Què diventa u novu locu per mudificalli.</string>
@@ -676,7 +676,7 @@
 <!--    update-->
     <string name="update_title">Versione nova dispunibule</string>
     <string name="install_nightly_title">Installà a versione creata ogni notte</string>
-    <string name="update_text">Una versione nova - creata di notte - di Mix Wave per Android hè dispunibule !\n\nFighjate què perchè vo impiegate una custruzzione di notte.</string>
+    <string name="update_text">Una versione nova - creata di notte - di Osho Discourse per Android hè dispunibule !\n\nFighjate què perchè vo impiegate una custruzzione di notte.</string>
     <string name="install_text">E versioni create di notte sò messe à livellu autumaticamente tutti i ghjorni cù l’ultime funzioni è currezzioni.\n\nScaricà subitu ?</string>
 
     <string name="open_in_browser">Apre in u navigatore</string>
@@ -697,28 +697,28 @@
     <string name="music_now_playing">Ripruduzzione in corsu</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Widget Mix Wave Biancu</string>
-    <string name="widget_name_b">Widget Mix Wave Scuru</string>
-    <string name="widget_name_mini_player">Mini lettore Mix Wave</string>
+    <string name="widget_name_w">Widget Osho Discourse Biancu</string>
+    <string name="widget_name_b">Widget Osho Discourse Scuru</string>
+    <string name="widget_name_mini_player">Mini lettore Osho Discourse</string>
     <string name="widget_old_text">Avemu messu à livellu i nostri widgets !</string>
     <string name="widget_old_description_start">Bella nutizia ! Avemu publicatu widgets amendati.\nPermettenu più di riattività è di persunalizazione</string>
     <string name="whats_next">Cosa hà da accade dopu ?</string>
     <string name="widget_old_description_end">Avemu vistu chì vo avete dighjà widgets in u vostru lanciadore. Per disgrazia, ùn sò micca cumpatibile cù i nostri widgets amendati.\nSecondu à u vostru lanciadore, ci vulerà forse à caccià i vechji per rimpiazzalli.</string>
     <string name="click_here">Fate un cliccu quì per sapene di più.</string>
-    <string name="allow_storage_access_title">Permette à Mix Wave d’accede à i schedarii video è audio</string>
-    <string name="allow_storage_access_description">Mix Wave hà bisognu di stu permessu per accede à i schedarii medià nant’à st’apparechju.</string>
-    <string name="partial_content">Mix Wave ùn pò micca accede à tutti i vostri schedarii</string>
+    <string name="allow_storage_access_title">Permette à Osho Discourse d’accede à i schedarii video è audio</string>
+    <string name="allow_storage_access_description">Osho Discourse hà bisognu di stu permessu per accede à i schedarii medià nant’à st’apparechju.</string>
+    <string name="partial_content">Osho Discourse ùn pò micca accede à tutti i vostri schedarii</string>
     <string name="partial_content_description">Cù Android 11 è dopu, l’appiecazioni richiedenu un permessu speziale per accede à tutti i schedarii di l’apparechju.\n\n%s</string>
     <string name="never_ask_again">Ùn mi dumandà mai più</string>
     <string name="never_show_again">Ùn affissà mai più, mancu per e versioni future</string>
-    <string name="allow_settings_access_ringtone_title">Permette à Mix Wave di definisce a suneria</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave hà bisognu di stu permessu per definisce sta canzona cum’è a vostra suneria.</string>
-    <string name="allow_settings_access_brightness_title">Permette à Mix Wave di cambià u modu di lucidezza</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave hà bisognu di stu permessu per cambià u vostru modu di lucidezza.</string>
-    <string name="allow_draw_overlays_title">Permette à u lettore Mix Wave d’affissassi sopra à l’altre appiecazioni</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave hà bisognu di stu permessu per affissà a vistra video in una finestra chì s’apre sopra à l’altre appiecazioni.</string>
-    <string name="allow_pip">Permette à u lettore Mix Wave di lancià u modu fiura-nant’à-fiura (PIP)</string>
-    <string name="allow_pip_description">Mix Wave hà bisognu chì vo cunsentite stu permessu per affissà a vostra video i u modu fiura-nant’à-fiura (PIP).</string>
+    <string name="allow_settings_access_ringtone_title">Permette à Osho Discourse di definisce a suneria</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse hà bisognu di stu permessu per definisce sta canzona cum’è a vostra suneria.</string>
+    <string name="allow_settings_access_brightness_title">Permette à Osho Discourse di cambià u modu di lucidezza</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse hà bisognu di stu permessu per cambià u vostru modu di lucidezza.</string>
+    <string name="allow_draw_overlays_title">Permette à u lettore Osho Discourse d’affissassi sopra à l’altre appiecazioni</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse hà bisognu di stu permessu per affissà a vistra video in una finestra chì s’apre sopra à l’altre appiecazioni.</string>
+    <string name="allow_pip">Permette à u lettore Osho Discourse di lancià u modu fiura-nant’à-fiura (PIP)</string>
+    <string name="allow_pip_description">Osho Discourse hà bisognu chì vo cunsentite stu permessu per affissà a vostra video i u modu fiura-nant’à-fiura (PIP).</string>
     <string name="permission_ask_again">Cunsente u permessu</string>
     <string name="pick_file">Sceglie un schedariu</string>
     <string name="permission_not_granted">Permessu micca cunsintitu</string>
@@ -727,9 +727,9 @@
     <string name="permission_onboarding_no_perm">Ùn serà micca pussibule di scopre autumaticamente i vostri media.\nSerà solu pussibule di leghje i flussi o i media di a reta</string>
     <string name="permission_onboarding_perm_media">Serà solu pussibule di scopre autumaticamente i schedarii media classichi</string>
     <string name="permission_onboarding_perm_all">Serà pussibule di scopre autumaticamente tutti i vostri schedarii per sunà tutti i tipi di media ancu quelli chì sò strani o i schedarii cumpressi</string>
-    <string name="exit_app">Chjode Mix Wave</string>
-    <string name="exit_app_msg">Site sicuru di vulè chità Mix Wave ?</string>
-    <string name="widget_explanation_title">Widgets Mix Wave</string>
+    <string name="exit_app">Chjode Osho Discourse</string>
+    <string name="exit_app_msg">Site sicuru di vulè chità Osho Discourse ?</string>
+    <string name="widget_explanation_title">Widgets Osho Discourse</string>
     <string name="widget_explanation_size">I widgets sò di parechje dimensioni è varietà</string>
     <string name="widget_explanation_resize">Per cambià u tipu di widget, appughjateli sopra è impiegate e maneghje per cambiallu à a dimensione chì vi cunvene</string>
     <string name="widget_explanation_end">I widgets ponu esse persunalizati à l’infinitu. Liberate a vostra creatività è fate ch’elli vi assumiglianu !</string>
@@ -786,7 +786,7 @@
     <string name="length">Durata</string>
     <string name="tv_settings_hint">Longa incalcata di u buttone Vai per selezziunà o micca i cartulari</string>
     <string name="ml_external_storage_title">Novu magazinu esternu abbentatu</string>
-    <string name="ml_external_storage_msg">Vulete chì Mix Wave aghjunghji l’apparechju %1$s à a vostra mediateca ?</string>
+    <string name="ml_external_storage_msg">Vulete chì Osho Discourse aghjunghji l’apparechju %1$s à a vostra mediateca ?</string>
     <string name="ml_external_storage_accept">Sì</string>
     <string name="ml_external_storage_decline">Nò</string>
     <string name="auto_last_added_media">Ultimu aghjuntu</string>
@@ -816,8 +816,8 @@
     <string name="browser_storages">Magazini</string>
     <string name="msg_delete_failed">Fiascu per squassà u medià %1$s</string>
     <string name="renderer_list_title">Screni</string>
-    <string name="sdcard_permission_dialog_title">Ci vole à cuncede à Mix Wave l’accessu in scrittura à a vostra carta SD</string>
-    <string name="sdcard_permission_dialog_message">Mix Wave ùn pò micca squassà stu schedariu senza permessu d’accessu in scrittura.\nDa prima, ci vole à andà ver di a vostra carta SD è cliccà nant’à \&quot;Affissà carta SD\&quot; in u listinu insù-diritta</string>
+    <string name="sdcard_permission_dialog_title">Ci vole à cuncede à Osho Discourse l’accessu in scrittura à a vostra carta SD</string>
+    <string name="sdcard_permission_dialog_message">Osho Discourse ùn pò micca squassà stu schedariu senza permessu d’accessu in scrittura.\nDa prima, ci vole à andà ver di a vostra carta SD è cliccà nant’à \&quot;Affissà carta SD\&quot; in u listinu insù-diritta</string>
     <string name="dialog_sd_wizard">Mustrammi</string>
     <string name="renderers_disconnect">Discunnette</string>
     <string name="audio_digital_failed">Fiascu per cambià u statu di l’esciuta digitale audio</string>
@@ -832,7 +832,7 @@
     <string name="playback_rewind">Ritrusà</string>
     <string name="playback_forward">Avanzà in furia</string>
     <string name="ml_wizard_scan_checkbox">Ricerca di cuntenutu medià nant’à l’apparechju</string>
-    <string name="ml_wizard_description">Sceglie s’è Mix Wave analizerà u vostru apparechju per urganizà a vostra mediateca o s’ellu serà impiegatu solu cum’è un lettore simplice cù un navigatore integratu.</string>
+    <string name="ml_wizard_description">Sceglie s’è Osho Discourse analizerà u vostru apparechju per urganizà a vostra mediateca o s’ellu serà impiegatu solu cum’è un lettore simplice cù un navigatore integratu.</string>
     <string name="tv_my_new_videos">E mo nove video</string>
     <string name="cast_option_title">Trasmette i media nant’à un altru screnu</string>
     <string name="otg_device_title">Apparechju OTG</string>
@@ -871,29 +871,29 @@
     <string name="ctx_player_subs_track">Traccia di sottutituli</string>
     <string name="ctx_pip_title">Lettore pop-up</string>
     <string name="device_dialog_title">Apparechju esternu framessu</string>
-    <string name="device_dialog_message">Avete brancatu un novu apparechju d’allucamentu à a vostra scatula TV, vulete aprelu cù Mix Wave ?</string>
+    <string name="device_dialog_message">Avete brancatu un novu apparechju d’allucamentu à a vostra scatula TV, vulete aprelu cù Osho Discourse ?</string>
     <string name="videos_folders_title">Video da cartulari</string>
     <string name="videos_groups_title">Gruppi di video</string>
     <string name="video_save_clone_mode">Attivà autumaticamente u modu di duppiamentu ?</string>
     <string name="video_remote_enable">Passà in modu di telecumanda</string>
     <string name="video_remote_disable">Duppià u screnu</string>
     <string name="removed_from_playlist_anonymous">Elementu(i) cacciatu(i) da a lista di lettura</string>
-    <string name="welcome_title">Benvenuta in Mix Wave !</string>
+    <string name="welcome_title">Benvenuta in Osho Discourse !</string>
     <string name="welcome_subtitle">U lettore multimedià liberu è di rigalu</string>
-    <string name="permission_media">Mix Wave hà bisognu di u vostru accunsentu per accede à i medià nant’à u vostru apparechju</string>
-    <string name="permission_video">Mix Wave hà bisognu di u vostru accunsentu per accede à i medià video nant’à u vostru apparechju</string>
-    <string name="permission_audio">Mix Wave hà bisognu di u vostru accunsentu per accede à i medià audio nant’à u vostru apparechju</string>
-    <string name="medialibrary_scan_explanation">Mix Wave pò analizà autumaticamente u vostru apparechju per urganizà a vostra cullezzione medià.</string>
-    <string name="player_title_fd_warning">Senza u permessu d’allucamentu, Mix Wave ùn pò micca riacquistà u titulu di u medià, o arregistrà a prugressione</string>
+    <string name="permission_media">Osho Discourse hà bisognu di u vostru accunsentu per accede à i medià nant’à u vostru apparechju</string>
+    <string name="permission_video">Osho Discourse hà bisognu di u vostru accunsentu per accede à i medià video nant’à u vostru apparechju</string>
+    <string name="permission_audio">Osho Discourse hà bisognu di u vostru accunsentu per accede à i medià audio nant’à u vostru apparechju</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse pò analizà autumaticamente u vostru apparechju per urganizà a vostra cullezzione medià.</string>
+    <string name="player_title_fd_warning">Senza u permessu d’allucamentu, Osho Discourse ùn pò micca riacquistà u titulu di u medià, o arregistrà a prugressione</string>
     <string name="onboarding_theme_title">Fatelu dapervoi in casa vostra</string>
     <string name="done">Compiu</string>
     <string name="onboarding_scan_title">Scopre autu. u vostru medià</string>
-    <string name="onboarding_all_set">Mix Wave hè prontu !</string>
+    <string name="onboarding_all_set">Osho Discourse hè prontu !</string>
     <string name="onboarding_permission_given">Avà ghjè pussibule di scopre autumaticamente i vostri medià è d’impiegà sottutituli esterni è ancu di leghje i flussi o i medià di a reta</string>
-    <string name="daynight_system_explanation">Mix Wave cambierà autumaticamente ver di u modu scuru secondu à i parametri di u sistema</string>
-    <string name="daynight_legacy_explanation">Mix Wave cambierà autumaticamente ver di u modu scuru à u mumentu apprupriatu</string>
-    <string name="onboarding_scanning_enable">Lascià Mix Wave analizà u mo apparechju è truvà i medià</string>
-    <string name="onboarding_scan_customize">Lasciammi sceglie quelli cartulari chì Mix Wave analizerà</string>
+    <string name="daynight_system_explanation">Osho Discourse cambierà autumaticamente ver di u modu scuru secondu à i parametri di u sistema</string>
+    <string name="daynight_legacy_explanation">Osho Discourse cambierà autumaticamente ver di u modu scuru à u mumentu apprupriatu</string>
+    <string name="onboarding_scanning_enable">Lascià Osho Discourse analizà u mo apparechju è truvà i medià</string>
+    <string name="onboarding_scan_customize">Lasciammi sceglie quelli cartulari chì Osho Discourse analizerà</string>
     <string name="button_medialibrary_preferences">Andà à e preferenze di a mediateca</string>
     <string name="light_theme">Tema chjaru</string>
     <string name="add">Aghjunghje</string>
@@ -905,7 +905,7 @@
     <string name="popup_force_legacy_title">Impiegà una finestra persunalizata fiura-nant’à-fiura (PIP)</string>
     <string name="popup_force_legacy_summary">Impiegà una finestra persunalizata dimensionevule fiura-nant’à-fiura (PIP)</string>
     <string name="restore_background_video_title">Risturà a video in modu di sfondulu</string>
-    <string name="restore_background_video_summary">Risturà a video in modu di sfondulu quandu Mix Wave for Android s’apre torna</string>
+    <string name="restore_background_video_summary">Risturà a video in modu di sfondulu quandu Osho Discourse for Android s’apre torna</string>
     <string name="device_default">Predefinizione d’apparechju</string>
     <string name="track_number">%d traccie</string>
     <string name="jump_to">Saltà à</string>
@@ -934,14 +934,14 @@
     <string name="display_in_grid">Affissà in quadrittera</string>
     <string name="dump_db_succes">Banca di dati espurtata ver di a radica di a memoria interna</string>
     <string name="dump_db_failure">Fiascu à l\'esportu di a banca di dati</string>
-    <string name="send_crash_title">Rapurtadore d’accidente Mix Wave</string>
-    <string name="send_crash_description">Mandà u vostru raportu d’accidente ci aiuterà à megliurà a stabilità di Mix Wave.</string>
+    <string name="send_crash_title">Rapurtadore d’accidente Osho Discourse</string>
+    <string name="send_crash_description">Mandà u vostru raportu d’accidente ci aiuterà à megliurà a stabilità di Osho Discourse.</string>
     <string name="send_crash_warning">Assicuratevi di caccià tutti i dati sensibule chì ùn vulete micca mandà.</string>
     <string name="include_medialib">Include a vostra basa di dati</string>
     <string name="include_logs">Include i vostri ghjurnali di messaghji</string>
-    <string name="vlc_reporter">Rapurtadore Mix Wave</string>
-    <string name="welcome_beta_title">Beta Mix Wave</string>
-    <string name="welcome_beta_description">Benvenuta in u prugramma di sviluppu beta di Mix Wave.\nFate casu chì sta versione pò cuntene qualchì penseru.</string>
+    <string name="vlc_reporter">Rapurtadore Osho Discourse</string>
+    <string name="welcome_beta_title">Beta Osho Discourse</string>
+    <string name="welcome_beta_description">Benvenuta in u prugramma di sviluppu beta di Osho Discourse.\nFate casu chì sta versione pò cuntene qualchì penseru.</string>
     <string name="welcome_beta_description_bugs">S’è vò truvate un penseru, fatecilu sapè nant’à u nostru foru o via u ghjestiunariu di penseru.</string>
     <string name="welcome_beta_description_crashes">S’è vo scuntrate un prublema o un accidente, ci vole à apre u screnu Apprupositu è impiegà u buttone « Ritornu d’avisu > Cuntattà a squadra d’assistenza ».</string>
     <string name="send">Mandà</string>
@@ -985,8 +985,8 @@
     <string name="recently_played">Sunatu pocu fà</string>
     <string name="recently_added">Aghjuntu pocu fà</string>
     <string name="playback_multiple_errors">Parechji medià ùn ponu micca esse sunati</string>
-    <string name="clear_media_db_message">Pirderete e vostre prugressioni, indette è liste di lettura chì vo avete create ma i parametri di Mix Wave per Android seranu cunservati</string>
-    <string name="clear_app_data_message">Pirderete e vostre prugressioni, indette, liste di lettura è tutte i parametri di Mix Wave</string>
+    <string name="clear_media_db_message">Pirderete e vostre prugressioni, indette è liste di lettura chì vo avete create ma i parametri di Osho Discourse per Android seranu cunservati</string>
+    <string name="clear_app_data_message">Pirderete e vostre prugressioni, indette, liste di lettura è tutte i parametri di Osho Discourse</string>
     <string name="clear">Squassà</string>
     <string name="abrepeat_add_first_marker">Definisce u puntu di principiu</string>
     <string name="abrepeat_add_second_marker">Definisce u puntu di fine</string>
@@ -1042,18 +1042,18 @@
     <string name="sub_result_by_name_hearing_impaired">Solu per i cionchi</string>
 
     <string name="sub_result_by_file">Risultati per u vostru schedariu</string>
-    <string name="donate">Aiutà Mix Wave</string>
-    <string name="donate_desc">Sustinite i vuluntarii chì custruiscenu Mix Wave</string>
+    <string name="donate">Aiutà Osho Discourse</string>
+    <string name="donate_desc">Sustinite i vuluntarii chì custruiscenu Osho Discourse</string>
     <string name="donate_subscribtion">Vogliu ch’ella sia un finanziamentu misincu</string>
     <string name="donate_send">Principià u vostru finanziamentu</string>
-    <string name="donation_description">U vostru finanziamentu ci permetterà di :\nAmendà l’appiecazione Mix Wave per Android\nSustene l’associu Mix Wave</string>
+    <string name="donation_description">U vostru finanziamentu ci permetterà di :\nAmendà l’appiecazione Osho Discourse per Android\nSustene l’associu Osho Discourse</string>
     <string name="subscription_purchased">Avete sottuscrittu à un finanziamentu misincu</string>
     <string name="subscription_cancel">Pudete disabbunavvi in u Play Store</string>
     <string name="subscription_cancel_tv">Cumu disabbunassi</string>
     <string name="donate_unsubscribe_tv">Per disabbunassi, ci vole à apre %s nant’à un telefonu o un urdinatore o analizà stu codice :</string>
-    <string name="tip_jar">Aiutà Mix Wave</string>
+    <string name="tip_jar">Aiutà Osho Discourse</string>
     <string name="thank_you">Vi ringraziemu</string>
-    <string name="thank_you_desc">Vi ringraziemu per u vostru finanziamentu !\nQuè ci aiuterà assai à amendà Mix Wave !</string>
+    <string name="thank_you_desc">Vi ringraziemu per u vostru finanziamentu !\nQuè ci aiuterà assai à amendà Osho Discourse !</string>
     <string name="donate_again">Finanzià torna l’appiecazione</string>
 
     <string name="mark_as_played">Marcà cum’è issendu vistu</string>
@@ -1071,7 +1071,7 @@
     <string name="air_action_next">Elementu seguente in lettura</string>
     <string name="air_action_previous">Elementu precedente in lettura</string>
     <string name="allow_otg">Permette l’accessu OTG</string>
-    <string name="allow_otg_description">Ci vole à selezziunà u vostru apparechju OTG per permetteci l’accessu à Mix Wave.</string>
+    <string name="allow_otg_description">Ci vole à selezziunà u vostru apparechju OTG per permetteci l’accessu à Osho Discourse.</string>
     <string name="timeout_infinite">Infinitu</string>
     <string name="video_hud_timeout">U lettore video cuntrolleghja u cumportu di maschera</string>
     <string name="video_hud_timeout_summary">%ss</string>
@@ -1139,7 +1139,7 @@
     <string name="optional_features_warning">Sta funzione hè in corsu di sviluppu è pò cagiunà accidenti è istabilità</string>
     <string name="network_indexing">Indicera di a reta</string>
     <string name="network_indexing_warning">L’indicera di a reta hè una funzione attualmente in versione beta.\nPrublemi cunnisciuti :\n• Perfurmenze ridutte\n\nS’è vò scuntrate d’altri prublemi, fatecilu sapè nant’à u nostru foru.</string>
-    <string name="start_vlc">Lancià Mix Wave</string>
+    <string name="start_vlc">Lancià Osho Discourse</string>
     <string name="jump_delay">Tempurizazione d’avanza o di ritornu</string>
     <string name="long_jump_delay">Tempurizazione d’avanza o di ritornu da longa picchicciata</string>
     <string name="jump_delay_summary">%s seconde</string>
@@ -1163,7 +1163,7 @@
     <string name="lock_use_sensor_summary">Quandu l’orientazione hè ammarchjunata, impiegate u cattore per permette un orientazione à l’arritrosa</string>
     <string name="start">Principià</string>
     <string name="notification_permission">Permessu di nutificazione</string>
-    <string name="notification_permission_explanation">Mix Wave hà bisognu di u vostru accunsentu per mandà nutificazioni.\nL’appiecazione vi nutificherà solu durante l’analisa di u vostru medià o quandu s’impiega u modu fiura-nant’à-fiura (PIP).\nRicusà stu permessu ùn impediscerà micca Mix Wave di funziunà, ma e nutificazioni seranu piattate.</string>
+    <string name="notification_permission_explanation">Osho Discourse hà bisognu di u vostru accunsentu per mandà nutificazioni.\nL’appiecazione vi nutificherà solu durante l’analisa di u vostru medià o quandu s’impiega u modu fiura-nant’à-fiura (PIP).\nRicusà stu permessu ùn impediscerà micca Osho Discourse di funziunà, ma e nutificazioni seranu piattate.</string>
     <string name="permission">Permessu</string>
     <string name="permission_no_access">Nisunu accessu à u schedariu</string>
     <string name="permissions">Permessi</string>
@@ -1232,7 +1232,7 @@
     <string name="widget_show_configure_summary">Ancu s’ellu ùn hè micca affissatu, pudete picchichjà u scornu superiore à diritta per apre a cunfigurazione</string>
     <string name="seek_backward_content_description">Pusiziunà %s seconde in daretu</string>
     <string name="seek_forward_content_description">Pusiziunà %s seconde in avanti</string>
-    <string name="open_vlc">Apre Mix Wave</string>
+    <string name="open_vlc">Apre Osho Discourse</string>
     <string name="playing">Lettura</string>
     <string name="disable_track">Disattivà a traccia</string>
     <string name="ascending">Crescente</string>
@@ -1331,7 +1331,7 @@
     <string name="ra_otp_title">Tentativu di cunnessione à l’accessu à distanza</string>
     <string name="ra_otp_subtitle">S’ella hè voi, stampittate stu codice nant’à l°altru apparechju</string>
     <string name="ra_otp_not_me">Ùn hè micca eiu</string>
-    <string name="ra_onboarding_welcome_desc">Benvenuta nant’à l’accessu à distanza di Mix Wave per Android\nAttivendulu serete capace di cuntrollà a ripruduzzione di st’apparechju à ancu di più</string>
+    <string name="ra_onboarding_welcome_desc">Benvenuta nant’à l’accessu à distanza di Osho Discourse per Android\nAttivendulu serete capace di cuntrollà a ripruduzzione di st’apparechju à ancu di più</string>
     <string name="ra_onboarding_how_title">Cuntrollà u vostru apparechju</string>
     <string name="ra_onboarding_how_desc">Cuntrollà a ripruduzzione di u vostru apparechju, mandà o riacquistà schedarii è ancu di più</string>
     <string name="ra_onboarding_ssl_title">Cifratura di i dati</string>
@@ -1357,7 +1357,7 @@
     <string name="podcast_mode">Modu podcast</string>
     <string name="podcast_mode_help">I cuntrolli di podcast s’affissanu quandu si leghje una traccia unica chì risponde à unu di quelli criterii :\n\t• Longhezza superiore à 60 minuti\n\t• Longhezza superiore à 15 minuti senza nome d’albumu\n\t• Generu hè %s</string>
     <string name="voice_control">Cuntrollu di a voce</string>
-    <string name="voice_control_help">Mix Wave pò esse cuntrullatu via Google Assistant dicendu quelle cumande :\n\t• Leghje, Pausa, Piantà, Precedente, Seguente\n\t• Ritrusà, Avanza rapida, Ripete &lt;tuttu|unu|disattivatu&gt;\n\t• Saltà à &lt;una stonda&gt;\n\t• Tralascià &lt;durata&gt;\n\t• Chì hè &lt;st’artista|st’albumu|sta canzona&gt;\n\t• Leghje [artista|albumu|canzona|generu|lista di lettura] &lt;nome&gt;</string>
+    <string name="voice_control_help">Osho Discourse pò esse cuntrullatu via Google Assistant dicendu quelle cumande :\n\t• Leghje, Pausa, Piantà, Precedente, Seguente\n\t• Ritrusà, Avanza rapida, Ripete &lt;tuttu|unu|disattivatu&gt;\n\t• Saltà à &lt;una stonda&gt;\n\t• Tralascià &lt;durata&gt;\n\t• Chì hè &lt;st’artista|st’albumu|sta canzona&gt;\n\t• Leghje [artista|albumu|canzona|generu|lista di lettura] &lt;nome&gt;</string>
 
     <string name="network" >Reta</string>
     <string name="metered_connection">Azzione nant’à i flussi quandu a cunnessione hè tariffata</string>

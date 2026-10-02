@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">U redu</string>
     <string name="cancel">Odustani</string>
     <string name="other">Ostalo</string>
@@ -37,7 +37,7 @@
     <string name="play_as_audio">Reproduciraj zvučni zapis</string>
     <string name="play_as_video">Reproduciraj video zapis</string>
     <string name="video_app_switch_title">Pozadinski/Slika-u-Slici (PIP) način rada</string>
-    <string name="video_app_switch_summary">Odaberite Mix Wave ponašanje kada prebacite na drugu aplikaciju sa video repodukcije</string>
+    <string name="video_app_switch_summary">Odaberite Osho Discourse ponašanje kada prebacite na drugu aplikaciju sa video repodukcije</string>
     <string name="play_pip_title">Reproduciraj video snimke u Slika-u-slici načinu rada</string>
     <string name="play_as_audio_background">Reproduciraj video snimke u pozadini</string>
     <string name="insert_next">Umetni sljedeće</string>
@@ -187,7 +187,7 @@
     <string name="streams">Strujanja</string>
     <string name="open_mrl_dialog_msg">Upišite mrežno strujanje: npr. http://, mms:// ili rtsp://</string>
     <string name="encountered_error_title">Geška izvođenja</string>
-    <string name="encountered_error_message">Mix Wave je naišao na grešku s ovim medijem.\nPokušajte osvježiti medijsku zbirku.</string>
+    <string name="encountered_error_message">Osho Discourse je naišao na grešku s ovim medijem.\nPokušajte osvježiti medijsku zbirku.</string>
     <string name="invalid_location">Lokacija %1$s se ne može reproducirati.</string>
     <string name="search">Pretraživanje</string>
 
@@ -212,10 +212,10 @@
     <string name="hold_to_stop">Drži za zasutavljanje</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Izdanje</string>
     <string name="about">O aplikaciji</string>
-    <string name="vlc_authors">Autori Mix Wave-a.</string>
+    <string name="vlc_authors">Autori Osho Discourse-a.</string>
     <string name="feedback_forum">Forum za povratne informacije</string>
 
     <!-- Preferences -->
@@ -298,8 +298,8 @@
     <string name="enable_play_on_headset_insertion">Nastavi pri spajanju slušalica</string>
     <string name="enable_play_on_headset_insertion_summary">Pauziraj u protivnom</string>
     <string name="aout">Zvučni izlaz</string>
-    <string name="aout_summary">Promjena načina izlaza koji Mix Wave koristi za zvučni zapis.</string>
-    <string name="audio_ducking_title">Smanji Mix Wave glasnoću zvuka pri obavijestima</string>
+    <string name="aout_summary">Promjena načina izlaza koji Osho Discourse koristi za zvučni zapis.</string>
+    <string name="audio_ducking_title">Smanji Osho Discourse glasnoću zvuka pri obavijestima</string>
     <string name="audio_ducking_summary">Pomaže da čujete zvučne obavijesti, navođenje navigacije ili govor pomoćnika</string>
     <string name="casting_category">Emitiranje</string>
     <string name="casting_passthrough_title">Prolaz zvuka</string>
@@ -358,7 +358,7 @@
     <string name="start_logging">Pokreni zapisivanje</string>
     <string name="stop_logging">Zaustavi zapisivanje</string>
     <string name="clear_log">Obriši zapis</string>
-    <string name="log_service_title">Mix Wave zapisivanje zapisa</string>
+    <string name="log_service_title">Osho Discourse zapisivanje zapisa</string>
     <string name="log_service_text">Otvori konzolu zapisa</string>
     <string name="copy_to_clipboard">Kopiraj u međuspremnik</string>
     <string name="copied_to_clipboard">Kopirano u međuspremnik</string>
@@ -368,9 +368,9 @@
     <string name="custom_libvlc_options">Korisničke postavke libVLC-a</string>
     <string name="custom_libvlc_options_invalid">Pogrešne postavke libVLC-a!</string>
 
-    <string name="serious_crash">Nažalost, dogodile su se ozbiljne greške i Mix Wave se morao zatvoriti.</string>
-    <string name="help_us_send_log">Pomozite nam poboljšati Mix Wave slanjem sljedećeg zapisa rušenja:</string>
-    <string name="restart_vlc">Ponovno pokreni Mix Wave</string>
+    <string name="serious_crash">Nažalost, dogodile su se ozbiljne greške i Osho Discourse se morao zatvoriti.</string>
+    <string name="help_us_send_log">Pomozite nam poboljšati Osho Discourse slanjem sljedećeg zapisa rušenja:</string>
+    <string name="restart_vlc">Ponovno pokreni Osho Discourse</string>
     <string name="send_log">Pošalji zapis</string>
     <string name="sending_log">Slanje zapisa…</string>
 
@@ -412,19 +412,19 @@
     <string name="music_now_playing">Trenutno se reporducira</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Mix Wave bijeli widget</string>
-    <string name="widget_name_b">Mix Wave tamni widget</string>
-    <string name="allow_storage_access_title">Dopusti Mix Wave-u pristup glazbenim i video datotekama</string>
-    <string name="allow_storage_access_description">Mix Wave treba dozvolu za pristup medijskim datotekama na ovom uređaju.</string>
-    <string name="allow_settings_access_ringtone_title">Dopusti Mix Wave-u postavljanje melodije zvona</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave treba dozvolu za postavljanje ove pjesme kao melodije zvona.</string>
-    <string name="allow_settings_access_brightness_title">Dopusti Mix Wave-u promjenu svjetline</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave treba dozvolu za promjenu svjetline.</string>
-    <string name="allow_draw_overlays_title">Dopusti Mix Wave skočni prozor preko drugih aplikacija</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave treba dozvolu za prikaz video snimke u skočnom prozor preko drugih aplikacija.</string>
+    <string name="widget_name_w">Osho Discourse bijeli widget</string>
+    <string name="widget_name_b">Osho Discourse tamni widget</string>
+    <string name="allow_storage_access_title">Dopusti Osho Discourse-u pristup glazbenim i video datotekama</string>
+    <string name="allow_storage_access_description">Osho Discourse treba dozvolu za pristup medijskim datotekama na ovom uređaju.</string>
+    <string name="allow_settings_access_ringtone_title">Dopusti Osho Discourse-u postavljanje melodije zvona</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse treba dozvolu za postavljanje ove pjesme kao melodije zvona.</string>
+    <string name="allow_settings_access_brightness_title">Dopusti Osho Discourse-u promjenu svjetline</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse treba dozvolu za promjenu svjetline.</string>
+    <string name="allow_draw_overlays_title">Dopusti Osho Discourse skočni prozor preko drugih aplikacija</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse treba dozvolu za prikaz video snimke u skočnom prozor preko drugih aplikacija.</string>
     <string name="permission_ask_again">Odobri dozvolu</string>
-    <string name="exit_app">Zatvori Mix Wave</string>
-    <string name="exit_app_msg">Sigurno želite zatvoriti Mix Wave?</string>
+    <string name="exit_app">Zatvori Osho Discourse</string>
+    <string name="exit_app_msg">Sigurno želite zatvoriti Osho Discourse?</string>
     <!-- Plugins -->
     <string name="plugins">Priključci</string>
     <string name="download_on_device">Preuzimanje</string>
@@ -484,8 +484,8 @@
     <string name="browser_storages">Pohrane</string>
     <string name="msg_delete_failed">Neuspjelo brisanje medija %1$s</string>
     <string name="renderer_list_title">Prikazi</string>
-    <string name="sdcard_permission_dialog_title">Morate odobriti Mix Wave-u dozvolu pisanja na vašoj SD kartici</string>
-    <string name="sdcard_permission_dialog_message">Mix Wave ne može obrisati ovu datoteku bez dozvole zapisivanja.\nIdite u svoju SD karticu i odaberite \"Odaberi\".\nMožda ćete trebati odabrati i \"Prikaži SD karticu\" prvu stavku u gornjem desnom izborniku</string>
+    <string name="sdcard_permission_dialog_title">Morate odobriti Osho Discourse-u dozvolu pisanja na vašoj SD kartici</string>
+    <string name="sdcard_permission_dialog_message">Osho Discourse ne može obrisati ovu datoteku bez dozvole zapisivanja.\nIdite u svoju SD karticu i odaberite \"Odaberi\".\nMožda ćete trebati odabrati i \"Prikaži SD karticu\" prvu stavku u gornjem desnom izborniku</string>
     <string name="dialog_sd_wizard">Prikaži mi</string>
     <string name="renderers_disconnect">Prekini povezivanje</string>
     <string name="audio_digital_output_enabled">Digitalni izlaz zvuka omogućen</string>
@@ -522,10 +522,10 @@
     <string name="videos_groups_title">Grupe videozapisa</string>
     <string name="video_remote_disable">Udvostruči zaslon</string>
     <string name="removed_from_playlist_anonymous">Stavka(e) uklonjena/e/ s popisa izvođenja</string>
-    <string name="welcome_title">Dobrodošli u Mix Wave!</string>
+    <string name="welcome_title">Dobrodošli u Osho Discourse!</string>
     <string name="welcome_subtitle">Besplatan izvođač medija otvorenog koda</string>
-    <string name="permission_media">Mix Wave treba dozvolu za pristup medijskim datotekama na ovom uređaju.</string>
-    <string name="medialibrary_scan_explanation">Mix Wave može automatski pretražiti uređaj kako bi organizirao medijsku kolekciju.</string>
+    <string name="permission_media">Osho Discourse treba dozvolu za pristup medijskim datotekama na ovom uređaju.</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse može automatski pretražiti uređaj kako bi organizirao medijsku kolekciju.</string>
     <string name="done">Završeno</string>
     <string name="light_theme">Svijetla tema</string>
     <string name="add">Dodaj</string>
@@ -615,9 +615,9 @@
     <string name="sub_result_by_name_episode">Epizoda %s</string>
 
     <string name="sub_result_by_file">Rezultati za tvoju datoteku</string>
-    <string name="donate">Pomogni Mix Wave-u</string>
-    <string name="donate_desc">Podrži volontere koji grade Mix Wave</string>
-    <string name="tip_jar">Pomogni Mix Wave-u</string>
+    <string name="donate">Pomogni Osho Discourse-u</string>
+    <string name="donate_desc">Podrži volontere koji grade Osho Discourse</string>
+    <string name="tip_jar">Pomogni Osho Discourse-u</string>
     <string name="thank_you">Hvala</string>
     <string name="air_action_rewind">Premotaj 10 s natrag</string>
     <string name="air_action_forward">Premotaj 10 s naprijed</string>
@@ -629,7 +629,7 @@
     <string name="timeout_infinite">Beskonačno</string>
     <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Ukloni iz povijesti</string>
-    <string name="start_vlc">Pokreni Mix Wave</string>
+    <string name="start_vlc">Pokreni Osho Discourse</string>
     <string name="jump_delay_summary">%s s</string>
     <string name="move_up">Pomakni prema gore</string>
     <string name="move_down">Pomakni prema dolje</string>
@@ -644,7 +644,7 @@
     <string name="opacity">Neprozirnost</string>
     <string name="widget_background">Pozadina</string>
     <string name="widget_foreground">Prednji plan</string>
-    <string name="open_vlc">Otvori Mix Wave</string>
+    <string name="open_vlc">Otvori Osho Discourse</string>
     <string name="ascending">Uzlazno</string>
     <string name="descending">Silazno</string>
     <string name="screenshot_error">Greška tijekom snimanja snimke ekrana</string>

@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">ठीक है</string>
     <string name="cancel">रद्द करें</string>
     <string name="other">अन्य</string>
@@ -244,11 +244,11 @@
     <string name="hold_to_stop">रोकने के लिए पकड़ें रखें</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">संशोधन</string>
     <string name="about">परिचय</string>
     <string name="authors">निर्मातागण</string>
-    <string name="vlc_authors">और Mix Wave रचयिता</string>
+    <string name="vlc_authors">और Osho Discourse रचयिता</string>
     <string name="is_signed_by">सत्यापन कर्त्ता</string>
     <string name="libraries">मण्डलियाँ</string>
     <string name="feedback_forum">प्रतिक्रिया मंच</string>
@@ -444,7 +444,7 @@
     <string name="permission_ask_again">अनुमति प्रदान करें</string>
     <string name="pick_file">फाइल चुनें</string>
     <string name="permission_not_granted">अनुमति नहीं मिली</string>
-    <string name="exit_app">Mix Wave बन्द करें</string>
+    <string name="exit_app">Osho Discourse बन्द करें</string>
     <!-- Plugins -->
     <string name="plugins">प्लग-इन्स</string>
     <string name="download_on_device">डाउनलोड करें</string>

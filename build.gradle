@@ -60,7 +60,7 @@ allprojects {
 }
 
 ext {
-    appId = "com.sandalbar.mixwave"
+    appId = "com.oshodiscourse"
     versionCode = (project.findProperty('versionCode') ?: 3070118).toInteger()
     vlcMajorVersion = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? 4 : 3
     versionName = project.findProperty('versionName') ?: '1.0.0'

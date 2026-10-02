@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Uredu</string>
     <string name="cancel">Otkaži</string>
     <string name="other">Drugi</string>
@@ -104,7 +104,7 @@
     <string name="jump_to_time">Skoči na Vrijeme</string>
     <string name="subtitle_select">Izaberi datoteku podtitla</string>
     <string name="encountered_error_title">Greška reproduciranja</string>
-    <string name="encountered_error_message">Mix Wave je naišao na grešku sa ovim medijem.\nMolimo pokušajte osvježiti medijsku biblioteku.</string>
+    <string name="encountered_error_message">Osho Discourse je naišao na grešku sa ovim medijem.\nMolimo pokušajte osvježiti medijsku biblioteku.</string>
     <string name="invalid_location">Lokacija %1$s se ne može producirati.</string>
     <string name="search">Pretraga</string>
 
@@ -169,9 +169,9 @@
     <string name="dump_logcat">Izbaci logcat zapis</string>
     <string name="dump_logcat_success">Logcat uspješno izbačen u %1$s!</string>
     <string name="dump_logcat_failure">Nije uspjelo izbacivanje logcat-a.</string>
-    <string name="serious_crash">Nažalost, dogodila se ozbiljna greška i Mix Wave se morao zatvoriti.</string>
-    <string name="help_us_send_log">Pomozi nam poboljšati Mix Wave slanjem sljedećeg izvještaja padanja programa:</string>
-    <string name="restart_vlc">Ponovo Pokreni Mix Wave</string>
+    <string name="serious_crash">Nažalost, dogodila se ozbiljna greška i Osho Discourse se morao zatvoriti.</string>
+    <string name="help_us_send_log">Pomozi nam poboljšati Osho Discourse slanjem sljedećeg izvještaja padanja programa:</string>
+    <string name="restart_vlc">Ponovo Pokreni Osho Discourse</string>
     <string name="send_log">Pošalji izvještaj</string>
     <string name="sending_log">Šaljem izvještaj…</string>
 

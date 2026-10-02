@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">យល់ព្រម</string>
     <string name="cancel">បោះបង់</string>
     <string name="other">ផ្សេងៗ</string>
@@ -30,7 +30,7 @@
     <string name="play_as_audio">ចាក់​ជា​អូឌីយ៉ូ</string>
     <string name="play_as_video">ចាក់​ជា​វីដេអូ</string>
     <string name="video_app_switch_title">របៀប​ផ្ទៃ​ខាងក្រោយ/PiP</string>
-    <string name="video_app_switch_summary">ជ្រើសលក្ខណៈរបស់ Mix Wave នៅពេលប្ដូរទៅកម្មវិធីផ្សេងចេញពីកម្មវិធីចាក់វីដេអូត្រឡប់</string>
+    <string name="video_app_switch_summary">ជ្រើសលក្ខណៈរបស់ Osho Discourse នៅពេលប្ដូរទៅកម្មវិធីផ្សេងចេញពីកម្មវិធីចាក់វីដេអូត្រឡប់</string>
     <string name="play_pip_title">ចាក់វីដេអូក្នុងរបៀបរូបភាពក្នុងរូបភាព</string>
     <string name="play_as_audio_background">ចាក់វីដេអូក្នុងផ្ទៃខាងក្រោយ</string>
     <string name="insert_next">បញ្ចូលបន្ទាប់</string>
@@ -193,7 +193,7 @@
     <string name="dump_logcat">បោះបង់​កំណត់ហេតុ logcat</string>
     <string name="dump_logcat_success">បាន​បោះបង់​កំណត់ហេតុ Logcat ទៅកាន់ %1$s ដោយ​ជោគជ័យ!</string>
     <string name="dump_logcat_failure">បាន​បរាជ័យ​ក្នុង​ការ​បោះបង់ logcat ។</string>
-    <string name="restart_vlc">ចាប់​ផ្ដើម Mix Wave ឡើងវិញ</string>
+    <string name="restart_vlc">ចាប់​ផ្ដើម Osho Discourse ឡើងវិញ</string>
     <string name="send_log">ផ្ញើចូល</string>
     <string name="sending_log">កំពុង​ផ្ញើចូល…</string>
 

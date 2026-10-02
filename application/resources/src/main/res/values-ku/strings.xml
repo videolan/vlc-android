@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Baş e</string>
     <string name="cancel">Betal bike</string>
     <string name="other">Yên din</string>
@@ -33,7 +33,7 @@
     <string name="play_as_audio">Wekî deng lêde</string>
     <string name="play_as_video">Wekî vîdyo lêde</string>
     <string name="video_app_switch_title">Moda Pip/Paşxanê</string>
-    <string name="video_app_switch_summary">Dema ku tu ji lêdana vîdyoyê derbasî sepaneke din bû, bila Mix Wave çi bike</string>
+    <string name="video_app_switch_summary">Dema ku tu ji lêdana vîdyoyê derbasî sepaneke din bû, bila Osho Discourse çi bike</string>
     <string name="play_pip_title">Bila vîdyoyan di moda ditbarî de bi dîtbarî lêde</string>
     <string name="play_as_audio_background">Bila vîdyo di paşxanê de bên lêdan</string>
     <string name="insert_next">Ya din tevlî bike</string>
@@ -201,10 +201,10 @@
     <string name="hold_to_stop">Ji rawestandinê, pêlîkirî bihêle</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Revizyon</string>
     <string name="about">Derbar</string>
-    <string name="vlc_authors">û Pêşvebirên Mix Wave\'ê.</string>
+    <string name="vlc_authors">û Pêşvebirên Osho Discourse\'ê.</string>
     <string name="feedback_forum">Forûma paşragihandinê</string>
 
     <!-- Preferences -->
@@ -279,7 +279,7 @@
     <string name="start_logging">Tomargehê bide destpêkirin</string>
     <string name="stop_logging">Tomargehê rawestîne</string>
     <string name="clear_log">Tomargehê paqij bike</string>
-    <string name="log_service_title">Tomargeha Mix Wave\'ê</string>
+    <string name="log_service_title">Tomargeha Osho Discourse\'ê</string>
     <string name="log_service_text">Panoya tomargehê veke</string>
     <string name="copy_to_clipboard">Li panoyê kopî bike</string>
     <string name="copied_to_clipboard">Tomargeh li panoyê hat kopîkirin.</string>

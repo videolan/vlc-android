@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Iawn</string>
     <string name="cancel">Diddymu</string>
     <string name="other">Arall</string>
@@ -35,7 +35,7 @@
     <string name="play_as_audio">Chwarae fel sain</string>
     <string name="play_as_video">Chwarae fel fideo</string>
     <string name="video_app_switch_title">Modd cefndir/PIP</string>
-    <string name="video_app_switch_summary">Dewisa beth mae Mix Wave i\'w wneud pan wyt ti\'n newid i ap arall tra\'n chwarae fideo.</string>
+    <string name="video_app_switch_summary">Dewisa beth mae Osho Discourse i\'w wneud pan wyt ti\'n newid i ap arall tra\'n chwarae fideo.</string>
     <string name="play_pip_title">Chwarae fideos mewn modd Llun-o-fewn-llun</string>
     <string name="play_as_audio_background">Chwarae fideos yn y cefndir</string>
     <string name="insert_next">Mewnosod y nesaf</string>
@@ -194,7 +194,7 @@
     <string name="streams">Ffrydiau</string>
     <string name="open_mrl_dialog_msg">Rho gyfeiriad rhwydwaith: e.e. http://, mms:// neu rtsp://</string>
     <string name="encountered_error_title">Gwall chwarae</string>
-    <string name="encountered_error_message">Cafodd Mix Wave wall gyda\'r cyfrwng hwn.\nCeisiwch ail-lwytho\'r llyfrgell cyfryngau.</string>
+    <string name="encountered_error_message">Cafodd Osho Discourse wall gyda\'r cyfrwng hwn.\nCeisiwch ail-lwytho\'r llyfrgell cyfryngau.</string>
     <string name="invalid_location">Ni all chwarae\'r lleoliad %1$s.</string>
     <string name="search">Chwilio</string>
 
@@ -218,10 +218,10 @@
     <string name="hold_to_stop">Dal lawr i stopio</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Adolygiad</string>
     <string name="about">Ynghylch</string>
-    <string name="vlc_authors">ac Awduron Mix Wave.</string>
+    <string name="vlc_authors">ac Awduron Osho Discourse.</string>
     <string name="feedback_forum">Fforwm adborth</string>
 
     <!-- Preferences -->
@@ -306,8 +306,8 @@
     <string name="enable_play_on_headset_insertion">Parhau wrth gysylltu clustffonau</string>
     <string name="enable_play_on_headset_insertion_summary">Oedi fel arall</string>
     <string name="aout">Allbwn sain</string>
-    <string name="aout_summary">Newid y dull mae Mix Wave yn ei ddefnyddio i allbynnu sain</string>
-    <string name="audio_ducking_title">Gostwng lefel sain Mix Wave pan fo hysbysiadau</string>
+    <string name="aout_summary">Newid y dull mae Osho Discourse yn ei ddefnyddio i allbynnu sain</string>
+    <string name="audio_ducking_title">Gostwng lefel sain Osho Discourse pan fo hysbysiadau</string>
     <string name="audio_ducking_summary">Mae\'n dy helpu i fedru clywed hysbysiadau, cyfarwyddiadau llywiwr neu gynorthwyydd yn siarad</string>
     <string name="casting_category">Castio</string>
     <string name="casting_switch_title">Bwrw di-wifr</string>
@@ -367,7 +367,7 @@
     <string name="start_logging">Dechrau logio</string>
     <string name="stop_logging">Stopio logio</string>
     <string name="clear_log">Clirio\'r log</string>
-    <string name="log_service_title">Cofnodi logiau Mix Wave</string>
+    <string name="log_service_title">Cofnodi logiau Osho Discourse</string>
     <string name="log_service_text">Agor y consol logiau</string>
     <string name="copy_to_clipboard">Copïo i\'r clipfwrdd</string>
     <string name="copied_to_clipboard">Wedi\'i gopïo i\'r clipfwrdd.</string>
@@ -376,9 +376,9 @@
     <string name="dump_logcat_failure">Methwyd dympio logcat.</string>
     <string name="custom_libvlc_options">Dewisiadau libVLC dy hun</string>
     <string name="custom_libvlc_options_invalid">Dewisiadau libVLC annilys!</string>
-    <string name="serious_crash">Yn anffodus, bu gwall difrifol ac roedd rhaid cae Mix Wave.</string>
-    <string name="help_us_send_log">Helpwch ni wella Mix Wave gan anfon y log canlynol o\'r broblem:</string>
-    <string name="restart_vlc">Ail-ddechrau Mix Wave</string>
+    <string name="serious_crash">Yn anffodus, bu gwall difrifol ac roedd rhaid cae Osho Discourse.</string>
+    <string name="help_us_send_log">Helpwch ni wella Osho Discourse gan anfon y log canlynol o\'r broblem:</string>
+    <string name="restart_vlc">Ail-ddechrau Osho Discourse</string>
     <string name="send_log">Anfon y log</string>
     <string name="sending_log">Yn anfon y log…</string>
 
@@ -419,19 +419,19 @@
     <string name="music_now_playing">Yn Chwarae Nawr</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Teclyn Mix Wave Gwyn</string>
-    <string name="widget_name_b">Teclyn Mix Wave Tywyll</string>
-    <string name="allow_storage_access_title">Caniatáu Mix Wave i gael at ffeiliau fideo a sain</string>
-    <string name="allow_storage_access_description">Mae Mix Wave angen eich caniatâd er mwyn cael at ffeiliau cyfryngau ar y ddyfais hon.</string>
-    <string name="allow_settings_access_ringtone_title">Caniatáu Mix Wave i osod y sain canu</string>
-    <string name="allow_settings_access_ringtone_description">Mae angen eich caniatâd ar Mix Wave i osod y trac hwn fel sain canu eich ffôn.</string>
-    <string name="allow_settings_access_brightness_title">Caniatáu Mix Wave i newid modd disgleirdeb</string>
-    <string name="allow_settings_access_brightness_description">Mae Mix Wave angen ichi ganiatáu hyn er mwyn newid modd disgleirdeb eich dyfais.</string>
-    <string name="allow_draw_overlays_title">Caniatáu Mix Wave mewn ffenestr llaim dros apiau eraill</string>
-    <string name="allow_sdraw_overlays_description">Mae Mix Wave angen ichi ganiatáu hyn er mwyn dangos eich fideo mewn ffenestr dros ben ap eraill.</string>
+    <string name="widget_name_w">Teclyn Osho Discourse Gwyn</string>
+    <string name="widget_name_b">Teclyn Osho Discourse Tywyll</string>
+    <string name="allow_storage_access_title">Caniatáu Osho Discourse i gael at ffeiliau fideo a sain</string>
+    <string name="allow_storage_access_description">Mae Osho Discourse angen eich caniatâd er mwyn cael at ffeiliau cyfryngau ar y ddyfais hon.</string>
+    <string name="allow_settings_access_ringtone_title">Caniatáu Osho Discourse i osod y sain canu</string>
+    <string name="allow_settings_access_ringtone_description">Mae angen eich caniatâd ar Osho Discourse i osod y trac hwn fel sain canu eich ffôn.</string>
+    <string name="allow_settings_access_brightness_title">Caniatáu Osho Discourse i newid modd disgleirdeb</string>
+    <string name="allow_settings_access_brightness_description">Mae Osho Discourse angen ichi ganiatáu hyn er mwyn newid modd disgleirdeb eich dyfais.</string>
+    <string name="allow_draw_overlays_title">Caniatáu Osho Discourse mewn ffenestr llaim dros apiau eraill</string>
+    <string name="allow_sdraw_overlays_description">Mae Osho Discourse angen ichi ganiatáu hyn er mwyn dangos eich fideo mewn ffenestr dros ben ap eraill.</string>
     <string name="permission_ask_again">Caniatáu</string>
-    <string name="exit_app">Cau Mix Wave</string>
-    <string name="exit_app_msg">Wyt ti wir eisiau gadael Mix Wave?</string>
+    <string name="exit_app">Cau Osho Discourse</string>
+    <string name="exit_app_msg">Wyt ti wir eisiau gadael Osho Discourse?</string>
     <!-- fast scroller -->
     <string name="fastscroller_track">Tracio FastScroller</string>
     <string name="fastscroller_handle">Handlen FastScroller</string>
@@ -466,7 +466,7 @@
     <string name="length">Hyd</string>
     <string name="tv_settings_hint">Dalia\'r botwm \"Iawn\" i ddewis/dad-ddewis ffolderi</string>
     <string name="ml_external_storage_title">Wedi canfod storfa allanol newydd</string>
-    <string name="ml_external_storage_msg">Wyt ti am i Mix Wave ychwanegu\'r ddyfais %1$s i dy lyfrgell cyfryngau?</string>
+    <string name="ml_external_storage_msg">Wyt ti am i Osho Discourse ychwanegu\'r ddyfais %1$s i dy lyfrgell cyfryngau?</string>
     <string name="ml_external_storage_accept">Ie</string>
     <string name="ml_external_storage_decline">Na</string>
     <string name="auto_last_added_media">Ychwanegwyd diwethaf</string>
@@ -495,8 +495,8 @@
     <string name="browser_storages">Storfeydd</string>
     <string name="msg_delete_failed">Methwyd â dileu\'r cyfrwng %1$s</string>
     <string name="renderer_list_title">Dangosyddion</string>
-    <string name="sdcard_permission_dialog_title">Rwyt wedi rhoi caniatâd i Mix Wave ysgrifennu ar dy gerdyn SD.</string>
-    <string name="sdcard_permission_dialog_message">Ni all Mix Wave ddileu\'r ffeil hon heb ganiatâd i fedru ysgrifennu.\nEdrycha ar dy gerdyn SD a chlicio ar \"Dewis\" [Select].\nMae\'n bosib y bydd rhaid yn gyntaf clicio \"Dangos cerdyn SD\" yn y ddewislen top-dde.</string>
+    <string name="sdcard_permission_dialog_title">Rwyt wedi rhoi caniatâd i Osho Discourse ysgrifennu ar dy gerdyn SD.</string>
+    <string name="sdcard_permission_dialog_message">Ni all Osho Discourse ddileu\'r ffeil hon heb ganiatâd i fedru ysgrifennu.\nEdrycha ar dy gerdyn SD a chlicio ar \"Dewis\" [Select].\nMae\'n bosib y bydd rhaid yn gyntaf clicio \"Dangos cerdyn SD\" yn y ddewislen top-dde.</string>
     <string name="dialog_sd_wizard">Dangos i mi</string>
     <string name="renderers_disconnect">Datgysylltu</string>
     <string name="audio_digital_failed">Methwyd â newid cyflwr Allbwn Sain Digidol</string>
@@ -510,7 +510,7 @@
     <string name="playback_rewind">Troi nôl</string>
     <string name="playback_forward">Ymlaen yn gyflym</string>
     <string name="ml_wizard_scan_checkbox">Sganio\'r ddyfais am gynnwys cyfryngau</string>
-    <string name="ml_wizard_description">Dewis a all Mix Wave sganio storfa dy ddyfais i drefnu dy lyfrgell cyfryngau neu dim ond i\'w defnyddio fel chwaraeydd syml gyda phorwr integredig.</string>
+    <string name="ml_wizard_description">Dewis a all Osho Discourse sganio storfa dy ddyfais i drefnu dy lyfrgell cyfryngau neu dim ond i\'w defnyddio fel chwaraeydd syml gyda phorwr integredig.</string>
     <string name="tv_my_new_videos">Fy fideos newydd</string>
     <string name="otg_device_title">Dyfais OTG</string>
     <string name="browser">Porwr</string>
@@ -537,24 +537,24 @@
     <string name="ctx_player_subs_track">Trac isdeitlau</string>
     <string name="ctx_pip_title">Chwaraeydd naid</string>
     <string name="device_dialog_title">Gosodwyd dyfais allanol</string>
-    <string name="device_dialog_message">Rwyt newydd gysylltu dyfais storfa newydd i dy flwch teledu. Wyt ti am ei agor gyda Mix Wave?</string>
+    <string name="device_dialog_message">Rwyt newydd gysylltu dyfais storfa newydd i dy flwch teledu. Wyt ti am ei agor gyda Osho Discourse?</string>
     <string name="videos_folders_title">Fideos fesul ffolder</string>
     <string name="videos_groups_title">Grwpiau fideos</string>
     <string name="video_save_clone_mode">Actifadu modd clôn yn awtomatig?</string>
     <string name="video_remote_enable">Newid i fodd rheoli o bell</string>
     <string name="video_remote_disable">Dyblygu\'r sgrin</string>
     <string name="removed_from_playlist_anonymous">Tynnwyd yr eitem(au) o\'r rhestr chwarae</string>
-    <string name="welcome_title">Croeso i Mix Wave!</string>
+    <string name="welcome_title">Croeso i Osho Discourse!</string>
     <string name="welcome_subtitle">Y chwaraeydd aml-gyfrwng cod agored ac am ddim</string>
-    <string name="permission_media">Mae ar Mix Wave angen dy ganiatâd i gael at gyfryngau ar dy ddyfais.</string>
-    <string name="medialibrary_scan_explanation">Gall Mix Wave sganio dy ddyfais yn awtomatig i drefnu dy gasgliad o gyfryngau.</string>
+    <string name="permission_media">Mae ar Osho Discourse angen dy ganiatâd i gael at gyfryngau ar dy ddyfais.</string>
+    <string name="medialibrary_scan_explanation">Gall Osho Discourse sganio dy ddyfais yn awtomatig i drefnu dy gasgliad o gyfryngau.</string>
     <string name="onboarding_theme_title">Gwna dy hun yn gartrefol</string>
     <string name="done">Iawn</string>
     <string name="onboarding_scan_title">Awto-ganfod dy gyfryngau</string>
-    <string name="daynight_system_explanation">Bydd Mix Wave yn newid yn awtomatig i\'r modd tywyll yn ôl gosodiadau\'r system</string>
-    <string name="daynight_legacy_explanation">Bydd Mix Wave yn newid yn awtomatig i\'r modd nos am yr amser priodol</string>
-    <string name="onboarding_scanning_enable">Gadael i Mix Wave sganio fy nyfais am gynnwys cyfryngau</string>
-    <string name="onboarding_scan_customize">Gadael i mi ddewis pa ffolderi bydd Mix Wave yn eu sganio</string>
+    <string name="daynight_system_explanation">Bydd Osho Discourse yn newid yn awtomatig i\'r modd tywyll yn ôl gosodiadau\'r system</string>
+    <string name="daynight_legacy_explanation">Bydd Osho Discourse yn newid yn awtomatig i\'r modd nos am yr amser priodol</string>
+    <string name="onboarding_scanning_enable">Gadael i Osho Discourse sganio fy nyfais am gynnwys cyfryngau</string>
+    <string name="onboarding_scan_customize">Gadael i mi ddewis pa ffolderi bydd Osho Discourse yn eu sganio</string>
     <string name="button_medialibrary_preferences">Mynd i ddewisiadau Llyfrgellcyfryngau</string>
     <string name="light_theme">Thema olau</string>
     <string name="add">Ychwanegu</string>
@@ -592,19 +592,19 @@
     <string name="display_in_grid">Dangos mewn grid</string>
     <string name="dump_db_succes">Dympiwyd y gronfa ddata i\'r ystorfa fewnol craidd</string>
     <string name="dump_db_failure">Methwyd dympio\'r gronfa ddata</string>
-    <string name="send_crash_title">Adroddwr chwalu Mix Wave</string>
-    <string name="send_crash_description">Wrth anfon y chwalfa, byddi\'n ein helpu i wella sefydlogrwydd Mix Wave.</string>
+    <string name="send_crash_title">Adroddwr chwalu Osho Discourse</string>
+    <string name="send_crash_description">Wrth anfon y chwalfa, byddi\'n ein helpu i wella sefydlogrwydd Osho Discourse.</string>
     <string name="send_crash_warning">Gwiria dy fod yn tynnu unrhyw ddata sensitif nad wyt eisiau ei anfon.</string>
     <string name="include_medialib">Cynnwys dy gronfa ddata</string>
-    <string name="vlc_reporter">Adroddwr Mix Wave</string>
-    <string name="welcome_beta_title">Mix Wave Beta</string>
-    <string name="welcome_beta_description">Croeso i raglen Mix Wave beta.\nNoder ei fod yn bosib i\'r fersiwn hwn fod ag ambell wall.</string>
+    <string name="vlc_reporter">Adroddwr Osho Discourse</string>
+    <string name="welcome_beta_title">Osho Discourse Beta</string>
+    <string name="welcome_beta_description">Croeso i raglen Osho Discourse beta.\nNoder ei fod yn bosib i\'r fersiwn hwn fod ag ambell wall.</string>
     <string name="welcome_beta_description_bugs">Os wyt yn sylwi gwall, plîs rho wybod amdano yn ein fforwm neu traciwr gwallau.</string>
     <string name="send">Anfon</string>
     <string name="send_crash_action_title">Beth wyt ti am wneud?</string>
     <string name="report_a_bug">Rhoi gwybod am wall</string>
     <string name="report_a_crash">Rhoi gwybod am chwalfa</string>
-    <string name="describe_crash">Disgrifia sut bu i Mix Wave chwalu</string>
+    <string name="describe_crash">Disgrifia sut bu i Osho Discourse chwalu</string>
     <string name="favorite">Ffefryn</string>
     <string name="always">Pob tro</string>
     <string name="never">Byth</string>
@@ -687,18 +687,18 @@
     <string name="sub_result_by_name_season">Cyfres %s</string>
     <string name="sub_result_by_name_episode">Pennod %s</string>
     <string name="sub_result_by_file">Canlyniadau ar gyfer dy ffeil</string>
-    <string name="donate">Helpu Mix Wave</string>
-    <string name="donate_desc">Cefnogi\'r gwirfoddolwyr sy\'n adeiladu Mix Wave</string>
+    <string name="donate">Helpu Osho Discourse</string>
+    <string name="donate_desc">Cefnogi\'r gwirfoddolwyr sy\'n adeiladu Osho Discourse</string>
     <string name="donate_subscribtion">Hoffwn i hyn fod yn danysgrifiad misol</string>
     <string name="donate_send">Dechrau dy nawdd</string>
-    <string name="donation_description">Bydd dy nawd yn ain caniatáu i:\nWella ap Mix Wave ar gyfer Android\nGefnogi Cymdeithas Mix Wave </string>
+    <string name="donation_description">Bydd dy nawd yn ain caniatáu i:\nWella ap Osho Discourse ar gyfer Android\nGefnogi Cymdeithas Osho Discourse </string>
     <string name="subscription_purchased">Rwyt wedi tanysgrifio i nawdd misol</string>
     <string name="subscription_cancel">Gellir dad-danysgrifio yn Play Store</string>
     <string name="subscription_cancel_tv">Sut i ddad-danysgrifio</string>
     <string name="donate_unsubscribe_tv">I ddad-danysgrifio, agora %s ar ddyfais a sganio\'r cod hwn:</string>
-    <string name="tip_jar">Helpu Mix Wave</string>
+    <string name="tip_jar">Helpu Osho Discourse</string>
     <string name="thank_you">Diolch yn fawr</string>
-    <string name="thank_you_desc">Diolch yn fawr am dy nawdd!\nMi fydd yn ein helpu\'n fawr i wella Mix Wave!</string>
+    <string name="thank_you_desc">Diolch yn fawr am dy nawdd!\nMi fydd yn ein helpu\'n fawr i wella Osho Discourse!</string>
     <string name="donate_again">Noddi\'r ap eto</string>
 
     <string name="mark_as_played">Nodi fel wedi\'i chwarae</string>
@@ -714,7 +714,7 @@
     <string name="air_action_next">Eitem nesaf</string>
     <string name="air_action_previous">Eitem blaenorol</string>
     <string name="allow_otg">Caniatáu mynediad OTG</string>
-    <string name="allow_otg_description">Dewisa dy yriant OTG i ganiatáu mynediad at Mix Wave.</string>
+    <string name="allow_otg_description">Dewisa dy yriant OTG i ganiatáu mynediad at Osho Discourse.</string>
     <string name="timeout_infinite">Anfeidrol</string>
     <string name="video_hud_timeout">Oediad cyn cuddio botymau</string>
     <string name="remove_from_history">Tynnu o\'r hanes</string>

@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Gerai</string>
     <string name="cancel">Atšaukti</string>
     <string name="other">Kita</string>
@@ -49,7 +49,7 @@
     <string name="play_as_video">Groti kaip vaizdo įr.</string>
     <string name="return_to_video">Norėdami atstatyti vaizdo įrašą, palaikykite nuspaudę viršelį</string>
     <string name="video_app_switch_title">Foninė / „vaizdo-vaizde“ veiksena</string>
-    <string name="video_app_switch_summary">Pasirinkti Mix Wave elgseną, kai grojant vaizdo įrašą persijungiama į kitą programą</string>
+    <string name="video_app_switch_summary">Pasirinkti Osho Discourse elgseną, kai grojant vaizdo įrašą persijungiama į kitą programą</string>
     <string name="play_pip_title">Vaizdo įr. rodyti mažame iškylančiame langelyje virš kitos programos – „vaizdo-vaizde“ veiksenoje</string>
     <string name="play_as_audio_background">Vaizdo įr. groti fone</string>
     <string name="append">Įtraukti į grojimo eilę</string>
@@ -300,12 +300,12 @@
     <string name="hold_to_stop">Norėdami sustabdyti, palaikykite nuspaudę</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Revizija</string>
     <string name="about">Apie</string>
-    <string name="about_vlc_text">Mix Wave, skirta „Android“™ sistemai, yra Mix Wave medijos leistuvės (populiarios atvirojo kodo medijos leistuvės) prievadas. „Android“™ versija gali skaityti visas rinkmenas ir tinklo srautus.</string>
+    <string name="about_vlc_text">Osho Discourse, skirta „Android“™ sistemai, yra Osho Discourse medijos leistuvės (populiarios atvirojo kodo medijos leistuvės) prievadas. „Android“™ versija gali skaityti visas rinkmenas ir tinklo srautus.</string>
     <string name="authors">Kūrėjai</string>
-    <string name="vlc_authors">ir Mix Wave autoriai.</string>
+    <string name="vlc_authors">ir Osho Discourse autoriai.</string>
     <string name="is_compiled_by">Parengė</string>
     <string name="is_signed_by">Pasirašyta</string>
     <string name="sources">Pirminis kodas</string>
@@ -465,8 +465,8 @@
     <string name="replaygain_track">Takelio</string>
     <string name="replaygain_album">Albumo</string>
     <string name="aout">Garso išvedimas</string>
-    <string name="aout_summary">Nustatyti Mix Wave naudojamą garso išvedimo metodą</string>
-    <string name="audio_ducking_title">Pritildyti Mix Wave gaunant pranešimus</string>
+    <string name="aout_summary">Nustatyti Osho Discourse naudojamą garso išvedimo metodą</string>
+    <string name="audio_ducking_title">Pritildyti Osho Discourse gaunant pranešimus</string>
     <string name="audio_ducking_summary">Padeda išgirsti garsinius pranešimus, navigacijos instrukcijas ar pagalbininko kalbą</string>
     <string name="casting_category">Transliacija</string>
     <string name="remote_access">Nuotolinė prieiga</string>
@@ -543,7 +543,7 @@
     <string name="clear_media_db">Išvalyti medijos duombazę</string>
     <string name="clear_media_database_summary">Išvalyti duombazę jos sukūrimui iš naujo</string>
     <string name="clear_app_data">Išvalyti programos duomenis</string>
-    <string name="clear_app_data_summary">Išvalyti Mix Wave duomenis „Android“ sistemoje</string>
+    <string name="clear_app_data_summary">Išvalyti Osho Discourse duomenis „Android“ sistemoje</string>
     <string name="clear_history">Išvalyti žurnalą</string>
     <string name="clear_history_message">Prarasite peržiūrėtų kūrinių istoriją, dabartinius grojaraščius ir visą savo progresą</string>
     <string name="set_locale">Nustatyti kalbą</string>
@@ -569,7 +569,7 @@
     <string name="start_logging">Pradėti registravimą žurnale</string>
     <string name="stop_logging">Stabdyti registravimą žurnale</string>
     <string name="clear_log">Išvalyti žurnalą</string>
-    <string name="log_service_title">Mix Wave kuria žurnalą</string>
+    <string name="log_service_title">Osho Discourse kuria žurnalą</string>
     <string name="log_service_text">Atidaryti žurnalo konsolę</string>
     <string name="copy_to_clipboard">Kopijuoti į iškarpinę</string>
     <string name="copied_to_clipboard">Žurnalas nukopijuotas į iškarpinę.</string>
@@ -582,9 +582,9 @@
     <string name="custom_libvlc_options_invalid">Netinkamos libVLC parinktys!</string>
     <string name="dav1d_thread_number">Dav1d gijos numeris</string>
     <string name="dav1d_thread_number_invalid">Neleistinas gijos numeris! (>=1)</string>
-    <string name="serious_crash">Deja, dėl rimtos klaidos Mix Wave programą reikia užverti.</string>
-    <string name="help_us_send_log">Padėkite mums tobulinti Mix Wave nusiųsdami klaidos informaciją:</string>
-    <string name="restart_vlc">Iš naujo paleisti Mix Wave</string>
+    <string name="serious_crash">Deja, dėl rimtos klaidos Osho Discourse programą reikia užverti.</string>
+    <string name="help_us_send_log">Padėkite mums tobulinti Osho Discourse nusiųsdami klaidos informaciją:</string>
+    <string name="restart_vlc">Iš naujo paleisti Osho Discourse</string>
     <string name="send_log">Siųsti žurnalą</string>
     <string name="sending_log">Siunčiamas žurnalas…</string>
 
@@ -626,11 +626,11 @@
     <string name="medialibrary_directories">Mediatekos aplankai</string>
 
     <!--What's new-->
-    <string name="whats_new_title">Kas naujo Mix Wave, skirtoje „Android“ sistemai %s</string>
+    <string name="whats_new_title">Kas naujo Osho Discourse, skirtoje „Android“ sistemai %s</string>
     <!--    update-->
     <string name="update_title">Galimas atnaujinimas</string>
     <string name="install_nightly_title">„Naktinės“ versijos diegimas</string>
-    <string name="update_text">Galimas naktinės Mix Wave, skirtos „Android“ sistemai, atnaujinimas!\n\nJūs tai matote, nes naudojate naktinę versiją.</string>
+    <string name="update_text">Galimas naktinės Osho Discourse, skirtos „Android“ sistemai, atnaujinimas!\n\nJūs tai matote, nes naudojate naktinę versiją.</string>
     <string name="install_text">Naktinės versijos atnaujinamos automatiškai kasdien ir talpina savyje naujausias funkcijas ir pataisymus.\n\nAtsisiųsti dabar?</string>
 
     <string name="open_in_browser">Atidaryti naršyklėje</string>
@@ -651,28 +651,28 @@
     <string name="music_now_playing">Dabar groja</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Baltas Mix Wave valdiklis</string>
-    <string name="widget_name_b">Tamsus Mix Wave valdiklis</string>
-    <string name="widget_name_mini_player">Mix Wave mini leistuvė</string>
+    <string name="widget_name_w">Baltas Osho Discourse valdiklis</string>
+    <string name="widget_name_b">Tamsus Osho Discourse valdiklis</string>
+    <string name="widget_name_mini_player">Osho Discourse mini leistuvė</string>
     <string name="widget_old_text">Atnaujinome savo valdiklius!</string>
     <string name="widget_old_description_start">Geros naujienos! Išleidome patobulintus valdiklius.\nJie siūlo didesnį atsaką ir tinkinimą</string>
     <string name="whats_next">Kas toliau?</string>
     <string name="widget_old_description_end">Nustatėme, kad Jūsų pagr. ekrane jau yra valdiklių. Deja, jie nesuderinami su naujais patobulintais.\nAtsižvelgiant į Jūsų ekrano nuostatas, gali tekti pašalinti senus, kad pakeistumėte juos naujais.</string>
     <string name="click_here">Norėdami sužinoti daugiau, bakstelėkite čia.</string>
-    <string name="allow_storage_access_title">Leisti Mix Wave programai pasiekti vaizdo ir garso kūrinius</string>
-    <string name="allow_storage_access_description">Mix Wave reikia Jūsų leidimo pasiekti įrenginyje esančius kūrinius.</string>
-    <string name="partial_content">Mix Wave negali pasiekti visų Jūsų rinkmenų</string>
+    <string name="allow_storage_access_title">Leisti Osho Discourse programai pasiekti vaizdo ir garso kūrinius</string>
+    <string name="allow_storage_access_description">Osho Discourse reikia Jūsų leidimo pasiekti įrenginyje esančius kūrinius.</string>
+    <string name="partial_content">Osho Discourse negali pasiekti visų Jūsų rinkmenų</string>
     <string name="partial_content_description">Pradedant nuo „Android“ 11 versijos, programoms reikia specialaus leidimo pasiekti visas įrenginio rinkmenas.\n\n%s</string>
     <string name="never_ask_again">Niekada daugiau neklausti</string>
     <string name="never_show_again">Daugiau niekada nerodyti, net ir būsimose versijose</string>
     <string name="allow_settings_access_ringtone_title">Leisti nustatyti skambėjimo toną</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave reikia Jūsų leidimo nustatyti dainą kaip skambėjimo toną.</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse reikia Jūsų leidimo nustatyti dainą kaip skambėjimo toną.</string>
     <string name="allow_settings_access_brightness_title">Leisti keisti ryškumą</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave reikia Jūsų leidimo keisti ryškumą.</string>
-    <string name="allow_draw_overlays_title">Leisti Mix Wave programai iškilti virš kitų programų</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave reikia Jūsų leidimo rodyti vaizdo įrašą iškylančiame lange virš kitų programų.</string>
-    <string name="allow_pip">Leisti Mix Wave leistuvei groti vaizdo įr. „vaizdo-vaizde“ veiksenoje</string>
-    <string name="allow_pip_description">Mix Wave reikia Jūsų leidimo rodyti vaizdo įrašą „vaizdo-vaizde“ veiksenoje.</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse reikia Jūsų leidimo keisti ryškumą.</string>
+    <string name="allow_draw_overlays_title">Leisti Osho Discourse programai iškilti virš kitų programų</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse reikia Jūsų leidimo rodyti vaizdo įrašą iškylančiame lange virš kitų programų.</string>
+    <string name="allow_pip">Leisti Osho Discourse leistuvei groti vaizdo įr. „vaizdo-vaizde“ veiksenoje</string>
+    <string name="allow_pip_description">Osho Discourse reikia Jūsų leidimo rodyti vaizdo įrašą „vaizdo-vaizde“ veiksenoje.</string>
     <string name="permission_ask_again">Leisti</string>
     <string name="pick_file">Pasirinkti rinkmeną</string>
     <string name="permission_not_granted">Leidimas nesuteiktas</string>
@@ -681,9 +681,9 @@
     <string name="permission_onboarding_no_perm">Negalėsite automatiškai žvalgyti medijos.\nGalėsite leisti tik srautus arba tinklo mediją</string>
     <string name="permission_onboarding_perm_media">Galėsite automatiškai žvalgyti tik standartines medijos rinkmenas</string>
     <string name="permission_onboarding_perm_all">Galėsite automatiškai žvalgyti visas rinkmenas (netgi suglaudintas) ir leisti visų tipų laikmenas, netgi neaiškias</string>
-    <string name="exit_app">Uždaryti Mix Wave</string>
-    <string name="exit_app_msg">Ar tikrai norite uždaryti Mix Wave?</string>
-    <string name="widget_explanation_title">Mix Wave valdikliai</string>
+    <string name="exit_app">Uždaryti Osho Discourse</string>
+    <string name="exit_app_msg">Ar tikrai norite uždaryti Osho Discourse?</string>
+    <string name="widget_explanation_title">Osho Discourse valdikliai</string>
     <string name="widget_explanation_size">Valdikliai būna įvairių dydžių ir formų</string>
     <string name="widget_explanation_resize">Norėdami pakeisti valdiklio tipą, palaikykite jį nuspaudę ir naudodamiesi rankenėlėmis pakeiskite jo dydį iki norimo dydžio</string>
     <string name="widget_explanation_end">Valdikliai yra stipriai tinkintini. Išlaisvinkite savo kūrybiškumą ir padarykite juos panašius į Jus!</string>
@@ -769,8 +769,8 @@
     <string name="browser_storages">Laikmenos</string>
     <string name="msg_delete_failed">Nepavyko pašalinti rinkmenos %1$s</string>
     <string name="renderer_list_title">Ekranai</string>
-    <string name="sdcard_permission_dialog_title">Jūs turite suteikti Mix Wave programai leidimą rašyti į SD kortelę</string>
-    <string name="sdcard_permission_dialog_message">Mix Wave negali pašalinti šios rinkmenos neturėdama leidimo rašyti į saugyklą.\nEikite į savo SD kortelę ir paspauskite „Pasirinkti“.\nPrieš tai gali tekti viršuje dešinėje esančiame meniu paspausti „Rodyti SD kortelę“</string>
+    <string name="sdcard_permission_dialog_title">Jūs turite suteikti Osho Discourse programai leidimą rašyti į SD kortelę</string>
+    <string name="sdcard_permission_dialog_message">Osho Discourse negali pašalinti šios rinkmenos neturėdama leidimo rašyti į saugyklą.\nEikite į savo SD kortelę ir paspauskite „Pasirinkti“.\nPrieš tai gali tekti viršuje dešinėje esančiame meniu paspausti „Rodyti SD kortelę“</string>
     <string name="dialog_sd_wizard">Parodyti</string>
     <string name="renderers_disconnect">Atjungti</string>
     <string name="audio_digital_failed">Nepavyko pakeisti skaitmeninės garso išvesties būsenos</string>
@@ -785,7 +785,7 @@
     <string name="playback_rewind">Atsukti atgal</string>
     <string name="playback_forward">Prasukti priekin</string>
     <string name="ml_wizard_scan_checkbox">Žvalgyti įrenginį ieškant kūrinių</string>
-    <string name="ml_wizard_description">Pasirinkite, ar norite, kad Mix Wave žvalgytų Jūsų įrenginį sudarydama kūrinių sąrašą, ar tiesiog norite ją naudoti kaip paprastą leistuvę su integruota naršykle.</string>
+    <string name="ml_wizard_description">Pasirinkite, ar norite, kad Osho Discourse žvalgytų Jūsų įrenginį sudarydama kūrinių sąrašą, ar tiesiog norite ją naudoti kaip paprastą leistuvę su integruota naršykle.</string>
     <string name="tv_my_new_videos">Nauji vaizdo įrašai</string>
     <string name="cast_option_title">Transliuoti kūrinius kitame ekrane</string>
     <string name="otg_device_title">OTG laikmena</string>
@@ -824,29 +824,29 @@
     <string name="ctx_player_subs_track">Subtitrų takelis</string>
     <string name="ctx_pip_title">Groti iškyl. lange</string>
     <string name="device_dialog_title">Prijungta išorinė laikmena</string>
-    <string name="device_dialog_message">Ką tik prijungėte naują atminties laikmeną prie savo televizoriaus įrenginio. Ar norite ją atidaryti naudodami Mix Wave?</string>
+    <string name="device_dialog_message">Ką tik prijungėte naują atminties laikmeną prie savo televizoriaus įrenginio. Ar norite ją atidaryti naudodami Osho Discourse?</string>
     <string name="videos_folders_title">Vaizdo įrašai pagal aplankus</string>
     <string name="videos_groups_title">Vaizdo įr. grupės</string>
     <string name="video_save_clone_mode">Ar klonavimo veikseną įjungti automatiškai?</string>
     <string name="video_remote_enable">Persijungti į nuotolinio valdymo veikseną</string>
     <string name="video_remote_disable">Dubliuoti ekraną</string>
     <string name="removed_from_playlist_anonymous">Pašalinta iš grojaraščio</string>
-    <string name="welcome_title">Sveiki, Jus sveikina Mix Wave!</string>
+    <string name="welcome_title">Sveiki, Jus sveikina Osho Discourse!</string>
     <string name="welcome_subtitle">Nemokama atviro kodo įvairialypės terpės leistuvė</string>
-    <string name="permission_media">Mix Wave programai reikia Jūsų leidimo prieiti prie įrenginyje esančių kūrinių</string>
-    <string name="permission_video">Mix Wave programai reikia Jūsų leidimo prieiti prie įrenginyje esančių vaizdo įrašų</string>
-    <string name="permission_audio">Mix Wave programai reikia Jūsų leidimo prieiti prie įrenginyje esančių garso įrašų</string>
-    <string name="medialibrary_scan_explanation">Mix Wave gali automatiškai žvalgyti ir atnaujinti kūrinių sąrašus.</string>
-    <string name="player_title_fd_warning">Mix Wave negali nuskaityti medijos pavadinimo ir įrašyti eigos neturėdama leidimo pasiekti saugyklą</string>
-    <string name="onboarding_theme_title">Pritaikykite Mix Wave</string>
+    <string name="permission_media">Osho Discourse programai reikia Jūsų leidimo prieiti prie įrenginyje esančių kūrinių</string>
+    <string name="permission_video">Osho Discourse programai reikia Jūsų leidimo prieiti prie įrenginyje esančių vaizdo įrašų</string>
+    <string name="permission_audio">Osho Discourse programai reikia Jūsų leidimo prieiti prie įrenginyje esančių garso įrašų</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse gali automatiškai žvalgyti ir atnaujinti kūrinių sąrašus.</string>
+    <string name="player_title_fd_warning">Osho Discourse negali nuskaityti medijos pavadinimo ir įrašyti eigos neturėdama leidimo pasiekti saugyklą</string>
+    <string name="onboarding_theme_title">Pritaikykite Osho Discourse</string>
     <string name="done">Atlikta</string>
     <string name="onboarding_scan_title">Automatinis kūrinių aptikimas</string>
-    <string name="onboarding_all_set">Mix Wave yra paruoštas darbui!</string>
+    <string name="onboarding_all_set">Osho Discourse yra paruoštas darbui!</string>
     <string name="onboarding_permission_given">Dabar galite naudotis automatiniu kūrinių aptikimu, išorinių subtitrų prijungimu, taip pat groti srautus bei kūrinius per tinklą</string>
-    <string name="daynight_system_explanation">Mix Wave automatiškai persijungs į naktinę veikseną priklausomai nuo sistemos nuostatų</string>
-    <string name="daynight_legacy_explanation">Mix Wave automatiškai persijungs į naktinę veikseną</string>
-    <string name="onboarding_scanning_enable">Leisti Mix Wave nuskaityti mano įrenginį</string>
-    <string name="onboarding_scan_customize">Leisti man nurodyti, kuriuos aplankus Mix Wave gali žvalgyti</string>
+    <string name="daynight_system_explanation">Osho Discourse automatiškai persijungs į naktinę veikseną priklausomai nuo sistemos nuostatų</string>
+    <string name="daynight_legacy_explanation">Osho Discourse automatiškai persijungs į naktinę veikseną</string>
+    <string name="onboarding_scanning_enable">Leisti Osho Discourse nuskaityti mano įrenginį</string>
+    <string name="onboarding_scan_customize">Leisti man nurodyti, kuriuos aplankus Osho Discourse gali žvalgyti</string>
     <string name="button_medialibrary_preferences">Eiti į Mediatekos parinktis</string>
     <string name="light_theme">Šviesus apipavidalinimas</string>
     <string name="add">Pridėti</string>
@@ -858,7 +858,7 @@
     <string name="popup_force_legacy_title">Naudoti savitą iškylantį „vaizdo-vaizde“ langą</string>
     <string name="popup_force_legacy_summary">Naudoti savitą keičiamo dydžio iškylantį „vaizdo-vaizde“ langą</string>
     <string name="restore_background_video_title">Atkurti vaizdo įrašą iš fono</string>
-    <string name="restore_background_video_summary">Atkurti vaizdo įrašą iš fono, kai iš naujo atidaroma Mix Wave, skirta „Android“ sistemai</string>
+    <string name="restore_background_video_summary">Atkurti vaizdo įrašą iš fono, kai iš naujo atidaroma Osho Discourse, skirta „Android“ sistemai</string>
     <string name="device_default">Įrenginio numatytoji</string>
     <string name="track_number">%d takeliai</string>
     <string name="jump_to">Šokti į</string>
@@ -889,13 +889,13 @@
     <string name="display_in_grid">Rodyti tinklelyje</string>
     <string name="dump_db_succes">Duombazė iškelta į vidinę atmintį</string>
     <string name="dump_db_failure">Nepavyko iškelti duombazės</string>
-    <string name="send_crash_title">Pranešti apie Mix Wave lūžimą</string>
-    <string name="send_crash_description">Nusiųsdami pranešimą apie lūžimą, padėsite pagerinti Mix Wave stabilumą.</string>
+    <string name="send_crash_title">Pranešti apie Osho Discourse lūžimą</string>
+    <string name="send_crash_description">Nusiųsdami pranešimą apie lūžimą, padėsite pagerinti Osho Discourse stabilumą.</string>
     <string name="send_crash_warning">Prieš išsiųsdami pašalinkite visą jautrią ar asmeninę informaciją, kurios nenorėtumėte siųsti.</string>
     <string name="include_medialib">Įtraukti Jūsų duombazę</string>
-    <string name="vlc_reporter">Mix Wave pranešiklis</string>
-    <string name="welcome_beta_title">Bandomoji Mix Wave versija</string>
-    <string name="welcome_beta_description">Jus sveikina bandomoji Mix Wave programa.\nAtminkite, kad šioje versijoje gali būti nesklandumų.</string>
+    <string name="vlc_reporter">Osho Discourse pranešiklis</string>
+    <string name="welcome_beta_title">Bandomoji Osho Discourse versija</string>
+    <string name="welcome_beta_description">Jus sveikina bandomoji Osho Discourse programa.\nAtminkite, kad šioje versijoje gali būti nesklandumų.</string>
     <string name="welcome_beta_description_bugs">Jei radote klaidą, prašome mums pranešti forume arba per klaidų registravimo sistemą.</string>
     <string name="send">Siųsti</string>
     <string name="send_crash_action_title">Ką norėtumėte padaryti?</string>
@@ -937,8 +937,8 @@
     <string name="recently_played">Neseniai grota</string>
     <string name="recently_added">Neseniai pridėta</string>
     <string name="playback_multiple_errors">Kai kurių rinkmenų nepavyko atkurti</string>
-    <string name="clear_media_db_message">Prarasite peržiūrėtų kūrinių istoriją, žymeles ir sukurtus grojaraščius, tačiau išlaikysite savo Mix Wave nuostatas</string>
-    <string name="clear_app_data_message">Prarasite peržiūrėtų kūrinių istoriją, žymeles, sukurtus grojaraščius ir Mix Wave nuostatas</string>
+    <string name="clear_media_db_message">Prarasite peržiūrėtų kūrinių istoriją, žymeles ir sukurtus grojaraščius, tačiau išlaikysite savo Osho Discourse nuostatas</string>
+    <string name="clear_app_data_message">Prarasite peržiūrėtų kūrinių istoriją, žymeles, sukurtus grojaraščius ir Osho Discourse nuostatas</string>
     <string name="clear">Išvalyti</string>
     <string name="abrepeat_add_first_marker">Nustatyti pradžios tašką</string>
     <string name="abrepeat_add_second_marker">Nustatyti pabaigos tašką</string>
@@ -994,18 +994,18 @@
     <string name="sub_result_by_name_hearing_impaired">Rodyti tik skirtus asmenims su klausos negalia</string>
 
     <string name="sub_result_by_file">Jūsų paieškos rezultatai</string>
-    <string name="donate">Padėti Mix Wave</string>
-    <string name="donate_desc">Paremkite Mix Wave kūrėjus</string>
+    <string name="donate">Padėti Osho Discourse</string>
+    <string name="donate_desc">Paremkite Osho Discourse kūrėjus</string>
     <string name="donate_subscribtion">Remti kas mėnesį</string>
     <string name="donate_send">Pradėti rėmimo procedūrą</string>
-    <string name="donation_description">Jūsų rėmimas leis:\nPatobulinti Mix Wave, skirtą „Android“ sistemai.\nPalaikyti „Mix Wave“ asociaciją</string>
+    <string name="donation_description">Jūsų rėmimas leis:\nPatobulinti Osho Discourse, skirtą „Android“ sistemai.\nPalaikyti „Osho Discourse“ asociaciją</string>
     <string name="subscription_purchased">Jūs užsiprenumeravote mėnesinį rėmimą</string>
     <string name="subscription_cancel">Galite atsisakyti prenumeratos „Play“ parduotuvėje</string>
     <string name="subscription_cancel_tv">Kaip atsisakyti prenumeratos</string>
     <string name="donate_unsubscribe_tv">Norėdami atsisakyti prenumeratos, atidarykite %s telefone ar kompiuteryje arba nuskaitykite šį kodą:</string>
-    <string name="tip_jar">Padėti Mix Wave</string>
+    <string name="tip_jar">Padėti Osho Discourse</string>
     <string name="thank_you">Ačiū Jums</string>
-    <string name="thank_you_desc">Dėkojame už rėmimą!\nTai mums padės tobulinant Mix Wave!</string>
+    <string name="thank_you_desc">Dėkojame už rėmimą!\nTai mums padės tobulinant Osho Discourse!</string>
     <string name="donate_again">Paremti programą pakartotinai</string>
 
     <string name="mark_as_played">Pažymėti kaip peržiūrėtą</string>
@@ -1089,7 +1089,7 @@
     <string name="optional_features_warning">Ši funkcija yra dar tik testuojama ir gali veikti nestabiliai ar sukelti gedimų</string>
     <string name="network_indexing">Tinklo indeksavimas</string>
     <string name="network_indexing_warning">Tinklo indeksavimas šiuo metu yra beta versijos.\nŽinomos problemos:\n• Lėtas veikimas.\n\nJei susiduriate su kitomis problemomis, praneškite apie jas mūsų forume. </string>
-    <string name="start_vlc">Paleisti Mix Wave</string>
+    <string name="start_vlc">Paleisti Osho Discourse</string>
     <string name="jump_delay">Mygtukų „pirmyn / atgal“ peršokimo intervalas</string>
     <string name="long_jump_delay">Ilgo paspaudimo mygtukų „pirmyn / atgal“ peršokimo intervalas</string>
     <string name="jump_delay_summary">%s sek.</string>
@@ -1107,7 +1107,7 @@
     <string name="lock_use_sensor_summary">Kai ekrano pasukimas užrakintas, naudoti jutiklį atvirkštinės padėties įgalinimui</string>
     <string name="start">Pradėti!</string>
     <string name="notification_permission">Pranešimų leidimas</string>
-    <string name="notification_permission_explanation">Mix Wave reikia Jūsų leidimo siųsti pranešimus.\nPrograma Jums praneš tik tada, kai vykdys medijos nuskaitymą arba naudos tinkintą „vaizdo-vaizde“ langą.\nAtsisakymas netrukdys Mix Wave veikti, tačiau paslėps programos pranešimus.</string>
+    <string name="notification_permission_explanation">Osho Discourse reikia Jūsų leidimo siųsti pranešimus.\nPrograma Jums praneš tik tada, kai vykdys medijos nuskaitymą arba naudos tinkintą „vaizdo-vaizde“ langą.\nAtsisakymas netrukdys Osho Discourse veikti, tačiau paslėps programos pranešimus.</string>
     <string name="permission">Leidimas</string>
     <string name="permission_no_access">Atmesti prieigą prie visų rinkmenų</string>
     <string name="permissions">Leidimai</string>
@@ -1180,7 +1180,7 @@
     <string name="widget_show_configure_summary">Net jei ji nerodoma, visada galite bakstelėti viršutinį dešinįjį kampą, kad atidarytumėte konfigūraciją</string>
     <string name="seek_backward_content_description">Grįžti %s sek. atgal</string>
     <string name="seek_forward_content_description">Peršokti %s sek. pirmyn</string>
-    <string name="open_vlc">Atidaryti Mix Wave</string>
+    <string name="open_vlc">Atidaryti Osho Discourse</string>
     <string name="playing">Grojant</string>
     <string name="disable_track">Išjungti takelį</string>
     <string name="ascending">Didėjančiai</string>
@@ -1279,7 +1279,7 @@
     <string name="ra_otp_subtitle">Jei tai Jūs, įveskite šį kodą kitame įrenginyje</string>
     <string name="ra_otp_not_me">Tai ne aš</string>
 
-    <string name="ra_onboarding_welcome_desc">Sveiki atvykę į Mix Wave, skirtos „Android“ sistemai, nuotolinės prieigos nuostatas.\nJas įgalinę galėsite valdyti šio įrenginio atkūrimą ir dar daugiau</string>
+    <string name="ra_onboarding_welcome_desc">Sveiki atvykę į Osho Discourse, skirtos „Android“ sistemai, nuotolinės prieigos nuostatas.\nJas įgalinę galėsite valdyti šio įrenginio atkūrimą ir dar daugiau</string>
     <string name="ra_onboarding_how_title">Įrenginio valdymas</string>
     <string name="ra_onboarding_how_desc">Valdykite savo įrenginio atkūrimą, siųskite arba gaukite rinkmenas ir dar daugiau</string>
     <string name="ra_onboarding_ssl_title">Šifruoti duomenys</string>
@@ -1305,7 +1305,7 @@
     <string name="podcast_mode">Tinklalaidės veiksena</string>
     <string name="podcast_mode_help">Prenumeruojamų transliacijų valdikliai rodomi leidžiant vieną įrašą, atitinkantį vieną iš šių kriterijų:\n\t• Ilgesnis nei 60 min.\n\t• Ilgesnis nei 15 min. ir yra be albumo pavadinimo\n\t• Žanras yra %s</string>
     <string name="voice_control">Valdymas balsu</string>
-    <string name="voice_control_help">Mix Wave galima valdyti naudojant „Google“ padėjėją, ištariant šias komandas:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
+    <string name="voice_control_help">Osho Discourse galima valdyti naudojant „Google“ padėjėją, ištariant šias komandas:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
 
     <string name="network" >Tinklas</string>
     <string name="metered_connection">Veiksmas srautams, kai ryšys yra matuojamas</string>

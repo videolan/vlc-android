@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Avbryt</string>
     <string name="other">Anna</string>
@@ -48,7 +48,7 @@
     <string name="play_as_video">Spel av som video</string>
     <string name="return_to_video">Langtrykk på omslaget for å tilbakestilla videoen</string>
     <string name="video_app_switch_title">Bakgrunn/BiB-modus</string>
-    <string name="video_app_switch_summary">Vel Mix Wave-oppførsel når du byter frå videoavspeling til ein annan app.</string>
+    <string name="video_app_switch_summary">Vel Osho Discourse-oppførsel når du byter frå videoavspeling til ein annan app.</string>
     <string name="play_pip_title">Spelar videoar i bilde-i-bilde modus</string>
     <string name="play_as_audio_background">Spelar videoar i bakgrunnen</string>
     <string name="append">Legg til i spelekø</string>
@@ -293,7 +293,7 @@
     <string name="hold_to_stop">Hald for å stoppe</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Revisjon</string>
     <string name="about">Om</string>
     <string name="is_compiled_by">Sett saman av</string>
@@ -454,7 +454,7 @@
     <string name="enable_verbose_mode">Detaljerte loggdata</string>
     <string name="clear_log">Tøm logg</string>
     <string name="copy_to_clipboard">Kopier til utklippstavla</string>
-    <string name="restart_vlc">Start Mix Wave på nytt</string>
+    <string name="restart_vlc">Start Osho Discourse på nytt</string>
     <string name="send_log">Send loggen</string>
     <string name="sending_log">Sender loggen…</string>
 
@@ -486,7 +486,7 @@
     <string name="tv_ui_title">Grensesnitt for Android TV</string>
     <string name="medialibrary">Mediebibliotek</string>
     <!--What's new-->
-    <string name="whats_new_title">Kva er nytt i Mix Wave for Android %s</string>
+    <string name="whats_new_title">Kva er nytt i Osho Discourse for Android %s</string>
     <string name="show_in_settings">Vis i innstillingar</string>
 
 <!--    update-->
@@ -502,15 +502,15 @@
     <string name="no_subs_found">Ingen undertekstar i denne mappa</string>
     <string name="music_now_playing">Spelar no</string>
 
-    <string name="widget_name_mini_player">Mix Wave minispelar</string>
+    <string name="widget_name_mini_player">Osho Discourse minispelar</string>
     <string name="click_here">Trykk her for å lesa meir.</string>
-    <string name="allow_storage_access_title">Tillat Mix Wave tilgang til video- og lydfiler</string>
+    <string name="allow_storage_access_title">Tillat Osho Discourse tilgang til video- og lydfiler</string>
     <string name="never_ask_again">Ikkje spør meir</string>
     <string name="permission_ask_again">Gje løyve</string>
     <string name="pick_file">Vel ei fil</string>
     <string name="permission_not_granted">Løyve ikkje gjeve</string>
-    <string name="exit_app">Avslutt Mix Wave</string>
-    <string name="exit_app_msg">Er du sikker på at du vil avslutta Mix Wave?</string>
+    <string name="exit_app">Avslutt Osho Discourse</string>
+    <string name="exit_app_msg">Er du sikker på at du vil avslutta Osho Discourse?</string>
     <!-- Plugins -->
     <string name="plugins">Programtillegg</string>
     <string name="download_on_device">Last ned</string>
@@ -545,7 +545,7 @@
     <string name="ml_discovering">Oppdagar</string>
     <string name="resume">Fortset</string>
     <string name="length">Lengde</string>
-    <string name="ml_external_storage_msg">Vil du at Mix Wave skal leggja til eininga %1$s til mediebiblioteket ditt?</string>
+    <string name="ml_external_storage_msg">Vil du at Osho Discourse skal leggja til eininga %1$s til mediebiblioteket ditt?</string>
     <string name="ml_external_storage_accept">Ja</string>
     <string name="ml_external_storage_decline">Nei</string>
     <string name="auto_last_added_media">Sist lagt til</string>
@@ -599,7 +599,7 @@
     <string name="videos_groups_title">Videogrupper</string>
     <string name="video_remote_disable">Dupliser skjerm</string>
     <string name="removed_from_playlist_anonymous">Objekt fjerna frå speleliste</string>
-    <string name="welcome_title">Velkomen til Mix Wave!</string>
+    <string name="welcome_title">Velkomen til Osho Discourse!</string>
     <string name="done">Ferdig</string>
     <string name="button_medialibrary_preferences">Gå til innstillingar for mediebiblioteket</string>
     <string name="add">Legg til</string>
@@ -616,7 +616,7 @@
     <string name="reset">Nullstill</string>
     <string name="remove_current">Fjern gjeldande</string>
     <string name="display_settings">Visingsinnstillingar</string>
-    <string name="welcome_beta_title">Mix Wave Beta</string>
+    <string name="welcome_beta_title">Osho Discourse Beta</string>
     <string name="send">Send</string>
     <string name="send_crash_action_title">Kva vil du gjera?</string>
     <string name="report_a_bug">Rapporter feil</string>
@@ -642,8 +642,8 @@
     <string name="open_network_settings">Opna ettverksinnstillingar?</string>
     <string name="recently_played">Nyleg spelt</string>
     <string name="recently_added">Nyleg lagt til</string>
-    <string name="clear_media_db_message">Du vil mista framstega dine, bokmerka og spelelister du har laga men du vil behalda innstillingane dine for Mix Wave for Android.</string>
-    <string name="clear_app_data_message">Du vil mista framstega dine, bokmerke, spelelister og alle Mix Wave-innstillingane</string>
+    <string name="clear_media_db_message">Du vil mista framstega dine, bokmerka og spelelister du har laga men du vil behalda innstillingane dine for Osho Discourse for Android.</string>
+    <string name="clear_app_data_message">Du vil mista framstega dine, bokmerke, spelelister og alle Osho Discourse-innstillingane</string>
     <string name="video_information">Videoinformasjon</string>
 
     <string name="channels">Kanalar</string>
@@ -678,12 +678,12 @@
     <string name="sub_result_by_name">Resultat for %s</string>
     <string name="sub_result_by_name_season">Sesong %s</string>
     <string name="sub_result_by_name_episode">Episode %s</string>
-    <string name="donate">Hjelp Mix Wave</string>
+    <string name="donate">Hjelp Osho Discourse</string>
     <string name="air_action_rewind">Spol tilbake 10 sek.</string>
     <string name="air_action_forward">Søk framover 10 sek.</string>
     <string name="air_action_play_pause">Pause/Fortset avspeling</string>
     <string name="allow_otg">Tillat OTG-tilgang</string>
-    <string name="allow_otg_description">Vel OTG-eining for å tillate tilgang til Mix Wave.</string>
+    <string name="allow_otg_description">Vel OTG-eining for å tillate tilgang til Osho Discourse.</string>
     <string name="go_to_folder">Bla gjennom overordna mappe</string>
     <string name="missing_media_snack">Medium manglar. Gøyma alle manglande media?</string>
     <string name="browser_show_missing_media">Vis manglande medium</string>
@@ -697,7 +697,7 @@
     <string name="bookmarks_title">Bokmerke</string>
     <string name="show">Vis</string>
     <string name="optional_features">Valfrie funksjonar</string>
-    <string name="start_vlc">Start Mix Wave</string>
+    <string name="start_vlc">Start Osho Discourse</string>
     <string name="jump_delay_summary">%s sekund</string>
     <string name="move_up">Flytt opp</string>
     <string name="move_down">Flytt ned</string>
@@ -725,7 +725,7 @@
     <string name="widget_background">Bakgrunn</string>
     <string name="widget_foreground">Framgrunn</string>
     <string name="widget_show_cover">Vis omslag</string>
-    <string name="open_vlc">Opne Mix Wave</string>
+    <string name="open_vlc">Opne Osho Discourse</string>
     <string name="playing">Spelar</string>
     <string name="disabled">Deaktivert</string>
     <string name="enable_screenshot_button_and_gesture">Knapp og rørsle</string>

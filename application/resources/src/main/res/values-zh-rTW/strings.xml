@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">確定</string>
     <string name="cancel">取消</string>
     <string name="other">其他</string>
@@ -42,14 +42,14 @@
     <string name="playback_controls">播放控制</string>
     <string name="medialibrary_scan">掃描媒體櫃</string>
     <string name="Medialibrary_progress">媒體櫃掃描進度的更新</string>
-    <string name="ml_database_warning">您的資料庫包含所有媒體清單。該清單將與 Mix Wave 開發者分享。</string>
-    <string name="logs_warning">可能包含您播放媒體的相關資訊。這些資訊將與 Mix Wave 的開發者分享。</string>
+    <string name="ml_database_warning">您的資料庫包含所有媒體清單。該清單將與 Osho Discourse 開發者分享。</string>
+    <string name="logs_warning">可能包含您播放媒體的相關資訊。這些資訊將與 Osho Discourse 的開發者分享。</string>
     <string name="play_from_start">從開頭播放</string>
     <string name="play_as_audio">作為音訊播放</string>
     <string name="play_as_video">作為視訊播放</string>
     <string name="return_to_video">長按封面還原影片</string>
     <string name="video_app_switch_title">背景/子母畫面模式</string>
-    <string name="video_app_switch_summary">選擇當您在播放影片時切換到其他應用程式時，Mix Wave 的行為</string>
+    <string name="video_app_switch_summary">選擇當您在播放影片時切換到其他應用程式時，Osho Discourse 的行為</string>
     <string name="play_pip_title">以子母畫面模式播放影片</string>
     <string name="play_as_audio_background">在背景播放影片</string>
     <string name="append">新增至播放佇列</string>
@@ -304,12 +304,12 @@
     <string name="hold_to_stop">按住以停止</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">修訂版</string>
     <string name="about">關於</string>
-    <string name="about_vlc_text">Android™ 版本的 Mix Wave 是 Mix Wave 媒體播放程式的移植版本，是相當受歡迎的開放原始碼媒體播放程式。Android™ 版本可以讀取所有檔案與網路串流。</string>
+    <string name="about_vlc_text">Android™ 版本的 Osho Discourse 是 Osho Discourse 媒體播放程式的移植版本，是相當受歡迎的開放原始碼媒體播放程式。Android™ 版本可以讀取所有檔案與網路串流。</string>
     <string name="authors">作者</string>
-    <string name="vlc_authors">和 Mix Wave 作者。</string>
+    <string name="vlc_authors">和 Osho Discourse 作者。</string>
     <string name="is_compiled_by">編譯由：</string>
     <string name="is_signed_by">簽署者為</string>
     <string name="sources">原始碼</string>
@@ -488,8 +488,8 @@
     <string name="replaygain_track">軌道</string>
     <string name="replaygain_album">專輯</string>
     <string name="aout">音訊輸出</string>
-    <string name="aout_summary">變更 Mix Wave 音訊輸出方式</string>
-    <string name="audio_ducking_title">有通知時降低 Mix Wave 音量</string>
+    <string name="aout_summary">變更 Osho Discourse 音訊輸出方式</string>
+    <string name="audio_ducking_title">有通知時降低 Osho Discourse 音量</string>
     <string name="audio_ducking_summary">有助於聽到音訊通知、導航指示或助理說話</string>
     <string name="casting_category">投放</string>
     <string name="remote_access">遠端存取</string>
@@ -566,7 +566,7 @@
     <string name="clear_media_db">清除媒體資料庫</string>
     <string name="clear_media_database_summary">清除資料庫以重新開始</string>
     <string name="clear_app_data">清除應用程式資料</string>
-    <string name="clear_app_data_summary">清除 Android 版 Mix Wave 資料</string>
+    <string name="clear_app_data_summary">清除 Android 版 Osho Discourse 資料</string>
     <string name="clear_history">清除記錄</string>
     <string name="clear_history_message">您將會遺失您的歷史紀錄、您的目前播放清單與您的進度</string>
     <string name="set_locale">設定地區</string>
@@ -592,7 +592,7 @@
     <string name="start_logging">開始記錄</string>
     <string name="stop_logging">停止記錄</string>
     <string name="clear_log">清除記錄</string>
-    <string name="log_service_title">Mix Wave 記錄記錄中</string>
+    <string name="log_service_title">Osho Discourse 記錄記錄中</string>
     <string name="log_service_text">開啟記錄控制台</string>
     <string name="copy_to_clipboard">複製到剪貼簿</string>
     <string name="copied_to_clipboard">已複製記錄到剪貼簿</string>
@@ -610,10 +610,10 @@
     <string name="browser_quick_play_default">以快速播放作為預設動作</string>
     <string name="browser_quick_play_default_summary">若啟用，點選瀏覽器項目即可使用快速播放功能播放該項目</string>
 
-    <string name="serious_crash">很遺憾，一個嚴重的錯誤的發生，Mix Wave 必須關閉。</string>
-    <string name="help_us_send_log">請發送以下的錯誤記錄來協助我們改善 Mix Wave：</string>
+    <string name="serious_crash">很遺憾，一個嚴重的錯誤的發生，Osho Discourse 必須關閉。</string>
+    <string name="help_us_send_log">請發送以下的錯誤記錄來協助我們改善 Osho Discourse：</string>
     <string name="ml_crash_send">媒體櫃剛剛當機。請傳送紀錄檔以協助我們。</string>
-    <string name="restart_vlc">重新啟動 Mix Wave</string>
+    <string name="restart_vlc">重新啟動 Osho Discourse</string>
     <string name="send_log">發送紀錄</string>
     <string name="sending_log">正在發送紀錄…</string>
 
@@ -656,7 +656,7 @@
     <string name="medialibrary_directories">媒體櫃資料夾</string>
 
     <!--What's new-->
-    <string name="whats_new_title">Android 版 Mix Wave %s 中有什麼新功能</string>
+    <string name="whats_new_title">Android 版 Osho Discourse %s 中有什麼新功能</string>
     <string name="whats_new_37_equalizer_text">等化器已重新設計。操作更簡單，可停用預先設定集，並支援備份、還原與分享您的預先設定集。</string>
     <string name="whats_new_37_import_export">我們改進了備份與還原設定功能。您可以備份更多設定，包含等化器的預先設定集。</string>
     <string name="whats_new_37_android_auto">由於商店政策的新限制，Android Auto 的所有設定項目已移轉至行動應用程式。此處將成為您調整車載體驗的新入口。</string>
@@ -665,7 +665,7 @@
 <!--    update-->
     <string name="update_title">有可用的更新</string>
     <string name="install_nightly_title">安裝每日更新版</string>
-    <string name="update_text">Mix Wave for Android 的每日更新版已釋出新版本！\n\n因為您正在使用每日更新版，所以會看到這個訊息。</string>
+    <string name="update_text">Osho Discourse for Android 的每日更新版已釋出新版本！\n\n因為您正在使用每日更新版，所以會看到這個訊息。</string>
     <string name="install_text">每日更新版是包含最新功能與修復，且會每天自動更新的版本。\n\n要立刻下載嗎？</string>
 
     <string name="open_in_browser">在瀏覽器中開啟</string>
@@ -686,28 +686,28 @@
     <string name="music_now_playing">正在播放</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Mix Wave 白色小工具</string>
-    <string name="widget_name_b">Mix Wave 暗色小工具</string>
-    <string name="widget_name_mini_player">Mix Wave 迷你播放器</string>
+    <string name="widget_name_w">Osho Discourse 白色小工具</string>
+    <string name="widget_name_b">Osho Discourse 暗色小工具</string>
+    <string name="widget_name_mini_player">Osho Discourse 迷你播放器</string>
     <string name="widget_old_text">我們更新了我們的小工具！</string>
     <string name="widget_old_description_start">好消息！我們釋出了改進後的小工具。\n它們提供了更多的回應能力與可自訂性</string>
     <string name="whats_next">那麼，下一步呢？</string>
     <string name="widget_old_description_end">我們偵測到您的啟動器上已有小工具。不幸的是，其與我們改善後的新版本不相容。\n根據您的啟動器，您可能需要移除舊版本才能取代它們。</string>
     <string name="click_here">點擊此處以取得更多資訊。</string>
-    <string name="allow_storage_access_title">允許 Mix Wave 存取視訊與音訊檔案</string>
-    <string name="allow_storage_access_description">Mix Wave 需要您的授權才能存取這個裝置上的媒體檔案。</string>
-    <string name="partial_content">Mix Wave 無法存取您所有的檔案</string>
+    <string name="allow_storage_access_title">允許 Osho Discourse 存取視訊與音訊檔案</string>
+    <string name="allow_storage_access_description">Osho Discourse 需要您的授權才能存取這個裝置上的媒體檔案。</string>
+    <string name="partial_content">Osho Discourse 無法存取您所有的檔案</string>
     <string name="partial_content_description">從 Android 11 開始，應用程式需要特別權限才能存取裝置上所有的檔案。\n\n%s</string>
     <string name="never_ask_again">不再詢問</string>
     <string name="never_show_again">不要再次顯示，即便是未來的版本</string>
-    <string name="allow_settings_access_ringtone_title">允許 Mix Wave 設定鈴聲</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave 需要您的授權才能將這首歌設定為鈴聲。</string>
-    <string name="allow_settings_access_brightness_title">允許 Mix Wave 改變亮度模式</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave 需要您授予權限來調整您的亮度模式。</string>
-    <string name="allow_draw_overlays_title">允許 Mix Wave 播放器彈出並蓋過其他應用程式</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave 需要您的授權才能將您的影片顯示到彈出式視窗中並蓋過其他應用程式。</string>
-    <string name="allow_pip">允許 Mix Wave 播放程式啟動畫中畫模式</string>
-    <string name="allow_pip_description">Mix Wave 需要您的授權才能將您的影片以畫中畫模式顯示。</string>
+    <string name="allow_settings_access_ringtone_title">允許 Osho Discourse 設定鈴聲</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse 需要您的授權才能將這首歌設定為鈴聲。</string>
+    <string name="allow_settings_access_brightness_title">允許 Osho Discourse 改變亮度模式</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse 需要您授予權限來調整您的亮度模式。</string>
+    <string name="allow_draw_overlays_title">允許 Osho Discourse 播放器彈出並蓋過其他應用程式</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse 需要您的授權才能將您的影片顯示到彈出式視窗中並蓋過其他應用程式。</string>
+    <string name="allow_pip">允許 Osho Discourse 播放程式啟動畫中畫模式</string>
+    <string name="allow_pip_description">Osho Discourse 需要您的授權才能將您的影片以畫中畫模式顯示。</string>
     <string name="permission_ask_again">授予權限</string>
     <string name="pick_file">選擇檔案</string>
     <string name="permission_not_granted">權限不足</string>
@@ -716,9 +716,9 @@
     <string name="permission_onboarding_no_perm">您將無法自動探索您的媒體。\n您將只能播放串流或網路媒體</string>
     <string name="permission_onboarding_perm_media">您將只能自動探索標準媒體檔案</string>
     <string name="permission_onboarding_perm_all">您將可以自動探索您所有的檔案以播放所有類型的媒體，甚至是奇怪的檔案或壓縮檔</string>
-    <string name="exit_app">關閉 Mix Wave</string>
-    <string name="exit_app_msg">您確定要退出 Mix Wave 嗎？</string>
-    <string name="widget_explanation_title">Mix Wave 小工具</string>
+    <string name="exit_app">關閉 Osho Discourse</string>
+    <string name="exit_app_msg">您確定要退出 Osho Discourse 嗎？</string>
+    <string name="widget_explanation_title">Osho Discourse 小工具</string>
     <string name="widget_explanation_size">小工具有不同的尺寸與風格</string>
     <string name="widget_explanation_resize">要變更小工具類型，請長按它並使用其外框調整為您想要的大小</string>
     <string name="widget_explanation_end">小工具是高度可自訂的。釋放您的創造力，讓它們看起來像您！</string>
@@ -775,7 +775,7 @@
     <string name="length">長度</string>
     <string name="tv_settings_hint">長按確定鈕以勾選／取消勾選目錄</string>
     <string name="ml_external_storage_title">偵測到新的外部儲存設備</string>
-    <string name="ml_external_storage_msg">是否同意 Mix Wave 將裝置 %1$s 加到媒體櫃？</string>
+    <string name="ml_external_storage_msg">是否同意 Osho Discourse 將裝置 %1$s 加到媒體櫃？</string>
     <string name="ml_external_storage_accept">是</string>
     <string name="ml_external_storage_decline">否</string>
     <string name="auto_last_added_media">最近加入</string>
@@ -805,8 +805,8 @@
     <string name="browser_storages">儲存空間</string>
     <string name="msg_delete_failed">無法刪除媒體 %1$s</string>
     <string name="renderer_list_title">顯示</string>
-    <string name="sdcard_permission_dialog_title">您必須允許 Mix Wave 寫入 SD 卡的權限</string>
-    <string name="sdcard_permission_dialog_message">Mix Wave 沒有寫入權限，無法刪除這個檔案。\n請前往 SD 卡，然後按「選擇」。\n您可能需要先在右上角的選單中按下「顯示 SD 卡」</string>
+    <string name="sdcard_permission_dialog_title">您必須允許 Osho Discourse 寫入 SD 卡的權限</string>
+    <string name="sdcard_permission_dialog_message">Osho Discourse 沒有寫入權限，無法刪除這個檔案。\n請前往 SD 卡，然後按「選擇」。\n您可能需要先在右上角的選單中按下「顯示 SD 卡」</string>
     <string name="dialog_sd_wizard">讓我看看</string>
     <string name="renderers_disconnect">取消連接</string>
     <string name="audio_digital_failed">無法變更音訊數位輸出狀態</string>
@@ -821,7 +821,7 @@
     <string name="playback_rewind">倒帶</string>
     <string name="playback_forward">快速前進</string>
     <string name="ml_wizard_scan_checkbox">掃描裝置中的媒體內容</string>
-    <string name="ml_wizard_description">選擇 Mix Wave 是掃描裝置儲存空間來組織您的媒體櫃，還是只作為簡易的、具有內建瀏覽器的播放器來使用。</string>
+    <string name="ml_wizard_description">選擇 Osho Discourse 是掃描裝置儲存空間來組織您的媒體櫃，還是只作為簡易的、具有內建瀏覽器的播放器來使用。</string>
     <string name="tv_my_new_videos">我新的影片</string>
     <string name="cast_option_title">將媒體投放到另一個螢幕</string>
     <string name="otg_device_title">OTG 裝置</string>
@@ -860,29 +860,29 @@
     <string name="ctx_player_subs_track">字幕軌</string>
     <string name="ctx_pip_title">彈出式播放器</string>
     <string name="device_dialog_title">已插入外部裝置</string>
-    <string name="device_dialog_message">您剛插入了一個新儲存裝置到您的電視盒，您想要以 Mix Wave 開啟它嗎？</string>
+    <string name="device_dialog_message">您剛插入了一個新儲存裝置到您的電視盒，您想要以 Osho Discourse 開啟它嗎？</string>
     <string name="videos_folders_title">依照資料夾顯示影片</string>
     <string name="videos_groups_title">影片分組</string>
     <string name="video_save_clone_mode">自動啟用複製模式？</string>
     <string name="video_remote_enable">切換至遠端控制模式</string>
     <string name="video_remote_disable">複製螢幕</string>
     <string name="removed_from_playlist_anonymous">項目已從播放清單中移除</string>
-    <string name="welcome_title">歡迎使用 Mix Wave！</string>
+    <string name="welcome_title">歡迎使用 Osho Discourse！</string>
     <string name="welcome_subtitle">自由且開源的媒體播放器</string>
-    <string name="permission_media">Mix Wave 需要您裝置的存取媒體權限</string>
-    <string name="permission_video">Mix Wave 需要您的授權才能存取您裝置上的視訊媒體</string>
-    <string name="permission_audio">Mix Wave 需要您的授權才能存取您裝置上的音訊媒體</string>
-    <string name="medialibrary_scan_explanation">Mix Wave 會自動掃描裝置並組織您的媒體收藏。</string>
-    <string name="player_title_fd_warning">如果沒有儲存權限，Mix Wave 就無法擷取媒體標題或儲存進度。</string>
+    <string name="permission_media">Osho Discourse 需要您裝置的存取媒體權限</string>
+    <string name="permission_video">Osho Discourse 需要您的授權才能存取您裝置上的視訊媒體</string>
+    <string name="permission_audio">Osho Discourse 需要您的授權才能存取您裝置上的音訊媒體</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse 會自動掃描裝置並組織您的媒體收藏。</string>
+    <string name="player_title_fd_warning">如果沒有儲存權限，Osho Discourse 就無法擷取媒體標題或儲存進度。</string>
     <string name="onboarding_theme_title">隨便自由使用</string>
     <string name="done">完成</string>
     <string name="onboarding_scan_title">自動探索媒體</string>
-    <string name="onboarding_all_set">Mix Wave 已準備就緒！</string>
+    <string name="onboarding_all_set">Osho Discourse 已準備就緒！</string>
     <string name="onboarding_permission_given">您現在可以自動探索您的媒體、使用外部字幕以及播放串流或網路媒體</string>
-    <string name="daynight_system_explanation">Mix Wave 將會根據系統設定自動切換到深色模式</string>
-    <string name="daynight_legacy_explanation">Mix Wave 將會在適當的時間自動切換到夜間模式</string>
-    <string name="onboarding_scanning_enable">讓 Mix Wave 掃描裝置的媒體內容</string>
-    <string name="onboarding_scan_customize">讓我選擇要讓 Mix Wave 掃描的資料夾</string>
+    <string name="daynight_system_explanation">Osho Discourse 將會根據系統設定自動切換到深色模式</string>
+    <string name="daynight_legacy_explanation">Osho Discourse 將會在適當的時間自動切換到夜間模式</string>
+    <string name="onboarding_scanning_enable">讓 Osho Discourse 掃描裝置的媒體內容</string>
+    <string name="onboarding_scan_customize">讓我選擇要讓 Osho Discourse 掃描的資料夾</string>
     <string name="button_medialibrary_preferences">前往媒體櫃偏好設定</string>
     <string name="light_theme">亮色佈景主題</string>
     <string name="add">加入</string>
@@ -894,7 +894,7 @@
     <string name="popup_force_legacy_title">使用自訂子母畫面彈出</string>
     <string name="popup_force_legacy_summary">使用自訂子母畫面可調整大小彈出</string>
     <string name="restore_background_video_title">從背景還原影片</string>
-    <string name="restore_background_video_summary">重新開啟 Mix Wave for Android 時還原背景播放的影片</string>
+    <string name="restore_background_video_summary">重新開啟 Osho Discourse for Android 時還原背景播放的影片</string>
     <string name="device_default">裝置預設值</string>
     <string name="track_number">%d 個軌道</string>
     <string name="jump_to">跳至</string>
@@ -921,14 +921,14 @@
     <string name="display_in_grid">以方格顯示</string>
     <string name="dump_db_succes">資料庫已傾印到內部儲存空間根目錄</string>
     <string name="dump_db_failure">無法傾印資料庫</string>
-    <string name="send_crash_title">Mix Wave 當機回報</string>
-    <string name="send_crash_description">您可以藉由傳送當機報告，幫助我們改善 Mix Wave 的穩定性。</string>
+    <string name="send_crash_title">Osho Discourse 當機回報</string>
+    <string name="send_crash_description">您可以藉由傳送當機報告，幫助我們改善 Osho Discourse 的穩定性。</string>
     <string name="send_crash_warning">確保您移除了任何不想傳送的敏感資料。</string>
     <string name="include_medialib">包含您的資料庫</string>
     <string name="include_logs">包含您的紀錄檔</string>
-    <string name="vlc_reporter">Mix Wave 回報</string>
-    <string name="welcome_beta_title">Mix Wave Beta</string>
-    <string name="welcome_beta_description">歡迎使用 Mix Wave beta 程式。\n請注意，這個版本可能會有一些錯誤。</string>
+    <string name="vlc_reporter">Osho Discourse 回報</string>
+    <string name="welcome_beta_title">Osho Discourse Beta</string>
+    <string name="welcome_beta_description">歡迎使用 Osho Discourse beta 程式。\n請注意，這個版本可能會有一些錯誤。</string>
     <string name="welcome_beta_description_bugs">如果您發現錯誤，請回報到我們的討論區或錯誤追蹤器。</string>
     <string name="welcome_beta_description_crashes">若您遇到臭蟲或當機，請開啟「關於」畫面並使用「回饋」→「聯絡支援團隊」按鈕。</string>
     <string name="send">傳送</string>
@@ -972,8 +972,8 @@
     <string name="recently_played">最近播放</string>
     <string name="recently_added">最近新增</string>
     <string name="playback_multiple_errors">無法播放多種媒體</string>
-    <string name="clear_media_db_message">您會遺失您的進度、書籤與您建立的播放清單，但會保留您的 Android 版 Mix Wave 設定</string>
-    <string name="clear_app_data_message">您將會遺失您的進度、書籤、播放清單與所有 Mix Wave 設定</string>
+    <string name="clear_media_db_message">您會遺失您的進度、書籤與您建立的播放清單，但會保留您的 Android 版 Osho Discourse 設定</string>
+    <string name="clear_app_data_message">您將會遺失您的進度、書籤、播放清單與所有 Osho Discourse 設定</string>
     <string name="clear">清除</string>
     <string name="abrepeat_add_first_marker">設定起點</string>
     <string name="abrepeat_add_second_marker">設定終點</string>
@@ -1029,18 +1029,18 @@
     <string name="sub_result_by_name_hearing_impaired">僅聽力障礙</string>
 
     <string name="sub_result_by_file">您檔案的結果</string>
-    <string name="donate">協助 Mix Wave</string>
-    <string name="donate_desc">支援建立 Mix Wave 的志願者</string>
+    <string name="donate">協助 Osho Discourse</string>
+    <string name="donate_desc">支援建立 Osho Discourse 的志願者</string>
     <string name="donate_subscribtion">我想要讓這個變成每月的贊助</string>
     <string name="donate_send">開始您的贊助</string>
-    <string name="donation_description">您的贊助讓我們可以：\n改善 Android 上的 Mix Wave 應用程式\n支援 Mix Wave 協會</string>
+    <string name="donation_description">您的贊助讓我們可以：\n改善 Android 上的 Osho Discourse 應用程式\n支援 Osho Discourse 協會</string>
     <string name="subscription_purchased">您已訂閱每月贊助</string>
     <string name="subscription_cancel">您可在 Play 商店中取消訂閱</string>
     <string name="subscription_cancel_tv">如何取消訂閱</string>
     <string name="donate_unsubscribe_tv">要取消訂閱，請在手機或電腦上開啟 %s，或是掃描此條碼：</string>
-    <string name="tip_jar">協助 Mix Wave</string>
+    <string name="tip_jar">協助 Osho Discourse</string>
     <string name="thank_you">謝謝</string>
-    <string name="thank_you_desc">感謝您的贊助！\n這將協助我們大大地改善 Mix Wave！</string>
+    <string name="thank_you_desc">感謝您的贊助！\n這將協助我們大大地改善 Osho Discourse！</string>
     <string name="donate_again">再次贊助應用程式</string>
 
     <string name="mark_as_played">標記為已播放</string>
@@ -1058,7 +1058,7 @@
     <string name="air_action_next">播放中的下一項</string>
     <string name="air_action_previous">播放中的前一項</string>
     <string name="allow_otg">允許 OTG 存取</string>
-    <string name="allow_otg_description">請選取您的 OTG 磁碟以允許 Mix Wave 存取。</string>
+    <string name="allow_otg_description">請選取您的 OTG 磁碟以允許 Osho Discourse 存取。</string>
     <string name="timeout_infinite">無限</string>
     <string name="video_hud_timeout">影片播放器控制介面隱藏延遲</string>
     <string name="video_hud_timeout_summary">%s秒</string>
@@ -1126,7 +1126,7 @@
     <string name="optional_features_warning">此功能處於測試階段，可能造成當機與不穩定</string>
     <string name="network_indexing">網路索引</string>
     <string name="network_indexing_warning">網路索引目前正在測試中。\n已知問題：\n• 效能較差\n\n若您愈到了其他問題，請在我們的論壇上回報。</string>
-    <string name="start_vlc">啟動 Mix Wave</string>
+    <string name="start_vlc">啟動 Osho Discourse</string>
     <string name="jump_delay">向前／向後快轉時間延遲</string>
     <string name="long_jump_delay">長按向前／向後快轉時間延遲</string>
     <string name="jump_delay_summary">%s秒</string>
@@ -1150,7 +1150,7 @@
     <string name="lock_use_sensor_summary">當方向鎖定時，使用偵測器允許反向</string>
     <string name="start">開始</string>
     <string name="notification_permission">通知權限</string>
-    <string name="notification_permission_explanation">Mix Wave 需您的授權才能傳送通知。\n應用程式只會在為您掃描媒體或使用自訂的「字母畫面」視訊模式時向您傳送通知。\n拒絕該權限不會影響 Mix Wave 正常運作，只是不會顯示通知而已。</string>
+    <string name="notification_permission_explanation">Osho Discourse 需您的授權才能傳送通知。\n應用程式只會在為您掃描媒體或使用自訂的「字母畫面」視訊模式時向您傳送通知。\n拒絕該權限不會影響 Osho Discourse 正常運作，只是不會顯示通知而已。</string>
     <string name="permission">權限</string>
     <string name="permission_no_access">無法存取檔案</string>
     <string name="permissions">權限</string>
@@ -1217,7 +1217,7 @@
     <string name="widget_show_configure_summary">即便其沒有顯示，您也可以點擊右上角以開啟設定</string>
     <string name="seek_backward_content_description">向後搜尋%s秒</string>
     <string name="seek_forward_content_description">向前搜尋%s秒</string>
-    <string name="open_vlc">開啟 Mix Wave</string>
+    <string name="open_vlc">開啟 Osho Discourse</string>
     <string name="playing">正在播放</string>
     <string name="disable_track">停用軌道</string>
     <string name="ascending">遞增</string>
@@ -1316,7 +1316,7 @@
     <string name="ra_otp_title">遠端存取登入嘗試</string>
     <string name="ra_otp_subtitle">如果是您本人，請在其他裝置上輸入此代碼</string>
     <string name="ra_otp_not_me">這不是我</string>
-    <string name="ra_onboarding_welcome_desc">歡迎使用 Android 版 Mix Wave 的遠端存取\n啟用此功能，您將可以控制此裝置的播放等功能</string>
+    <string name="ra_onboarding_welcome_desc">歡迎使用 Android 版 Osho Discourse 的遠端存取\n啟用此功能，您將可以控制此裝置的播放等功能</string>
     <string name="ra_onboarding_how_title">控制您的裝置</string>
     <string name="ra_onboarding_how_desc">控制您的裝置播放，傳送或擷取檔案等</string>
     <string name="ra_onboarding_ssl_title">資料加密</string>
@@ -1342,7 +1342,7 @@
     <string name="podcast_mode">Podcast 模式</string>
     <string name="podcast_mode_help">播放符合以下條件之一的單一曲目時會出現 podcast 控制：\n\t• 長度大於 60 分鐘\n\t• 長度大於 15 分鐘，無專輯名稱\n\t• 類型為 %s</string>
     <string name="voice_control">語音控制</string>
-    <string name="voice_control_help">可以透過 Google 助理透過說出以下命令來控制Mix Wave：\n\t• 播放、暫停、停止、上一個、下一個\n\t• 快退、快轉、重複&lt;全部|一個|關閉&gt;\n \t • 跳至&lt;時間&gt;，跳過&lt;持續時間&gt;\n\t• 這是什麼&lt;藝人|專輯|歌曲&gt;\n\t• 播放[藝人|專輯|歌曲|類型|播放清單] &lt;名稱&gt;</string>
+    <string name="voice_control_help">可以透過 Google 助理透過說出以下命令來控制Osho Discourse：\n\t• 播放、暫停、停止、上一個、下一個\n\t• 快退、快轉、重複&lt;全部|一個|關閉&gt;\n \t • 跳至&lt;時間&gt;，跳過&lt;持續時間&gt;\n\t• 這是什麼&lt;藝人|專輯|歌曲&gt;\n\t• 播放[藝人|專輯|歌曲|類型|播放清單] &lt;名稱&gt;</string>
 
     <string name="network" >網路</string>
     <string name="metered_connection">在計量連線時要對串流執行的動作</string>

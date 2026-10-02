@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Zrušit</string>
     <string name="other">Další…</string>
@@ -45,14 +45,14 @@
     <string name="playback_controls">Ovládání přehrávání</string>
     <string name="medialibrary_scan">Prohledávání Knihovny médií…</string>
     <string name="Medialibrary_progress">Probíhá aktualizace Knihovny médií…</string>
-    <string name="ml_database_warning">Vaše databáze obsahuje seznam všech vašich médií. Bude sdílena s vývojáři Mix Wave</string>
-    <string name="logs_warning">Může obsahovat informace o přehrávaných médiích. Budou sdíleny s vývojáři Mix Wave</string>
+    <string name="ml_database_warning">Vaše databáze obsahuje seznam všech vašich médií. Bude sdílena s vývojáři Osho Discourse</string>
+    <string name="logs_warning">Může obsahovat informace o přehrávaných médiích. Budou sdíleny s vývojáři Osho Discourse</string>
     <string name="play_from_start">Přehrát od začátku</string>
     <string name="play_as_audio">Přehrát jako zvuk</string>
     <string name="play_as_video">Přehrát jako video</string>
     <string name="return_to_video">Obnovit video při dlouhém stisknutí na obal</string>
     <string name="video_app_switch_title">Režim Na pozadí/Obraz v obraze</string>
-    <string name="video_app_switch_summary">Vybrat režim přehrávání v případě přepnutí z přehrávání videa v aplikaci Mix Wave do jiné aplikace.</string>
+    <string name="video_app_switch_summary">Vybrat režim přehrávání v případě přepnutí z přehrávání videa v aplikaci Osho Discourse do jiné aplikace.</string>
     <string name="play_pip_title">Přehrát v režimu Obraz v obraze</string>
     <string name="play_as_audio_background">Přehrát v režimu Na pozadí</string>
     <string name="append">Přidat do fronty přehrávání</string>
@@ -337,12 +337,12 @@
     <string name="hold_to_stop">Dlouze stiskněte pro zastavení přehrávání</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Revize</string>
     <string name="about">O aplikaci</string>
-    <string name="about_vlc_text">Mix Wave pro Android™ je port přehrávače médií Mix Wave, oblíbeného přehrávače médií s otevřeným zdrojovým kódem. Verze pro Android™ dokáže číst všechny soubory a síťové streamy. </string>
+    <string name="about_vlc_text">Osho Discourse pro Android™ je port přehrávače médií Osho Discourse, oblíbeného přehrávače médií s otevřeným zdrojovým kódem. Verze pro Android™ dokáže číst všechny soubory a síťové streamy. </string>
     <string name="authors">Autoři</string>
-    <string name="vlc_authors">a autoři aplikace Mix Wave.</string>
+    <string name="vlc_authors">a autoři aplikace Osho Discourse.</string>
     <string name="is_compiled_by">Zkompilovaný</string>
     <string name="is_signed_by">Podpis: </string>
     <string name="sources">Zdrojový kód</string>
@@ -521,9 +521,9 @@
     <string name="replaygain_track">Skladba</string>
     <string name="replaygain_album">Album</string>
     <string name="aout">Zvukový výstup</string>
-    <string name="aout_summary">Změnit režim zvukového výstupu pro Mix Wave přehrávač.</string>
+    <string name="aout_summary">Změnit režim zvukového výstupu pro Osho Discourse přehrávač.</string>
     <string name="audio_ducking_title">Snížit hlasitost při oznámení</string>
-    <string name="audio_ducking_summary">Snížit hlasitost Mix Wave přehrávače pro zvýraznění zvukových upozornění, navigačních pokynů nebo hlasu asistenta.</string>
+    <string name="audio_ducking_summary">Snížit hlasitost Osho Discourse přehrávače pro zvýraznění zvukových upozornění, navigačních pokynů nebo hlasu asistenta.</string>
     <string name="casting_category">Přenos</string>
     <string name="remote_access">Vzdálený přístup</string>
     <string name="remote_access_version_title">Verze vzdáleného přístupu</string>
@@ -599,7 +599,7 @@
     <string name="clear_media_db">Smazat databázi médií</string>
     <string name="clear_media_database_summary">Smazat datábázi a spustit záznam protokolu znovu.</string>
     <string name="clear_app_data">Smazat data aplikace</string>
-    <string name="clear_app_data_summary">Smazat data Mix Wave pro Android.</string>
+    <string name="clear_app_data_summary">Smazat data Osho Discourse pro Android.</string>
     <string name="clear_history">Smazat historii</string>
     <string name="clear_history_message">Ztratíte Vaše údaje o historii, aktuální seznamy skladeb a přehrávání</string>
     <string name="set_locale">Nastavit jazyk</string>
@@ -643,10 +643,10 @@
     <string name="browser_quick_play_default">Rychlé přehrávání jako výchozí akce</string>
     <string name="browser_quick_play_default_summary">Pokud je aktivováno, klepnutím na položku prohlížeče se přehraje pomocí rychlého přehrávání</string>
 
-    <string name="serious_crash">Vyskytla se závažná chyba. Mix Wave přehrávač bude ukončen.</string>
-    <string name="help_us_send_log">Pomozte nám vylepšit Mix Wave přehrávač zasláním protokolu o selhání aplikace:</string>
+    <string name="serious_crash">Vyskytla se závažná chyba. Osho Discourse přehrávač bude ukončen.</string>
+    <string name="help_us_send_log">Pomozte nám vylepšit Osho Discourse přehrávač zasláním protokolu o selhání aplikace:</string>
     <string name="ml_crash_send">Došlo k pádu knihovny s médii. Pomozte nám odesláním záznamů o činnosti.</string>
-    <string name="restart_vlc">Restartovat Mix Wave přehrávač</string>
+    <string name="restart_vlc">Restartovat Osho Discourse přehrávač</string>
     <string name="send_log">Odeslat protokol</string>
     <string name="sending_log">Odesílání protokolu…</string>
 
@@ -691,7 +691,7 @@
     <string name="medialibrary_directories">Složky Knihovny médií</string>
 
     <!--What's new-->
-    <string name="whats_new_title">Co je nového ve Mix Wave pro Android %s</string>
+    <string name="whats_new_title">Co je nového ve Osho Discourse pro Android %s</string>
     <string name="whats_new_37_equalizer_text">Ekvalizér byl kompletně přepracován. Je snadněji použitelný, umožňuje deaktivovat výchozí předvolby a zálohovat, obnovovat a sdílet vaše předvolby.</string>
     <string name="whats_new_37_import_export">Vylepšili jsme funkci zálohování a obnovení nastavení. Nyní umožňuje zálohovat více nastavení, včetně předvoleb ekvalizéru.</string>
     <string name="whats_new_37_android_auto">Kvůli novým omezením v obchodě byla všechna nastavení Android Auto přesunuta do mobilní aplikace. Ta se stává novým místem, kde můžete změnit svůj zážitek z řízení automobilu.</string>
@@ -700,7 +700,7 @@
 <!--    update-->
     <string name="update_title">Je dostupná aktualizace</string>
     <string name="install_nightly_title">Nainstalovat noční verzi</string>
-    <string name="update_text">Je k dispozici nová noční verze Mix Wave pro Android!\n\nToto se vám zobrazuje, protože používáte noční sestavení.</string>
+    <string name="update_text">Je k dispozici nová noční verze Osho Discourse pro Android!\n\nToto se vám zobrazuje, protože používáte noční sestavení.</string>
     <string name="install_text">Noční verze se každý den automaticky aktualizují o nejnovější funkce a opravy.\n\nStáhnout nyní?</string>
 
     <string name="open_in_browser">Otevřít v prohlížeči</string>
@@ -721,28 +721,28 @@
     <string name="music_now_playing">Nyní hraje…</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Světlý widget Mix Wave</string>
-    <string name="widget_name_b">Tmavý widget Mix Wave</string>
-    <string name="widget_name_mini_player">Mini přehrávač Mix Wave</string>
+    <string name="widget_name_w">Světlý widget Osho Discourse</string>
+    <string name="widget_name_b">Tmavý widget Osho Discourse</string>
+    <string name="widget_name_mini_player">Mini přehrávač Osho Discourse</string>
     <string name="widget_old_text">Aktualizovali jsme widgety!</string>
     <string name="widget_old_description_start">Dobré zprávy! Vydali jsme vylepšené widgety.\nNabízejí lepší odezvu a možnosti přizpůsobení</string>
     <string name="whats_next">Co bude dál?</string>
     <string name="widget_old_description_end">Zjistili jsme, že na Vaší domovské obrazovce se používají widgety. Bohužel nejsou kompatibilní s vylepšenými widgety.\nV závislosti na konkrétní domovské obrazovce můžete staré widgety odstranit a nahradit je novými.</string>
     <string name="click_here">Klikněte zde pro více informací.</string>
-    <string name="allow_storage_access_title">Povolit aplikaci Mix Wave přístup k video a zvukovým souborům</string>
-    <string name="allow_storage_access_description">Aplikace Mix Wave vyžaduje oprávnění pro přístup k multimediálním souborům na tomto zařízení.</string>
-    <string name="partial_content">Mix Wave nemá přístup ke všem souborům</string>
+    <string name="allow_storage_access_title">Povolit aplikaci Osho Discourse přístup k video a zvukovým souborům</string>
+    <string name="allow_storage_access_description">Aplikace Osho Discourse vyžaduje oprávnění pro přístup k multimediálním souborům na tomto zařízení.</string>
+    <string name="partial_content">Osho Discourse nemá přístup ke všem souborům</string>
     <string name="partial_content_description">Od Androidu 11 potřebují aplikace pro přístup k souborům v zařízení speciální oprávnění.\n\n%s</string>
     <string name="never_ask_again">Znovu se nedotazovat</string>
     <string name="never_show_again">Již nezobrazovat, ani pro budoucí verze</string>
-    <string name="allow_settings_access_ringtone_title">Povolit aplikaci Mix Wave nastavit vyzváněcí melodii</string>
-    <string name="allow_settings_access_ringtone_description">Aplikace Mix Wave vyžaduje oprávnění pro nastavení této skladby jako vyzváněcí melodie.</string>
-    <string name="allow_settings_access_brightness_title">Povolit aplikaci Mix Wave změnit jas</string>
-    <string name="allow_settings_access_brightness_description">Aplikace Mix Wave vyžaduje oprávnění pro nastavení změny režimu jasu.</string>
-    <string name="allow_draw_overlays_title">Povolit přehrávači Mix Wave zobrazení v popředí</string>
-    <string name="allow_sdraw_overlays_description">Aplikace Mix Wave vyžaduje oprávnění pro zobrazení v popředí.</string>
-    <string name="allow_pip">Povolit přehrávači Mix Wave režim obraz v obraze (PiP)</string>
-    <string name="allow_pip_description">Aplikace Mix Wave vyžaduje oprávnění pro zobrazení videa v režimu obraz v obraze.</string>
+    <string name="allow_settings_access_ringtone_title">Povolit aplikaci Osho Discourse nastavit vyzváněcí melodii</string>
+    <string name="allow_settings_access_ringtone_description">Aplikace Osho Discourse vyžaduje oprávnění pro nastavení této skladby jako vyzváněcí melodie.</string>
+    <string name="allow_settings_access_brightness_title">Povolit aplikaci Osho Discourse změnit jas</string>
+    <string name="allow_settings_access_brightness_description">Aplikace Osho Discourse vyžaduje oprávnění pro nastavení změny režimu jasu.</string>
+    <string name="allow_draw_overlays_title">Povolit přehrávači Osho Discourse zobrazení v popředí</string>
+    <string name="allow_sdraw_overlays_description">Aplikace Osho Discourse vyžaduje oprávnění pro zobrazení v popředí.</string>
+    <string name="allow_pip">Povolit přehrávači Osho Discourse režim obraz v obraze (PiP)</string>
+    <string name="allow_pip_description">Aplikace Osho Discourse vyžaduje oprávnění pro zobrazení videa v režimu obraz v obraze.</string>
     <string name="permission_ask_again">Povolit oprávnění</string>
     <string name="pick_file">Vyberte soubor</string>
     <string name="permission_not_granted">Oprávnění nebylo povoleno</string>
@@ -751,9 +751,9 @@
     <string name="permission_onboarding_no_perm">Nebudete moci automaticky vyhledávat Vaše média.\nBudete moci přehrávat pouze streamy nebo síťová média</string>
     <string name="permission_onboarding_perm_media">Budete moci automaticky vyhledávat pouze standartní mediální soubory</string>
     <string name="permission_onboarding_perm_all">Budete moci automaticky vyhledávat všechny Vaše soubory všech typů k přehrávání včetně nestandardních nebo komprimovaných souborů</string>
-    <string name="exit_app">Ukončit Mix Wave přehrávač</string>
-    <string name="exit_app_msg">Chcete ukončit Mix Wave přehrávač?</string>
-    <string name="widget_explanation_title">Widgety Mix Wave</string>
+    <string name="exit_app">Ukončit Osho Discourse přehrávač</string>
+    <string name="exit_app_msg">Chcete ukončit Osho Discourse přehrávač?</string>
+    <string name="widget_explanation_title">Widgety Osho Discourse</string>
     <string name="widget_explanation_size">Widgety jsou dostupné v různých velikostech a vzhledech</string>
     <string name="widget_explanation_resize">Chcete-li změnit widget, dlouze jej stiskněte a změňte jeho velikost</string>
     <string name="widget_explanation_end">Widgety lze přizpůsobit podle Vašich představ!</string>
@@ -810,7 +810,7 @@
     <string name="length">Délka</string>
     <string name="tv_settings_hint">Dlouze stiskněte tlačítko OK pro výběr složek</string>
     <string name="ml_external_storage_title">Bylo zjištěno nové externí úložiště</string>
-    <string name="ml_external_storage_msg">Chcete, aby Mix Wave přehrávač přidal médium \'%1$s\' do Vaší Knihovny médií?</string>
+    <string name="ml_external_storage_msg">Chcete, aby Osho Discourse přehrávač přidal médium \'%1$s\' do Vaší Knihovny médií?</string>
     <string name="ml_external_storage_accept">Ano</string>
     <string name="ml_external_storage_decline">Ne</string>
     <string name="auto_last_added_media">Naposledy přidáné</string>
@@ -840,8 +840,8 @@
     <string name="browser_storages">Úložiště</string>
     <string name="msg_delete_failed">Chyba smazání média \'%1$s\'</string>
     <string name="renderer_list_title">Odeslat do zařízení</string>
-    <string name="sdcard_permission_dialog_title">Musíte aplikaci Mix Wave povolit oprávnění k zápisu na kartu SD.</string>
-    <string name="sdcard_permission_dialog_message">Aplikace Mix Wave nemůže tento soubor smazat bez oprávnění k zápisu.\nPřejděte na kartu SD a klikněte na \'Vybrat\'.\nV pravém horním rohu obrazovky možná budete muset kliknout na \'Zobrazit kartu SD\'.</string>
+    <string name="sdcard_permission_dialog_title">Musíte aplikaci Osho Discourse povolit oprávnění k zápisu na kartu SD.</string>
+    <string name="sdcard_permission_dialog_message">Aplikace Osho Discourse nemůže tento soubor smazat bez oprávnění k zápisu.\nPřejděte na kartu SD a klikněte na \'Vybrat\'.\nV pravém horním rohu obrazovky možná budete muset kliknout na \'Zobrazit kartu SD\'.</string>
     <string name="dialog_sd_wizard">Zobrazit</string>
     <string name="renderers_disconnect">Odpojit zařízení</string>
     <string name="audio_digital_failed">Chyba změny stavu digitálního výstupu zvuku</string>
@@ -856,7 +856,7 @@
     <string name="playback_rewind">Posunout dozadu</string>
     <string name="playback_forward">Posunout vpřed</string>
     <string name="ml_wizard_scan_checkbox">Prohledat zařízení pro multimediální obsah</string>
-    <string name="ml_wizard_description">Vybrat zda má Mix Wave přehrávač prohledat Vaše zařízení a vytvořit Knihovnu médií, nebo zda jej chcete používat jako jednoduchý přehrávač s integrovaným prohlížečem.</string>
+    <string name="ml_wizard_description">Vybrat zda má Osho Discourse přehrávač prohledat Vaše zařízení a vytvořit Knihovnu médií, nebo zda jej chcete používat jako jednoduchý přehrávač s integrovaným prohlížečem.</string>
     <string name="tv_my_new_videos">Nová videa</string>
     <string name="cast_option_title">Přenos média na vzdálenou obrazovku</string>
     <string name="otg_device_title">Zařízení OTG</string>
@@ -895,29 +895,29 @@
     <string name="ctx_player_subs_track">Titulky</string>
     <string name="ctx_pip_title">Obraz v obraze</string>
     <string name="device_dialog_title">Připojeno externí zařízení</string>
-    <string name="device_dialog_message">K Vašemu TV zařízení bylo připojeno nové úložné zařízení. Chcete jej otevřít pomocí Mix Wave přehrávače? </string>
+    <string name="device_dialog_message">K Vašemu TV zařízení bylo připojeno nové úložné zařízení. Chcete jej otevřít pomocí Osho Discourse přehrávače? </string>
     <string name="videos_folders_title">Videa podle složek</string>
     <string name="videos_groups_title">Skupina videí</string>
     <string name="video_save_clone_mode">Chcete automaticky aktivovat režim Vzdálené ovládání?</string>
     <string name="video_remote_enable">Přepnout do režimu Vzdálené ovládání</string>
     <string name="video_remote_disable">Duplikovat obrazovku</string>
     <string name="removed_from_playlist_anonymous">Položky odstraněny ze seznamu skladeb</string>
-    <string name="welcome_title">Vítejte v aplikaci Mix Wave</string>
+    <string name="welcome_title">Vítejte v aplikaci Osho Discourse</string>
     <string name="welcome_subtitle">Bezplatný multimediální přehrávač\ns licencí Open source</string>
-    <string name="permission_media">Aplikace Mix Wave vyžaduje oprávnění pro přístup k médiím na Vašem zařízení.</string>
-    <string name="permission_video">Aplikace Mix Wave požaduje Vaše povolení pro přístup k médiím videa na Vašem zařízení</string>
-    <string name="permission_audio">Aplikace Mix Wave požaduje Vaše povolení pro přístup ke zvukovým médiím na Vašem zařízení</string>
-    <string name="medialibrary_scan_explanation">Aplikace Mix Wave umí automaticky prohledat zařízení a najít mediální soubory.</string>
-    <string name="player_title_fd_warning">Bez oprávnění k ukládání nemůže Mix Wave načíst mediální název ani uložit postup.</string>
+    <string name="permission_media">Aplikace Osho Discourse vyžaduje oprávnění pro přístup k médiím na Vašem zařízení.</string>
+    <string name="permission_video">Aplikace Osho Discourse požaduje Vaše povolení pro přístup k médiím videa na Vašem zařízení</string>
+    <string name="permission_audio">Aplikace Osho Discourse požaduje Vaše povolení pro přístup ke zvukovým médiím na Vašem zařízení</string>
+    <string name="medialibrary_scan_explanation">Aplikace Osho Discourse umí automaticky prohledat zařízení a najít mediální soubory.</string>
+    <string name="player_title_fd_warning">Bez oprávnění k ukládání nemůže Osho Discourse načíst mediální název ani uložit postup.</string>
     <string name="onboarding_theme_title">Vybrat téma prostředí</string>
     <string name="done">Hotovo</string>
     <string name="onboarding_scan_title">Automaticky vyhledat Vaše média</string>
-    <string name="onboarding_all_set">Mix Wave je připraveno!</string>
+    <string name="onboarding_all_set">Osho Discourse je připraveno!</string>
     <string name="onboarding_permission_given">Nyní lze automaticky vyhledávat média, používat externí titulky a přehrávat streamy nebo síťová média</string>
-    <string name="daynight_system_explanation">Aplikace Mix Wave se automaticky přepne do tmavého režimu podle nastavení systému.</string>
-    <string name="daynight_legacy_explanation">Aplikace Mix Wave se automaticky přepne do nočního režimu ve vhodném čase.</string>
-    <string name="onboarding_scanning_enable">Povolit aplikaci Mix Wave prohledat zařízení pro multimédia</string>
-    <string name="onboarding_scan_customize">Vybrat složky, které bude aplikace Mix Wave prohledávat.</string>
+    <string name="daynight_system_explanation">Aplikace Osho Discourse se automaticky přepne do tmavého režimu podle nastavení systému.</string>
+    <string name="daynight_legacy_explanation">Aplikace Osho Discourse se automaticky přepne do nočního režimu ve vhodném čase.</string>
+    <string name="onboarding_scanning_enable">Povolit aplikaci Osho Discourse prohledat zařízení pro multimédia</string>
+    <string name="onboarding_scan_customize">Vybrat složky, které bude aplikace Osho Discourse prohledávat.</string>
     <string name="button_medialibrary_preferences">Přejít do nastavení Knihovny médií</string>
     <string name="light_theme">Světlé téma</string>
     <string name="add">Přidat</string>
@@ -929,7 +929,7 @@
     <string name="popup_force_legacy_title">Použít vlastní režim Obraz v obraze</string>
     <string name="popup_force_legacy_summary">Použít vlastní režim Obraz v obraze (PiP) s možností změny velikosti.</string>
     <string name="restore_background_video_title">Obnovit video z pozadí</string>
-    <string name="restore_background_video_summary">Obnovit video z pozadí při opětovném otevření Mix Wave pro Android</string>
+    <string name="restore_background_video_summary">Obnovit video z pozadí při opětovném otevření Osho Discourse pro Android</string>
     <string name="device_default">Výchozí (podle systému)</string>
     <string name="track_number">Počet skladeb: %d</string>
     <string name="jump_to">Přejít</string>
@@ -962,14 +962,14 @@
     <string name="display_in_grid">Zobrazit jako mřížku</string>
     <string name="dump_db_succes">Protokol databáze uložen do kořenového adresáře interního úložiště.</string>
     <string name="dump_db_failure">Chyba uložení protokolu databáze.</string>
-    <string name="send_crash_title">Zpráva o selhání aplikace Mix Wave</string>
-    <string name="send_crash_description">Odesláním zprávy o selhání nám pomůžete zlepšit stabilitu aplikace Mix Wave.</string>
+    <string name="send_crash_title">Zpráva o selhání aplikace Osho Discourse</string>
+    <string name="send_crash_description">Odesláním zprávy o selhání nám pomůžete zlepšit stabilitu aplikace Osho Discourse.</string>
     <string name="send_crash_warning">Před odesláním odstraňte veškerá citlivá data, která nechcete odeslat.</string>
     <string name="include_medialib">Zahrnout Vaši databázi</string>
     <string name="include_logs">Zahrnout Vaše záznamy</string>
-    <string name="vlc_reporter">Mix Wave zpravodaj</string>
-    <string name="welcome_beta_title">Mix Wave Beta</string>
-    <string name="welcome_beta_description">Vítejte v aplikaci Mix Wave Beta.\nUpozorňujeme, že tato verze může obsahovat chyby.</string>
+    <string name="vlc_reporter">Osho Discourse zpravodaj</string>
+    <string name="welcome_beta_title">Osho Discourse Beta</string>
+    <string name="welcome_beta_description">Vítejte v aplikaci Osho Discourse Beta.\nUpozorňujeme, že tato verze může obsahovat chyby.</string>
     <string name="welcome_beta_description_bugs">Pokud zjistíte chyby, nahlaste je na našem fóru nebo nám odešlete zprávu o chybě.</string>
     <string name="welcome_beta_description_crashes">Pokud narazíte na chybu nebo pád aplikace, otevřete obrazovku O aplikaci a použijte tlačítko Zpětná vazba > Kontaktovat tým podpory.</string>
     <string name="send">Odeslat</string>
@@ -1013,8 +1013,8 @@
     <string name="recently_played">Nedávno přehrané</string>
     <string name="recently_added">Nedávno přidané</string>
     <string name="playback_multiple_errors">Nelze přehrát více médií</string>
-    <string name="clear_media_db_message">Ztratíte Vaše údaje o přehrávání, záložky a seznamy skladeb, které jste vytvořili, ale zachováte nastavení Mix Wave pro Android.</string>
-    <string name="clear_app_data_message">Ztratíte Vaše údaje o přehrávání, záložky, seznamy skladeb a všechna nastavení Mix Wave.
+    <string name="clear_media_db_message">Ztratíte Vaše údaje o přehrávání, záložky a seznamy skladeb, které jste vytvořili, ale zachováte nastavení Osho Discourse pro Android.</string>
+    <string name="clear_app_data_message">Ztratíte Vaše údaje o přehrávání, záložky, seznamy skladeb a všechna nastavení Osho Discourse.
 </string>
     <string name="clear">Smazat</string>
     <string name="abrepeat_add_first_marker">Nastavit začátek</string>
@@ -1071,19 +1071,19 @@
     <string name="sub_result_by_name_hearing_impaired">Pouze sluchově postižení</string>
 
     <string name="sub_result_by_file">Výsledky pro Váš soubor</string>
-    <string name="donate">Přispět Mix Wave</string>
-    <string name="donate_desc">Podpořte dobrovolné tvůrce aplikace Mix Wave</string>
+    <string name="donate">Přispět Osho Discourse</string>
+    <string name="donate_desc">Podpořte dobrovolné tvůrce aplikace Osho Discourse</string>
     <string name="donate_subscribtion">Měsíční příspěvky</string>
     <string name="donate_send">Začít přispívat</string>
-    <string name="donation_description">Vaše příspěvky nám umožní:\nVylepšovat aplikaci Mix Wave\nPodpořit asociaci Mix Wave.</string>
+    <string name="donation_description">Vaše příspěvky nám umožní:\nVylepšovat aplikaci Osho Discourse\nPodpořit asociaci Osho Discourse.</string>
     <string name="subscription_purchased">Jste přihlášen k měsíčním příspěvkům.</string>
     <string name="subscription_cancel">Odhlásit se můžete v Obchodě Play.</string>
     <string name="subscription_cancel_tv">Jak se odhlásit</string>
     <string name="donate_unsubscribe_tv">Pro odhlášeni otevřete %s v telefonu nebo v počítači, anebo naskenujte tento kód:</string>
-    <string name="tip_jar">Přispět Mix Wave</string>
+    <string name="tip_jar">Přispět Osho Discourse</string>
     <string name="thank_you">Poděkování</string>
-    <string name="thank_you_desc">Děkujeme za Vaše příspěvky!\nPomůžou nám vylepšit aplikaci Mix Wave!</string>
-    <string name="donate_again">Přispět Mix Wave znovu</string>
+    <string name="thank_you_desc">Děkujeme za Vaše příspěvky!\nPomůžou nám vylepšit aplikaci Osho Discourse!</string>
+    <string name="donate_again">Přispět Osho Discourse znovu</string>
 
     <string name="mark_as_played">Označit jako přehrané</string>
     <string name="mark_as_not_played">Označit jako nepřehrané</string>
@@ -1100,7 +1100,7 @@
     <string name="air_action_next">Přehrát další položku</string>
     <string name="air_action_previous">Přehrát předchozí položku</string>
     <string name="allow_otg">Povolit přístup OTG</string>
-    <string name="allow_otg_description">Vyberte svůj disk OTG pro přístup Mix Wave.</string>
+    <string name="allow_otg_description">Vyberte svůj disk OTG pro přístup Osho Discourse.</string>
     <string name="timeout_infinite">Nekonečné</string>
     <string name="video_hud_timeout">Zpoždění skrytí ovladačů přehrávače videa</string>
     <string name="video_hud_timeout_summary">%ss</string>
@@ -1168,7 +1168,7 @@
     <string name="optional_features_warning">Tato funkce je v beta verzi a může způsobit selhání a nestabilitu.</string>
     <string name="network_indexing">Indexování sítě</string>
     <string name="network_indexing_warning">Indexování sítě je aktuálně ve verzi beta.\nZnámé problémy:\n• Pomalý výkon\n\nPokud narazíte na nějaké další problémy, nahlaste je na našem fóru. </string>
-    <string name="start_vlc">Spustit Mix Wave</string>
+    <string name="start_vlc">Spustit Osho Discourse</string>
     <string name="jump_delay">Časový posun dopředu/dozadu</string>
     <string name="long_jump_delay">Časový posun dopředu/dozadu při dlouhém stisknutí</string>
     <string name="jump_delay_summary">%s sek.</string>
@@ -1192,7 +1192,7 @@
     <string name="lock_use_sensor_summary">Použít senzor k umožnění zpětné orientace, když je orientace uzamčena.</string>
     <string name="start">Spustit</string>
     <string name="notification_permission">Oprávnění pro oznámení</string>
-    <string name="notification_permission_explanation">Aplikace Mix Wave vyžaduje oprávnění pro zasílání oznámení.\nAplikace Vás upozorní pouze při skenování Vašich médií nebo při použití vlastního videa v režimu obraz v obraze.\nOdmítnutím oprávnění zůstanou oznámení skrytá. Na funkčnost aplikace Mix Wave odmítnutí oprávnění nemá vliv.</string>
+    <string name="notification_permission_explanation">Aplikace Osho Discourse vyžaduje oprávnění pro zasílání oznámení.\nAplikace Vás upozorní pouze při skenování Vašich médií nebo při použití vlastního videa v režimu obraz v obraze.\nOdmítnutím oprávnění zůstanou oznámení skrytá. Na funkčnost aplikace Osho Discourse odmítnutí oprávnění nemá vliv.</string>
     <string name="permission">Oprávnění</string>
     <string name="permission_no_access">Žádný přístup k souboru</string>
     <string name="permissions">Oprávnění</string>
@@ -1265,7 +1265,7 @@
     <string name="widget_show_configure_summary">Pokud není daná volba zobrazena, můžete kliknutím na pravý horní roh otevřít možnosti přizpůsobení</string>
     <string name="seek_backward_content_description">Posunout o %s sek. dozadu</string>
     <string name="seek_forward_content_description">Posunout o %s sek. dopředu</string>
-    <string name="open_vlc">Otevřít Mix Wave</string>
+    <string name="open_vlc">Otevřít Osho Discourse</string>
     <string name="playing">Přehrávání</string>
     <string name="disable_track">Zakázat stopu</string>
     <string name="ascending">Vzestupně</string>
@@ -1370,7 +1370,7 @@
     <string name="ra_browser_audio_not_found">Média nenalezena nebo nelze přehrávat v prohlížeči</string>
     <string name="ra_browser_audio_unsupported_format">Zvukový formát není podporován ve vašem prohlížeči</string>
 
-    <string name="ra_onboarding_welcome_desc">Vítejte ve vzdáleném přístupu Mix Wave pro Android\nPovolením budete moci ovládat přehrávání tohoto zařízení a mnoho dalšího</string>
+    <string name="ra_onboarding_welcome_desc">Vítejte ve vzdáleném přístupu Osho Discourse pro Android\nPovolením budete moci ovládat přehrávání tohoto zařízení a mnoho dalšího</string>
     <string name="ra_onboarding_how_title">Ovládání vašeho zařízení</string>
     <string name="ra_onboarding_how_desc">Ovládání přehrávání ve vašem zařízení, odesílání nebo získávání údajů a jiné</string>
     <string name="ra_onboarding_ssl_title">Šifrování údajů</string>
@@ -1396,7 +1396,7 @@
     <string name="podcast_mode">Režim podcastů</string>
     <string name="podcast_mode_help">Ovládací prvky podcastu se zobrazí při přehrávání jedné skladby, která splňuje jedno z následujících kritérií:\n\t• Délka větší než 60 minut\n\t• Délka větší než 15 minut bez názvu alba\n\t• Žánr je %s</string>
     <string name="voice_control">Ovládání hlasem</string>
-    <string name="voice_control_help">Mix Wave lze ovládat pomocí Asistenta Google vyslovením následujících příkazů:\n\t• Přehrát, Pozastavit, Zastavit, Předchozí, Další\n\t• Posunout dozadu, Posunout vpřed, Opakovat &lt;vše|jednou|vypnuto&gt;\n\t • Přejít na &lt;čas&gt;, Přeskočit &lt;délku&gt;\n\t• Co je to za &lt;umělce|album|skladbu&gt;\n\t• Přehrát [interpreta|album|skladbu|žánr|seznam skladeb] &lt;název&gt;</string>
+    <string name="voice_control_help">Osho Discourse lze ovládat pomocí Asistenta Google vyslovením následujících příkazů:\n\t• Přehrát, Pozastavit, Zastavit, Předchozí, Další\n\t• Posunout dozadu, Posunout vpřed, Opakovat &lt;vše|jednou|vypnuto&gt;\n\t • Přejít na &lt;čas&gt;, Přeskočit &lt;délku&gt;\n\t• Co je to za &lt;umělce|album|skladbu&gt;\n\t• Přehrát [interpreta|album|skladbu|žánr|seznam skladeb] &lt;název&gt;</string>
 
     <string name="network" >Síť</string>
     <string name="metered_connection">Akce pro streamy, když je připojení měřeno</string>

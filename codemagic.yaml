@@ -1,6 +1,6 @@
 workflows:
-  mix-wave-android:
-    name: Mix Wave Android
+  osho-discourse-android:
+    name: Osho Discourse Android
     max_build_duration: 120
     instance_type: mac_mini_m2
     triggering:
@@ -17,7 +17,7 @@ workflows:
       groups:
         - google_play
       vars:
-        PACKAGE_NAME: com.sandalbar.mixwave
+        PACKAGE_NAME: com.oshodiscourse
     scripts:
       - name: Set Android SDK location
         script: |

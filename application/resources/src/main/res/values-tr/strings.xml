@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Tamam</string>
     <string name="cancel">İptal</string>
     <string name="other">Diğer</string>
@@ -43,14 +43,14 @@
     <string name="playback_controls">Oynatma denetimleri</string>
     <string name="medialibrary_scan">Ortam kitaplığı taraması</string>
     <string name="Medialibrary_progress">Ortam kitaplığı tarama işlemi güncellemeleri</string>
-    <string name="ml_database_warning">Veri tabanınızda, tüm ortam dosyalarınızın listesi bulunur. Bu liste Mix Wave geliştiricileriyle paylaşılacak.</string>
-    <string name="logs_warning">Oynattığınız ortam dosyaları ile ilgili bilgiler içerebilir. Bu bilgiler Mix Wave geliştiricileriyle paylaşılacak.</string>
+    <string name="ml_database_warning">Veri tabanınızda, tüm ortam dosyalarınızın listesi bulunur. Bu liste Osho Discourse geliştiricileriyle paylaşılacak.</string>
+    <string name="logs_warning">Oynattığınız ortam dosyaları ile ilgili bilgiler içerebilir. Bu bilgiler Osho Discourse geliştiricileriyle paylaşılacak.</string>
     <string name="play_from_start">Baştan oynat</string>
     <string name="play_as_audio">Ses olarak oynat</string>
     <string name="play_as_video">Görüntü olarak oynat</string>
     <string name="return_to_video">Görüntüyü geri yüklemek için kapak üzerine uzun dokunun</string>
     <string name="video_app_switch_title">Arka plan/PiP kipi</string>
-    <string name="video_app_switch_summary">Görüntü oynatılırken başka bir uygulamaya geçildiğinde Mix Wave tarafından yapılacak işlemi seçin</string>
+    <string name="video_app_switch_summary">Görüntü oynatılırken başka bir uygulamaya geçildiğinde Osho Discourse tarafından yapılacak işlemi seçin</string>
     <string name="play_pip_title">Görüntüler resim içinde resim kipinde oynatılsın</string>
     <string name="play_as_audio_background">Görüntüler arka planda oynatılsın</string>
     <string name="append">Oynatma kuyruğuna ekle</string>
@@ -315,12 +315,12 @@
     <string name="hold_to_stop">Basılı tutarak durdurun</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Değişiklik</string>
     <string name="about">Hakkında</string>
-    <string name="about_vlc_text">Android™ için Mix Wave, çok kullanılan açık kaynaklı Mix Wave ortam oynatıcının bir parçasıdır. Android™ sürümü tüm dosya ve ağ akışlarını okuyabilir.</string>
+    <string name="about_vlc_text">Android™ için Osho Discourse, çok kullanılan açık kaynaklı Osho Discourse ortam oynatıcının bir parçasıdır. Android™ sürümü tüm dosya ve ağ akışlarını okuyabilir.</string>
     <string name="authors">Geliştirenler</string>
-    <string name="vlc_authors">ve Mix Wave geliştiricileri.</string>
+    <string name="vlc_authors">ve Osho Discourse geliştiricileri.</string>
     <string name="is_compiled_by">Derleyici</string>
     <string name="is_signed_by">İmzalayan</string>
     <string name="sources">Kaynak kodu</string>
@@ -499,8 +499,8 @@
     <string name="replaygain_track">Kayıt</string>
     <string name="replaygain_album">Albüm</string>
     <string name="aout">Ses çıkışı</string>
-    <string name="aout_summary">Mix Wave tarafından kullanılan ses çıkışı yöntemini değiştirir</string>
-    <string name="audio_ducking_title">Bildirim geldiğinde Mix Wave ses düzeyi azaltılsın</string>
+    <string name="aout_summary">Osho Discourse tarafından kullanılan ses çıkışı yöntemini değiştirir</string>
+    <string name="audio_ducking_title">Bildirim geldiğinde Osho Discourse ses düzeyi azaltılsın</string>
     <string name="audio_ducking_summary">Açıldığında, bildirim seslerinin, yol bulma bilgilendirmelerinin ya da yardımcı konuşmalarının duyulması kolaylaşır</string>
     <string name="casting_category">Aktarım</string>
     <string name="remote_access">Uzaktan erişim</string>
@@ -577,7 +577,7 @@
     <string name="clear_media_db">Ortam veri tabanını temizle</string>
     <string name="clear_media_database_summary">Baştan başlamak için veri tabanını temizler</string>
     <string name="clear_app_data">Uygulama verilerini temizle</string>
-    <string name="clear_app_data_summary">Android için Mix Wave verilerini temizle</string>
+    <string name="clear_app_data_summary">Android için Osho Discourse verilerini temizle</string>
     <string name="clear_history">Geçmişi temizle</string>
     <string name="clear_history_message">Tüm geçmişinizi, geçerli listenizi ve ilerlemenizi yitireceksiniz</string>
     <string name="set_locale">Yerelleştirme ayarı</string>
@@ -603,7 +603,7 @@
     <string name="start_logging">Günlük kaydını başlat</string>
     <string name="stop_logging">Günlük kaydını bitir</string>
     <string name="clear_log">Günlüğü temizle</string>
-    <string name="log_service_title">Mix Wave günlük kaydı</string>
+    <string name="log_service_title">Osho Discourse günlük kaydı</string>
     <string name="log_service_text">Günlük panosunu aç</string>
     <string name="copy_to_clipboard">Panoya kopyala</string>
     <string name="copied_to_clipboard">Günlük panoya kopyalandı.</string>
@@ -621,10 +621,10 @@
     <string name="browser_quick_play_default">Varsayılan olarak hızlı oynatılsın</string>
     <string name="browser_quick_play_default_summary">Etkinleştirildiğinde, bir tarayıcı ögesine dokunmak onu hızlı oynatır</string>
 
-    <string name="serious_crash">Ne yazık ki önemli bir sorun çıktığından Mix Wave kapatılacak.</string>
-    <string name="help_us_send_log">Bu çökme kaydını göndererek Mix Wave uygulamasının geliştirilmesine yardımcı olun:</string>
+    <string name="serious_crash">Ne yazık ki önemli bir sorun çıktığından Osho Discourse kapatılacak.</string>
+    <string name="help_us_send_log">Bu çökme kaydını göndererek Osho Discourse uygulamasının geliştirilmesine yardımcı olun:</string>
     <string name="ml_crash_send">Ortam kitaplığı çöktü. Günlük kayıtlarını göndererek bize yardımcı olun.</string>
-    <string name="restart_vlc">Mix Wave yeniden başlatılsın</string>
+    <string name="restart_vlc">Osho Discourse yeniden başlatılsın</string>
     <string name="send_log">Günlüğü gönder</string>
     <string name="sending_log">Günlük gönderiliyor…</string>
 
@@ -667,7 +667,7 @@
     <string name="medialibrary_directories">Ortam kitaplığı klasörleri</string>
 
     <!--What's new-->
-    <string name="whats_new_title">Android için Mix Wave %s yenilikleri</string>
+    <string name="whats_new_title">Android için Osho Discourse %s yenilikleri</string>
     <string name="whats_new_37_equalizer_text">Dengeleyici sıfırdan yeniden hazırlandı. Kullanımı daha kolay. Varsayılan hazır ayarları kullanımdan kaldırmanın yanında hazır ayarlarınızı yedeklemenizi, geri yüklemenizi ve paylaşmanızı sağlar.</string>
     <string name="whats_new_37_import_export">Yedekleme ve geri yükleme ayarları özelliğini geliştirdik. Artık dengeleyici hazır ayarları ile birlikte daha fazla ayar yedeklenebiliyor.</string>
     <string name="whats_new_37_android_auto">Bazı yeni mağaza kısıtlamaları nedeniyle, Android Auto ayarlarının tümü mobil uygulamaya taşındı. Mobil uygulama otomotiv deneyiminizi değiştirmek için yeni bir yer oldu.</string>
@@ -676,7 +676,7 @@
 <!--    update-->
     <string name="update_title">Güncelleme yayınlanmış</string>
     <string name="install_nightly_title">Gecelik sürümü kur</string>
-    <string name="update_text">Yeni bir Android için Mix Wave gecelik sürümü yayınlanmış!\n\nBu iletiyi gecelik bir sürüm kullandığınız için görüyorsunuz.</string>
+    <string name="update_text">Yeni bir Android için Osho Discourse gecelik sürümü yayınlanmış!\n\nBu iletiyi gecelik bir sürüm kullandığınız için görüyorsunuz.</string>
     <string name="install_text">Gecelik sürümler her gün son özellikler ve düzeltmelerle otomatik olarak güncellenir.\n\nŞimdi indirilsin mi?</string>
 
     <string name="open_in_browser">Tarayıcıda aç</string>
@@ -697,28 +697,28 @@
     <string name="music_now_playing">Şimdi oynatılan</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Açık Mix Wave ekran bileşeni</string>
-    <string name="widget_name_b">Koyu Mix Wave ekran bileşeni</string>
-    <string name="widget_name_mini_player">Mix Wave mini oynatıcı</string>
+    <string name="widget_name_w">Açık Osho Discourse ekran bileşeni</string>
+    <string name="widget_name_b">Koyu Osho Discourse ekran bileşeni</string>
+    <string name="widget_name_mini_player">Osho Discourse mini oynatıcı</string>
     <string name="widget_old_text">Ekran bileşenlerimizi güncelledik!</string>
     <string name="widget_old_description_start">İyi haberlerimiz var! Geliştirilmiş ekran bileşenlerini yayınladık.\nArtık daha uyumlu ve özelleştirilebilir</string>
     <string name="whats_next">Sırada ne var?</string>
     <string name="widget_old_description_end">Başlatıcınızda ekran bileşenlerinin zaten olduğunu algıladık. Ne yazık ki, bunlar yeni geliştirilmiş ekran bileşenlerimizle uyumlu değil.\nBaşlatıcınıza bağlı olarak, değiştirilmesi için eski ekran bileşenlerini kaldırmanız gerekebilir.</string>
     <string name="click_here">Ayrıntılı bilgi almak için buraya tıklayın.</string>
-    <string name="allow_storage_access_title">Mix Wave, görüntü ve ses dosyalarına erişebilsin</string>
-    <string name="allow_storage_access_description">Mix Wave bu aygıttaki ortam dosyalarına erişmek için bu izne gerek duyar.</string>
-    <string name="partial_content">Mix Wave, tüm dosyalarınıza erişemiyor</string>
+    <string name="allow_storage_access_title">Osho Discourse, görüntü ve ses dosyalarına erişebilsin</string>
+    <string name="allow_storage_access_description">Osho Discourse bu aygıttaki ortam dosyalarına erişmek için bu izne gerek duyar.</string>
+    <string name="partial_content">Osho Discourse, tüm dosyalarınıza erişemiyor</string>
     <string name="partial_content_description">Android 11 sürümünden başlayarak, uygulamaların tüm aygıt dosyalarına erişebilmesi için özel izin verilmelidir.\n\n%s</string>
     <string name="never_ask_again">Bir daha sorma</string>
     <string name="never_show_again">Bir daha görüntülenmesin, gelecek sürümlerde de</string>
-    <string name="allow_settings_access_ringtone_title">Mix Wave zil sesini ayarlayabilsin</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave geçerli parçayı zil sesiniz olarak ayarlamak için bu izne gerek duyar.</string>
-    <string name="allow_settings_access_brightness_title">Mix Wave parlaklık kipini ayarlayabilsin</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave, parlaklık kipini ayarlamak için bu izne gerek duyar.</string>
-    <string name="allow_draw_overlays_title">Mix Wave oynatıcı diğer uygulamaların üzerine açılabilsin</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave oynatıcı penceresini diğer uygulamaların üzerine açmak için bu izne gerek duyar.</string>
-    <string name="allow_pip">Mix Wave oynatıcı görüntü içinde görüntü başlatabilsin</string>
-    <string name="allow_pip_description">Mix Wave oynatıcının görüntü içinde görüntü kipini kullanabilmesi için bu izni vermeniz gerekir.</string>
+    <string name="allow_settings_access_ringtone_title">Osho Discourse zil sesini ayarlayabilsin</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse geçerli parçayı zil sesiniz olarak ayarlamak için bu izne gerek duyar.</string>
+    <string name="allow_settings_access_brightness_title">Osho Discourse parlaklık kipini ayarlayabilsin</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse, parlaklık kipini ayarlamak için bu izne gerek duyar.</string>
+    <string name="allow_draw_overlays_title">Osho Discourse oynatıcı diğer uygulamaların üzerine açılabilsin</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse oynatıcı penceresini diğer uygulamaların üzerine açmak için bu izne gerek duyar.</string>
+    <string name="allow_pip">Osho Discourse oynatıcı görüntü içinde görüntü başlatabilsin</string>
+    <string name="allow_pip_description">Osho Discourse oynatıcının görüntü içinde görüntü kipini kullanabilmesi için bu izni vermeniz gerekir.</string>
     <string name="permission_ask_again">İzin ver</string>
     <string name="pick_file">Bir dosya seçin</string>
     <string name="permission_not_granted">İzin verilmedi</string>
@@ -727,9 +727,9 @@
     <string name="permission_onboarding_no_perm">Ortamlarınızı otomatik olarak keşfedemeyeceksiniz\nYalnızca yayın akışlarını ya da ağ ortamlarını oynatabilirsiniz</string>
     <string name="permission_onboarding_perm_media">Yalnızca standart ortam dosyalarını otomatik olarak keşfedebileceksiniz</string>
     <string name="permission_onboarding_perm_all">Garip olanlar veya sıkıştırılmış dosyalar ile birlikte her tür ortamı oynatmak için tüm dosyalarınızı otomatik olarak keşfedebileceksiniz.</string>
-    <string name="exit_app">Mix Wave kapatılsın</string>
-    <string name="exit_app_msg">Mix Wave uygulamasından çıkmak istediğinize emin misiniz?</string>
-    <string name="widget_explanation_title">Mix Wave bileşenleri</string>
+    <string name="exit_app">Osho Discourse kapatılsın</string>
+    <string name="exit_app_msg">Osho Discourse uygulamasından çıkmak istediğinize emin misiniz?</string>
+    <string name="widget_explanation_title">Osho Discourse bileşenleri</string>
     <string name="widget_explanation_size">Farklı boyut ve biçimlerde bileşenler vardır</string>
     <string name="widget_explanation_resize">Bileşen türünü değiştirmek için, üzerine uzun basın ve istediğiniz boyuta getirmek için tutamaçları kullanın.</string>
     <string name="widget_explanation_end">Bileşenler ayrıntılı olarak özelleştirilebilir. Yaratıcılığınızı serbest bırakın ve size özgü görünmesini sağlayın!</string>
@@ -817,8 +817,8 @@
     <string name="browser_storages">Depolama birimleri</string>
     <string name="msg_delete_failed">%1$s ortamı silinemedi</string>
     <string name="renderer_list_title">Ekranlar</string>
-    <string name="sdcard_permission_dialog_title">Mix Wave uygulamasına SD Karta yazma izni verin</string>
-    <string name="sdcard_permission_dialog_message">Mix Wave, yazma izni verilmeden bu dosyayı silemez.\n\nLütfen SD Kart üzerine giderek \"Seçin\" üzerine tıklayın.\nSağ üst menüdeki birinci öge olan \"SD kartı görüntüle\" üzerine tıklamanız gerekebilir</string>
+    <string name="sdcard_permission_dialog_title">Osho Discourse uygulamasına SD Karta yazma izni verin</string>
+    <string name="sdcard_permission_dialog_message">Osho Discourse, yazma izni verilmeden bu dosyayı silemez.\n\nLütfen SD Kart üzerine giderek \"Seçin\" üzerine tıklayın.\nSağ üst menüdeki birinci öge olan \"SD kartı görüntüle\" üzerine tıklamanız gerekebilir</string>
     <string name="dialog_sd_wizard">Bana görüntülensin</string>
     <string name="renderers_disconnect">Bağlantıyı kes</string>
     <string name="audio_digital_failed">Sayısal ses çıkışı durumu değiştirilemedi</string>
@@ -833,7 +833,7 @@
     <string name="playback_rewind">Geri atla</string>
     <string name="playback_forward">İleri atla</string>
     <string name="ml_wizard_scan_checkbox">Aygıttaki ortamlar taransın</string>
-    <string name="ml_wizard_description">Açıldığında, Mix Wave ortam kitaplığını düzenlemek için aygıtın depolama birimini tarar. Kapatıldığında bütünleşik tarayıcı ile basit oynatıcı görüntülenir.</string>
+    <string name="ml_wizard_description">Açıldığında, Osho Discourse ortam kitaplığını düzenlemek için aygıtın depolama birimini tarar. Kapatıldığında bütünleşik tarayıcı ile basit oynatıcı görüntülenir.</string>
     <string name="tv_my_new_videos">Yeni görüntülerim</string>
     <string name="cast_option_title">Ortamı başka bir ekrana gönder</string>
     <string name="otg_device_title">Dokun yedekle aygıtı</string>
@@ -872,29 +872,29 @@
     <string name="ctx_player_subs_track">Alt yazı kaydı</string>
     <string name="ctx_pip_title">Açılan pencerede oynatıcı</string>
     <string name="device_dialog_title">Dış aygıt takıldı</string>
-    <string name="device_dialog_message">TV kutunuza yeni bir depolama aygıtı bağladınız. Bu aygıtın Mix Wave ile açılmasını ister misiniz?</string>
+    <string name="device_dialog_message">TV kutunuza yeni bir depolama aygıtı bağladınız. Bu aygıtın Osho Discourse ile açılmasını ister misiniz?</string>
     <string name="videos_folders_title">Klasörlere göre görüntüler</string>
     <string name="videos_groups_title">Görüntü grupları</string>
     <string name="video_save_clone_mode">Kopya kipi otomatik olarak açılsın mı?</string>
     <string name="video_remote_enable">Uzaktan kumanda kipine geç</string>
     <string name="video_remote_disable">Ekranı yansıt</string>
     <string name="removed_from_playlist_anonymous">Öge(ler) listeden çıkarıldı</string>
-    <string name="welcome_title">Mix Wave\'ye hoş geldiniz!</string>
+    <string name="welcome_title">Osho Discourse\'ye hoş geldiniz!</string>
     <string name="welcome_subtitle">Özgür ve açık kaynaklı çoklu ortam oynatıcısı</string>
-    <string name="permission_media">Mix Wave, aygıtınızdaki ortamlara erişmek için izninizi istiyor</string>
-    <string name="permission_video">Mix Wave, aygıtınızdaki görüntü ortamlarına erişmek için izninizi istiyor</string>
-    <string name="permission_audio">Mix Wave, aygıtınızdaki ses ortamlarına erişmek için izninizi istiyor</string>
-    <string name="medialibrary_scan_explanation">Mix Wave, ortam derlemenizi düzenlemek için aygıtınızı otomatik olarak tarayabilir.</string>
-    <string name="player_title_fd_warning">Depolama alanı izni olmadan Mix Wave, ortamın adını alamaz veya ilerlemeyi kaydedemez</string>
+    <string name="permission_media">Osho Discourse, aygıtınızdaki ortamlara erişmek için izninizi istiyor</string>
+    <string name="permission_video">Osho Discourse, aygıtınızdaki görüntü ortamlarına erişmek için izninizi istiyor</string>
+    <string name="permission_audio">Osho Discourse, aygıtınızdaki ses ortamlarına erişmek için izninizi istiyor</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse, ortam derlemenizi düzenlemek için aygıtınızı otomatik olarak tarayabilir.</string>
+    <string name="player_title_fd_warning">Depolama alanı izni olmadan Osho Discourse, ortamın adını alamaz veya ilerlemeyi kaydedemez</string>
     <string name="onboarding_theme_title">Kendinizi evinizde hissedin</string>
     <string name="done">Bitti</string>
     <string name="onboarding_scan_title">Ortamları otomatik tarayın</string>
-    <string name="onboarding_all_set">Mix Wave ayarları tamamlandı!</string>
+    <string name="onboarding_all_set">Osho Discourse ayarları tamamlandı!</string>
     <string name="onboarding_permission_given">Ortamlar otomatik olarak algılanacak, dış alt yazılar kullanılabilecek ve akış ya da ağ ortamları oynatılabilecek</string>
-    <string name="daynight_system_explanation">Mix Wave sistem ayarlarına göre kendiliğinden koyu kipe geçecek</string>
-    <string name="daynight_legacy_explanation">Mix Wave, zamanı geldiğinde kendiliğinden gece kipine geçecek</string>
-    <string name="onboarding_scanning_enable">Mix Wave ortamları bulmak için aygıtımı tarayabilsin</string>
-    <string name="onboarding_scan_customize">Mix Wave tarafından taranacak klasörleri ben seçeyim</string>
+    <string name="daynight_system_explanation">Osho Discourse sistem ayarlarına göre kendiliğinden koyu kipe geçecek</string>
+    <string name="daynight_legacy_explanation">Osho Discourse, zamanı geldiğinde kendiliğinden gece kipine geçecek</string>
+    <string name="onboarding_scanning_enable">Osho Discourse ortamları bulmak için aygıtımı tarayabilsin</string>
+    <string name="onboarding_scan_customize">Osho Discourse tarafından taranacak klasörleri ben seçeyim</string>
     <string name="button_medialibrary_preferences">Ortam kitaplığı ayarlarına git</string>
     <string name="light_theme">Açık tema</string>
     <string name="add">Ekle</string>
@@ -906,7 +906,7 @@
     <string name="popup_force_legacy_title">Görüntü içinde görüntü penceresi kullanılsın</string>
     <string name="popup_force_legacy_summary">Boyutu ayarlanabilir görüntü içinde görüntü penceresi kullanılsın</string>
     <string name="restore_background_video_title">Görüntü arka planda geri yüklensin</string>
-    <string name="restore_background_video_summary">Android için Mix Wave uygulaması yeniden açıldığında görüntüyü arka plandan geri yükler</string>
+    <string name="restore_background_video_summary">Android için Osho Discourse uygulaması yeniden açıldığında görüntüyü arka plandan geri yükler</string>
     <string name="device_default">Aygıt varsayılanı</string>
     <string name="track_number">%d kayıt</string>
     <string name="jump_to">Şuraya atla</string>
@@ -935,14 +935,14 @@
     <string name="display_in_grid">Tablo olarak görüntüle</string>
     <string name="dump_db_succes">Veri tabanı iç depolama kök klasörüne kopyalandı</string>
     <string name="dump_db_failure">Veri tabanı indirilemedi</string>
-    <string name="send_crash_title">Mix Wave çökme bildirici</string>
-    <string name="send_crash_description">Çökme bilgilerini göndermeniz Mix Wave uygulamsını geliştirmemizi sağlar.</string>
+    <string name="send_crash_title">Osho Discourse çökme bildirici</string>
+    <string name="send_crash_description">Çökme bilgilerini göndermeniz Osho Discourse uygulamsını geliştirmemizi sağlar.</string>
     <string name="send_crash_warning">Göndermek istemediğiniz önemli bilgileri çıkardığınızdan emin olun.</string>
     <string name="include_medialib">Veri tabanınız katılsın</string>
     <string name="include_logs">Günlük kayıtları eklensin</string>
-    <string name="vlc_reporter">Mix Wave bildirici</string>
-    <string name="welcome_beta_title">Mix Wave Beta</string>
-    <string name="welcome_beta_description">Mix Wave Beta programına hoş geldiniz.\nLütfen bu sürümde bazı sorunlar olabileceğini unutmayın.</string>
+    <string name="vlc_reporter">Osho Discourse bildirici</string>
+    <string name="welcome_beta_title">Osho Discourse Beta</string>
+    <string name="welcome_beta_description">Osho Discourse Beta programına hoş geldiniz.\nLütfen bu sürümde bazı sorunlar olabileceğini unutmayın.</string>
     <string name="welcome_beta_description_bugs">Sorunla karşılaşırsanız lütfen forum ya da hata izleyiciden bize iletin.</string>
     <string name="welcome_beta_description_crashes">Bir hata veya çökme ile karşılaşırsanız, lütfen Hakkında bölümüne gidin ve Geri bildirim > Destek ekibiyle görüşme düğmesini kullanın.</string>
     <string name="send">Gönder</string>
@@ -986,8 +986,8 @@
     <string name="recently_played">Son oynatılanlar</string>
     <string name="recently_added">Son eklenenler</string>
     <string name="playback_multiple_errors">Aynı anda birden çok ortam oynatılamaz</string>
-    <string name="clear_media_db_message">Oluşturduğunuz işlemleri, yer imlerini ve listeleri yitireceksiniz. Ancak Android için Mix Wave ayarları korunacak</string>
-    <string name="clear_app_data_message">İlerlemeleri, yer imlerini, oynatma listeleri ve tüm Mix Wave ayarlarınızı yitireceksiniz</string>
+    <string name="clear_media_db_message">Oluşturduğunuz işlemleri, yer imlerini ve listeleri yitireceksiniz. Ancak Android için Osho Discourse ayarları korunacak</string>
+    <string name="clear_app_data_message">İlerlemeleri, yer imlerini, oynatma listeleri ve tüm Osho Discourse ayarlarınızı yitireceksiniz</string>
     <string name="clear">Temizle</string>
     <string name="abrepeat_add_first_marker">Başlangıç noktasını ayarla</string>
     <string name="abrepeat_add_second_marker">Bitiş noktasını ayarla</string>
@@ -1043,18 +1043,18 @@
     <string name="sub_result_by_name_hearing_impaired">Yalnızca işitme engelli</string>
 
     <string name="sub_result_by_file">Dosyanızın sonuçları</string>
-    <string name="donate">Mix Wave projesine destek olun</string>
-    <string name="donate_desc">Mix Wave geliştiricisi gönüllüleri destekleyin</string>
+    <string name="donate">Osho Discourse projesine destek olun</string>
+    <string name="donate_desc">Osho Discourse geliştiricisi gönüllüleri destekleyin</string>
     <string name="donate_subscribtion">Aylık destek olmak istiyorum</string>
     <string name="donate_send">Desteğinizi başlatın</string>
-    <string name="donation_description">Desteğinizle birlikte:\nAndroid için Mix Wave uygulaması geliştirilecek\nMix Wave kuruluşu desteklenecek</string>
+    <string name="donation_description">Desteğinizle birlikte:\nAndroid için Osho Discourse uygulaması geliştirilecek\nOsho Discourse kuruluşu desteklenecek</string>
     <string name="subscription_purchased">Aylık destek abonesi oldunuz</string>
     <string name="subscription_cancel">Aboneliğinizi Play Store üzerinden sona erdirebilirsiniz</string>
     <string name="subscription_cancel_tv">Aboneliğimi nasıl sona erdirebilirim</string>
     <string name="donate_unsubscribe_tv">Aboneliğinizi sona erdirmek için bir telefon ya da bilgisayar üzerinde %s uygulamasını açtıktan sonra şu kodu tarayın:</string>
-    <string name="tip_jar">Mix Wave projesini destekleyin</string>
+    <string name="tip_jar">Osho Discourse projesini destekleyin</string>
     <string name="thank_you">Teşekkürler</string>
-    <string name="thank_you_desc">Desteğiniz için teşekkürler!\nMix Wave uygulamasının geliştirilmesine çok yardımınız olacak!</string>
+    <string name="thank_you_desc">Desteğiniz için teşekkürler!\nOsho Discourse uygulamasının geliştirilmesine çok yardımınız olacak!</string>
     <string name="donate_again">Uygulamaya yeniden destek olun</string>
 
     <string name="mark_as_played">Oynatılmış olarak imle</string>
@@ -1072,7 +1072,7 @@
     <string name="air_action_next">Listede sonraki öge</string>
     <string name="air_action_previous">Listede önceki öge</string>
     <string name="allow_otg">Dokun yedekle erişimine izin ver</string>
-    <string name="allow_otg_description">Mix Wave tarafından erişilmesini istediğiniz dokun yedekle sürücüsünü seçin.</string>
+    <string name="allow_otg_description">Osho Discourse tarafından erişilmesini istediğiniz dokun yedekle sürücüsünü seçin.</string>
     <string name="timeout_infinite">Sonsuz</string>
     <string name="video_hud_timeout">Görüntü oynatıcı denetimlerini gizleme gecikmesi</string>
     <string name="video_hud_timeout_summary">%ss</string>
@@ -1140,7 +1140,7 @@
     <string name="optional_features_warning">Bu bir beta sürümü özelliği olduğundan çökme ve kararsızlıklara neden olabilir</string>
     <string name="network_indexing">Ağ dizini oluşturma</string>
     <string name="network_indexing_warning">Ağ dizini oluşturma özelliği şu anda beta aşamasındadır.\nBilinen sorunlar:\n• Düşük başarım\n\nBaşka sorunlarla karşılaşırsanız, lütfen forumumuzda yazın.</string>
-    <string name="start_vlc">Mix Wave\'yi başlat</string>
+    <string name="start_vlc">Osho Discourse\'yi başlat</string>
     <string name="jump_delay">İleri/geri sarma gecikmesi</string>
     <string name="long_jump_delay">Uzun dokunarak ileri/geri sarma gecikmesi</string>
     <string name="jump_delay_summary">%s saniye</string>
@@ -1164,7 +1164,7 @@
     <string name="lock_use_sensor_summary">Doğrultu kilitlendiğinde, ters doğrultu için algılayıcı kullanılır</string>
     <string name="start">Başlat</string>
     <string name="notification_permission">Bildirim izni</string>
-    <string name="notification_permission_explanation">Mix Wave uygulamasının bildirim gönderebilmesi için izin vermeniz gerekiyor.\nUygulama, yalnızca ortamınızı tararken veya özel görüntüde görüntü içinde görüntü kullanırken sizi bilgilendirir.\nBu izni reddetmek Mix Wave uygulamasının çalışmasını engellemez, ancak bildirimler gizlenir.</string>
+    <string name="notification_permission_explanation">Osho Discourse uygulamasının bildirim gönderebilmesi için izin vermeniz gerekiyor.\nUygulama, yalnızca ortamınızı tararken veya özel görüntüde görüntü içinde görüntü kullanırken sizi bilgilendirir.\nBu izni reddetmek Osho Discourse uygulamasının çalışmasını engellemez, ancak bildirimler gizlenir.</string>
     <string name="permission">İzin</string>
     <string name="permission_no_access">Dosyalara erişme izni yok</string>
     <string name="permissions">İzinler</string>
@@ -1233,7 +1233,7 @@
     <string name="widget_show_configure_summary">Görüntülenmese de, sağ üst köşeye dokunarak yapılandırmayı açabilirsiniz</string>
     <string name="seek_backward_content_description">Geriye %s saniye atla</string>
     <string name="seek_forward_content_description">İleriye %s saniye atla</string>
-    <string name="open_vlc">Mix Wave\'yi aç</string>
+    <string name="open_vlc">Osho Discourse\'yi aç</string>
     <string name="playing">Oynatılıyor</string>
     <string name="disable_track">Kaydı kapat</string>
     <string name="ascending">Artan</string>
@@ -1332,7 +1332,7 @@
     <string name="ra_otp_title">Uzaktan erişim oturum açma girişimi</string>
     <string name="ra_otp_subtitle">Bu girişimi siz yaptıysanız bu kodu diğer aygıta yazın</string>
     <string name="ra_otp_not_me">Ben değilim</string>
-    <string name="ra_onboarding_welcome_desc">Android için Mix Wave uygulamasının uzaktan erişim özelliğine hoş geldiniz\Bu özelliği etkinleştirerek bu aygıtın oynatma ve diğer işlemlerini denetleyebileceksiniz</string>
+    <string name="ra_onboarding_welcome_desc">Android için Osho Discourse uygulamasının uzaktan erişim özelliğine hoş geldiniz\Bu özelliği etkinleştirerek bu aygıtın oynatma ve diğer işlemlerini denetleyebileceksiniz</string>
     <string name="ra_onboarding_how_title">Aygıtınızı denetleyin</string>
     <string name="ra_onboarding_how_desc">Aygıtınızdaki oynatmayı denetleyin, dosya gönderin ya da alın ve diğer işlemleri yapın</string>
     <string name="ra_onboarding_ssl_title">Veri şifrelemesi</string>
@@ -1358,7 +1358,7 @@
     <string name="podcast_mode">Podcast kipi</string>
     <string name="podcast_mode_help">Podcast denetimleri, aşağıdaki ölçütlerden birini karşılayan tek bir parça oynatıldığında görüntülenir:\n\t• 60 dakikadan uzun olan\n\t• 15 dakikadan uzun olan ve albüm adı olmayan\n\t• Tür %s</string>
     <string name="voice_control">Ses denetimi</string>
-    <string name="voice_control_help">Mix Wave, aşağıdaki komutlar söylenerek Google Asistan ile denetlenebilir:\n\t• Oynat, Duraklat, Durdur, Önceki, Sonraki\n\t• Geri git, İleri git, &lt;Tümünü|Birini|kapat&gt;\n\t Yinele • &lt;Zamana&gt; atla, &lt;Süreyi&gt; atla\n\t• Bu &lt;Sanatçı|Albüm|Parça&gt; nedir?\n\t• [Sanatçı|Albüm|Parça|Tür|Oynatma listesi] &lt;adı&gt;</string>
+    <string name="voice_control_help">Osho Discourse, aşağıdaki komutlar söylenerek Google Asistan ile denetlenebilir:\n\t• Oynat, Duraklat, Durdur, Önceki, Sonraki\n\t• Geri git, İleri git, &lt;Tümünü|Birini|kapat&gt;\n\t Yinele • &lt;Zamana&gt; atla, &lt;Süreyi&gt; atla\n\t• Bu &lt;Sanatçı|Albüm|Parça&gt; nedir?\n\t• [Sanatçı|Albüm|Parça|Tür|Oynatma listesi] &lt;adı&gt;</string>
 
     <string name="network" >Ağ</string>
     <string name="metered_connection">Kotalı bir ağda akışlara uygulanacak işlem</string>

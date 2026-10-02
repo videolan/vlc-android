@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">ठीक आहे</string>
     <string name="cancel">रद्द करा</string>
     <string name="other">इतर</string>
@@ -103,7 +103,7 @@
     <string name="jump_to_time">वेळेवर उडी घ्या</string>
     <string name="subtitle_select">उपशीर्षक फाईल निवडा</string>
     <string name="encountered_error_title">प्लेबॅक मध्ये त्रुटी</string>
-    <string name="encountered_error_message">या मीडिया बरोबर Mix Wave ला एक त्रुटी आली आहे.\nकृपया मीडिया लायब्ररी ताजी करून पुन्हा प्रयत्न करा.</string>
+    <string name="encountered_error_message">या मीडिया बरोबर Osho Discourse ला एक त्रुटी आली आहे.\nकृपया मीडिया लायब्ररी ताजी करून पुन्हा प्रयत्न करा.</string>
     <string name="invalid_location">%1$s हे स्थान प्ले केले जाऊ शकत नाही.</string>
     <string name="search">शोधा</string>
 
@@ -122,7 +122,7 @@
     <string name="hold_to_stop">थांबवण्यासाठी दाबून ठेवा</string>
 
     <string name="revision">पुनरावृत्ती</string>
-    <string name="about">Mix Wave विषयी</string>
+    <string name="about">Osho Discourse विषयी</string>
     <string name="directories_summary">मीडिया लायब्ररी मध्ये समावेश करण्यासाठी निर्देशिका निवडा</string>
     <string name="add_custom_path">सानुकूल मार्ग प्रविष्ट करा</string>
     <string name="add_custom_path_description">स्कॅन करण्यासाठी अधिक सानुकूल निर्देशिका प्रविष्ट करा:</string>
@@ -169,9 +169,9 @@
     <string name="dump_logcat">logcat लाॅग डंप करा</string>
     <string name="dump_logcat_success">Logcat %1$s मध्ये यशस्वीरित्या डंप केले!</string>
     <string name="dump_logcat_failure">Logcat डंप करण्यात अपयश.</string>
-    <string name="serious_crash">दुर्दैवाने, एक गंभीर त्रुटी आली आणि Mix Wave बंद करावे लागले.</string>
-    <string name="help_us_send_log">खालील क्रॅश लॉग पाठवून Mix Wave सुधारण्यात आम्हाला मदत करा:</string>
-    <string name="restart_vlc">Mix Wave पुन्हा सुरू करा</string>
+    <string name="serious_crash">दुर्दैवाने, एक गंभीर त्रुटी आली आणि Osho Discourse बंद करावे लागले.</string>
+    <string name="help_us_send_log">खालील क्रॅश लॉग पाठवून Osho Discourse सुधारण्यात आम्हाला मदत करा:</string>
+    <string name="restart_vlc">Osho Discourse पुन्हा सुरू करा</string>
     <string name="send_log">लॉग पाठवा</string>
     <string name="sending_log">लॉग पाठवत आहे…</string>
 

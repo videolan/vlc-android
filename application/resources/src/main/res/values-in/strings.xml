@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Batal</string>
     <string name="other">Lainnya</string>
@@ -34,7 +34,7 @@
     <string name="play_as_video">Mainkan sebagai video</string>
     <string name="return_to_video">Ketuk dengan lama untuk memulihkan video</string>
     <string name="video_app_switch_title">Mode Latar Belakang/PiP</string>
-    <string name="video_app_switch_summary">Pilih perilaku Mix Wave ketika anda pindah ke aplikasi lain disaat sedang memutar ulang video</string>
+    <string name="video_app_switch_summary">Pilih perilaku Osho Discourse ketika anda pindah ke aplikasi lain disaat sedang memutar ulang video</string>
     <string name="play_pip_title">Putar video di mode Picture-in-picture</string>
     <string name="play_as_audio_background">Putar video di latarbelakang</string>
     <string name="append">Tambahkan</string>
@@ -185,7 +185,7 @@
     <string name="streams">Lihat langsung</string>
     <string name="open_mrl_dialog_msg">Masukkan alamat jaringan: misal http://, mms:// atau rtsp://</string>
     <string name="encountered_error_title">Pemutar eror</string>
-    <string name="encountered_error_message">Mix Wave mengalami kesalahan/error dengan media ini.\nSilakan segarkan kembali pustaka media.</string>
+    <string name="encountered_error_message">Osho Discourse mengalami kesalahan/error dengan media ini.\nSilakan segarkan kembali pustaka media.</string>
     <string name="invalid_location">Lokasi %1$s tidak bisa dimainkan.</string>
     <string name="missing_location">Media ini dari penyimpanan yang tidak tersedia dan tidak bisa dimainkan.</string>
 
@@ -241,12 +241,12 @@
     <string name="hold_to_stop">Tahan untuk berhenti</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Revisi</string>
     <string name="about">Tentang</string>
-    <string name="about_vlc_text">Mix Wave untuk Android™ merupakan bagian dari Mix Wave media player, pemutar media terbuka yang populer. Versi Android™ dapat membuka semua jenis file dan salurang media langsung.</string>
+    <string name="about_vlc_text">Osho Discourse untuk Android™ merupakan bagian dari Osho Discourse media player, pemutar media terbuka yang populer. Versi Android™ dapat membuka semua jenis file dan salurang media langsung.</string>
     <string name="authors">Pencipta</string>
-    <string name="vlc_authors">dan Para Pengembang Mix Wave</string>
+    <string name="vlc_authors">dan Para Pengembang Osho Discourse</string>
     <string name="is_compiled_by">Disusun oleh</string>
     <string name="sources">Source code</string>
     <string name="libraries">Pustaka</string>
@@ -368,8 +368,8 @@
     <string name="replaygain_track">Trek</string>
     <string name="replaygain_album">Album</string>
     <string name="aout">Output audio</string>
-    <string name="aout_summary">Ubah metode yang digunakan Mix Wave untuk mengeluarkan suara</string>
-    <string name="audio_ducking_title">Rendahkan volume Mix Wave bila ada notifikasi</string>
+    <string name="aout_summary">Ubah metode yang digunakan Osho Discourse untuk mengeluarkan suara</string>
+    <string name="audio_ducking_title">Rendahkan volume Osho Discourse bila ada notifikasi</string>
     <string name="audio_ducking_summary">Bantu untuk dengar notifikasi audio, instruksi navigasi atau asisten berbicara</string>
     <string name="casting_category">salurkan/tampilkan pada layar lain</string>
     <string name="casting_switch_title">salurkan/tampilkan pada layar lain tanpa perantara kabel</string>
@@ -415,7 +415,7 @@
     <string name="clear_media_db">Hapus database media</string>
     <string name="clear_media_database_summary">Hapus database untuk mulai kembali</string>
     <string name="clear_app_data">Bersihkan data aplikasi</string>
-    <string name="clear_app_data_summary">Bersihkan data Mix Wave untuk Android</string>
+    <string name="clear_app_data_summary">Bersihkan data Osho Discourse untuk Android</string>
     <string name="clear_history">Kosongkan riwayat</string>
     <string name="clear_history_message">Anda akan kehilangan riwayat Anda, daftar putar Anda sekarang dan juga kemajuan Anda</string>
     <string name="set_locale">Pilih bahasa</string>
@@ -439,7 +439,7 @@
     <string name="start_logging">Mulai mencatat</string>
     <string name="stop_logging">Hentikan mencatat</string>
     <string name="clear_log">Hapus log</string>
-    <string name="log_service_title">Perekaman log Mix Wave</string>
+    <string name="log_service_title">Perekaman log Osho Discourse</string>
     <string name="log_service_text">Buka konsol log</string>
     <string name="copy_to_clipboard">Salin ke clipboard</string>
     <string name="copied_to_clipboard">Salin catatan ke papan klip.</string>
@@ -450,9 +450,9 @@
     <string name="custom_libvlc_options">Opsi kustom libVLC</string>
     <string name="custom_libvlc_options_invalid">Opsi libVLC tidak sah!</string>
 
-    <string name="serious_crash">Sayang sekali, kesalahan serius telah terjadi dan Mix Wave harus di tutup.</string>
-    <string name="help_us_send_log">Bantu kami meningkatkan Mix Wave dengan mengirimkan catatan kerusakan berikut:</string>
-    <string name="restart_vlc">Nyalakan ulang Mix Wave</string>
+    <string name="serious_crash">Sayang sekali, kesalahan serius telah terjadi dan Osho Discourse harus di tutup.</string>
+    <string name="help_us_send_log">Bantu kami meningkatkan Osho Discourse dengan mengirimkan catatan kerusakan berikut:</string>
+    <string name="restart_vlc">Nyalakan ulang Osho Discourse</string>
     <string name="send_log">Kirim catatan</string>
     <string name="sending_log">Mengirim catatan…</string>
 
@@ -497,30 +497,30 @@
     <string name="music_now_playing">Sekarang Diputar</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Mix Wave Widget Putih</string>
-    <string name="widget_name_b">Mix Wave Widget Gelap</string>
-    <string name="widget_name_mini_player">Mix Wave pemutar mini</string>
+    <string name="widget_name_w">Osho Discourse Widget Putih</string>
+    <string name="widget_name_b">Osho Discourse Widget Gelap</string>
+    <string name="widget_name_mini_player">Osho Discourse pemutar mini</string>
     <string name="widget_old_text">Kami telah memperbaharui widget kami!</string>
     <string name="widget_old_description_start">Berita bagus! Kami telah merilis widget yang telah ditingkatkan.\nMereka juga menawarkan respon dan kustomisasi yang lebih</string>
     <string name="whats_next">Apa selanjutnya?</string>
     <string name="widget_old_description_end">Kami mendeteksi bahwa Anda sudah memiliki widget dalam launcher Anda. Sayangnya, mereka tidak kompatibel dengan widget yang telah kami tingkatkan.\nBergantung launcher Anda, Anda mungkin harus menghapus yang lama untuk menggantinya.</string>
     <string name="click_here">Klik di sini untuk mempelajari lebih lanjut.</string>
-    <string name="allow_storage_access_title">Izinkan Mix Wave untuk mengakses file video dan audio</string>
-    <string name="allow_storage_access_description">Mix Wave membutuhkan anda untuk memberi akses ke file media dalam perangkat ini.</string>
-    <string name="allow_storage_manager_title">Izinkan Mix Wave akses ke semua file</string>
+    <string name="allow_storage_access_title">Izinkan Osho Discourse untuk mengakses file video dan audio</string>
+    <string name="allow_storage_access_description">Osho Discourse membutuhkan anda untuk memberi akses ke file media dalam perangkat ini.</string>
+    <string name="allow_storage_manager_title">Izinkan Osho Discourse akses ke semua file</string>
     <string name="allow_storage_manager_description">%s\n\nBerikan Izin?</string>
-    <string name="allow_storage_manager_explanation">Untuk mendapatkan semua kemampuan dari Mix Wave dan dukungan untuk seluruh tipe file media, kami sangat menyarankan Anda untuk memberikan izin ini.</string>
-    <string name="partial_content">Mix Wave tidak dapat mengakses semua file Anda</string>
+    <string name="allow_storage_manager_explanation">Untuk mendapatkan semua kemampuan dari Osho Discourse dan dukungan untuk seluruh tipe file media, kami sangat menyarankan Anda untuk memberikan izin ini.</string>
+    <string name="partial_content">Osho Discourse tidak dapat mengakses semua file Anda</string>
     <string name="partial_content_description">Dimulai dengan Android 11, aplikasi membutuhkan izin khusus untuk mengakses semua file milik perangkat.\n\n%s</string>
     <string name="never_ask_again">Tidak perlu ditanyakan kembali</string>
-    <string name="allow_settings_access_ringtone_title">Izinkan Mix Wave untuk mengatur nada dering</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave membutuhkan anda untuk memberikan akses untuk mengatur lagu ini sebagai nada dering anda.</string>
-    <string name="allow_settings_access_brightness_title">Izinkan Mix Wave untuk mengubah mode kecerahan</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave membutuhkan anda untuk memberikan akses untuk mengubah mode kecerahan.</string>
-    <string name="allow_draw_overlays_title">Izinkan pemutar Mix Wave tampil di aplikasi lain</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave membutuhkan anda untuk memberikan tampilan video anda di aplikasi lain.</string>
-    <string name="allow_pip">Perbolehkan pemutar Mix Wave meluncurkan Picture in Picture</string>
-    <string name="allow_pip_description">Mix Wave memerlukan Anda untuk memperbolehkan izin ini untuk menampilkan video Anda dalam mode Picture in Picture.</string>
+    <string name="allow_settings_access_ringtone_title">Izinkan Osho Discourse untuk mengatur nada dering</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse membutuhkan anda untuk memberikan akses untuk mengatur lagu ini sebagai nada dering anda.</string>
+    <string name="allow_settings_access_brightness_title">Izinkan Osho Discourse untuk mengubah mode kecerahan</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse membutuhkan anda untuk memberikan akses untuk mengubah mode kecerahan.</string>
+    <string name="allow_draw_overlays_title">Izinkan pemutar Osho Discourse tampil di aplikasi lain</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse membutuhkan anda untuk memberikan tampilan video anda di aplikasi lain.</string>
+    <string name="allow_pip">Perbolehkan pemutar Osho Discourse meluncurkan Picture in Picture</string>
+    <string name="allow_pip_description">Osho Discourse memerlukan Anda untuk memperbolehkan izin ini untuk menampilkan video Anda dalam mode Picture in Picture.</string>
     <string name="permission_ask_again">Memberikan izin</string>
     <string name="pick_file">Pilih sebuah file</string>
     <string name="permission_not_granted">Izin tidak diberikan</string>
@@ -529,8 +529,8 @@
     <string name="permission_onboarding_no_perm">Anda tidak akan bisa menjelajah otomasi media Anda.\nAnda hanya akan bisa memutar stream atau media jaringan</string>
     <string name="permission_onboarding_perm_media">Anda hanya akan bisa menjelajahi otomatis file media standar</string>
     <string name="permission_onboarding_perm_all">Anda hanya akan bisa menjelajahi otomatis seluruh file Anda untuk memutar seluruh tipe media bahkan yang anes, atau file terkompresi</string>
-    <string name="exit_app">Tutup Mix Wave</string>
-    <string name="exit_app_msg">Apakah anda yakin ingin keluar Mix Wave?</string>
+    <string name="exit_app">Tutup Osho Discourse</string>
+    <string name="exit_app_msg">Apakah anda yakin ingin keluar Osho Discourse?</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Trek dengan sistem pencarian cepat</string>
@@ -570,7 +570,7 @@
     <string name="length">Panjang</string>
     <string name="tv_settings_hint">Tekan lama tombol OK untuk centang/hapus centang direktori</string>
     <string name="ml_external_storage_title">Penyimpanan eksternal baru terdeteksi</string>
-    <string name="ml_external_storage_msg">Apakah anda ingin Mix Wave menambahkan perangkat %1$s ke pustaka media?</string>
+    <string name="ml_external_storage_msg">Apakah anda ingin Osho Discourse menambahkan perangkat %1$s ke pustaka media?</string>
     <string name="ml_external_storage_accept">Ya</string>
     <string name="ml_external_storage_decline">Tidak</string>
     <string name="auto_last_added_media">Terakhir ditambahkan</string>
@@ -601,7 +601,7 @@
     <string name="msg_delete_failed">Gagal menghapus media %1$s</string>
     <string name="renderer_list_title">Tampilan</string>
     <string name="sdcard_permission_dialog_title">Anda memiliki akses membaca VLB untuk Kartu SD anda</string>
-    <string name="sdcard_permission_dialog_message">Mix Wave tidak dapat menghapus file ini tanpa izin akses menulis.\nSilakan pilih Kartu SD anda dan klik tanda \"Pilih\".\nAnda mungkin harus klik pada pilihan \"Tampilan kartu SD\"  terlebih dahulu pada menu bagian kanan atas</string>
+    <string name="sdcard_permission_dialog_message">Osho Discourse tidak dapat menghapus file ini tanpa izin akses menulis.\nSilakan pilih Kartu SD anda dan klik tanda \"Pilih\".\nAnda mungkin harus klik pada pilihan \"Tampilan kartu SD\"  terlebih dahulu pada menu bagian kanan atas</string>
     <string name="dialog_sd_wizard">Tunjukkan padaku</string>
     <string name="renderers_disconnect">Koneksi Terputus</string>
     <string name="audio_digital_failed">Gagal mengubah status Audio Digital Output</string>
@@ -616,7 +616,7 @@
     <string name="playback_rewind">Mundur</string>
     <string name="playback_forward">Maju cepat</string>
     <string name="ml_wizard_scan_checkbox">Memindai perangkat untuk konten media</string>
-    <string name="ml_wizard_description">Pilih apakah Mix Wave akan memindai perangkat penyimpanan anda untuk mengatur media pustaka anda atau hanya untuk digunakan sebagai pemutar sederhana dengan integrasi browser.</string>
+    <string name="ml_wizard_description">Pilih apakah Osho Discourse akan memindai perangkat penyimpanan anda untuk mengatur media pustaka anda atau hanya untuk digunakan sebagai pemutar sederhana dengan integrasi browser.</string>
     <string name="tv_my_new_videos">Video baru saya</string>
     <string name="cast_option_title">Cast media di layar lain</string>
     <string name="otg_device_title">Perangkat OTG</string>
@@ -649,26 +649,26 @@
     <string name="ctx_player_subs_track">Trek terjemahan</string>
     <string name="ctx_pip_title">Pemutar Pop-Up</string>
     <string name="device_dialog_title">perangkat eksternal dimasukkan</string>
-    <string name="device_dialog_message">Anda baru saja memasang perangkat penyimpanan baru ke TV anda, apakah anda ingin membukanya dengan Mix Wave?</string>
+    <string name="device_dialog_message">Anda baru saja memasang perangkat penyimpanan baru ke TV anda, apakah anda ingin membukanya dengan Osho Discourse?</string>
     <string name="videos_folders_title">Video berdasarkan folder </string>
     <string name="videos_groups_title">Grup video</string>
     <string name="video_save_clone_mode">Mau mengaktifkan mode klon secara otomatis?</string>
     <string name="video_remote_enable">Beralih ke mode kendali jarak jauh</string>
     <string name="video_remote_disable">Layar duplikat</string>
     <string name="removed_from_playlist_anonymous">Item dihapuskan dari daftar putar</string>
-    <string name="welcome_title">Selamat datang di Mix Wave!</string>
+    <string name="welcome_title">Selamat datang di Osho Discourse!</string>
     <string name="welcome_subtitle">Pemutar multimedia gratis dan sumber terbuka</string>
-    <string name="permission_media">Mix Wave membutuhkan izin untuk mengakses media di perangkat anda.</string>
-    <string name="medialibrary_scan_explanation">Mix Wave dapat otomatis memindai perangkat anda untuk mengatur koleksi media anda.</string>
+    <string name="permission_media">Osho Discourse membutuhkan izin untuk mengakses media di perangkat anda.</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse dapat otomatis memindai perangkat anda untuk mengatur koleksi media anda.</string>
     <string name="onboarding_theme_title">Anggap saja seperti dirumah sendiri</string>
     <string name="done">Selesai</string>
     <string name="onboarding_scan_title">Temukan media Anda secara otomatis</string>
-    <string name="onboarding_all_set">Mix Wave sudah siap!</string>
+    <string name="onboarding_all_set">Osho Discourse sudah siap!</string>
     <string name="onboarding_permission_given">Sekarang Anda dapat menemukan media Anda secara otomatis, menggunakan subtitle eksternal dan juga memutar stream dan media network</string>
-    <string name="daynight_system_explanation">Mix Wave secara otomatis akan beralih ke mode gelap sesuai dengan pengaturan sistem</string>
-    <string name="daynight_legacy_explanation">Mix Wave secara otomatis akan beralih ke mode terang sesuai dengan pengaturan sistem</string>
-    <string name="onboarding_scanning_enable">Biarkan Mix Wave memindai perangkat saya untuk konten media</string>
-    <string name="onboarding_scan_customize">Biarkan saya memilih folder mana yang akan dipindai Mix Wave</string>
+    <string name="daynight_system_explanation">Osho Discourse secara otomatis akan beralih ke mode gelap sesuai dengan pengaturan sistem</string>
+    <string name="daynight_legacy_explanation">Osho Discourse secara otomatis akan beralih ke mode terang sesuai dengan pengaturan sistem</string>
+    <string name="onboarding_scanning_enable">Biarkan Osho Discourse memindai perangkat saya untuk konten media</string>
+    <string name="onboarding_scan_customize">Biarkan saya memilih folder mana yang akan dipindai Osho Discourse</string>
     <string name="button_medialibrary_preferences">Pergi ke preferensi Pustaka Media</string>
     <string name="light_theme">Tema terang</string>
     <string name="add">Tambah</string>
@@ -700,15 +700,15 @@
     <string name="display_in_grid">Tampil dalam kisi</string>
     <string name="dump_db_succes">Database dibuang di akar penyimpanan internal</string>
     <string name="dump_db_failure">Gagal untuk mengumpulkan basis data</string>
-    <string name="send_crash_title">Pelapor kerusakan Mix Wave</string>
-    <string name="send_crash_description">Dengan mengirimkan kerusakan anda, anda telah membantu kami mengembangkan stabilitas Mix Wave.</string>
+    <string name="send_crash_title">Pelapor kerusakan Osho Discourse</string>
+    <string name="send_crash_description">Dengan mengirimkan kerusakan anda, anda telah membantu kami mengembangkan stabilitas Osho Discourse.</string>
     <string name="send_crash_warning">Pastikan anda menghapus data sensitif yang tidak anda ingin kirim.</string>
     <string name="include_medialib">Termasuk database anda</string>
-    <string name="vlc_reporter">Pelapor Mix Wave</string>
-    <string name="welcome_beta_title">Mix Wave Beta</string>
-    <string name="welcome_beta_description">Selamat datang di program beta Mix Wave.\nSilahkan catat versi ini mungkin memiliki beberapa celah,</string>
+    <string name="vlc_reporter">Pelapor Osho Discourse</string>
+    <string name="welcome_beta_title">Osho Discourse Beta</string>
+    <string name="welcome_beta_description">Selamat datang di program beta Osho Discourse.\nSilahkan catat versi ini mungkin memiliki beberapa celah,</string>
     <string name="welcome_beta_description_bugs">Jika anda memperhatikan sebuah celah, silahkan laporkan ini ke forum kami atau pelacak celah.</string>
-    <string name="welcome_beta_description_crashes">Jika anda mengalami kerusakan, silahkan gunakan ikon Mix Wave Reporter di peluncur anda untuk mengirimkan ke kami.</string>
+    <string name="welcome_beta_description_crashes">Jika anda mengalami kerusakan, silahkan gunakan ikon Osho Discourse Reporter di peluncur anda untuk mengirimkan ke kami.</string>
     <string name="send">Kirim</string>
     <string name="send_crash_action_title">Apa yang ingin anda lakukan?</string>
     <string name="report_a_bug">Laporkan bug</string>
@@ -747,8 +747,8 @@
     <string name="recently_played">Terakhir diputar</string>
     <string name="recently_added">Terakhir ditambahkan</string>
     <string name="playback_multiple_errors">Banyak media tidak dapat diputar</string>
-    <string name="clear_media_db_message">Anda akan kehilangan kemajuan Anda, bookmark dan juga daftar putar yang telah Anda buat tetapi pengaturan Mix Wave untuk Android Anda akan disimpan</string>
-    <string name="clear_app_data_message">Anda akan kehilangan kemajuan Anda, boomark, daftar putar dan juga seluruh pengaturan Mix Wave</string>
+    <string name="clear_media_db_message">Anda akan kehilangan kemajuan Anda, bookmark dan juga daftar putar yang telah Anda buat tetapi pengaturan Osho Discourse untuk Android Anda akan disimpan</string>
+    <string name="clear_app_data_message">Anda akan kehilangan kemajuan Anda, boomark, daftar putar dan juga seluruh pengaturan Osho Discourse</string>
     <string name="clear">Bersihkan</string>
     <string name="abrepeat_add_first_marker">Set titik mulai</string>
     <string name="abrepeat_add_second_marker">Set titik akhir</string>
@@ -803,18 +803,18 @@
     <string name="sub_result_by_name_episode">Episode %s</string>
 
     <string name="sub_result_by_file">Hasil untuk file anda</string>
-    <string name="donate">Bantu Mix Wave</string>
-    <string name="donate_desc">Dukung relawan membangun Mix Wave</string>
+    <string name="donate">Bantu Osho Discourse</string>
+    <string name="donate_desc">Dukung relawan membangun Osho Discourse</string>
     <string name="donate_subscribtion">Saya lebih suka ini untuk sponsor bulanan</string>
     <string name="donate_send">Mulai sponsor anda</string>
-    <string name="donation_description">Dukungan anda akan membuat kita mampu:\n meningkatkan aplikasi Mix Wave untuk android\n Beri dukungan pada asosiasi Mix Wave</string>
+    <string name="donation_description">Dukungan anda akan membuat kita mampu:\n meningkatkan aplikasi Osho Discourse untuk android\n Beri dukungan pada asosiasi Osho Discourse</string>
     <string name="subscription_purchased">Anda telah berlangganan sponsor bulanan</string>
     <string name="subscription_cancel">Anda dapat berhenti berlangganan di Play Store</string>
     <string name="subscription_cancel_tv">Cara berhenti berlangganan</string>
     <string name="donate_unsubscribe_tv">Untuk berhenti berlangganan, silahkan buka %s di ponsel atau komputer atau pindai kode ini:</string>
-    <string name="tip_jar">Bantu Mix Wave</string>
+    <string name="tip_jar">Bantu Osho Discourse</string>
     <string name="thank_you">Terima kasih</string>
-    <string name="thank_you_desc">Terima kasih untuk dukungan anda!\nIni sangat membantu kami meningkatkan Mix Wave!</string>
+    <string name="thank_you_desc">Terima kasih untuk dukungan anda!\nIni sangat membantu kami meningkatkan Osho Discourse!</string>
     <string name="donate_again">Sponsor aplikasi lagi</string>
 
     <string name="mark_as_played">Tandai sebagai sudah diputar</string>
@@ -831,7 +831,7 @@
     <string name="air_action_next">Item selanjutnya dalam pemutaran</string>
     <string name="air_action_previous">Item sebelumnya dalam pemutaran</string>
     <string name="allow_otg">Izinkan akses OTG</string>
-    <string name="allow_otg_description">Silahkan pilih OTG drive anda untuk mengizinkan akses ke Mix Wave.</string>
+    <string name="allow_otg_description">Silahkan pilih OTG drive anda untuk mengizinkan akses ke Osho Discourse.</string>
     <string name="timeout_infinite">Tak Terbatas</string>
     <string name="video_hud_timeout">Kontrol pemutar video menyembunyikan penundaan</string>
     <string name="video_hud_timeout_summary">%ss</string>
@@ -871,7 +871,7 @@
     <string name="optional_features_warning">Fitur ini masih dalam beta dan mungkin akan menyebabkan crash dan ketidakstabilan</string>
     <string name="network_indexing">Pengindeksan jaringan</string>
     <string name="network_indexing_warning">Pengindeksan jaringan saat ini sedang berada dalam beta.\nMasalah yang diketahui:\n• Performa yang lambat\n\nJika anda menemukan masalah lain, tolong laporkan masalah tersebut pada forum kami.</string>
-    <string name="start_vlc">Mulai Mix Wave</string>
+    <string name="start_vlc">Mulai Osho Discourse</string>
     <string name="jump_delay">Maju/mundur delay waktu</string>
     <string name="long_jump_delay">Ketuk lama maju/mundur delay waktu</string>
     <string name="jump_delay_summary">%s detik</string>
@@ -931,7 +931,7 @@
     <string name="widget_show_configure_summary">Bahkan jika tidak terlihat, Anda bisa mengetuk pojok kanan atas untuk membuka konfigurasinya</string>
     <string name="seek_backward_content_description">Seek %s detik ke belakang</string>
     <string name="seek_forward_content_description">Seek %s detik ke depan</string>
-    <string name="open_vlc">Buka Mix Wave</string>
+    <string name="open_vlc">Buka Osho Discourse</string>
     <string name="playing">Sedang memutar</string>
     <string name="disable_track">Non aktifkan trek</string>
     <string name="ascending">Naik</string>

@@ -937,7 +937,7 @@
                 <data android:pathPattern=".*\\..*\\..*\\.xspf" />
                 <data android:pathPattern=".*\\..*\\..*\\.XSPF" />
             </intent-filter>
-            <intent-filter android:label="Play with Mix Wave">
+            <intent-filter android:label="Play with Osho Discourse">
                 <action android:name="android.intent.action.SEND"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>

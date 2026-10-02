@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Mégse</string>
     <string name="other">Egyéb</string>
@@ -43,14 +43,14 @@
     <string name="playback_controls">Lejátszásvezérlők</string>
     <string name="medialibrary_scan">Médiatár átvizsgálása</string>
     <string name="Medialibrary_progress">Médiatár átvizsgálása folyamatban</string>
-    <string name="ml_database_warning">Az adatbázisa tartalmazza az összes médiafájlja listáját. Meg lesz osztva a Mix Wave fejlesztőivel.</string>
-    <string name="logs_warning">Információkat tartalmazhat a lejátszott médiafájljairól. Meg lesz osztva a Mix Wave fejlesztőivel.</string>
+    <string name="ml_database_warning">Az adatbázisa tartalmazza az összes médiafájlja listáját. Meg lesz osztva a Osho Discourse fejlesztőivel.</string>
+    <string name="logs_warning">Információkat tartalmazhat a lejátszott médiafájljairól. Meg lesz osztva a Osho Discourse fejlesztőivel.</string>
     <string name="play_from_start">Lejátszás indításkor</string>
     <string name="play_as_audio">Lejátszás hangként</string>
     <string name="play_as_video">Lejátszás videóként</string>
     <string name="return_to_video">Koppintson hosszan a borítóra a videó helyreállításához</string>
     <string name="video_app_switch_title">Háttér/PiP mód</string>
-    <string name="video_app_switch_summary">Válassza ki a Mix Wave viselkedését, ha videolejátszás közben más alkalmazásra vált.</string>
+    <string name="video_app_switch_summary">Válassza ki a Osho Discourse viselkedését, ha videolejátszás közben más alkalmazásra vált.</string>
     <string name="play_pip_title">Videók lejátszása „Kép a képben” módban</string>
     <string name="play_as_audio_background">Videók lejátszása a háttérben</string>
     <string name="append">Hozzáadás a lejátszási sorhoz</string>
@@ -315,12 +315,12 @@
     <string name="hold_to_stop">Tartsa a leállításhoz</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Revízió</string>
     <string name="about">Névjegy</string>
-    <string name="about_vlc_text">A Mix Wave for Android™  a népszerű nyílt forráskódú médialejátszó, a Mix Wave Media Player portja. Az androidos verzió minden fájlt és hálózati adatfolyamot képes olvasni.</string>
+    <string name="about_vlc_text">A Osho Discourse for Android™  a népszerű nyílt forráskódú médialejátszó, a Osho Discourse Media Player portja. Az androidos verzió minden fájlt és hálózati adatfolyamot képes olvasni.</string>
     <string name="authors">Szerzők</string>
-    <string name="vlc_authors">és a Mix Wave szerzői.</string>
+    <string name="vlc_authors">és a Osho Discourse szerzői.</string>
     <string name="is_compiled_by">Fordította:</string>
     <string name="is_signed_by">Aláírta:</string>
     <string name="sources">Forráskód</string>
@@ -499,8 +499,8 @@
     <string name="replaygain_track">Szám</string>
     <string name="replaygain_album">Album</string>
     <string name="aout">Hangkimenet</string>
-    <string name="aout_summary">A Mix Wave hangkimenetének módosítása</string>
-    <string name="audio_ducking_title">Értesítéskor a Mix Wave hangerejének csökkentése</string>
+    <string name="aout_summary">A Osho Discourse hangkimenetének módosítása</string>
+    <string name="audio_ducking_title">Értesítéskor a Osho Discourse hangerejének csökkentése</string>
     <string name="audio_ducking_summary">Segít meghallani a hangértesítéseket, a navigációs utasításokat vagy az asszisztensprogramokat</string>
     <string name="casting_category">Átvitel</string>
     <string name="remote_access">Távoli elérés</string>
@@ -577,7 +577,7 @@
     <string name="clear_media_db">Média-adatbázis törlése</string>
     <string name="clear_media_database_summary">Törli az adatbázis az újrakezdéshez</string>
     <string name="clear_app_data">Alkalmazásadatok törlése</string>
-    <string name="clear_app_data_summary">Törli a Mix Wave for Android adatait</string>
+    <string name="clear_app_data_summary">Törli a Osho Discourse for Android adatait</string>
     <string name="clear_history">Előzmények törlése</string>
     <string name="clear_history_message">Elveszti az előzményeket, a jelenlegi lejátszólistákat és az előrehaladásokat</string>
     <string name="set_locale">Területi beállítás megadása</string>
@@ -603,7 +603,7 @@
     <string name="start_logging">Naplózás indítása</string>
     <string name="stop_logging">Naplózás befejezése</string>
     <string name="clear_log">Napló törlése</string>
-    <string name="log_service_title">Mix Wave naplók felvétele</string>
+    <string name="log_service_title">Osho Discourse naplók felvétele</string>
     <string name="log_service_text">Naplókonzol megnyitása</string>
     <string name="copy_to_clipboard">Másolás a vágólapra</string>
     <string name="copied_to_clipboard">Másolva a vágólapra.</string>
@@ -621,10 +621,10 @@
     <string name="browser_quick_play_default">Gyors lejátszás alapértelmezett műveletként</string>
     <string name="browser_quick_play_default_summary">Ha aktiválva van, a böngészőelemre való kattintás a gyors lejátszás használatával játssza le.</string>
 
-    <string name="serious_crash">Sajnos egy komoly hiba történt, és a Mix Wave-nek be kellett záródnia.</string>
-    <string name="help_us_send_log">Segítsen a Mix Wave tökéletesítésében a következő összeomlásnapló elküldésével:</string>
+    <string name="serious_crash">Sajnos egy komoly hiba történt, és a Osho Discourse-nek be kellett záródnia.</string>
+    <string name="help_us_send_log">Segítsen a Osho Discourse tökéletesítésében a következő összeomlásnapló elküldésével:</string>
     <string name="ml_crash_send">A médiatár összeomlott. Segítsen nekünk a naplók elküldésével.</string>
-    <string name="restart_vlc">Mix Wave újraindítása</string>
+    <string name="restart_vlc">Osho Discourse újraindítása</string>
     <string name="send_log">Naplófájl küldése</string>
     <string name="sending_log">Naplófájl küldése…</string>
 
@@ -669,7 +669,7 @@
     <string name="medialibrary_directories">Médiatár mappák</string>
 
     <!--What's new-->
-    <string name="whats_new_title">A Mix Wave for Android %s újdonságai</string>
+    <string name="whats_new_title">A Osho Discourse for Android %s újdonságai</string>
     <string name="whats_new_37_equalizer_text">A hangszínszabályzó teljesen újra lett dolgozva. Könnyebben használható, letilthatja az alapértelmezett előbeállításokat, valamint biztonsági mentést készíthet, helyreállíthatja és megoszthatja az előbeállításait.</string>
     <string name="whats_new_37_import_export">Fejlesztettük a beállítások biztonsági mentési és helyreállítási funkcióját. Mostantól több beállításról készíthet mentést, köztük a hangszínszabályzó előbeállításairól.</string>
     <string name="whats_new_37_android_auto">Egyes új tárolással kapcsolatos megszorítások miatt az Android Auto beállításai átkerültek a mobilalkalmazásba. Ez lesz az autós élménye módosításának új helye.</string>
@@ -678,7 +678,7 @@
 <!--    update-->
     <string name="update_title">Frissítés érhető el</string>
     <string name="install_nightly_title">A napi verzió telepítése</string>
-    <string name="update_text">A Mix Wave for Android új napi kiadása elérhető!\n\nEzt azért látja, mert napi összeállítást használ.</string>
+    <string name="update_text">A Osho Discourse for Android új napi kiadása elérhető!\n\nEzt azért látja, mert napi összeállítást használ.</string>
     <string name="install_text">A napi verziók automatikusan frissülnek minden nap, és a legfrissebb funkciókat és javításokat tartalmazzák.\n\nLetölti most?</string>
 
     <string name="open_in_browser">Megnyitás böngészőben</string>
@@ -699,28 +699,28 @@
     <string name="music_now_playing">Most játszott</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Mix Wave fehér ablakelem</string>
-    <string name="widget_name_b">Mix Wave sötét ablakelem</string>
-    <string name="widget_name_mini_player">Mix Wave minilejátszó</string>
+    <string name="widget_name_w">Osho Discourse fehér ablakelem</string>
+    <string name="widget_name_b">Osho Discourse sötét ablakelem</string>
+    <string name="widget_name_mini_player">Osho Discourse minilejátszó</string>
     <string name="widget_old_text">Frissítettük a moduljainkat!</string>
     <string name="widget_old_description_start">Jó hírek! Kiadtuk a továbbfejlesztett moduljainkat.\nNagyobb alkalmazkodóképességet és tesztreszabhatóságot kínálnak.</string>
     <string name="whats_next">Mik az újdonságok?</string>
     <string name="widget_old_description_end">Észleltük, hogy már használ modulokat az indítóképernyőjén. Sajnos ezek nem kompatibilisek az új, fejlesztett társaikkal.\nAz indítójától függően lehet, hogy el kell távolítania a régieket, és le kell cserélni azokat.</string>
     <string name="click_here">Kattintson ide, hogy többet tudjon meg.</string>
-    <string name="allow_storage_access_title">A Mix Wave hozzáférhet a videó- és hangfájlokhoz</string>
-    <string name="allow_storage_access_description">A Mix Wave-nek szüksége van erre az engedélyre a médiafájlok eléréséhez az eszközén.</string>
-    <string name="partial_content">A Mix Wave nem éri el az összes fájlját</string>
+    <string name="allow_storage_access_title">A Osho Discourse hozzáférhet a videó- és hangfájlokhoz</string>
+    <string name="allow_storage_access_description">A Osho Discourse-nek szüksége van erre az engedélyre a médiafájlok eléréséhez az eszközén.</string>
+    <string name="partial_content">A Osho Discourse nem éri el az összes fájlját</string>
     <string name="partial_content_description">Az Android 11-től kezdve az alkalmazásoknak egy speciális engedélyre van szükségük az eszköz összes fájljának eléréséhez.\n\n%s</string>
     <string name="never_ask_again">Ne kérdezze újra</string>
     <string name="never_show_again">Ne jelenítse meg újra, a jövőbeli verzióknál sem</string>
-    <string name="allow_settings_access_ringtone_title">A Mix Wave beállíthatja a csengőhangot</string>
-    <string name="allow_settings_access_ringtone_description">A Mix Wave-nek szüksége van erre az engedélyre a számok csengőhangként beállításához.</string>
-    <string name="allow_settings_access_brightness_title">A Mix Wave beállíthatja a fényerősséget</string>
-    <string name="allow_settings_access_brightness_description">A Mix Wave-nek szüksége van erre az engedélyre a fényerősség beállításához.</string>
-    <string name="allow_draw_overlays_title">A Mix Wave felugró engedélyezése más appok felett</string>
-    <string name="allow_sdraw_overlays_description">A Mix Wave-nek szüksége van erre az engedélyre a videók más appok feletti felugró ablakban megjelenítéshez.</string>
-    <string name="allow_pip">A Kép a képben mód indításának engedélyezése a Mix Wave lejátszó számára</string>
-    <string name="allow_pip_description">A Mix Wave-nek engedélyre van szüksége a videó Kép a képben módban való lejátszásához.</string>
+    <string name="allow_settings_access_ringtone_title">A Osho Discourse beállíthatja a csengőhangot</string>
+    <string name="allow_settings_access_ringtone_description">A Osho Discourse-nek szüksége van erre az engedélyre a számok csengőhangként beállításához.</string>
+    <string name="allow_settings_access_brightness_title">A Osho Discourse beállíthatja a fényerősséget</string>
+    <string name="allow_settings_access_brightness_description">A Osho Discourse-nek szüksége van erre az engedélyre a fényerősség beállításához.</string>
+    <string name="allow_draw_overlays_title">A Osho Discourse felugró engedélyezése más appok felett</string>
+    <string name="allow_sdraw_overlays_description">A Osho Discourse-nek szüksége van erre az engedélyre a videók más appok feletti felugró ablakban megjelenítéshez.</string>
+    <string name="allow_pip">A Kép a képben mód indításának engedélyezése a Osho Discourse lejátszó számára</string>
+    <string name="allow_pip_description">A Osho Discourse-nek engedélyre van szüksége a videó Kép a képben módban való lejátszásához.</string>
     <string name="permission_ask_again">Engedély megadása</string>
     <string name="pick_file">Válasszon egy fájlt</string>
     <string name="permission_not_granted">Az engedély nincs megadva</string>
@@ -729,9 +729,9 @@
     <string name="permission_onboarding_no_perm">Nem fogja tudni automatikusan felkutatni a saját médiát.\nCsak közvetítéseket vagy hálózati médiát tud majd lejátszani.</string>
     <string name="permission_onboarding_perm_media">Csak szabványos médiafájlokat tud majd automatikusan felkutatni</string>
     <string name="permission_onboarding_perm_all">Mindenféle fájlt fel tud kutatni, hogy lejátszhassa az összes típusú médiát, beleértve a furcsa vagy a tömörített fájlokat is</string>
-    <string name="exit_app">Mix Wave bezárása</string>
-    <string name="exit_app_msg">Biztosan kilép a Mix Wave-ből?</string>
-    <string name="widget_explanation_title">Mix Wave widgetek</string>
+    <string name="exit_app">Osho Discourse bezárása</string>
+    <string name="exit_app_msg">Biztosan kilép a Osho Discourse-ből?</string>
+    <string name="widget_explanation_title">Osho Discourse widgetek</string>
     <string name="widget_explanation_size">A modulok különböző méretűek és stílusúak</string>
     <string name="widget_explanation_resize">A modul típusának módosításához nyomja hosszan, és használja a fogantyúkat, hogy átméretezze a megfelelő méretre</string>
     <string name="widget_explanation_end">A modulok nagy mértékben testreszabhatók. Engedje szabadjára a kreativitását, és alakítsa az Önnek megfelelőre.</string>
@@ -788,7 +788,7 @@
     <string name="length">Hossz</string>
     <string name="tv_settings_hint">Nyomja meg hosszan az OK gombot a könyvtárak bejelöléséhez/eltávolításához</string>
     <string name="ml_external_storage_title">Új külső tároló észlelve</string>
-    <string name="ml_external_storage_msg">Szeretné, hogy a Mix Wave hozzáadja a(z) %1$s eszközt a médiatárához?</string>
+    <string name="ml_external_storage_msg">Szeretné, hogy a Osho Discourse hozzáadja a(z) %1$s eszközt a médiatárához?</string>
     <string name="ml_external_storage_accept">Igen</string>
     <string name="ml_external_storage_decline">Nem</string>
     <string name="auto_last_added_media">Legutóbb hozzáadva</string>
@@ -818,8 +818,8 @@
     <string name="browser_storages">Tárolók</string>
     <string name="msg_delete_failed">A(z) %1$s média törlése meghiúsult</string>
     <string name="renderer_list_title">Kijelzők</string>
-    <string name="sdcard_permission_dialog_title">Írási engedélyt kell adnia a Mix Wave-nek az SD-kártyához hozzáféréshez</string>
-    <string name="sdcard_permission_dialog_message">A Mix Wave írási jogosultság nélkül nem törölheti a fájlt.\nUgorjon az SD kártyához és válassza a „Kiválasztás” lehetőséget.\nLehet hogy rá kell kattintania az „SD-kártya megjelenítése” lehetőségre a jobb felső menüben.</string>
+    <string name="sdcard_permission_dialog_title">Írási engedélyt kell adnia a Osho Discourse-nek az SD-kártyához hozzáféréshez</string>
+    <string name="sdcard_permission_dialog_message">A Osho Discourse írási jogosultság nélkül nem törölheti a fájlt.\nUgorjon az SD kártyához és válassza a „Kiválasztás” lehetőséget.\nLehet hogy rá kell kattintania az „SD-kártya megjelenítése” lehetőségre a jobb felső menüben.</string>
     <string name="dialog_sd_wizard">Megjelenítés</string>
     <string name="renderers_disconnect">Leválasztás</string>
     <string name="audio_digital_failed">Digitális hangkimenet állapotának módosítása meghiúsult</string>
@@ -834,7 +834,7 @@
     <string name="playback_rewind">Visszatekerés</string>
     <string name="playback_forward">Előretekerés</string>
     <string name="ml_wizard_scan_checkbox">Eszköz átvizsgálása médiatartalom után</string>
-    <string name="ml_wizard_description">Válassza ki, hogy a Mix Wave felkutassa-e az eszköz tárhelyét a médiatára elrendezéséhez, vagy csak egyszerű lejátszóként használja, beépített böngészővel.</string>
+    <string name="ml_wizard_description">Válassza ki, hogy a Osho Discourse felkutassa-e az eszköz tárhelyét a médiatára elrendezéséhez, vagy csak egyszerű lejátszóként használja, beépített böngészővel.</string>
     <string name="tv_my_new_videos">Új saját videók</string>
     <string name="cast_option_title">Média átküldése egy másik képernyőre</string>
     <string name="otg_device_title">OTG eszköz</string>
@@ -873,29 +873,29 @@
     <string name="ctx_player_subs_track">Feliratsáv</string>
     <string name="ctx_pip_title">Felugró lejátszó</string>
     <string name="device_dialog_title">Külső eszköz behelyezve</string>
-    <string name="device_dialog_message">Egy új tárolóeszközt csatlakoztatott a TV-jéhez, a Mix Wave-vel akarja megnyitni?</string>
+    <string name="device_dialog_message">Egy új tárolóeszközt csatlakoztatott a TV-jéhez, a Osho Discourse-vel akarja megnyitni?</string>
     <string name="videos_folders_title">Videók mappák szerint</string>
     <string name="videos_groups_title">Videócsoportok</string>
     <string name="video_save_clone_mode">Automatikusan aktiválja a klónozás módot?</string>
     <string name="video_remote_enable">Váltás távvezérlő módba</string>
     <string name="video_remote_disable">Képernyő kettőzése</string>
     <string name="removed_from_playlist_anonymous">Elemek eltávolítva a lejátszólistából</string>
-    <string name="welcome_title">Üdvözli a Mix Wave!</string>
+    <string name="welcome_title">Üdvözli a Osho Discourse!</string>
     <string name="welcome_subtitle">A szabad és nyílt forráskódú multimédialejátszó</string>
-    <string name="permission_media">A Mix Wave-nek az engedélyére van szüksége, hogy elérje az eszközén található médiafájlokat</string>
-    <string name="permission_video">A Mix Wave-nek az engedélyére van szüksége ahhoz, hogy hozzáférjen a videófájlokhoz az eszközén</string>
-    <string name="permission_audio">A Mix Wave-nek az engedélyére van szüksége ahhoz, hogy hozzáférjen a hangfájlokhoz az eszközén</string>
-    <string name="medialibrary_scan_explanation">A Mix Wave automatikusan át tudja vizsgálni az eszközét, hogy rendszerezze a médiagyűjteményét.</string>
-    <string name="player_title_fd_warning">A tároló engedély nélkül a Mix Wave nem tudja lekérni a médiacímeket, és az előrehaladást sem tudja menteni</string>
+    <string name="permission_media">A Osho Discourse-nek az engedélyére van szüksége, hogy elérje az eszközén található médiafájlokat</string>
+    <string name="permission_video">A Osho Discourse-nek az engedélyére van szüksége ahhoz, hogy hozzáférjen a videófájlokhoz az eszközén</string>
+    <string name="permission_audio">A Osho Discourse-nek az engedélyére van szüksége ahhoz, hogy hozzáférjen a hangfájlokhoz az eszközén</string>
+    <string name="medialibrary_scan_explanation">A Osho Discourse automatikusan át tudja vizsgálni az eszközét, hogy rendszerezze a médiagyűjteményét.</string>
+    <string name="player_title_fd_warning">A tároló engedély nélkül a Osho Discourse nem tudja lekérni a médiacímeket, és az előrehaladást sem tudja menteni</string>
     <string name="onboarding_theme_title">Érezze magát otthon</string>
     <string name="done">Kész</string>
     <string name="onboarding_scan_title">A médiafájljainak automatikus felkutatása</string>
-    <string name="onboarding_all_set">A Mix Wave beállítása kész!</string>
+    <string name="onboarding_all_set">A Osho Discourse beállítása kész!</string>
     <string name="onboarding_permission_given">Mostantól automatikusan be tudja olvasni a médiafájljait, használhat külső feliratokat, valamint lejátszhat internetes közvetítéseket és hálózati médiát</string>
-    <string name="daynight_system_explanation">A Mix Wave automatikusan sötét módra vált, a rendszer beállításainak megfelelően</string>
-    <string name="daynight_legacy_explanation">A Mix Wave automatikusan éjszakai módba vált a megfelelő időben</string>
-    <string name="onboarding_scanning_enable">A Mix Wave vizsgálja át az eszközömet, médiatartalmakat keresve</string>
-    <string name="onboarding_scan_customize">Kiválasztom, hogy mely mappákat vizsgálja át a Mix Wave</string>
+    <string name="daynight_system_explanation">A Osho Discourse automatikusan sötét módra vált, a rendszer beállításainak megfelelően</string>
+    <string name="daynight_legacy_explanation">A Osho Discourse automatikusan éjszakai módba vált a megfelelő időben</string>
+    <string name="onboarding_scanning_enable">A Osho Discourse vizsgálja át az eszközömet, médiatartalmakat keresve</string>
+    <string name="onboarding_scan_customize">Kiválasztom, hogy mely mappákat vizsgálja át a Osho Discourse</string>
     <string name="button_medialibrary_preferences">Ugrás a médiatár beállításaihoz</string>
     <string name="light_theme">Világos téma</string>
     <string name="add">Hozzáadás</string>
@@ -907,7 +907,7 @@
     <string name="popup_force_legacy_title">Egyéni „Kép a képben” felugró ablak</string>
     <string name="popup_force_legacy_summary">Egyéni „Kép a képben” átméretezhető felugró ablak</string>
     <string name="restore_background_video_title">Videó helyreállítása a háttérből</string>
-    <string name="restore_background_video_summary">A videó helyreállítása a háttérből a Mix Wave for Android újbóli megnyitásakor</string>
+    <string name="restore_background_video_summary">A videó helyreállítása a háttérből a Osho Discourse for Android újbóli megnyitásakor</string>
     <string name="device_default">Eszköz alapértelmezése</string>
     <string name="track_number">%d szám</string>
     <string name="jump_to">Ugrás</string>
@@ -936,14 +936,14 @@
     <string name="display_in_grid">Megjelenítés rácsban</string>
     <string name="dump_db_succes">Adatbázis kiírva a belső tárhely gyökerében</string>
     <string name="dump_db_failure">Az adatbázis kiírása sikertelen</string>
-    <string name="send_crash_title">Mix Wave összeomlás-jelentő</string>
-    <string name="send_crash_description">Az összeomlás elküldésével segít a Mix Wave stabilitásának fejlesztésében.</string>
+    <string name="send_crash_title">Osho Discourse összeomlás-jelentő</string>
+    <string name="send_crash_description">Az összeomlás elküldésével segít a Osho Discourse stabilitásának fejlesztésében.</string>
     <string name="send_crash_warning">Győződjön meg róla, hogy törli azokat az érzékeny adatokat, amelyeket nem akar elküldeni.</string>
     <string name="include_medialib">Az adatbázis is legyen benne</string>
     <string name="include_logs">Naplók hozzáadása </string>
-    <string name="vlc_reporter">Mix Wave jelentő</string>
-    <string name="welcome_beta_title">Mix Wave béta</string>
-    <string name="welcome_beta_description">Üdvözöljük a Mix Wave béta programban.\nVegye figyelembe, hogy a verzió hibákat tartalmazhat.</string>
+    <string name="vlc_reporter">Osho Discourse jelentő</string>
+    <string name="welcome_beta_title">Osho Discourse béta</string>
+    <string name="welcome_beta_description">Üdvözöljük a Osho Discourse béta programban.\nVegye figyelembe, hogy a verzió hibákat tartalmazhat.</string>
     <string name="welcome_beta_description_bugs">Ha hibát vesz észre, jelentse a fórumon vagy a hibakövetőben.</string>
     <string name="welcome_beta_description_crashes">Ha hibát vagy összeomlást tapasztal, nyissa meg a Névjegy képernyőt, és használja a Visszajelzés > Kapcsolatfelvétel a támogatási csapattal gombot.</string>
     <string name="send">Küldés</string>
@@ -987,8 +987,8 @@
     <string name="recently_played">Legutóbb játszott</string>
     <string name="recently_added">Legutóbb hozzáadott</string>
     <string name="playback_multiple_errors">Több média nem játszható le</string>
-    <string name="clear_media_db_message">Elveszíti az előrehaladásokat, a könyvjelzőket és a létrehozott lejátszási listákat, de megtartja a Mix Wave for Android beállításait</string>
-    <string name="clear_app_data_message">El fogja veszíteni az előrehaladásokat, a könyvjelzőket, a lejátszási listákat és az összes Mix Wave-beállítást</string>
+    <string name="clear_media_db_message">Elveszíti az előrehaladásokat, a könyvjelzőket és a létrehozott lejátszási listákat, de megtartja a Osho Discourse for Android beállításait</string>
+    <string name="clear_app_data_message">El fogja veszíteni az előrehaladásokat, a könyvjelzőket, a lejátszási listákat és az összes Osho Discourse-beállítást</string>
     <string name="clear">Törlés</string>
     <string name="abrepeat_add_first_marker">Kezdési pont beállítása</string>
     <string name="abrepeat_add_second_marker">Befejezési pont beállítása</string>
@@ -1044,18 +1044,18 @@
     <string name="sub_result_by_name_hearing_impaired">Csak hallássérültek</string>
 
     <string name="sub_result_by_file">Találatok a fájlhoz</string>
-    <string name="donate">Segítse a Mix Wave-t</string>
-    <string name="donate_desc">Támogassa a Mix Wave-t készítő önkénteseket</string>
+    <string name="donate">Segítse a Osho Discourse-t</string>
+    <string name="donate_desc">Támogassa a Osho Discourse-t készítő önkénteseket</string>
     <string name="donate_subscribtion">Szeretném, hogy ez egy havi támogatás legyen</string>
     <string name="donate_send">Kezdje le a támogatását</string>
-    <string name="donation_description">A támogatása lehetővé teszi:\nAz androidos Mix Wave alkalmazás fejlesztését\nA Mix Wave Association támogatását</string>
+    <string name="donation_description">A támogatása lehetővé teszi:\nAz androidos Osho Discourse alkalmazás fejlesztését\nA Osho Discourse Association támogatását</string>
     <string name="subscription_purchased">Feliratkozott egy havi támogatásra</string>
     <string name="subscription_cancel">A Play Store-ban iratkozhat le</string>
     <string name="subscription_cancel_tv">Hogyan iratkozzon le</string>
     <string name="donate_unsubscribe_tv">A leiratkozáshoz nyissa meg a %s alkalmazást a telefonján vagy számítógépén, vagy olvassa le ezt a kódot:</string>
-    <string name="tip_jar">Segítse a Mix Wave-t</string>
+    <string name="tip_jar">Segítse a Osho Discourse-t</string>
     <string name="thank_you">Köszönjük</string>
-    <string name="thank_you_desc">Köszönjük a támogatását!\nSokat fog nekünk segíteni a Mix Wave fejlesztésében!</string>
+    <string name="thank_you_desc">Köszönjük a támogatását!\nSokat fog nekünk segíteni a Osho Discourse fejlesztésében!</string>
     <string name="donate_again">Támogassa újra az alkalmazást</string>
 
     <string name="mark_as_played">Megjelölés lejátszottként</string>
@@ -1073,7 +1073,7 @@
     <string name="air_action_next">Következő lejátszási elem</string>
     <string name="air_action_previous">Előző lejátszási elem</string>
     <string name="allow_otg">OTG hozzáférés bekapcsolása</string>
-    <string name="allow_otg_description">Válassza ki az OTG eszközt, hogy hozzáférést kérjen a Mix Wave-hez</string>
+    <string name="allow_otg_description">Válassza ki az OTG eszközt, hogy hozzáférést kérjen a Osho Discourse-hez</string>
     <string name="timeout_infinite">Végtelen</string>
     <string name="video_hud_timeout">Videó vezérlők elrejtési késleltetése</string>
     <string name="video_hud_timeout_summary">%s mp</string>
@@ -1141,7 +1141,7 @@
     <string name="optional_features_warning">Ez a funkció béta állapotú és összeomlást vagy instabilitást okozhat</string>
     <string name="network_indexing">Hálózati indexelés</string>
     <string name="network_indexing_warning">A hálózati indexelés jelenleg béta állapotú.\nIsmert problémák:\n• Alacsony teljesítmény\n\nHa más problémákat is tapasztal, jelentse azt a fórumon.</string>
-    <string name="start_vlc">Mix Wave indítása</string>
+    <string name="start_vlc">Osho Discourse indítása</string>
     <string name="jump_delay">Előre-/hátratekerés késleltetése</string>
     <string name="long_jump_delay">Hosszú érintéses előre-/hátratekerés időbeni késleltetése</string>
     <string name="jump_delay_summary">%s mp</string>
@@ -1165,7 +1165,7 @@
     <string name="lock_use_sensor_summary">Ha a tájolás zárolva van, használja az érzékelőt a fordított tájolás engedélyezéséhez</string>
     <string name="start">Indítás</string>
     <string name="notification_permission">Értesítések engedély</string>
-    <string name="notification_permission_explanation">A Mix Wave-nek engedélyre van szüksége van az értesítések küldéséhez.\nAz alkalmazás csak akkor értesít, ha beolvassa a médiát, vagy használja a Kép a képben videót.\nAz elutasítás nem akadályozza meg a Mix Wave működését, azonban az értesítések el lesznek rejtve.</string>
+    <string name="notification_permission_explanation">A Osho Discourse-nek engedélyre van szüksége van az értesítések küldéséhez.\nAz alkalmazás csak akkor értesít, ha beolvassa a médiát, vagy használja a Kép a képben videót.\nAz elutasítás nem akadályozza meg a Osho Discourse működését, azonban az értesítések el lesznek rejtve.</string>
     <string name="permission">Engedély</string>
     <string name="permission_no_access">Nincs hozzáférés a fájlokhoz</string>
     <string name="permissions">Engedélyek</string>
@@ -1234,7 +1234,7 @@
     <string name="widget_show_configure_summary">Ha nem jelenik meg, akkor is a jobb felső sarokba koppinthat, hogy megnyissa a beállításokat.</string>
     <string name="seek_backward_content_description">Hátratekerés %s másodperccel</string>
     <string name="seek_forward_content_description">Előretekerés %s másodperccel</string>
-    <string name="open_vlc">Mix Wave megnyitása</string>
+    <string name="open_vlc">Osho Discourse megnyitása</string>
     <string name="playing">Lejátszás</string>
     <string name="disable_track">Szám letiltása</string>
     <string name="ascending">Emelkedő</string>
@@ -1339,7 +1339,7 @@
     <string name="ra_browser_audio_not_found">A média nem található, vagy nem játszható le böngészőben</string>
     <string name="ra_browser_audio_unsupported_format">A böngészője nem támogatja ezt a hangformátumot</string>
 
-    <string name="ra_onboarding_welcome_desc">Üdvözli a Mix Wave for Android távoli elérése\nAz engedélyezésével távolról is fogja tudni vezérelni az eszköz lejátszását, és még több mindent.</string>
+    <string name="ra_onboarding_welcome_desc">Üdvözli a Osho Discourse for Android távoli elérése\nAz engedélyezésével távolról is fogja tudni vezérelni az eszköz lejátszását, és még több mindent.</string>
     <string name="ra_onboarding_how_title">Vezérelje az eszközét</string>
     <string name="ra_onboarding_how_desc">Vezérelje az eszköze lejátszását, küldjön vagy fogadjon fájlokat, és így tovább</string>
     <string name="ra_onboarding_ssl_title">Adattitkosítás</string>
@@ -1365,7 +1365,7 @@
     <string name="podcast_mode">Podcast mód</string>
     <string name="podcast_mode_help">A podcastvezérlők akkor jelennek meg, ha egyetlen sávot játszik le, amelyre a következő feltételek egyike teljesül:\n\t• Hosszabb mint 60 perc\n\t• Hosszabb mint 15 perc, és nincs albumneve\n\t• A műfaja %s </string>
     <string name="voice_control">Hangvezérlés</string>
-    <string name="voice_control_help">A Mix Wave vezérelhető a Google Segéden keresztül a következő parancsokkal:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
+    <string name="voice_control_help">A Osho Discourse vezérelhető a Google Segéden keresztül a következő parancsokkal:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
 
     <string name="network" >Hálózat</string>
     <string name="metered_connection">A közvetítések művelete forgalomkorlátos kapcsolatnál</string>

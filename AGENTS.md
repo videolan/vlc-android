@@ -1,12 +1,12 @@
-# Mix Wave Android context
+# Osho Discourse Android context
 
-This repo is a fork/rebrand of VLC Android. The product name is **Mix Wave**.
+This repo is a fork/rebrand of VLC Android. The product name is **Osho Discourse**.
 
-Primary goal: keep VLC's local media playback base, but present it as Mix Wave with a music-first UX and an added **Audio Mixer** feature that can play a selected local audio file in the background alongside the main player.
+Primary goal: keep VLC's local media playback base, but present it as Osho Discourse with a music-first UX and an added **Audio Mixer** feature that can play a selected local audio file in the background alongside the main player.
 
 ## Product direction
 
-- App name and user-facing branding should be **Mix Wave**, not VLC or VideoLAN.
+- App name and user-facing branding should be **Osho Discourse**, not VLC or VideoLAN.
 - Official website should point to `sandalbar.online`.
 - Source code URL should point to `https://github.com/curiouscosmos/mix-wave-android`.
 - Dark theme is the default.
@@ -21,7 +21,7 @@ Primary goal: keep VLC's local media playback base, but present it as Mix Wave w
 
 ## Current implemented changes to preserve
 
-- Replaced VLC launcher/onboarding/header icons with Mix Wave assets.
+- Replaced VLC launcher/onboarding/header icons with Osho Discourse assets.
 - Header icon uses 8dp rounded corners. Avoid `clipToOutline` in XML because min API is 26.
 - Added bottom mini-player on Music, fixed near the bottom like Spotify.
 - Removed Music random/shuffle floating button.

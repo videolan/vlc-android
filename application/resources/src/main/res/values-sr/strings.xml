@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">У реду</string>
     <string name="cancel">Откажи</string>
     <string name="other">Друго</string>
@@ -178,7 +178,7 @@
     <string name="streams">Токови</string>
     <string name="open_mrl_dialog_msg">Унесите адресу: нпр. http://, mms:// или rtsp://</string>
     <string name="encountered_error_title">Грешка при репродукцији</string>
-    <string name="encountered_error_message">Mix Wave је наишао на грешку у овом медију.\nПробајте да освежите медијску библиотеку.</string>
+    <string name="encountered_error_message">Osho Discourse је наишао на грешку у овом медију.\nПробајте да освежите медијску библиотеку.</string>
     <string name="invalid_location">Локацију %1$s није могуће пустити.</string>
     <string name="search">Претражи</string>
 
@@ -202,10 +202,10 @@
     <string name="hold_to_stop">Држите да зауставите</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Ревизија</string>
     <string name="about">О апликацији</string>
-    <string name="vlc_authors">и аутори Mix Wave-а.</string>
+    <string name="vlc_authors">и аутори Osho Discourse-а.</string>
     <string name="feedback_forum">Форум</string>
 
     <!-- Preferences -->
@@ -265,19 +265,19 @@
     <string name="dump_logcat">Испиши logcat евиденцију</string>
     <string name="dump_logcat_success">Logcat је успешно исписан у %1$s.</string>
     <string name="dump_logcat_failure">Не могу да испишем logcat.</string>
-    <string name="serious_crash">Нажалост, дошло је до озбиљне грешке која је проузроковала пад Mix Wave-а.</string>
-    <string name="help_us_send_log">Помозите нам да побољшамо Mix Wave слањем следећег извештаја о паду:</string>
-    <string name="restart_vlc">Поново покрени Mix Wave</string>
+    <string name="serious_crash">Нажалост, дошло је до озбиљне грешке која је проузроковала пад Osho Discourse-а.</string>
+    <string name="help_us_send_log">Помозите нам да побољшамо Osho Discourse слањем следећег извештаја о паду:</string>
+    <string name="restart_vlc">Поново покрени Osho Discourse</string>
     <string name="send_log">Пошаљи извештај</string>
     <string name="sending_log">Шаљем извештај…</string>
 
     <string name="allow_storage_access_title">Дозвола за приступ датотекама</string>
-    <string name="allow_storage_access_description">Mix Wave-у је потребна ова дозвола како би приступио медијским датотекама на уређају.</string>
+    <string name="allow_storage_access_description">Osho Discourse-у је потребна ова дозвола како би приступио медијским датотекама на уређају.</string>
     <string name="allow_settings_access_ringtone_title">Дозвола за постављање мелодије звона</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave-у је потребна ова дозвола како би поставио аудио-снимак као мелодију звона.</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse-у је потребна ова дозвола како би поставио аудио-снимак као мелодију звона.</string>
     <string name="allow_settings_access_brightness_title">Дозвола за промену режима осветљености</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave-у је потребна ова дозвола како би променио режим осветљености.</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave-у је потребна ова дозвола како би приказивао видео преко других апликација.</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse-у је потребна ова дозвола како би променио режим осветљености.</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse-у је потребна ова дозвола како би приказивао видео преко других апликација.</string>
     <string name="permission_ask_again">Додели дозволу</string>
     <string name="ml_external_storage_title">Откривена је нова екстерна меморија</string>
     <string name="ml_external_storage_msg">Желите ли да додате уређај %1$s у медијатеку?</string>
@@ -288,15 +288,15 @@
 
     <string name="next">Следеће</string>
     <string name="videos_folders_title">Видео-снимци по фасциклама</string>
-    <string name="welcome_title">Добро дошли у Mix Wave!</string>
+    <string name="welcome_title">Добро дошли у Osho Discourse!</string>
     <string name="welcome_subtitle">Бесплатан медијски плејер отвореног кода</string>
-    <string name="permission_media">Mix Wave-у је потребна дозвола за приступ медијским датотекама на вашем уређају</string>
-    <string name="medialibrary_scan_explanation">Mix Wave може да аутоматски скенира ваш уређај и направи медијатеку.</string>
+    <string name="permission_media">Osho Discourse-у је потребна дозвола за приступ медијским датотекама на вашем уређају</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse може да аутоматски скенира ваш уређај и направи медијатеку.</string>
     <string name="onboarding_theme_title">Персонализација</string>
     <string name="done">Готово</string>
     <string name="onboarding_scan_title">Аутоматско проналажење медијских датотека</string>
-    <string name="daynight_system_explanation">Mix Wave ће аутоматски прећи на тамни режим у складу са подешавањима система</string>
-    <string name="daynight_legacy_explanation">Mix Wave ће аутоматски прећи на ноћни режим у одговарајуће време</string>
+    <string name="daynight_system_explanation">Osho Discourse ће аутоматски прећи на тамни режим у складу са подешавањима система</string>
+    <string name="daynight_legacy_explanation">Osho Discourse ће аутоматски прећи на ноћни режим у одговарајуће време</string>
     <string name="onboarding_scanning_enable">Дозволи скенирање уређаја</string>
     <string name="onboarding_scan_customize">Желим да одаберем фасцикле које ће бити скениране</string>
     <string name="light_theme">Светла тема</string>

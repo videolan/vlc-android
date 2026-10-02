@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Anuluj</string>
     <string name="other">Inne</string>
@@ -37,7 +37,7 @@
     <string name="play_as_audio">Odtwórz jako dźwięk</string>
     <string name="play_as_video">Odtwórz jako wideo</string>
     <string name="video_app_switch_title">Działanie po przełączaniu aplikacji</string>
-    <string name="video_app_switch_summary">Wybierz zachowanie Mix Wave, gdy przełączasz z odtwarzania wideo do innej aplikacji</string>
+    <string name="video_app_switch_summary">Wybierz zachowanie Osho Discourse, gdy przełączasz z odtwarzania wideo do innej aplikacji</string>
     <string name="play_pip_title">Odtwarzaj wideo w trybie obraz w obrazie</string>
     <string name="play_as_audio_background">Odtwarzaj wideo w tle</string>
     <string name="append">Dodaj do kolejki odtwarzania</string>
@@ -239,11 +239,11 @@
     <string name="hold_to_stop">Przytrzymaj, aby zatrzymać</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Wydanie</string>
-    <string name="about">O Mix Wave</string>
+    <string name="about">O Osho Discourse</string>
     <string name="authors">Autorzy</string>
-    <string name="vlc_authors">i autorzy Mix Wave.</string>
+    <string name="vlc_authors">i autorzy Osho Discourse.</string>
     <string name="is_compiled_by">Skompilowane przez</string>
     <string name="sources">Kod źródłowy</string>
     <string name="libraries">Biblioteki</string>
@@ -356,9 +356,9 @@
     <string name="replaygain_track">Ścieżka</string>
     <string name="replaygain_album">Album</string>
     <string name="aout">Wyjście dźwiękowe</string>
-    <string name="aout_summary">Zmiana metody używanej przez Mix Wave do generowania dźwięku</string>
-    <string name="audio_ducking_title">Głośność Mix Wave przy powiadomieniach</string>
-    <string name="audio_ducking_summary">Zmniejsza głośność Mix Wave, aby lepiej usłyszeć powiadomienia dźwiękowe, instrukcje nawigacyjne lub mowę asystenta</string>
+    <string name="aout_summary">Zmiana metody używanej przez Osho Discourse do generowania dźwięku</string>
+    <string name="audio_ducking_title">Głośność Osho Discourse przy powiadomieniach</string>
+    <string name="audio_ducking_summary">Zmniejsza głośność Osho Discourse, aby lepiej usłyszeć powiadomienia dźwiękowe, instrukcje nawigacyjne lub mowę asystenta</string>
     <string name="casting_category">Transmisja</string>
     <string name="casting_switch_title">Bezprzewodowa transmisja</string>
     <string name="casting_passthrough_title">Przekazywanie dźwięku</string>
@@ -402,7 +402,7 @@
     <string name="clear_media_db">Wyczyść bazę danych multimediów</string>
     <string name="clear_media_database_summary">Czyści bazę danych, aby zacząć od nowa</string>
     <string name="clear_app_data">Wyczyść dane aplikacji</string>
-    <string name="clear_app_data_summary">Czyści Mix Wave dla danych Androida</string>
+    <string name="clear_app_data_summary">Czyści Osho Discourse dla danych Androida</string>
     <string name="clear_history">Wyczyść historię</string>
     <string name="set_locale">Ustaw język</string>
     <string name="network_caching">Wartość buforowania sieci</string>
@@ -421,7 +421,7 @@
     <string name="start_logging">Rozpocznij rejestrowanie</string>
     <string name="stop_logging">Zatrzymaj rejestrowanie</string>
     <string name="clear_log">Usuń dziennik</string>
-    <string name="log_service_title">nagrywanie dzienników Mix Wave</string>
+    <string name="log_service_title">nagrywanie dzienników Osho Discourse</string>
     <string name="log_service_text">Otwórz konsolę dziennika</string>
     <string name="copy_to_clipboard">Kopiuj do schowka</string>
     <string name="copied_to_clipboard">Dziennik został skopiowany do schowka.</string>
@@ -430,9 +430,9 @@
     <string name="dump_logcat_failure">Nie udało się zrzucić dziennika zdarzeń.</string>
     <string name="custom_libvlc_options">Własne opcje libVLC</string>
     <string name="custom_libvlc_options_invalid">Nieprawidłowe opcje libVLC!</string>
-    <string name="serious_crash">Niestety, wystąpił poważny błąd i aplikacja Mix Wave została zamknięta.</string>
-    <string name="help_us_send_log">Pomóż nam ulepszyć Mix Wave przez wysłanie dziennika awarii:</string>
-    <string name="restart_vlc">Uruchom ponownie Mix Wave</string>
+    <string name="serious_crash">Niestety, wystąpił poważny błąd i aplikacja Osho Discourse została zamknięta.</string>
+    <string name="help_us_send_log">Pomóż nam ulepszyć Osho Discourse przez wysłanie dziennika awarii:</string>
+    <string name="restart_vlc">Uruchom ponownie Osho Discourse</string>
     <string name="send_log">Wyślij dziennik</string>
     <string name="sending_log">Wysyłanie dziennika…</string>
 
@@ -475,21 +475,21 @@
     <string name="music_now_playing">Teraz odtwarzane</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Biały widżet Mix Wave</string>
-    <string name="widget_name_b">Ciemny widżet Mix Wave</string>
+    <string name="widget_name_w">Biały widżet Osho Discourse</string>
+    <string name="widget_name_b">Ciemny widżet Osho Discourse</string>
     <string name="whats_next">Co dalej?</string>
-    <string name="allow_storage_access_title">Zezwól Mix Wave na dostęp do plików audio i wideo</string>
-    <string name="allow_storage_access_description">Mix Wave potrzebuje udzielenia pozwolenia na dostęp do plików multimedialnych na tym urządzeniu.</string>
+    <string name="allow_storage_access_title">Zezwól Osho Discourse na dostęp do plików audio i wideo</string>
+    <string name="allow_storage_access_description">Osho Discourse potrzebuje udzielenia pozwolenia na dostęp do plików multimedialnych na tym urządzeniu.</string>
     <string name="never_ask_again">Nie pytaj ponownie</string>
-    <string name="allow_settings_access_ringtone_title">Zezwól Mix Wave na ustawienie dzwonka</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave potrzebuje udzielenia pozwolenia do skonfigurowania tego utworu jako dzwonka.</string>
-    <string name="allow_settings_access_brightness_title">Zezwól Mix Wave na zmianę jasności</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave potrzebuje udzielenia pozwolenia do zmiany trybu jasności.</string>
-    <string name="allow_draw_overlays_title">Zezwól Mix Wave na wyświetlanie okna nad innymi aplikacjami</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave potrzebuje udzielenia pozwolenia do wyświetlania wideo w oknie nad innymi aplikacjami.</string>
+    <string name="allow_settings_access_ringtone_title">Zezwól Osho Discourse na ustawienie dzwonka</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse potrzebuje udzielenia pozwolenia do skonfigurowania tego utworu jako dzwonka.</string>
+    <string name="allow_settings_access_brightness_title">Zezwól Osho Discourse na zmianę jasności</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse potrzebuje udzielenia pozwolenia do zmiany trybu jasności.</string>
+    <string name="allow_draw_overlays_title">Zezwól Osho Discourse na wyświetlanie okna nad innymi aplikacjami</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse potrzebuje udzielenia pozwolenia do wyświetlania wideo w oknie nad innymi aplikacjami.</string>
     <string name="permission_ask_again">Udzielenie pozwolenia</string>
-    <string name="exit_app">Zamknij Mix Wave</string>
-    <string name="exit_app_msg">Na pewno chcesz zamknąć Mix Wave?</string>
+    <string name="exit_app">Zamknij Osho Discourse</string>
+    <string name="exit_app_msg">Na pewno chcesz zamknąć Osho Discourse?</string>
     <!-- fast scroller -->
     <string name="fastscroller_track">Szybkie przewijanie tytułów</string>
     <string name="fastscroller_handle">Zachowanie szybkiego przewijania</string>
@@ -525,7 +525,7 @@
     <string name="length">Długość</string>
     <string name="tv_settings_hint">Naciśnij długo przycisk OK, aby zaznaczyć/odznaczyć katalogi</string>
     <string name="ml_external_storage_title">Wykryto nową pamięć zewnętrzną</string>
-    <string name="ml_external_storage_msg">Chcesz, aby Mix Wave dodał urządzenie %1$s do biblioteki multimediów?</string>
+    <string name="ml_external_storage_msg">Chcesz, aby Osho Discourse dodał urządzenie %1$s do biblioteki multimediów?</string>
     <string name="ml_external_storage_accept">Tak</string>
     <string name="ml_external_storage_decline">Nie</string>
     <string name="auto_last_added_media">Ostatnio dodane</string>
@@ -555,8 +555,8 @@
     <string name="browser_storages">Zasoby dyskowe</string>
     <string name="msg_delete_failed">Nie udało się usunąć %1$s</string>
     <string name="renderer_list_title">Wyświetlacze</string>
-    <string name="sdcard_permission_dialog_title">Musisz zezwolić Mix Wave na dostęp do zapisu na karcie SD</string>
-    <string name="sdcard_permission_dialog_message">Mix Wave nie może usunąć tego pliku bez uprawnień do zapisu.\nPrzejdź do karty SD i kliknij \"Wybierz\".\nByć może będziesz musiał(a) kliknąć najpierw na \"Pokaż kartę SD\" w prawym górnym menu</string>
+    <string name="sdcard_permission_dialog_title">Musisz zezwolić Osho Discourse na dostęp do zapisu na karcie SD</string>
+    <string name="sdcard_permission_dialog_message">Osho Discourse nie może usunąć tego pliku bez uprawnień do zapisu.\nPrzejdź do karty SD i kliknij \"Wybierz\".\nByć może będziesz musiał(a) kliknąć najpierw na \"Pokaż kartę SD\" w prawym górnym menu</string>
     <string name="dialog_sd_wizard">Pokaż mi</string>
     <string name="renderers_disconnect">Rozłącz</string>
     <string name="audio_digital_failed">Nie udało się zmienić stanu wyjścia dźwięku cyfrowego</string>
@@ -564,13 +564,13 @@
     <string name="audio_digital_output_disabled">Wyjście dźwięku cyfrowego (przejściówka) wyłączone</string>
     <string name="audio_digital_title">Cyfrowe wyjście dźwiękowe</string>
     <string name="audio_task_cleared_title">Zatrzymaj po zamknięciu aplikacji</string>
-    <string name="audio_task_cleared_summary">Zatrzymaj odtwarzanie po usunięciu Mix Wave z listy ostatnich używanych aplikacji</string>
+    <string name="audio_task_cleared_summary">Zatrzymaj odtwarzanie po usunięciu Osho Discourse z listy ostatnich używanych aplikacji</string>
     <string name="audio_resume_card_title">Wskazówka ostatnio odtwarzane</string>
     <string name="audio_resume_card_summary">Wyświetla wskazówkę pomagającą wznowić odtwarzanie dźwięku po uruchomieniu aplikacji</string>
     <string name="playback_rewind">Przewijanie do tyłu</string>
     <string name="playback_forward">Przewijanie do przodu</string>
     <string name="ml_wizard_scan_checkbox">Skanuj urządzenie pod kątem zawartości multimedialnej</string>
-    <string name="ml_wizard_description">Wybierz, czy Mix Wave skanuje pamięć urządzenia, aby uporządkować bibliotekę multimediów, czy po prostu użyć go jako prostego odtwarzacza ze zintegrowaną przeglądarką.</string>
+    <string name="ml_wizard_description">Wybierz, czy Osho Discourse skanuje pamięć urządzenia, aby uporządkować bibliotekę multimediów, czy po prostu użyć go jako prostego odtwarzacza ze zintegrowaną przeglądarką.</string>
     <string name="tv_my_new_videos">Moje nowe filmy</string>
     <string name="otg_device_title">Urządzenie OTG</string>
     <string name="browser">Przeglądarka</string>
@@ -599,24 +599,24 @@
     <string name="ctx_player_subs_track">Ścieżka napisów</string>
     <string name="ctx_pip_title">Odtwarzacz w oknie pop-up</string>
     <string name="device_dialog_title">Włożono urządzenie zewnętrzne</string>
-    <string name="device_dialog_message">Podłączyłeś/aś nowe urządzenie pamięci masowej do Twojego telewizora. Chcesz je otworzyć za pomocą Mix Wave?</string>
+    <string name="device_dialog_message">Podłączyłeś/aś nowe urządzenie pamięci masowej do Twojego telewizora. Chcesz je otworzyć za pomocą Osho Discourse?</string>
     <string name="videos_folders_title">Filmy grupowane według folderów</string>
     <string name="videos_groups_title">Grupy wideo</string>
     <string name="video_save_clone_mode">Automatycznie włączyć tryb powielania?</string>
     <string name="video_remote_enable">Przełącz w tryb zdalnego sterowania</string>
     <string name="video_remote_disable">Powiel ekran</string>
     <string name="removed_from_playlist_anonymous">Element(y) usunięte z listy odtwarzania</string>
-    <string name="welcome_title">Witamy w Mix Wave!</string>
+    <string name="welcome_title">Witamy w Osho Discourse!</string>
     <string name="welcome_subtitle">Darmowy odtwarzacz multimedialny typu open source</string>
-    <string name="permission_media">Mix Wave wymaga Twojej zgody na dostęp do plików multimedialnych na Twoim urządzeniu</string>
-    <string name="medialibrary_scan_explanation">Mix Wave może automatycznie przeszukać urządzenie, aby uporządkować kolekcję multimediów.</string>
+    <string name="permission_media">Osho Discourse wymaga Twojej zgody na dostęp do plików multimedialnych na Twoim urządzeniu</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse może automatycznie przeszukać urządzenie, aby uporządkować kolekcję multimediów.</string>
     <string name="onboarding_theme_title">Rozgość się</string>
     <string name="done">Gotowe</string>
     <string name="onboarding_scan_title">Automatyczne wykrywanie multimediów</string>
-    <string name="daynight_system_explanation">Mix Wave automatycznie przełączy się w tryb ciemny odpowiednio do ustawień systemu</string>
-    <string name="daynight_legacy_explanation">Mix Wave automatycznie przełączy się w tryb nocny w odpowiednim czasie</string>
-    <string name="onboarding_scanning_enable">Pozwól Mix Wave przeskanować moje urządzenie w poszukiwaniu treści multimedialnych</string>
-    <string name="onboarding_scan_customize">Pozwól mi wybrać foldery, które Mix Wave będzie skanować</string>
+    <string name="daynight_system_explanation">Osho Discourse automatycznie przełączy się w tryb ciemny odpowiednio do ustawień systemu</string>
+    <string name="daynight_legacy_explanation">Osho Discourse automatycznie przełączy się w tryb nocny w odpowiednim czasie</string>
+    <string name="onboarding_scanning_enable">Pozwól Osho Discourse przeskanować moje urządzenie w poszukiwaniu treści multimedialnych</string>
+    <string name="onboarding_scan_customize">Pozwól mi wybrać foldery, które Osho Discourse będzie skanować</string>
     <string name="button_medialibrary_preferences">Przejdź do preferencji biblioteki multimediów</string>
     <string name="light_theme">Motyw jasny</string>
     <string name="add">Dodaj</string>
@@ -653,13 +653,13 @@
     <string name="display_in_grid">Wyświetl w siatce</string>
     <string name="dump_db_succes">Baza danych zrzucona do głównego katalogu pamięci wewnętrznej</string>
     <string name="dump_db_failure">Nie udało się zrzucić bazy danych</string>
-    <string name="send_crash_title">Reporter awarii Mix Wave</string>
-    <string name="send_crash_description">Wysyłając awarię, pomożesz nam poprawić stabilność Mix Wave.</string>
+    <string name="send_crash_title">Reporter awarii Osho Discourse</string>
+    <string name="send_crash_description">Wysyłając awarię, pomożesz nam poprawić stabilność Osho Discourse.</string>
     <string name="send_crash_warning">Upewnij się, że usunąłeś/aś poufne dane, których nie chcesz wysyłać.</string>
     <string name="include_medialib">Dołącz swoją bazę danych</string>
-    <string name="vlc_reporter">Mix Wave reporter</string>
-    <string name="welcome_beta_title">Mix Wave beta</string>
-    <string name="welcome_beta_description">Witamy w programie Mix Wave beta.\nPamiętaj, że ta wersja może zawierać błędy.</string>
+    <string name="vlc_reporter">Osho Discourse reporter</string>
+    <string name="welcome_beta_title">Osho Discourse beta</string>
+    <string name="welcome_beta_description">Witamy w programie Osho Discourse beta.\nPamiętaj, że ta wersja może zawierać błędy.</string>
     <string name="welcome_beta_description_bugs">Jeśli zauważysz błąd, zgłoś go na naszym forum lub w narzędziu do śledzenia błędów.</string>
     <string name="send">Wyślij</string>
     <string name="send_crash_action_title">Co chcesz zrobić?</string>
@@ -699,8 +699,8 @@
     <string name="recently_played">Ostatnio odtwarzane</string>
     <string name="recently_added">Ostatnio dodane</string>
     <string name="playback_multiple_errors">Nie można odtwarzać kilku multimediów</string>
-    <string name="clear_media_db_message">Utracisz swoje postępy, zakładki i utworzone listy odtwarzania, ale zachowasz ustawienia Mix Wave dla Androida</string>
-    <string name="clear_app_data_message">Utracisz swoje postępy, zakładki, listy odtwarzania i wszystkie ustawienia Mix Wave</string>
+    <string name="clear_media_db_message">Utracisz swoje postępy, zakładki i utworzone listy odtwarzania, ale zachowasz ustawienia Osho Discourse dla Androida</string>
+    <string name="clear_app_data_message">Utracisz swoje postępy, zakładki, listy odtwarzania i wszystkie ustawienia Osho Discourse</string>
     <string name="clear">Wyczyść</string>
     <string name="abrepeat_add_first_marker">Ustaw punkt początkowy</string>
     <string name="abrepeat_add_second_marker">Ustaw punkt końcowy</string>
@@ -753,18 +753,18 @@
     <string name="sub_result_by_name_season">Sezon %s</string>
     <string name="sub_result_by_name_episode">Odcinek %s</string>
     <string name="sub_result_by_file">Wyniki dla Twojego pliku</string>
-    <string name="donate">Pomóż Mix Wave</string>
-    <string name="donate_desc">Wspieraj wolontariuszy tworzących Mix Wave</string>
+    <string name="donate">Pomóż Osho Discourse</string>
+    <string name="donate_desc">Wspieraj wolontariuszy tworzących Osho Discourse</string>
     <string name="donate_subscribtion">Chcę, aby to był comiesięczny sponsoring</string>
     <string name="donate_send">Rozpocznij sponsorowanie</string>
-    <string name="donation_description">Twoje sponsorowanie pozwoli nam:\nUlepszyć aplikację Mix Wave na Androida\nWspierać Stowarzyszenie Mix Wave</string>
+    <string name="donation_description">Twoje sponsorowanie pozwoli nam:\nUlepszyć aplikację Osho Discourse na Androida\nWspierać Stowarzyszenie Osho Discourse</string>
     <string name="subscription_purchased">Jesteś subskrybentem comiesięcznego sponsorowania</string>
     <string name="subscription_cancel">Możesz zrezygnować z subskrypcji w Sklepie Play</string>
     <string name="subscription_cancel_tv">Jak zrezygnować z subskrypcji</string>
     <string name="donate_unsubscribe_tv">Aby anulować subskrypcję, otwórz %s na telefonie lub komputerze albo zeskanuj ten kod:</string>
-    <string name="tip_jar">Pomóż Mix Wave</string>
+    <string name="tip_jar">Pomóż Osho Discourse</string>
     <string name="thank_you">Dziękujemy</string>
-    <string name="thank_you_desc">Dziękujemy za wsparcie!\nPomoże nam to w ulepszaniu Mix Wave!</string>
+    <string name="thank_you_desc">Dziękujemy za wsparcie!\nPomoże nam to w ulepszaniu Osho Discourse!</string>
     <string name="donate_again">Ponownie zasponsoruj aplikację</string>
 
     <string name="mark_as_played">Oznacz jako odtworzony</string>
@@ -781,7 +781,7 @@
     <string name="air_action_next">Poprzedni element w odtwarzaniu</string>
     <string name="air_action_previous">Następny element w odtwarzaniu</string>
     <string name="allow_otg">Zezwól na dostęp do OTG</string>
-    <string name="allow_otg_description">Wybierz swój dysk OTG, aby umożliwić dostęp do Mix Wave</string>
+    <string name="allow_otg_description">Wybierz swój dysk OTG, aby umożliwić dostęp do Osho Discourse</string>
     <string name="timeout_infinite">Nieskończoność</string>
     <string name="video_hud_timeout">Opóźnienie ukrywania kontroli odtwarzacza wideo</string>
     <string name="video_hud_timeout_summary">%ss</string>
@@ -814,7 +814,7 @@
     <string name="optional_features">Funkcje opcjonalne</string>
     <string name="optional_features_summary">Funkcje beta, które są obecnie testowane i mogą być niestabilne</string>
     <string name="optional_features_warning">Ta funkcja jest w wersji beta i może powodować awarie i niestabilność</string>
-    <string name="start_vlc">Uruchom Mix Wave</string>
+    <string name="start_vlc">Uruchom Osho Discourse</string>
     <string name="jump_delay_summary">%s sekundy</string>
     <string name="move_up">Przenieś w górę</string>
     <string name="move_down">Przenieś w dół</string>
@@ -844,7 +844,7 @@
     <string name="widget_background">Tło</string>
     <string name="widget_foreground">Pierwszy plan</string>
     <string name="widget_show_configure">Pokaż ikonę konfiguracji</string>
-    <string name="open_vlc">Otwórz Mix Wave</string>
+    <string name="open_vlc">Otwórz Osho Discourse</string>
     <string name="playing">Odtwarzanie</string>
     <string name="disable_track">Wyłącz ścieżkę</string>
     <string name="ascending">Rosnąco</string>

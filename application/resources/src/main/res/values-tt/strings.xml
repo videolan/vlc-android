@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Ярар</string>
     <string name="cancel">Баш тарту</string>
     <string name="other">Башка</string>
@@ -30,7 +30,7 @@
     <string name="play_as_audio">Аудио итеп уйнату</string>
     <string name="play_as_video">Видео итеп уйнату</string>
     <string name="video_app_switch_title">Фонда/PiP режимы</string>
-    <string name="video_app_switch_summary">Видео уйнату вакытында башка кушымтага күчкәндә Mix Wave-ның үзен тотышын сайлау</string>
+    <string name="video_app_switch_summary">Видео уйнату вакытында башка кушымтага күчкәндә Osho Discourse-ның үзен тотышын сайлау</string>
     <string name="play_pip_title">Видеоларны Рәсемдә-рәсем режимында уйнату</string>
     <string name="play_as_audio_background">Видеоны фонда уйнату</string>
     <string name="insert_next">Киләсене куегыз</string>
@@ -171,10 +171,10 @@
     <string name="hold_to_stop">Туктауны җибәрмәгез</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Ревизия</string>
     <string name="about">Кушымта турында</string>
-    <string name="vlc_authors">һәм Mix Wave ясаучылары.</string>
+    <string name="vlc_authors">һәм Osho Discourse ясаучылары.</string>
     <!-- Preferences -->
     <string name="preferences">Көйләүләр</string>
     <string name="directories_summary">Медиаханәне ясау өчен каталоглар сайлагыз</string>
@@ -234,7 +234,7 @@
     <string name="enable_play_on_headset_insertion">Колакчынны ялгагач уйнатуны дәвам итү</string>
     <string name="enable_play_on_headset_insertion_summary">Өзгәндә — туктату</string>
     <string name="aout">Тавыш чыгару</string>
-    <string name="audio_ducking_title">Белдерүләр килгәндә Mix Wave тавышын киметергә</string>
+    <string name="audio_ducking_title">Белдерүләр килгәндә Osho Discourse тавышын киметергә</string>
     <string name="audio_ducking_summary">Белдерү тавышларын, навигация күрсәтмәләрен яки ярдәмче сөйләвен ишетергә мөмкинлек бирә</string>
     <string name="casting_category">Трансляция</string>
     <string name="casting_quality_high">Югары</string>
@@ -273,16 +273,16 @@
     <string name="start_logging">Беркетмәләүне башлау</string>
     <string name="stop_logging">Беркетмәләүне тәмамлау</string>
     <string name="clear_log">Беркетмәне чистарту</string>
-    <string name="log_service_title">Mix Wave журналын алып бару</string>
+    <string name="log_service_title">Osho Discourse журналын алып бару</string>
     <string name="log_service_text">Журнал консолен ачарга</string>
     <string name="copy_to_clipboard">Алмашу буферыннан күчерү</string>
     <string name="copied_to_clipboard">Беркетмә алмашу буферына күчерелде.</string>
     <string name="dump_logcat">logcat журналын бушатырга</string>
     <string name="dump_logcat_success">logcat журналы уңышлы %1$s бушатылды!</string>
     <string name="dump_logcat_failure">logcat бушатып булмады.</string>
-    <string name="serious_crash">Кызганычка каршы, кискен хата килеп чыкты һәм  Mix Wave ябылырга мәҗбүр булды.</string>
-    <string name="help_us_send_log">Mix Wave кушымтасын яхшырту өчен безгә һәлакәт логын җибәрегез:</string>
-    <string name="restart_vlc">Mix Wave киредән кабызу</string>
+    <string name="serious_crash">Кызганычка каршы, кискен хата килеп чыкты һәм  Osho Discourse ябылырга мәҗбүр булды.</string>
+    <string name="help_us_send_log">Osho Discourse кушымтасын яхшырту өчен безгә һәлакәт логын җибәрегез:</string>
+    <string name="restart_vlc">Osho Discourse киредән кабызу</string>
     <string name="send_log">Логны җибәрергә</string>
     <string name="sending_log">Логны җибәрү…</string>
 
@@ -312,19 +312,19 @@
     <string name="music_now_playing">Хәзер уйный</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Mix Wave якты виджет</string>
-    <string name="widget_name_b">Mix Wave карачкыл виджет</string>
-    <string name="allow_storage_access_title">Mix Wave-га аудио һәм видеофайлларга керү мөмкинлеген бирү</string>
-    <string name="allow_storage_access_description">Бу рөхсәт Mix Wave уйнаткычына җайланмагыздагы медиафайлларга мөрәҗәгать итә алу өчен кирәк.</string>
-    <string name="allow_settings_access_ringtone_title">Mix Wave-га шалтырату көен билгеләргә рөхсәт итү</string>
-    <string name="allow_settings_access_ringtone_description">Бу рөхсәт Mix Wave уйнаткычына хәзерге тавыш файлын шалтырату көе буларак урнаштыра алу өчен кирәк.</string>
-    <string name="allow_settings_access_brightness_title">Mix Wave-га яктылык режимын үзгәртергә рөхсәт итү</string>
-    <string name="allow_settings_access_brightness_description">Бу рөхсәт Mix Wave уйнаткычына яктылык режимын үзгәртә алу өчен кирәк.</string>
-    <string name="allow_draw_overlays_title">Mix Wave-га башка кушымталар өстеннән күрсәтелергә рөхсәт итү</string>
-    <string name="allow_sdraw_overlays_description">Бу рөхсәт Mix Wave уйнаткычына видеоны башка кушымталар өстеннән күрсәтә алу өчен кирәк.</string>
+    <string name="widget_name_w">Osho Discourse якты виджет</string>
+    <string name="widget_name_b">Osho Discourse карачкыл виджет</string>
+    <string name="allow_storage_access_title">Osho Discourse-га аудио һәм видеофайлларга керү мөмкинлеген бирү</string>
+    <string name="allow_storage_access_description">Бу рөхсәт Osho Discourse уйнаткычына җайланмагыздагы медиафайлларга мөрәҗәгать итә алу өчен кирәк.</string>
+    <string name="allow_settings_access_ringtone_title">Osho Discourse-га шалтырату көен билгеләргә рөхсәт итү</string>
+    <string name="allow_settings_access_ringtone_description">Бу рөхсәт Osho Discourse уйнаткычына хәзерге тавыш файлын шалтырату көе буларак урнаштыра алу өчен кирәк.</string>
+    <string name="allow_settings_access_brightness_title">Osho Discourse-га яктылык режимын үзгәртергә рөхсәт итү</string>
+    <string name="allow_settings_access_brightness_description">Бу рөхсәт Osho Discourse уйнаткычына яктылык режимын үзгәртә алу өчен кирәк.</string>
+    <string name="allow_draw_overlays_title">Osho Discourse-га башка кушымталар өстеннән күрсәтелергә рөхсәт итү</string>
+    <string name="allow_sdraw_overlays_description">Бу рөхсәт Osho Discourse уйнаткычына видеоны башка кушымталар өстеннән күрсәтә алу өчен кирәк.</string>
     <string name="permission_ask_again">Рөхсәт итү</string>
-    <string name="exit_app">Mix Wave-ны ябарга</string>
-    <string name="exit_app_msg">Чыннан да Mix Wave-ны ябаргамы?</string>
+    <string name="exit_app">Osho Discourse-ны ябарга</string>
+    <string name="exit_app_msg">Чыннан да Osho Discourse-ны ябаргамы?</string>
     <!-- fast scroller -->
     <string name="fastscroller_track">Язманы тиз әйләндерү</string>
     <string name="fastscroller_handle">Тиз әйләндерү</string>
@@ -358,7 +358,7 @@
     <string name="length">Озынлык</string>
     <string name="tv_settings_hint">Папкаларны билгеләү/билгесен алу өчен, озак итеп «Ярар» төймәсенә басыгыз</string>
     <string name="ml_external_storage_title">Яңа тышкы хәтер табылды</string>
-    <string name="ml_external_storage_msg">Mix Wave  %1$s җайланмасын медиаханәгезгә өстәсенме?</string>
+    <string name="ml_external_storage_msg">Osho Discourse  %1$s җайланмасын медиаханәгезгә өстәсенме?</string>
     <string name="ml_external_storage_accept">Әйе</string>
     <string name="ml_external_storage_decline">Юк</string>
     <string name="auto_home">Өй</string>
@@ -385,8 +385,8 @@
     <string name="browser_storages">Саклагычлар</string>
     <string name="msg_delete_failed">%1$s медиафайлын бетерүдә хата</string>
     <string name="renderer_list_title">Күрсәтелешләр</string>
-    <string name="sdcard_permission_dialog_title">Сезгә Mix Wave-га SD-картага язырга рөхсәт бирергә кирәк.</string>
-    <string name="sdcard_permission_dialog_message">Mix Wave бу файлны язуга рөхсәтсез бетерә алмый.\nSD-картагызга күчегез һәм \"Сайларга\" төймәсенә басыгыз.\nБәлки, сезгә баштан өске уң яктагы \"SD-картаны күрсәтергә\" төймәсенә басырга кирәк булыр.</string>
+    <string name="sdcard_permission_dialog_title">Сезгә Osho Discourse-га SD-картага язырга рөхсәт бирергә кирәк.</string>
+    <string name="sdcard_permission_dialog_message">Osho Discourse бу файлны язуга рөхсәтсез бетерә алмый.\nSD-картагызга күчегез һәм \"Сайларга\" төймәсенә басыгыз.\nБәлки, сезгә баштан өске уң яктагы \"SD-картаны күрсәтергә\" төймәсенә басырга кирәк булыр.</string>
     <string name="dialog_sd_wizard">Күрсәтергә</string>
     <string name="subtitle_search_name_hint">Исем</string>
     <string name="subtitle_search_episode_hint">Эпизод</string>

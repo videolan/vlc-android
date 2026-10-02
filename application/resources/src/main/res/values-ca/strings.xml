@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">D\'acord</string>
     <string name="cancel">Cancel·la</string>
     <string name="other">Altres</string>
@@ -43,14 +43,14 @@
     <string name="playback_controls">Controls de la reproducció</string>
     <string name="medialibrary_scan">Escaneig de la biblioteca multimèdia</string>
     <string name="Medialibrary_progress">Actualitzacions de l\'escaneig de la biblioteca de medis</string>
-    <string name="ml_database_warning">La vostra base de dades conté la llista de tots els vostres continguts multimèdia. Es compartirà amb els desenvolupadors del Mix Wave.</string>
-    <string name="logs_warning">Pot contenir informació sobre els fitxers multimèdia que heu reproduït. Es compartirà amb els desenvolupadors del Mix Wave.</string>
+    <string name="ml_database_warning">La vostra base de dades conté la llista de tots els vostres continguts multimèdia. Es compartirà amb els desenvolupadors del Osho Discourse.</string>
+    <string name="logs_warning">Pot contenir informació sobre els fitxers multimèdia que heu reproduït. Es compartirà amb els desenvolupadors del Osho Discourse.</string>
     <string name="play_from_start">Reprodueix des de l\'inici</string>
     <string name="play_as_audio">Reprodueix com a àudio</string>
     <string name="play_as_video">Reprodueix com a vídeo</string>
     <string name="return_to_video">Feu un toc llarg a la portada per recuperar el vídeo</string>
     <string name="video_app_switch_title">Mode en segon pla/pantalla sobreposada</string>
-    <string name="video_app_switch_summary">Seleccioneu el comportament del Mix Wave en canviar a una altra aplicació, quan s\'està reproduint un vídeo.</string>
+    <string name="video_app_switch_summary">Seleccioneu el comportament del Osho Discourse en canviar a una altra aplicació, quan s\'està reproduint un vídeo.</string>
     <string name="play_pip_title">Reprodueix vídeos en mode PiP</string>
     <string name="play_as_audio_background">Reprodueix vídeos al fons</string>
     <string name="append">Afegeix a la cua de reproducció</string>
@@ -315,12 +315,12 @@
     <string name="hold_to_stop">Mantingueu premut per aturar</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Revisió</string>
     <string name="about">En quant a</string>
-    <string name="about_vlc_text">Mix Wave per a l\'Android™ és una versió portada del reproductor multimèdia Mix Wave, el popular reproductor de codi obert. La versió per l\'Android™ permet llegir tota mena de fitxers i fluxos de xarxa.</string>
+    <string name="about_vlc_text">Osho Discourse per a l\'Android™ és una versió portada del reproductor multimèdia Osho Discourse, el popular reproductor de codi obert. La versió per l\'Android™ permet llegir tota mena de fitxers i fluxos de xarxa.</string>
     <string name="authors">Autors</string>
-    <string name="vlc_authors">i autors del Mix Wave</string>
+    <string name="vlc_authors">i autors del Osho Discourse</string>
     <string name="is_compiled_by">Compilat per</string>
     <string name="is_signed_by">Signat per</string>
     <string name="sources">Codi font</string>
@@ -499,8 +499,8 @@
     <string name="replaygain_track">Pista</string>
     <string name="replaygain_album">Àlbum</string>
     <string name="aout">Sortida d\'àudio</string>
-    <string name="aout_summary">Canvia el mètode que Mix Wave usa per l\'àudio de sortida</string>
-    <string name="audio_ducking_title">Baixa el volum del Mix Wave a les notificacions</string>
+    <string name="aout_summary">Canvia el mètode que Osho Discourse usa per l\'àudio de sortida</string>
+    <string name="audio_ducking_title">Baixa el volum del Osho Discourse a les notificacions</string>
     <string name="audio_ducking_summary">Ajuda a sentir les notificacions d\'àudio, instruccions de navegació o la veu de l\'assistent</string>
     <string name="casting_category">Difusió</string>
     <string name="remote_access">Accés remot</string>
@@ -577,7 +577,7 @@
     <string name="clear_media_db">Buida la base de dades multimèdia</string>
     <string name="clear_media_database_summary">Buida la base de dades per tornar a començar</string>
     <string name="clear_app_data">Buida les dades de l\'app</string>
-    <string name="clear_app_data_summary">Buida les dades del Mix Wave per a l\'Android</string>
+    <string name="clear_app_data_summary">Buida les dades del Osho Discourse per a l\'Android</string>
     <string name="clear_history">Buida l\'historial</string>
     <string name="clear_history_message">Perdreu la història, les llistes de reproducció actuals i els progressos</string>
     <string name="set_locale">Estableix la configuració local</string>
@@ -603,7 +603,7 @@
     <string name="start_logging">S\'esta registrant</string>
     <string name="stop_logging">Finalitza el registre</string>
     <string name="clear_log">Neteja el fitxer de registre</string>
-    <string name="log_service_title">Guardant els registres del Mix Wave</string>
+    <string name="log_service_title">Guardant els registres del Osho Discourse</string>
     <string name="log_service_text">Obre la consola dels registres</string>
     <string name="copy_to_clipboard">Còpia cap al porta-retalls</string>
     <string name="copied_to_clipboard">Copiat el fitxer de registre al porta-retalls</string>
@@ -621,10 +621,10 @@
     <string name="browser_quick_play_default">Reproducció ràpida com a acció predeterminada</string>
     <string name="browser_quick_play_default_summary">Si està activat, tocar un element del navegador el reproduirà amb la reproducció ràpida</string>
 
-    <string name="serious_crash">Desafortunadament, hi ha hagut un error seriós quan el Mix Wave s\'ha tancat.</string>
-    <string name="help_us_send_log">Ajudan\'s a millorar Mix Wave enviant-nos el següent fitxer de registre de fallades:</string>
+    <string name="serious_crash">Desafortunadament, hi ha hagut un error seriós quan el Osho Discourse s\'ha tancat.</string>
+    <string name="help_us_send_log">Ajudan\'s a millorar Osho Discourse enviant-nos el següent fitxer de registre de fallades:</string>
     <string name="ml_crash_send">La mediateca acaba de fallar. Ajudeu-nos enviant els registres.</string>
-    <string name="restart_vlc">Reinicia el Mix Wave</string>
+    <string name="restart_vlc">Reinicia el Osho Discourse</string>
     <string name="send_log">Envia el fitxer de registre</string>
     <string name="sending_log">Enviat el fitxer de registre…</string>
 
@@ -669,7 +669,7 @@
     <string name="medialibrary_directories">Carpetes de la mediateca</string>
 
     <!--What's new-->
-    <string name="whats_new_title">Què hi ha de nou al Mix Wave per a Android %s</string>
+    <string name="whats_new_title">Què hi ha de nou al Osho Discourse per a Android %s</string>
     <string name="whats_new_37_equalizer_text">L\'equalitzador s\'ha reelaborat des de zero. És més fàcil d\'utilitzar, permet desactivar els preajustos predeterminats i permet fer còpies de seguretat, restaurar i compartir els preajustos.</string>
     <string name="whats_new_37_import_export">Hem millorat la funció de còpia de seguretat i restauració de la configuració. Ara permet fer còpies de seguretat de més configuracions, incloses les configuracions predefinides de l\'equalitzador.</string>
     <string name="whats_new_37_android_auto">A causa d\'algunes noves restriccions de la botiga, la configuració d\'Android Auto s\'ha traslladat a l\'aplicació mòbil. Esdevé el nou lloc per canviar la teva experiència automobilística.</string>
@@ -678,7 +678,7 @@
 <!--    update-->
     <string name="update_title">Actualització disponible</string>
     <string name="install_nightly_title">Instal·la la versió nocturna</string>
-    <string name="update_text">Hi ha disponible un nou llançament nocturn del Mix Wave per a Android!\n\nVeieu aquest missatge perquè esteu usant un muntatge nocturn.</string>
+    <string name="update_text">Hi ha disponible un nou llançament nocturn del Osho Discourse per a Android!\n\nVeieu aquest missatge perquè esteu usant un muntatge nocturn.</string>
     <string name="install_text">Els muntatges nocturns s\'actualitzen automàticament cada dia amb les últimes característiques i correccions.\n\nVoleu descarrregar ara?</string>
 
     <string name="open_in_browser">Obre al navegador web</string>
@@ -699,28 +699,28 @@
     <string name="music_now_playing">Reproduint</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Widget blanc del Mix Wave</string>
-    <string name="widget_name_b">Widget fosc del Mix Wave</string>
-    <string name="widget_name_mini_player">Mini reproductor Mix Wave</string>
+    <string name="widget_name_w">Widget blanc del Osho Discourse</string>
+    <string name="widget_name_b">Widget fosc del Osho Discourse</string>
+    <string name="widget_name_mini_player">Mini reproductor Osho Discourse</string>
     <string name="widget_old_text">Hem actualitzat els nostres ginys!</string>
     <string name="widget_old_description_start">Bones notícies! Hem alliberat ginys millorats.\nOfereixen més reactivitat i personalització</string>
     <string name="whats_next">I ara què?</string>
     <string name="widget_old_description_end">Hem detectat que ja teniu ginys al vostre llançador. Malauradament, no són compatibles amb els nostres ginys millorats.\nDepenent del vostre llançador, potser heu d\'eliminar els antics per reemplaçar-los.</string>
     <string name="click_here">Feu clic aquí per aprendre\'n més.</string>
-    <string name="allow_storage_access_title">Deixa que el Mix Wave accedeixi als fitxers de vídeo i àudio</string>
-    <string name="allow_storage_access_description">Mix Wave necessita permís per accedir als fitxers multimèdia en aquest dispositiu.</string>
-    <string name="partial_content">El Mix Wave no pot accedir a tots els vostres fitxers</string>
+    <string name="allow_storage_access_title">Deixa que el Osho Discourse accedeixi als fitxers de vídeo i àudio</string>
+    <string name="allow_storage_access_description">Osho Discourse necessita permís per accedir als fitxers multimèdia en aquest dispositiu.</string>
+    <string name="partial_content">El Osho Discourse no pot accedir a tots els vostres fitxers</string>
     <string name="partial_content_description">Amb l\'Android 11 cal un permís especial perquè les aplicacions accedeixin a tots els fitxers del dispositiu.\n\n%s</string>
     <string name="never_ask_again">No ho tornis a demanar</string>
     <string name="never_show_again">Mai tornis a mostrar, fins i tot per a futures versions</string>
-    <string name="allow_settings_access_ringtone_title">Deixa que el Mix Wave configuri la melodia del telèfon</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave necessita permís per configurar aquesta cançó com a melodia del telèfon.</string>
-    <string name="allow_settings_access_brightness_title">Deixa que el Mix Wave canviï el mode de brillantor</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave necessita permís per canviar el mode de brillantor</string>
-    <string name="allow_draw_overlays_title">Deixa que el Mix Wave tregui pop-ups per sobre de les altres apps</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave necessita permís per treure pop-ups amb els teus vídeos per sobre de les altres aplicacions.</string>
-    <string name="allow_pip">Permet al reproductor Mix Wave arrencar Imatge-dins-imatge</string>
-    <string name="allow_pip_description">Mix Wave necessita permís per mostrar el vostre vídeo en mode Imatge-dins-imatge.</string>
+    <string name="allow_settings_access_ringtone_title">Deixa que el Osho Discourse configuri la melodia del telèfon</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse necessita permís per configurar aquesta cançó com a melodia del telèfon.</string>
+    <string name="allow_settings_access_brightness_title">Deixa que el Osho Discourse canviï el mode de brillantor</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse necessita permís per canviar el mode de brillantor</string>
+    <string name="allow_draw_overlays_title">Deixa que el Osho Discourse tregui pop-ups per sobre de les altres apps</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse necessita permís per treure pop-ups amb els teus vídeos per sobre de les altres aplicacions.</string>
+    <string name="allow_pip">Permet al reproductor Osho Discourse arrencar Imatge-dins-imatge</string>
+    <string name="allow_pip_description">Osho Discourse necessita permís per mostrar el vostre vídeo en mode Imatge-dins-imatge.</string>
     <string name="permission_ask_again">Dóna permís</string>
     <string name="pick_file">Escolliu un fitxer</string>
     <string name="permission_not_granted">El permís no s\'ha concedit</string>
@@ -729,9 +729,9 @@
     <string name="permission_onboarding_no_perm">No podreu auto-descobrir els vostres elements multimèdia.\nNomés podreu reproduir fluxos o elements de la xarxa</string>
     <string name="permission_onboarding_perm_media">Només podreu auto-descobrir fitxers multimèdia estàndard</string>
     <string name="permission_onboarding_perm_all">Podreu auto-descobrir tots els vostres fitxers per reproduir qualsevol tipus de fitxer multimèdia, àdhuc els fitxers comprimits</string>
-    <string name="exit_app">Tanca el Mix Wave</string>
-    <string name="exit_app_msg">Esteu segur que voleu sortir del Mix Wave?</string>
-    <string name="widget_explanation_title">Ginys del Mix Wave</string>
+    <string name="exit_app">Tanca el Osho Discourse</string>
+    <string name="exit_app_msg">Esteu segur que voleu sortir del Osho Discourse?</string>
+    <string name="widget_explanation_title">Ginys del Osho Discourse</string>
     <string name="widget_explanation_size">Els ginys tenen diferents mides i sabors</string>
     <string name="widget_explanation_resize">Per canviar el tipus de giny, premeu una estona i useu els agafadors per ajustar a la mida que us agradi</string>
     <string name="widget_explanation_end">Els ginys són molt ajustables. Desfermeu la vostra creativitat i feu que se us assemblin!</string>
@@ -788,7 +788,7 @@
     <string name="length">Durada</string>
     <string name="tv_settings_hint">Deixa apretat el botó OK per marcar/desmarcar carpetes</string>
     <string name="ml_external_storage_title">Detectat un nou emmagatzematge extern</string>
-    <string name="ml_external_storage_msg">Voleu que el Mix Wave afegeix el dispositiu %1$s a la vostra mediateca?</string>
+    <string name="ml_external_storage_msg">Voleu que el Osho Discourse afegeix el dispositiu %1$s a la vostra mediateca?</string>
     <string name="ml_external_storage_accept">Sí</string>
     <string name="ml_external_storage_decline">No</string>
     <string name="auto_last_added_media">Afegit recentment</string>
@@ -818,8 +818,8 @@
     <string name="browser_storages">Emmagatzematge</string>
     <string name="msg_delete_failed">No s\'ha pogut esborrar el fitxer multimèdia %1$s</string>
     <string name="renderer_list_title">Pantalles</string>
-    <string name="sdcard_permission_dialog_title">Has de deixar al Mix Wave escriure a la targeta SD</string>
-    <string name="sdcard_permission_dialog_message">Mix Wave no pot esborrar aquest fitxer sense permís per escriure.\nSi us plau, vés a la targeta SD i clica a \"Selecciona\".\nPotser has de clicar a \"Ensenya\'m la targeta SD\" primer al menú de dalt a la dreta</string>
+    <string name="sdcard_permission_dialog_title">Has de deixar al Osho Discourse escriure a la targeta SD</string>
+    <string name="sdcard_permission_dialog_message">Osho Discourse no pot esborrar aquest fitxer sense permís per escriure.\nSi us plau, vés a la targeta SD i clica a \"Selecciona\".\nPotser has de clicar a \"Ensenya\'m la targeta SD\" primer al menú de dalt a la dreta</string>
     <string name="dialog_sd_wizard">Ensenya-m\'ho</string>
     <string name="renderers_disconnect">Desconnecta</string>
     <string name="audio_digital_failed">No s\'ha pogut canviar la sortida d\'àudio digital</string>
@@ -834,7 +834,7 @@
     <string name="playback_rewind">Tirar enrere</string>
     <string name="playback_forward">Tirar endavant</string>
     <string name="ml_wizard_scan_checkbox">Escaneja el dispositiu buscant fitxers multimèdia</string>
-    <string name="ml_wizard_description">Trieu si Mix Wave explorarà l\'emmagatzematge del dispositiu per organitzar la biblioteca de suports o simplement es farà servir com a simple reproductor amb un navegador integrat.</string>
+    <string name="ml_wizard_description">Trieu si Osho Discourse explorarà l\'emmagatzematge del dispositiu per organitzar la biblioteca de suports o simplement es farà servir com a simple reproductor amb un navegador integrat.</string>
     <string name="tv_my_new_videos">Els meus vídeos nous</string>
     <string name="cast_option_title">Emet els mitjans en una altra pantalla</string>
     <string name="otg_device_title">Dispositiu OTG</string>
@@ -873,29 +873,29 @@
     <string name="ctx_player_subs_track">Pista de subtítols</string>
     <string name="ctx_pip_title">Reproductor emergent</string>
     <string name="device_dialog_title">Dispositiu extern inserit</string>
-    <string name="device_dialog_message">Acabeu de connectar un nou dispositiu d\'emmagatzematge a la vostra capsa de TV; voleu obrir-lo amb Mix Wave?</string>
+    <string name="device_dialog_message">Acabeu de connectar un nou dispositiu d\'emmagatzematge a la vostra capsa de TV; voleu obrir-lo amb Osho Discourse?</string>
     <string name="videos_folders_title">Vídeos per carpetes</string>
     <string name="videos_groups_title">Grups de vídeos</string>
     <string name="video_save_clone_mode">Activar automàticament el mode de duplicar?</string>
     <string name="video_remote_enable">Commuta a mode de control remot</string>
     <string name="video_remote_disable">Duplica la pantalla</string>
     <string name="removed_from_playlist_anonymous">Ítem(s) eliminats de la llista de reproducció</string>
-    <string name="welcome_title">Us donem la benvinguda al Mix Wave!</string>
+    <string name="welcome_title">Us donem la benvinguda al Osho Discourse!</string>
     <string name="welcome_subtitle">El reproductor multimèdia gratuït i de codi lliure</string>
-    <string name="permission_media">Mix Wave necessita el vostre permís per accedir als arxius multimèdia en aquest dispositiu.</string>
-    <string name="permission_video">Mix Wave necessita el vostre permís per accedir als vídeos del vostre dispositiu</string>
-    <string name="permission_audio">Mix Wave necessita el vostre permís per accedir als àudios del vostre dispositiu</string>
-    <string name="medialibrary_scan_explanation">Mix Wave pot cercar automàticament el vostre dispositiu per organitzar la col·lecció de medis</string>
-    <string name="player_title_fd_warning">Sense el permís d\'emmagatzematge, Mix Wave no pot recuperar el títol del multimèdia ni desar el progrés</string>
+    <string name="permission_media">Osho Discourse necessita el vostre permís per accedir als arxius multimèdia en aquest dispositiu.</string>
+    <string name="permission_video">Osho Discourse necessita el vostre permís per accedir als vídeos del vostre dispositiu</string>
+    <string name="permission_audio">Osho Discourse necessita el vostre permís per accedir als àudios del vostre dispositiu</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse pot cercar automàticament el vostre dispositiu per organitzar la col·lecció de medis</string>
+    <string name="player_title_fd_warning">Sense el permís d\'emmagatzematge, Osho Discourse no pot recuperar el títol del multimèdia ni desar el progrés</string>
     <string name="onboarding_theme_title">Sentiu-vos com a casa</string>
     <string name="done">Fet</string>
     <string name="onboarding_scan_title">Cerca automàtica de fitxers</string>
-    <string name="onboarding_all_set">El Mix Wave està del tot preparat!</string>
+    <string name="onboarding_all_set">El Osho Discourse està del tot preparat!</string>
     <string name="onboarding_permission_given">Ara ja podeu auto-descobrir els vostres multimèdia i utilitzar subtítols externs, així com reproduir fluxos o multimèdia de la xarxa</string>
-    <string name="daynight_system_explanation">El Mix Wave commutarà automàticament al mode fosc, segons la configuració del sistema</string>
-    <string name="daynight_legacy_explanation">El Mix Wave commutarà automàticament al mode nocturn a l\'hora adient</string>
-    <string name="onboarding_scanning_enable">Deixa que el Mix Wave escanegi el meu dispositiu cercant contingut multimèdia</string>
-    <string name="onboarding_scan_customize">Deixa\'m escollir quines carpetes escanejarà el Mix Wave</string>
+    <string name="daynight_system_explanation">El Osho Discourse commutarà automàticament al mode fosc, segons la configuració del sistema</string>
+    <string name="daynight_legacy_explanation">El Osho Discourse commutarà automàticament al mode nocturn a l\'hora adient</string>
+    <string name="onboarding_scanning_enable">Deixa que el Osho Discourse escanegi el meu dispositiu cercant contingut multimèdia</string>
+    <string name="onboarding_scan_customize">Deixa\'m escollir quines carpetes escanejarà el Osho Discourse</string>
     <string name="button_medialibrary_preferences">Vés a les preferències de la mediateca</string>
     <string name="light_theme">Tema lluminós</string>
     <string name="add">Afegeix</string>
@@ -907,7 +907,7 @@
     <string name="popup_force_legacy_title">Fes servir una finestra emergent d\'\"Imatge dins d\'imatge\" personalitzada</string>
     <string name="popup_force_legacy_summary">Fes servir una finestra emergent redimensionable d\'\"Imatge dins d\'imatge\" personalitzada</string>
     <string name="restore_background_video_title">Restaurar el vídeo des de segon pla</string>
-    <string name="restore_background_video_summary">Restaura el vídeo des de segon pla quan torneu a obrir Mix Wave per a Android</string>
+    <string name="restore_background_video_summary">Restaura el vídeo des de segon pla quan torneu a obrir Osho Discourse per a Android</string>
     <string name="device_default">Dispositiu per defecte</string>
     <string name="track_number">%d pistes</string>
     <string name="jump_to">Salta a</string>
@@ -936,14 +936,14 @@
     <string name="display_in_grid">Mostra en forma de graella</string>
     <string name="dump_db_succes">Base de dades bolcada a l’arrel de l’emmagatzematge intern</string>
     <string name="dump_db_failure">Error en bolcar la base de dades</string>
-    <string name="send_crash_title">Informador d\'error al Mix Wave</string>
-    <string name="send_crash_description">Enviant-nos l\'error ens ajudareu a millorar l\'estabilitat del Mix Wave</string>
+    <string name="send_crash_title">Informador d\'error al Osho Discourse</string>
+    <string name="send_crash_description">Enviant-nos l\'error ens ajudareu a millorar l\'estabilitat del Osho Discourse</string>
     <string name="send_crash_warning">Assegureu-vos d\'eliminar qualsevulla dada sensible que no ens vulgueu trametre</string>
     <string name="include_medialib">Incloure-hi la vostra base de dades</string>
     <string name="include_logs">Incloeu els vostres registres</string>
-    <string name="vlc_reporter">Informador de Mix Wave</string>
-    <string name="welcome_beta_title">Mix Wave Beta</string>
-    <string name="welcome_beta_description">Benvingut al programa beta de Mix Wave.\nSi us plau, tingues en compte que aquesta versió pot tenir alguns errors.</string>
+    <string name="vlc_reporter">Informador de Osho Discourse</string>
+    <string name="welcome_beta_title">Osho Discourse Beta</string>
+    <string name="welcome_beta_description">Benvingut al programa beta de Osho Discourse.\nSi us plau, tingues en compte que aquesta versió pot tenir alguns errors.</string>
     <string name="welcome_beta_description_bugs">Si trobes un error, si us plau reporta\'l en el nostre fòrum o en el rastrejador d\'errors.</string>
     <string name="welcome_beta_description_crashes">Si experimenteu un error o una fallada, obriu la pantalla Quant a i feu servir el botó Comentaris > Contacteu amb l\'equip d\'assistència.</string>
     <string name="send">Envia</string>
@@ -987,8 +987,8 @@
     <string name="recently_played">Reproduït ara mateix</string>
     <string name="recently_added">Acabat d\'afegir</string>
     <string name="playback_multiple_errors">No es poden reproduir múltiples multimèdia</string>
-    <string name="clear_media_db_message">Perdreu els progressos, els preferits i les llistes de reproducció que hàgiu creat però mantindreu la configuració del Mix Wave per a Android</string>
-    <string name="clear_app_data_message">Perdreu els progressos, els preferits, les llistes de reproducció i la configuració completa del Mix Wave</string>
+    <string name="clear_media_db_message">Perdreu els progressos, els preferits i les llistes de reproducció que hàgiu creat però mantindreu la configuració del Osho Discourse per a Android</string>
+    <string name="clear_app_data_message">Perdreu els progressos, els preferits, les llistes de reproducció i la configuració completa del Osho Discourse</string>
     <string name="clear">Neteja</string>
     <string name="abrepeat_add_first_marker">Establir el punt d\'inici</string>
     <string name="abrepeat_add_second_marker">Establir el punt final</string>
@@ -1044,18 +1044,18 @@
     <string name="sub_result_by_name_hearing_impaired">Només amb discapacitat auditiva</string>
 
     <string name="sub_result_by_file">Resultats del vostre fitxer</string>
-    <string name="donate">ajut Mix Wave</string>
-    <string name="donate_desc">Donar suport als voluntaris en la creació de Mix Wave</string>
+    <string name="donate">ajut Osho Discourse</string>
+    <string name="donate_desc">Donar suport als voluntaris en la creació de Osho Discourse</string>
     <string name="donate_subscribtion">M\'agradaria que fos un patrocini mensual</string>
     <string name="donate_send">Inicia el teu patrocini</string>
-    <string name="donation_description">El vostre patrocini ens permetrà: \nMillorar l’aplicació Mix Wave per a Android\nDonar suport a l\'associació Mix Wave</string>
+    <string name="donation_description">El vostre patrocini ens permetrà: \nMillorar l’aplicació Osho Discourse per a Android\nDonar suport a l\'associació Osho Discourse</string>
     <string name="subscription_purchased">Esteu subscrit a un patrocini mensual</string>
     <string name="subscription_cancel">Podeu donar-vos de baixa a Play Store</string>
     <string name="subscription_cancel_tv">Com donar-se de baixa</string>
     <string name="donate_unsubscribe_tv">Per donar-se de baixa, si us plau obriu el %s en un telèfon o ordinador o escanejar aquest codi:</string>
-    <string name="tip_jar">Ajut Mix Wave</string>
+    <string name="tip_jar">Ajut Osho Discourse</string>
     <string name="thank_you">Gràcies</string>
-    <string name="thank_you_desc">Gràcies pel vostre patrocini! \nIt ens ajudarà molt a millorar Mix Wave!</string>
+    <string name="thank_you_desc">Gràcies pel vostre patrocini! \nIt ens ajudarà molt a millorar Osho Discourse!</string>
     <string name="donate_again">Patrocinen l\'aplicació de nou</string>
 
     <string name="mark_as_played">Marca-ho com a reproduït</string>
@@ -1073,7 +1073,7 @@
     <string name="air_action_next">Element següent de la llista</string>
     <string name="air_action_previous">Element anterior de la llista</string>
     <string name="allow_otg">Permeteu l\'accés a la memòria externa</string>
-    <string name="allow_otg_description">Seleccioneu la unitat OTG per permetre l\'accés al Mix Wave.</string>
+    <string name="allow_otg_description">Seleccioneu la unitat OTG per permetre l\'accés al Osho Discourse.</string>
     <string name="timeout_infinite">Infinit</string>
     <string name="video_hud_timeout">Retard per amagar els controls de vídeo</string>
     <string name="video_hud_timeout_summary">%ss</string>
@@ -1141,7 +1141,7 @@
     <string name="optional_features_warning">Aquesta característica està en fase de proves beta i pot provocar penjades i inestabilitats</string>
     <string name="network_indexing">Indexació de la xarxa</string>
     <string name="network_indexing_warning">Actualment la indexació de xarxa està en fase beta.\nProblemes coneguts:\n• Baix rendimentn\nSi trobeu altres problemes, reporteu-los sisplau al nostre fòrum. </string>
-    <string name="start_vlc">Inicia el Mix Wave</string>
+    <string name="start_vlc">Inicia el Osho Discourse</string>
     <string name="jump_delay">Retard d\'endavant/enrere</string>
     <string name="long_jump_delay">Retard del toc llarg endavant/enrere</string>
     <string name="jump_delay_summary">%s segons</string>
@@ -1165,7 +1165,7 @@
     <string name="lock_use_sensor_summary">Quan l\'orientació està bloquejada, usar el sensor per permetre l\'orientació inversa</string>
     <string name="start">Inicia</string>
     <string name="notification_permission">Permís de notificació</string>
-    <string name="notification_permission_explanation">Al Mix Wave li cal el vostre permís per enviar notificacions.\nL\'app només us notificarà quan escanegi els vostres multimèdia o quan utilitzi el vídeo personalitzat a Imatges.\nEncara que es refusi, el Mix Wave seguirà treballant, però les notificacions quedaran amagades.</string>
+    <string name="notification_permission_explanation">Al Osho Discourse li cal el vostre permís per enviar notificacions.\nL\'app només us notificarà quan escanegi els vostres multimèdia o quan utilitzi el vídeo personalitzat a Imatges.\nEncara que es refusi, el Osho Discourse seguirà treballant, però les notificacions quedaran amagades.</string>
     <string name="permission">Permís</string>
     <string name="permission_no_access">Sense accés al fitxer</string>
     <string name="permissions">Permisos</string>
@@ -1234,7 +1234,7 @@
     <string name="widget_show_configure_summary">Encara que no es vegi, per obrir la configuració podeu fer un toc al racó superior dret</string>
     <string name="seek_backward_content_description">Cerca %s segons enrere</string>
     <string name="seek_forward_content_description">Cerca %s segons endavant</string>
-    <string name="open_vlc">Obre el Mix Wave</string>
+    <string name="open_vlc">Obre el Osho Discourse</string>
     <string name="playing">Reproduint</string>
     <string name="disable_track">Inhabilita la pista</string>
     <string name="ascending">Ascendent</string>
@@ -1339,7 +1339,7 @@
     <string name="ra_browser_audio_not_found">No s\'ha trobat el contingut multimèdia o no es pot reproduir al navegador</string>
     <string name="ra_browser_audio_unsupported_format">Aquest format d\'àudio no és compatible amb el vostre navegador</string>
 
-    <string name="ra_onboarding_welcome_desc">Benvingut a l\'accés remot del Mix Wave per a Android\nEn habilitar-lo, podreu controlar la reproducció d\'aquest dispositiu i més</string>
+    <string name="ra_onboarding_welcome_desc">Benvingut a l\'accés remot del Osho Discourse per a Android\nEn habilitar-lo, podreu controlar la reproducció d\'aquest dispositiu i més</string>
     <string name="ra_onboarding_how_title">Controla el vostre dispositiu</string>
     <string name="ra_onboarding_how_desc">Controla la reproducció del vostre dispositiu, envia o recupera fitxers i més</string>
     <string name="ra_onboarding_ssl_title">Encriptatge de dades</string>
@@ -1365,7 +1365,7 @@
     <string name="podcast_mode">Mode podcast</string>
     <string name="podcast_mode_help">Els controls del podcast apareixen quan es reprodueix una única pista que compleix un dels següents criteris:\n\t• Durada superior a 60 min:\n\t• Durada superior a 15 min sense nom d\'àlbum:\n\t• El gènere és %s</string>
     <string name="voice_control">Control de veu</string>
-    <string name="voice_control_help">El Mix Wave es pot controlar a través de Google Assistant parlant les següents ordres:\n\t• Reproduir, Pausa, Aturar, Anterior, Següent:\n\t• Rebobinar, Avançar ràpid, Repetir &lt;totes|una|apagar&gt;\n\t• Saltar a &lt;temps&gt;, Ometre &lt;duració&gt;\n\t• Què és això &lt;artista|àlbum|cançó&gt;\n\t• Reproduir [artista|àlbum|cançó|gènere|llista de reproducció] &lt;nom&gt;</string>
+    <string name="voice_control_help">El Osho Discourse es pot controlar a través de Google Assistant parlant les següents ordres:\n\t• Reproduir, Pausa, Aturar, Anterior, Següent:\n\t• Rebobinar, Avançar ràpid, Repetir &lt;totes|una|apagar&gt;\n\t• Saltar a &lt;temps&gt;, Ometre &lt;duració&gt;\n\t• Què és això &lt;artista|àlbum|cançó&gt;\n\t• Reproduir [artista|àlbum|cançó|gènere|llista de reproducció] &lt;nom&gt;</string>
 
     <string name="network" >Xarxa</string>
     <string name="metered_connection">Acció per a fluxos quan es mesura la connexió</string>

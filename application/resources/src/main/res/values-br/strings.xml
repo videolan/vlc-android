@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Mat eo</string>
     <string name="cancel">Nullañ</string>
     <string name="other">All</string>
@@ -50,7 +50,7 @@
     <string name="play_as_video">Lenn evel video</string>
     <string name="return_to_video">Pouezañ pell war ar golo evit adderaouekaat ar video</string>
     <string name="video_app_switch_title">Mod drekleur/PiP</string>
-    <string name="video_app_switch_summary">Diuzit emzalc\'h Mix Wave pa dremenit d\'un arload all adalek al lenn video</string>
+    <string name="video_app_switch_summary">Diuzit emzalc\'h Osho Discourse pa dremenit d\'un arload all adalek al lenn video</string>
     <string name="play_pip_title">Lenn ar videoioù e mod skeudenn-er-skeudenn</string>
     <string name="play_as_audio_background">Lenn videoioù en drekleur</string>
     <string name="append">Ouzhpennañ d\'ar roll-lenn</string>
@@ -298,12 +298,12 @@
     <string name="hold_to_stop">Pouezit evit paouez</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Adwel</string>
     <string name="about">Diwar-benn</string>
-    <string name="about_vlc_text">Mix Wave evit Android™ zo ur porzh eus al lenner mediaoù Mix Wave, al lenner mediaoù digor brudet. Ar stumm AndroidTM a c\'hell lenn an holl restroù hag ar froudoù rouedad.</string>
+    <string name="about_vlc_text">Osho Discourse evit Android™ zo ur porzh eus al lenner mediaoù Osho Discourse, al lenner mediaoù digor brudet. Ar stumm AndroidTM a c\'hell lenn an holl restroù hag ar froudoù rouedad.</string>
     <string name="authors">Oberourien</string>
-    <string name="vlc_authors">hag aozerien Mix Wave.</string>
+    <string name="vlc_authors">hag aozerien Osho Discourse.</string>
     <string name="is_compiled_by">Kempunet gant</string>
     <string name="sources">Kod mammenn</string>
     <string name="libraries">Levraouegoù</string>
@@ -457,7 +457,7 @@
     <string name="replaygain_track">Roudenn</string>
     <string name="replaygain_album">Albom</string>
     <string name="aout">Ezvont aodio</string>
-    <string name="audio_ducking_title">Izelaat live-son Mix Wave da vare ar c\'hemennoù</string>
+    <string name="audio_ducking_title">Izelaat live-son Osho Discourse da vare ar c\'hemennoù</string>
     <string name="casting_category">Skignañ</string>
     <string name="remote_access">Haeziñ a-bell</string>
     <string name="remote_access_version_title">Stumm an haeziñ a-bell</string>
@@ -496,7 +496,7 @@
     <string name="dump_media_db">Ezporzhiañ diaz-roadennoù ar mediaoù</string>
     <string name="clear_media_db">Sklaeraat diaz-roadennoù ar mediaoù</string>
     <string name="clear_app_data">Dilemel roadennoù an arload</string>
-    <string name="clear_app_data_summary">Dilemel roadennoù Mix Wave evit Android</string>
+    <string name="clear_app_data_summary">Dilemel roadennoù Osho Discourse evit Android</string>
     <string name="clear_history">Sklaeraat ar roll-istor</string>
     <string name="set_locale">Termeniñ ar yezh</string>
     <string name="network_caching">Talvoudegezh krubuilh ar genrouedad</string>
@@ -514,7 +514,7 @@
     <string name="start_logging">Loc\'hañ an enrollañ</string>
     <string name="stop_logging">Paouez an enrollañ</string>
     <string name="clear_log">Skarzhañ ar renabl</string>
-    <string name="log_service_title">Enrollañ renabloù Mix Wave</string>
+    <string name="log_service_title">Enrollañ renabloù Osho Discourse</string>
     <string name="log_service_text">Digeriñ koñsol ar renabl</string>
     <string name="copy_to_clipboard">Eilañ er golver</string>
     <string name="copied_to_clipboard">Renabl eilet er golver.</string>
@@ -522,7 +522,7 @@
     <string name="dump_logcat_failure">C\'hwitet ez eus bet war tapadenn logcat.</string>
     <string name="custom_libvlc_options">Dibarzhioù libVLC personelaet</string>
     <string name="custom_libvlc_options_invalid">Dibarzhioù libVLC direizh!</string>
-    <string name="restart_vlc">Adloc\'hañ Mix Wave</string>
+    <string name="restart_vlc">Adloc\'hañ Osho Discourse</string>
     <string name="send_log">Kas ar renabl</string>
     <string name="sending_log">O kas ar renabl...</string>
 
@@ -563,19 +563,19 @@
     <string name="music_now_playing">O lenn</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Widget Mix Wave gwenn</string>
-    <string name="widget_name_b">Widget Mix Wave teñval</string>
-    <string name="allow_storage_access_title">Aotren Mix Wave da dizhout ar restroù video hag aodio</string>
-    <string name="allow_settings_access_ringtone_title">Aotren Mix Wave da dermeniñ ar soniri</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave en deus ezhomm ec\'h aotrefec\'h an arload-mañ evit lakaat ar sonenn-mañ evel soniri.</string>
-    <string name="allow_settings_access_brightness_title">Aotren Mix Wave da cheñch ar mod lintr</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave en deus ezhomm ec\'h aotrefec\'h an arload-mañ da cheñch al lintr.</string>
-    <string name="allow_draw_overlays_title">Aotren pop-up al lenner Mix Wave a-us an arloadoù all</string>
-    <string name="allow_sdraw_overlays_description">Ezhomm en deus Mix Wave da gaout hoc\'h aotre da ziskouez ho video en ur pop-up a-us d\'an arloadoù all.</string>
+    <string name="widget_name_w">Widget Osho Discourse gwenn</string>
+    <string name="widget_name_b">Widget Osho Discourse teñval</string>
+    <string name="allow_storage_access_title">Aotren Osho Discourse da dizhout ar restroù video hag aodio</string>
+    <string name="allow_settings_access_ringtone_title">Aotren Osho Discourse da dermeniñ ar soniri</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse en deus ezhomm ec\'h aotrefec\'h an arload-mañ evit lakaat ar sonenn-mañ evel soniri.</string>
+    <string name="allow_settings_access_brightness_title">Aotren Osho Discourse da cheñch ar mod lintr</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse en deus ezhomm ec\'h aotrefec\'h an arload-mañ da cheñch al lintr.</string>
+    <string name="allow_draw_overlays_title">Aotren pop-up al lenner Osho Discourse a-us an arloadoù all</string>
+    <string name="allow_sdraw_overlays_description">Ezhomm en deus Osho Discourse da gaout hoc\'h aotre da ziskouez ho video en ur pop-up a-us d\'an arloadoù all.</string>
     <string name="permission_ask_again">Aotren</string>
     <string name="permission_not_granted">Aotre nac\'het</string>
-    <string name="exit_app">Serriñ Mix Wave</string>
-    <string name="exit_app_msg">Ha sur oc\'h da gaout c\'hoant da guitaat Mix Wave?</string>
+    <string name="exit_app">Serriñ Osho Discourse</string>
+    <string name="exit_app_msg">Ha sur oc\'h da gaout c\'hoant da guitaat Osho Discourse?</string>
     <!-- fast scroller -->
     <string name="fastscroller_track">Roud FastScroller</string>
     <string name="fastscroller_handle">Reti an dibunañ herrek</string>
@@ -609,7 +609,7 @@
     <string name="length">Padelezh</string>
     <string name="tv_settings_hint">Pouezit hir war ar bouton Mat eo evit kochiñ/digochiñ ar c\'havlec\'hioù</string>
     <string name="ml_external_storage_title">Lec\'h-stokañ nevez diguzhet</string>
-    <string name="ml_external_storage_msg">Ha c\'hoant ho peus ec\'h ouzhpennfe Mix Wave an trevnad %1$s d\'ho levraoueg mediaoù?</string>
+    <string name="ml_external_storage_msg">Ha c\'hoant ho peus ec\'h ouzhpennfe Osho Discourse an trevnad %1$s d\'ho levraoueg mediaoù?</string>
     <string name="ml_external_storage_accept">Ya</string>
     <string name="ml_external_storage_decline">Ket</string>
     <string name="auto_last_added_media">Ouzhpennet da ziwezhañ</string>
@@ -638,7 +638,7 @@
     <string name="browser_storages">Stokadurioù</string>
     <string name="msg_delete_failed">C\'hwitet ez eus bet war dilemel ar media %1$s</string>
     <string name="renderer_list_title">Doareoù diskouez</string>
-    <string name="sdcard_permission_dialog_title">Rankout a rit reiñ da Mix Wave an aotre da skrivañ en ho kartenn SD</string>
+    <string name="sdcard_permission_dialog_title">Rankout a rit reiñ da Osho Discourse an aotre da skrivañ en ho kartenn SD</string>
     <string name="dialog_sd_wizard">Diskouez din</string>
     <string name="renderers_disconnect">Digevreañ</string>
     <string name="audio_digital_failed">C\'hwitet ez eus bet war gemmañ ar stad ezvont aodio niverel</string>
@@ -684,16 +684,16 @@
     <string name="video_remote_enable">Tremen d\'ar mod kontroll a-bell</string>
     <string name="video_remote_disable">Eilañ ar skramm</string>
     <string name="removed_from_playlist_anonymous">Elfenn(où) dilamet diwar ar roll-lenn</string>
-    <string name="welcome_title">Degemer e-barzh Mix Wave!</string>
+    <string name="welcome_title">Degemer e-barzh Osho Discourse!</string>
     <string name="welcome_subtitle">Al lenner liesvedia frank hag en open source</string>
-    <string name="permission_media">Ezhomm en deus Mix Wave hoc\'h aotre evit tizhout ar mediaoù a zo en hoc\'h aparailh</string>
-    <string name="medialibrary_scan_explanation">Mix Wave a c\'hall skanañ hoc\'h aparailh evit aozañ ho tastumad mediaoù.</string>
+    <string name="permission_media">Ezhomm en deus Osho Discourse hoc\'h aotre evit tizhout ar mediaoù a zo en hoc\'h aparailh</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse a c\'hall skanañ hoc\'h aparailh evit aozañ ho tastumad mediaoù.</string>
     <string name="onboarding_theme_title">Grit evel ma vefec\'h en ho ti</string>
     <string name="done">Graet</string>
     <string name="onboarding_scan_title">Em-zizoleiñ ho mediaoù</string>
-    <string name="onboarding_all_set">Prest eo Mix Wave!</string>
-    <string name="onboarding_scanning_enable">Lezel Mix Wave skanañ ma aparailh evit kavout endalc\'hadoù media</string>
-    <string name="onboarding_scan_customize">Lezel ac\'hanon dibab peseurt teuliadoù a c\'hall bezañ skanet gant Mix Wave</string>
+    <string name="onboarding_all_set">Prest eo Osho Discourse!</string>
+    <string name="onboarding_scanning_enable">Lezel Osho Discourse skanañ ma aparailh evit kavout endalc\'hadoù media</string>
+    <string name="onboarding_scan_customize">Lezel ac\'hanon dibab peseurt teuliadoù a c\'hall bezañ skanet gant Osho Discourse</string>
     <string name="button_medialibrary_preferences">Mont da arventennoù ar Vediaoueg</string>
     <string name="light_theme">Tem sklaer</string>
     <string name="add">Ouzhpennañ</string>
@@ -730,10 +730,10 @@
     <string name="validation_delete_playlist_text">N\'hall ket bezañ nullet.</string>
     <string name="display_in_list">Diskouez en ul listenn</string>
     <string name="display_in_grid">Diskouez e kael</string>
-    <string name="send_crash_title">Daneveller sac\'hadennoù Mix Wave</string>
+    <string name="send_crash_title">Daneveller sac\'hadennoù Osho Discourse</string>
     <string name="include_medialib">Enklozañ ho tiaz-roadennoù</string>
-    <string name="vlc_reporter">Daneveller Mix Wave</string>
-    <string name="welcome_beta_title">Mix Wave beta</string>
+    <string name="vlc_reporter">Daneveller Osho Discourse</string>
+    <string name="welcome_beta_title">Osho Discourse beta</string>
     <string name="send">Kas</string>
     <string name="send_crash_action_title">Petra ho peus c\'hoant d\'ober?</string>
     <string name="report_a_bug">Danevelliñ ur veugenn</string>
@@ -824,14 +824,14 @@
     <string name="sub_result_by_name_season">Koulzad %s</string>
     <string name="sub_result_by_name_episode">Rann %s</string>
     <string name="sub_result_by_file">Disoc\'hoù evit ho restr</string>
-    <string name="donate">Skoazellañ Mix Wave</string>
-    <string name="donate_desc">Skoazellit an dud a-youl vat a sav Mix Wave</string>
+    <string name="donate">Skoazellañ Osho Discourse</string>
+    <string name="donate_desc">Skoazellit an dud a-youl vat a sav Osho Discourse</string>
     <string name="donate_subscribtion">Fellout a ra din e vefe graet ur roadenn-arc\'hant viziek</string>
     <string name="donate_send">Stagañ gant ho roadenn-arc\'hant</string>
     <string name="subscription_purchased">Koumanantet oc\'h d\'ar roadenn-arc\'hant miziek</string>
     <string name="subscription_cancel">Gellout a rit digoumanantiñ er Play Store</string>
     <string name="subscription_cancel_tv">Penaos digoumanantiñ</string>
-    <string name="tip_jar">Sikour Mix Wave</string>
+    <string name="tip_jar">Sikour Osho Discourse</string>
     <string name="thank_you">Trugarez vras</string>
     <string name="donate_again">Reiñ arc\'hant a-nevez</string>
 
@@ -862,7 +862,7 @@
     <string name="bookmarks_title">Sinedoù</string>
     <string name="bookmark_name">Sined %s</string>
     <string name="optional_features">Arc\'hweladurioù ouzhpenn</string>
-    <string name="start_vlc">Loc\'hañ Mix Wave</string>
+    <string name="start_vlc">Loc\'hañ Osho Discourse</string>
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Ouzhpennañ un elfenn(où) e doubl?</string>
     <string name="add_button">Ouzhpennañ</string>

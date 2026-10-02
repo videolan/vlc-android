@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Dakord</string>
     <string name="cancel">Anulo</string>
     <string name="other">Të Tjera</string>
@@ -32,7 +32,7 @@
     <string name="play_as_audio">Luaj si audio</string>
     <string name="play_as_video">Luaj si video</string>
     <string name="video_app_switch_title">Mënyrë Background/PiP</string>
-    <string name="video_app_switch_summary">Zgjidh sjelljen e Mix Wave kur kaloni në programe të tjera nga rishikimet e videos</string>
+    <string name="video_app_switch_summary">Zgjidh sjelljen e Osho Discourse kur kaloni në programe të tjera nga rishikimet e videos</string>
     <string name="play_pip_title">Luaj videos në mënyrë Fotografi-në-fotografi</string>
     <string name="play_as_audio_background">Luaj videos në sfond</string>
     <string name="insert_next">Vendos tjetër</string>
@@ -157,7 +157,7 @@
 
     <string name="open_mrl_dialog_msg">Fusni adresën e rrjetit: p.sh. http://, mms:// ose rtsp://</string>
     <string name="encountered_error_title">Gabim ridëgjim</string>
-    <string name="encountered_error_message">Mix Wave hasi një gabim me këtë media.\nJu lutem provoni të rifreskoni bibliotekën media.</string>
+    <string name="encountered_error_message">Osho Discourse hasi një gabim me këtë media.\nJu lutem provoni të rifreskoni bibliotekën media.</string>
     <string name="invalid_location">Vendndodhja %1$s nuk mund të luhet.</string>
     <string name="search">Kërko</string>
 
@@ -182,10 +182,10 @@
     <string name="hold_to_stop">Mbaj për të ndaluar</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Rishikim</string>
     <string name="about">Rreth</string>
-    <string name="vlc_authors">dhe Autoret e Mix Wave.</string>
+    <string name="vlc_authors">dhe Autoret e Osho Discourse.</string>
     <!-- Preferences -->
     <string name="preferences">Cilësimet</string>
     <string name="directories_summary">Përzgjidhni dosjet që duhet të përfshihen në bibliotekën e media</string>
@@ -227,5 +227,5 @@
     <string name="audio_prefs_category">Audio</string>
     <string name="performance_prefs_category">Performanca</string>
     <string name="debug_logs">Log-et e Debug</string>
-    <string name="restart_vlc">Ristarto Mix Wave</string>
+    <string name="restart_vlc">Ristarto Osho Discourse</string>
     </resources>

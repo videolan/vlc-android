@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Í lagi</string>
     <string name="cancel">Angra</string>
     <string name="other">Annað</string>
@@ -98,7 +98,7 @@
     <string name="jump_to_time">Hopp til tíð</string>
     <string name="subtitle_select">Vel undirtekstafílu</string>
     <string name="encountered_error_title">Avspælingarvilla</string>
-    <string name="encountered_error_message">Ein villa er íkomin, tá ið Mix Wave skuldi spæla henda miðil.\nRoyn og endurbyrja miðlasavnið.</string>
+    <string name="encountered_error_message">Ein villa er íkomin, tá ið Osho Discourse skuldi spæla henda miðil.\nRoyn og endurbyrja miðlasavnið.</string>
     <string name="invalid_location">Keldan %1$s kann ikki spælast.</string>
     <string name="search">Leita</string>
 
@@ -163,9 +163,9 @@
     <string name="dump_logcat">Ráavrita logcat-loggin</string>
     <string name="dump_logcat_success">Logcat er ráavritað í øllum góðum til %1$s!</string>
     <string name="dump_logcat_failure">Miseydnaðist at ráavrita logcat.</string>
-    <string name="serious_crash">Tíverri stóðst ein álvarsamur feilur og Mix Wave noyddist at lata aftur.</string>
-    <string name="help_us_send_log">Hjálp til at betra um Mix Wave við at senda krassjloggin niðanfyri:</string>
-    <string name="restart_vlc">Tendra Mix Wave av nýggjum</string>
+    <string name="serious_crash">Tíverri stóðst ein álvarsamur feilur og Osho Discourse noyddist at lata aftur.</string>
+    <string name="help_us_send_log">Hjálp til at betra um Osho Discourse við at senda krassjloggin niðanfyri:</string>
+    <string name="restart_vlc">Tendra Osho Discourse av nýggjum</string>
     <string name="send_log">Send loggin</string>
     <string name="sending_log">Sendir loggin…</string>
 

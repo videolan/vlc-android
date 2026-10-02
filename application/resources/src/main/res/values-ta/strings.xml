@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">சரி</string>
     <string name="cancel">இரத்து</string>
     <string name="other">பிற</string>
@@ -33,7 +33,7 @@
     <string name="play_as_audio">ஒலியாக இயக்கு</string>
     <string name="play_as_video">காணொளியாக இயக்கு</string>
     <string name="video_app_switch_title">பின்புல/PiP செயல் வகை</string>
-    <string name="video_app_switch_summary">காணொளியின் பின்னணி இயக்கத்திலிருந்து வேறொரு செயலிக்கு மாறும் பொழுது Mix Wave-ன் ஒழுங்கைத் தெரிவு செய்க</string>
+    <string name="video_app_switch_summary">காணொளியின் பின்னணி இயக்கத்திலிருந்து வேறொரு செயலிக்கு மாறும் பொழுது Osho Discourse-ன் ஒழுங்கைத் தெரிவு செய்க</string>
     <string name="play_pip_title">காணொளிகளை படம்-உள்-படம் முறையில் இயக்கு</string>
     <string name="play_as_audio_background">காணொளிகளை பின்புலத்தில் இயக்கு</string>
     <string name="insert_next">அடுத்ததை நுழைக்க</string>
@@ -189,10 +189,10 @@
     <string name="hold_to_stop">நிறுத்த அழுத்திப் பிடி</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">மறுபதிப்பு</string>
     <string name="about">பற்றி</string>
-    <string name="vlc_authors">மற்றும் Mix Wave ஆசிரியர்கள்.</string>
+    <string name="vlc_authors">மற்றும் Osho Discourse ஆசிரியர்கள்.</string>
     <!-- Preferences -->
     <string name="preferences">அமைப்புகள்</string>
     <string name="directories_summary">அடைவுகளைவத் தேர்வுச்செய்து ஊடகத் தொகுப்பில் சேர்க்கவும்</string>
@@ -289,9 +289,9 @@
     <string name="dump_logcat">logcat பதிவை எடு</string>
     <string name="dump_logcat_success">%1$s விற்கு logcat பதிவு வெற்றிகரமாக எடுக்கப்பட்டது!</string>
     <string name="dump_logcat_failure">logcat எடுக்க முடிவில்லை.</string>
-    <string name="serious_crash">எதிர்பாரவிதமாக, ஒரு முக்கிய பிழை நேர்ந்ததால் Mix Wave மூடவும்.</string>
-    <string name="help_us_send_log">Mix Wave மேம்படுத்த பின்வரும் சிதைவு அறிக்கைப் பதிவை எங்களுக்கு அனுப்பவும்:</string>
-    <string name="restart_vlc">Mix Wave மீள்துவக்கு</string>
+    <string name="serious_crash">எதிர்பாரவிதமாக, ஒரு முக்கிய பிழை நேர்ந்ததால் Osho Discourse மூடவும்.</string>
+    <string name="help_us_send_log">Osho Discourse மேம்படுத்த பின்வரும் சிதைவு அறிக்கைப் பதிவை எங்களுக்கு அனுப்பவும்:</string>
+    <string name="restart_vlc">Osho Discourse மீள்துவக்கு</string>
     <string name="send_log">பதிவை அனுப்பு</string>
     <string name="sending_log">பதிவை அனுப்புகிறது…</string>
 
@@ -324,7 +324,7 @@
     <string name="no_subs_found">இந்த அடைவில் வசன வரிகள் இல்லை</string>
     <string name="music_now_playing">இப்போ ஒடுவது</string>
 
-    <string name="exit_app">Mix Wave-ஐ மூடு</string>
+    <string name="exit_app">Osho Discourse-ஐ மூடு</string>
     <!-- Plugins -->
     <string name="plugins">நிரல்கள்</string>
     <string name="download_on_device">பதிவிறக்கு</string>
@@ -366,7 +366,7 @@
     <string name="download">பதிவிறக்கு</string>
     <string name="ctx_player_audio_track">ஒலி தடம்</string>
     <string name="ctx_pip_title">திரைமேலியக்கி</string>
-    <string name="welcome_title">Mix Wave க்கு வருக!</string>
+    <string name="welcome_title">Osho Discourse க்கு வருக!</string>
     <string name="done">முடிந்தது</string>
     <string name="add">சேர்க்க</string>
     <string name="show_video_thumbnails_summary">பட்டியல்களில் காணொளி சிறுவுருவங்களை காட்டு</string>
@@ -393,9 +393,9 @@
     <string name="new_stream">புது ஓடை</string>
     <string name="rename_group">காணொளி குழுவை மறுபெயரிடு</string>
     <string name="swipe_unlock">பூட்டவிழ்க்க தேய்</string>
-    <string name="donate">Mix Wave-ஐ உதவு</string>
-    <string name="donate_desc">Mix Wave-ஐ கட்டும் தன்னார்வலர்களை ஆதரி</string>
-    <string name="tip_jar">Mix Wave-ஐ உதவு</string>
+    <string name="donate">Osho Discourse-ஐ உதவு</string>
+    <string name="donate_desc">Osho Discourse-ஐ கட்டும் தன்னார்வலர்களை ஆதரி</string>
+    <string name="tip_jar">Osho Discourse-ஐ உதவு</string>
     <string name="air_action_forward">10நொடி முன்னே நாடு</string>
     <string name="video_hud_timeout">காணொளியியக்கி கட்டுப்பாடுகள் மறைய தாமதம்</string>
     <string name="apply_to_all">எல்லா காணொளிகளுக்கும் உபயோகி</string>

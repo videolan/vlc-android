@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">ठीक छ</string>
     <string name="cancel">रद्द गर्नुहोस्</string>
     <string name="other">अन्य</string>
@@ -47,7 +47,7 @@
     <string name="play_as_video">भिडियोको रूपमा बजाउनुहोस्</string>
     <string name="return_to_video">भिडियो पूर्वरूपमा लैजानको लागि कभरमा लामो ट्याप गर्नुहोस्</string>
     <string name="video_app_switch_title">पृष्ठभूमि/PiP ढाँचा</string>
-    <string name="video_app_switch_summary">भिडियो प्लेब्याकबाट अन्य अनुप्रयोगमा स्विच गर्नुहुँदा Mix Wave को स्वभाव चयन गर्नुहोस्</string>
+    <string name="video_app_switch_summary">भिडियो प्लेब्याकबाट अन्य अनुप्रयोगमा स्विच गर्नुहुँदा Osho Discourse को स्वभाव चयन गर्नुहोस्</string>
     <string name="play_pip_title">तस्वीर-मा-तस्वीर प्रणालीमा भिडियो बजाउनुहोस्</string>
     <string name="play_as_audio_background">भिडियोहरू पृष्ठभूमिमा बजाउनुहोस्</string>
     <string name="append">हाल बजाइरहेको सूचीमा थप्नुहोस्</string>
@@ -201,7 +201,7 @@
     <string name="streams">स्ट्रिमहरू</string>
     <string name="open_mrl_dialog_msg">सञ्जाल ठेगाना राख्नुहोस्: उदा॰ http://, mms:// or rtsp://</string>
     <string name="encountered_error_title">बजाउँदा त्रुटि</string>
-    <string name="encountered_error_message">Mix Wave ले यो मिडियाको साथ एक त्रुटिको सामना गर्यो।\nकृपया मिडिया लाइब्रेरीलाई ताजा गर्ने प्रयास गर्नुहोस्। </string>
+    <string name="encountered_error_message">Osho Discourse ले यो मिडियाको साथ एक त्रुटिको सामना गर्यो।\nकृपया मिडिया लाइब्रेरीलाई ताजा गर्ने प्रयास गर्नुहोस्। </string>
     <string name="invalid_location">स्थान %1$sबजाउन सकिएन।</string>
     <string name="missing_location">यो मिडिया अनुपलब्ध भण्डारणबाट हो र प्ले गर्न सकिँदैन।</string>
 
@@ -256,11 +256,11 @@
     <string name="hold_to_stop">रोक्नको लागि थाम्नुहोस्</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">संशोधन</string>
     <string name="about">बारे</string>
     <string name="authors">निर्माताहरू</string>
-    <string name="vlc_authors">र Mix Wave लेखकहरु</string>
+    <string name="vlc_authors">र Osho Discourse लेखकहरु</string>
     <string name="sources">श्रोत कोडहरू</string>
     <string name="feedback_forum">पृष्टपोषण फोरुम</string>
 
@@ -353,8 +353,8 @@
     <string name="enable_play_on_headset_insertion_summary">अन्यथा पज गर्नुहोस्</string>
     <string name="replaygain_album">एल्बम</string>
     <string name="aout">अडियो आउटपुट</string>
-    <string name="aout_summary">Mix Wave  ले अडियो आउटपुट गर्न प्रयोग गर्ने विधि परिवर्तन गर्नुहोस्</string>
-    <string name="audio_ducking_title">सूचनाहरू आउँदा Mix Wave को भोल्युम कम गर्नुहोस्</string>
+    <string name="aout_summary">Osho Discourse  ले अडियो आउटपुट गर्न प्रयोग गर्ने विधि परिवर्तन गर्नुहोस्</string>
+    <string name="audio_ducking_title">सूचनाहरू आउँदा Osho Discourse को भोल्युम कम गर्नुहोस्</string>
     <string name="audio_ducking_summary">अडियो सूचना, नेभिगेसन निर्देशनहरू वा सहायता कुराकानी सुन्न मद्दत गर्दछ</string>
     <string name="casting_category">कास्टिङ</string>
     <string name="casting_switch_title">ताररहित कास्टिङ</string>
@@ -381,7 +381,7 @@
     <string name="clear_media_db">मिडिया डाटाबेस मेटाउनुहोस्</string>
     <string name="clear_media_database_summary">सुरु गर्न डाटाबेस खाली गर्नुहोस्</string>
     <string name="clear_app_data">एप डाटा खाली गर्नुहोस्</string>
-    <string name="clear_app_data_summary">Android  डाटाका लागि Mix Wave खाली गर्नुहोस्</string>
+    <string name="clear_app_data_summary">Android  डाटाका लागि Osho Discourse खाली गर्नुहोस्</string>
     <string name="clear_history">इतिहास मेटाउनुहोस्</string>
     <string name="set_locale">स्थान सेट गर्नुहोस</string>
     <string name="quit">छोड्नुहोस् र अनुप्रयोग पुन: सुरु गर्नुहोस्</string>
@@ -397,9 +397,9 @@
     <string name="clear_log">लग खाली गर्नुहोस्</string>
     <string name="copy_to_clipboard">क्लिपबोर्डमा प्रतिलिपीगर्नुहोस्</string>
     <string name="custom_libvlc_options_invalid">अमान्य libVLC विकल्पहरू!</string>
-    <string name="serious_crash">संयोगवश, गम्भीर त्रुटि भयो र Mix Wave बन्द गर्नुपर्‍यो।</string>
-    <string name="help_us_send_log">निम्न त्रुटिलग पठाएर Mix Wave लाई राम्रो बनाउन सहयोग गर्नुहोस:</string>
-    <string name="restart_vlc">Mix Waveलाई फेरि सुरु गर्नुहोस</string>
+    <string name="serious_crash">संयोगवश, गम्भीर त्रुटि भयो र Osho Discourse बन्द गर्नुपर्‍यो।</string>
+    <string name="help_us_send_log">निम्न त्रुटिलग पठाएर Osho Discourse लाई राम्रो बनाउन सहयोग गर्नुहोस:</string>
+    <string name="restart_vlc">Osho Discourseलाई फेरि सुरु गर्नुहोस</string>
     <string name="send_log">लग पठाउनुहोस्</string>
     <string name="sending_log">लग पठाउँद…</string>
 
@@ -439,27 +439,27 @@
     <string name="music_now_playing">अहिले बजिरहेको</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Mix Wave व्हाइट विजेट</string>
-    <string name="widget_name_b">Mix Wave डार्क विजेट</string>
+    <string name="widget_name_w">Osho Discourse व्हाइट विजेट</string>
+    <string name="widget_name_b">Osho Discourse डार्क विजेट</string>
     <string name="whats_next">अब कुन?</string>
     <string name="click_here">विस्तृत जानकारीको लागि यहाँ थिच्नुहोस्</string>
-    <string name="allow_storage_access_title">Mix Wave लाई भिडियो र अडियो फाइलहरू पहुँच गर्न अनुमति दिनुहोस्</string>
-    <string name="allow_storage_access_description">Mix Wave लाई यो यन्त्रमा मिडिया फाइलहरू पहुँच गर्न तपाईंले अनुमति दिनु आवश्यक पर्दछ।</string>
-    <string name="partial_content">Mix Waveले हजुरका फाइलहरू पाउन सकेन</string>
+    <string name="allow_storage_access_title">Osho Discourse लाई भिडियो र अडियो फाइलहरू पहुँच गर्न अनुमति दिनुहोस्</string>
+    <string name="allow_storage_access_description">Osho Discourse लाई यो यन्त्रमा मिडिया फाइलहरू पहुँच गर्न तपाईंले अनुमति दिनु आवश्यक पर्दछ।</string>
+    <string name="partial_content">Osho Discourseले हजुरका फाइलहरू पाउन सकेन</string>
     <string name="never_ask_again">अब फेरी नसोध्नुहोस्</string>
-    <string name="allow_settings_access_ringtone_title">रिङटोन सेट गर्न Mix Wave लाई अनुमति दिनुहोस्</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave ले यस गीतलाई तपाईँको रिङटोनको रूपमा सेट गर्न तपाईंले यसलाई अनुमति दिनु आवश्यक पर्दछ।</string>
-    <string name="allow_settings_access_brightness_title">Mix Wave लाई चमक मोड परिवर्तन गर्न अनुमति दिनुहोस्</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave लाई तपाईँको चमक मोड परिवर्तन गर्न तपाईँले अनुमति दिनु आवश्यक पर्दछ।</string>
-    <string name="allow_draw_overlays_title">Mix Wave प्लेयरलाई अन्य एपहरूमा पपअपको अनुमति दिनुहोस्</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave लाई अन्य अनुप्रयोगहरूको पपअपमा तपाईँको भिडियो प्रदर्शन अनुमति दिन आवश्यक पर्दछ।</string>
+    <string name="allow_settings_access_ringtone_title">रिङटोन सेट गर्न Osho Discourse लाई अनुमति दिनुहोस्</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse ले यस गीतलाई तपाईँको रिङटोनको रूपमा सेट गर्न तपाईंले यसलाई अनुमति दिनु आवश्यक पर्दछ।</string>
+    <string name="allow_settings_access_brightness_title">Osho Discourse लाई चमक मोड परिवर्तन गर्न अनुमति दिनुहोस्</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse लाई तपाईँको चमक मोड परिवर्तन गर्न तपाईँले अनुमति दिनु आवश्यक पर्दछ।</string>
+    <string name="allow_draw_overlays_title">Osho Discourse प्लेयरलाई अन्य एपहरूमा पपअपको अनुमति दिनुहोस्</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse लाई अन्य अनुप्रयोगहरूको पपअपमा तपाईँको भिडियो प्रदर्शन अनुमति दिन आवश्यक पर्दछ।</string>
     <string name="permission_ask_again">अनुमति दिनुहोस्</string>
     <string name="pick_file">फाइल छान्नुहोस्</string>
     <string name="permission_not_granted">अनुमति स्वीकृत छैन</string>
     <string name="permission_expanation_no_allow">तपाईँ आफ्नो मिडिया स्वत: पत्ता लगाउन वा बाह्य उपशीर्षकहरू प्रयोग गर्न सक्षम हुनुहुने छैन</string>
     <string name="permission_expanation_allow">तपाईंले केवल स्ट्रिम्स वा नेटवर्क मिडिया प्ले गर्न सक्षम हुनुहुने छ</string>
-    <string name="exit_app">Mix Wave बन्द गर्नुहोस्</string>
-    <string name="exit_app_msg">के तपाईँ Mix Wave छोड्न निश्चित हुनुहुन्छ?</string>
+    <string name="exit_app">Osho Discourse बन्द गर्नुहोस्</string>
+    <string name="exit_app_msg">के तपाईँ Osho Discourse छोड्न निश्चित हुनुहुन्छ?</string>
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller ट्रयाक</string>
     <string name="fastscroller_handle">FastScroller ह्यान्डल</string>
@@ -494,7 +494,7 @@
     <string name="length">लम्बाइ</string>
     <string name="tv_settings_hint">निर्देशिका चेक/अनचेक गर्न  OK बटन लामो समय थिच्नुहोस्</string>
     <string name="ml_external_storage_title">नयाँ बाहिरी भण्डारण पत्ता लाग्यो</string>
-    <string name="ml_external_storage_msg">के तपाईँ Mix Wave ले तपाईँको मिडियालाइब्रेरीमा यन्त्र %1$s थपोस् भन्ने चाहनुहुन्छ?</string>
+    <string name="ml_external_storage_msg">के तपाईँ Osho Discourse ले तपाईँको मिडियालाइब्रेरीमा यन्त्र %1$s थपोस् भन्ने चाहनुहुन्छ?</string>
     <string name="ml_external_storage_accept">हो</string>
     <string name="ml_external_storage_decline">हैन</string>
     <string name="auto_last_added_media">अन्तिममा थपिएको</string>
@@ -548,12 +548,12 @@
     <string name="ctx_player_subs_track">उपशीर्षक ट्रयाक</string>
     <string name="ctx_pip_title">पप-अप प्लेयर</string>
     <string name="device_dialog_title">बाह्य यन्त्र घुसाइयो</string>
-    <string name="device_dialog_message">तपाईँले भर्खरै आफ्नो TV बक्समा नयाँ भण्डारण यन्त्र प्लग गर्नुभयो, के तपाईँ यसलाई Mix Wave सँग खोल्न चाहनुहुन्छ?</string>
-    <string name="welcome_title">Mix Wave मा स्वागत छ!</string>
-    <string name="permission_media">तपाईँको यन्त्रमा भएको मिडिया पहँच गर्न Mix Wave लाई तपाईँको अनुमति आवश्यक छ</string>
-    <string name="medialibrary_scan_explanation">Mix Wave ले तपाईँको मिडिया सङ्ग्रह व्यवस्थित गर्न स्वचालित रूपमा तपाईँको यन्त्र स्क्यान गर्न सक्छ</string>
+    <string name="device_dialog_message">तपाईँले भर्खरै आफ्नो TV बक्समा नयाँ भण्डारण यन्त्र प्लग गर्नुभयो, के तपाईँ यसलाई Osho Discourse सँग खोल्न चाहनुहुन्छ?</string>
+    <string name="welcome_title">Osho Discourse मा स्वागत छ!</string>
+    <string name="permission_media">तपाईँको यन्त्रमा भएको मिडिया पहँच गर्न Osho Discourse लाई तपाईँको अनुमति आवश्यक छ</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse ले तपाईँको मिडिया सङ्ग्रह व्यवस्थित गर्न स्वचालित रूपमा तपाईँको यन्त्र स्क्यान गर्न सक्छ</string>
     <string name="done">भयो</string>
-    <string name="onboarding_all_set">Mix Wave पूर्ण रूपमा तयार छ!</string>
+    <string name="onboarding_all_set">Osho Discourse पूर्ण रूपमा तयार छ!</string>
     <string name="add">थप्नुहोस्</string>
     <string name="add_to_new_playlist">नयाँ प्लेलिस्ट थप्नुहोस्</string>
     <string name="device_default">यन्त्र पूर्वनिर्धारित</string>
@@ -563,7 +563,7 @@
     <string name="reset">रिसेट गर्नुहोस्</string>
     <string name="display_in_list">सुचीमा देखाउनुहोस्</string>
     <string name="display_in_grid">ग्रिडमा देखाउनुहोस्</string>
-    <string name="send_crash_title">Mix Wave  त्रुटि रिपोर्टर</string>
+    <string name="send_crash_title">Osho Discourse  त्रुटि रिपोर्टर</string>
     <string name="favorite">मनपर्ने</string>
     <string name="always">सधैँ</string>
     <string name="never">कहिल्यै होइन</string>
@@ -641,18 +641,18 @@
     <string name="sub_result_by_name_season">सिजन %s</string>
     <string name="sub_result_by_name_episode">श्रृङ्खला %s </string>
     <string name="sub_result_by_file">तपाईँको फाइलको लागि नतिजा</string>
-    <string name="donate">Mix Wave मद्दत</string>
-    <string name="donate_desc">Mix Wave निर्माण गर्न स्वयंसेवकहरूलाई सहायता गर्नुहोस्</string>
+    <string name="donate">Osho Discourse मद्दत</string>
+    <string name="donate_desc">Osho Discourse निर्माण गर्न स्वयंसेवकहरूलाई सहायता गर्नुहोस्</string>
     <string name="donate_subscribtion">म यो मासिक प्रायोजन भएको चाहन्छु</string>
     <string name="donate_send">तपाईँको प्रयोजन सुरु गर्नुहोस्</string>
-    <string name="donation_description">तपाईँको प्रायोजनले हामीलाई निम्नमा अनुमति दिन्छ: \Mix Wave संघ Android\सहायताको लागि Mix Wave एप सुधार गर्न</string>
+    <string name="donation_description">तपाईँको प्रायोजनले हामीलाई निम्नमा अनुमति दिन्छ: \Osho Discourse संघ Android\सहायताको लागि Osho Discourse एप सुधार गर्न</string>
     <string name="subscription_purchased">तपाईँलाई मासिक प्रायोजनको सदस्यता दिइन्छ</string>
     <string name="subscription_cancel">तपाईँले Play Store मा सदस्यता रद्द गर्न सक्नुहुन्छ</string>
     <string name="subscription_cancel_tv">सदस्यता कसरी रद्द गर्ने</string>
     <string name="donate_unsubscribe_tv">सदस्यता रद्द गर्न, कृपया फोन वा कम्प्युटरमा %s खोल्नुहोस् वा यो कोड स्क्यान गर्नुहोस्:</string>
-    <string name="tip_jar">Mix Wave मद्दत</string>
+    <string name="tip_jar">Osho Discourse मद्दत</string>
     <string name="thank_you">धन्यवाद</string>
-    <string name="thank_you_desc">तपाईँको प्रायोजनको लागि धन्यवाद!\nIt ले Mix Wave सुधार गर्न हामीलाई धेरै मद्दत गर्नेछ!</string>
+    <string name="thank_you_desc">तपाईँको प्रायोजनको लागि धन्यवाद!\nIt ले Osho Discourse सुधार गर्न हामीलाई धेरै मद्दत गर्नेछ!</string>
     <string name="donate_again">एपलाई फेरि प्रायोजन गर्नुहोस्</string>
 
     <string name="mark_as_played">प्ले गरिएको रूपमा चिन्ह लगाउनुहोस्</string>
@@ -668,7 +668,7 @@
     <string name="air_action_next">प्लेब्याकमा भएको अर्को वस्तु</string>
     <string name="air_action_previous">प्लेब्याकमा भएको अघिल्लो वस्तु</string>
     <string name="allow_otg"> OTG पहुँच अनुमति दिनुहोस्</string>
-    <string name="allow_otg_description"> कृपया Mix Wave मा पहुँच गर्न अनुमति दिन तपाईँको OTG यन्त्र छनौट गर्नुहोस्  </string>
+    <string name="allow_otg_description"> कृपया Osho Discourse मा पहुँच गर्न अनुमति दिन तपाईँको OTG यन्त्र छनौट गर्नुहोस्  </string>
     <string name="timeout_infinite">असीम</string>
     <string name="video_hud_timeout">भिडियो प्लेयरले लुकाउने ढिलाइ नियन्त्रण गर्दछ</string>
     <string name="remove_from_history">इतिहासबाट हटाउनुहोस्</string>

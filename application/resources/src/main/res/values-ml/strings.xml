@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">ശരി</string>
     <string name="cancel">ഉപേക്ഷിക്കുക</string>
     <string name="other">മറ്റുള്ളവ</string>
@@ -38,7 +38,7 @@
     <string name="play_as_video">വീഡിയോ ആയി തുടങ്ങുക</string>
     <string name="return_to_video">വീഡിയോ പുനഃസ്ഥാപിക്കാൻ കവറിൽ ദീർഘനേരം ടാപ്പ് ചെയ്യുക</string>
     <string name="video_app_switch_title">പശ്ചാത്തല/പിപ് രീതി</string>
-    <string name="video_app_switch_summary">വീഡിയോ കാണിച്ചുകൊണ്ടിരിക്കുമ്പോള്‍ മറ്റൊരു പ്രോഗ്രാമിലേക്ക് നിങ്ങള്‍ മാറിയാല്‍ Mix Wave എങ്ങനെ പെരുമാറണം എന്ന് തിരഞ്ഞെടുക്കുക</string>
+    <string name="video_app_switch_summary">വീഡിയോ കാണിച്ചുകൊണ്ടിരിക്കുമ്പോള്‍ മറ്റൊരു പ്രോഗ്രാമിലേക്ക് നിങ്ങള്‍ മാറിയാല്‍ Osho Discourse എങ്ങനെ പെരുമാറണം എന്ന് തിരഞ്ഞെടുക്കുക</string>
     <string name="play_pip_title">വീഡിയോകള്‍ ഒന്നില്‍ മറ്റൊന്ന് ഒരു ചെറുകളത്തിനുള്ളില്‍ കാണിക്കുക</string>
     <string name="play_as_audio_background">വീഡിയോകൾ പശ്ചാത്തലത്തിൽ പ്ലേ ചെയ്യുക</string>
     <string name="insert_next">അടുത്തതായി കൂട്ടിച്ചേര്‍ക്കുക</string>
@@ -245,7 +245,7 @@
     <string name="hold_to_stop">നിർത്താനായി തൊട്ടുപിടിക്കുക </string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">പരിഷ്‌കരണം</string>
     <string name="about">കുറിച്ച്‌</string>
     <string name="about_vlc_text">ആൻഡ്രോയിഡ്™-നുള്ള വിഎൽസി എന്നത് ജനപ്രിയ തുറന്ന കോഡുള്ള മീഡിയ പ്ലെയറായ വിഎൽസി മീഡിയ പ്ലെയറിന്റെ ഒരു പതിപ്പാണ് ആണ്. ആൻഡ്രോയിഡ് ™ പതിപ്പിന് എല്ലാ ഫയലുകളും ശ്രിംഘലയിൽ നിന്നുള്ള ഒഴുക്കുകളും വായിക്കാനാകും.</string>
@@ -463,7 +463,7 @@
     <string name="custom_libvlc_options_invalid">അസാധുവായ libVLC ഓപ്ഷനുകൾ!</string>
     <string name="serious_crash">നിർഭാഗ്യവശാൽ ഒരു ഗുരുതര പിഴവ് സംഭവിച്ചിരിക്കുന്നു, വിഎൽസി നിർത്തുകയാണ് </string>
     <string name="help_us_send_log">ഈ ക്റാഷ് ലോഗ് നൽകി വിഎൽസി യെ മെച്ചപെടുത്താൻ സഹായിക്കുക </string>
-    <string name="restart_vlc">Mix Wave പുനരാരംഭിക്കുക</string>
+    <string name="restart_vlc">Osho Discourse പുനരാരംഭിക്കുക</string>
     <string name="send_log">ലോഗ് അയക്കുക</string>
     <string name="sending_log">ലോഗ് അയക്കുന്നു</string>
 
@@ -508,7 +508,7 @@
     <!-- Widget -->
     <string name="widget_name_w">വിഎൽസി വെളുത്ത വിഡ്ജെറ്റ് </string>
     <string name="widget_name_b">വിഎൽസി കറുത്ത വിഡ്ജെറ്റ് </string>
-    <string name="widget_name_mini_player">Mix Wave മിനി പ്ലെയർ</string>
+    <string name="widget_name_mini_player">Osho Discourse മിനി പ്ലെയർ</string>
     <string name="widget_old_text">ഞങ്ങൾ ഞങ്ങളുടെ വിജറ്റുകൾ അപ്ഡേറ്റ് ചെയ്തു!</string>
     <string name="widget_old_description_start">ശുഭ വാർത്ത! ഞങ്ങൾ മെച്ചപ്പെടുത്തിയ വിജറ്റുകൾ പുറത്തിറക്കിയിരിക്കുന്നു.\nഅവ കൂടുതൽ പ്രതികരണശേഷിയും ഇഷ്ടാനുസൃതമാക്കലും വാഗ്ദാനം ചെയ്യുന്നു</string>
     <string name="whats_next">അടുത്തത് എന്താണ്?</string>
@@ -522,8 +522,8 @@
     <string name="allow_settings_access_ringtone_title">
 റിങ്ടോൺ സെറ്റ് ചെയ്യാൻ വിഎൽസി യെ അനുവദിക്കുക </string>
     <string name="allow_settings_access_ringtone_description">ഈ പാട്ട് റിങ്ടോൺ ആയി ഉപയോഗിക്കാൻ വിഎൽസി ക്ക് അനുമതി നൽകേണ്ടത് ആവശ്യമാണ് </string>
-    <string name="allow_settings_access_brightness_title">തെളിച്ച മോഡ് മാറ്റാൻ Mix Waveയെ അനുവദിക്കുക</string>
-    <string name="allow_settings_access_brightness_description">തെളിച്ച മോഡ് മാറ്റുന്നതിന് Mix Waveക്ക് നിങ്ങള്‍ അനുമതി നൽകേണ്ടതുണ്ട്.</string>
+    <string name="allow_settings_access_brightness_title">തെളിച്ച മോഡ് മാറ്റാൻ Osho Discourseയെ അനുവദിക്കുക</string>
+    <string name="allow_settings_access_brightness_description">തെളിച്ച മോഡ് മാറ്റുന്നതിന് Osho Discourseക്ക് നിങ്ങള്‍ അനുമതി നൽകേണ്ടതുണ്ട്.</string>
     <string name="allow_draw_overlays_title">വിഎൽസി പോപ്പ് അപ്പുകൾക്ക് മറ്റു അപ്പുകളെക്കാൾ മുൻഗണന നൽകുക </string>
     <string name="allow_sdraw_overlays_description">നിങ്ങളുടെ വീഡിയോ മറ്റു അപ്പുകൾക്ക് മേൽ പോപ്പ് ആപ്പായി കാണിക്കുവാൻ വിഎൽസി ക്ക് അനുമതി നൽകേണ്ടത് ആവശ്യമാണ് </string>
     <string name="permission_ask_again">അനുവാദം നൽകുക </string>
@@ -531,8 +531,8 @@
     <string name="permission_not_granted">അനുമതി നൽകിയിട്ടില്ല</string>
     <string name="permission_expanation_no_allow">നിങ്ങളുടെ മീഡിയ സ്വയം കണ്ടെത്താനോ ബാഹ്യ ഉപശീർഷകങ്ങൾ ഉപയോഗിക്കാനോ കഴിയില്ല</string>
     <string name="permission_expanation_allow">നിങ്ങൾക്ക് ഒഴുക്കുകളോ ശ്രിംഘലയിലുള്ള മീഡിയയോ മാത്രമേ പ്ലേ ചെയ്യാൻ കഴിയൂ</string>
-    <string name="exit_app">Mix Wave അടയ്ക്കുക</string>
-    <string name="exit_app_msg">Mix Wave അടക്കണമെന്ന് താങ്കല്‍ക്കുറപ്പാണോ ?</string>
+    <string name="exit_app">Osho Discourse അടയ്ക്കുക</string>
+    <string name="exit_app_msg">Osho Discourse അടക്കണമെന്ന് താങ്കല്‍ക്കുറപ്പാണോ ?</string>
     <!-- fast scroller -->
     <string name="fastscroller_track">ഫാസ്റ്റ് സ്ക്രോളർ ട്രാക്ക് </string>
     <string name="fastscroller_handle">ഫാസ്റ്റ് സ്ക്രോളർ ഹാൻഡിൽ</string>
@@ -656,7 +656,7 @@
     <string name="video_remote_enable">വിദൂര നിയന്ത്രണ രീതിയിലേക്ക് മാറുക</string>
     <string name="video_remote_disable">തനിപ്പകർപ്പ് സ്ക്രീൻ</string>
     <string name="removed_from_playlist_anonymous">ഇവ പ്ളേ ലിസ്റ്റിൽ നിന്നും നീക്കം ചെയ്തിരിക്കുന്നു</string>
-    <string name="welcome_title">Mix Wave ലേക്ക് സ്വാഗതം!</string>
+    <string name="welcome_title">Osho Discourse ലേക്ക് സ്വാഗതം!</string>
     <string name="welcome_subtitle">സൗജന്യവും ഓപ്പൺ സോഴ്സുമായ മൾട്ടി മീഡിയ പ്ലെയർ </string>
     <string name="permission_media">നിങ്ങളുടെ ഉപകരണത്തിൽ മീഡിയ കൈകാര്യം ചെയ്യാൻ വിഎൽസി ക്ക് നിങ്ങളുടെ അനുവാദം ആവശ്യമുണ്ട് </string>
     <string name="medialibrary_scan_explanation">നിങ്ങളുടെ ഉപകരണം തനിയെ തിരഞ്ഞു മീഡിയ ക്രമപെടുത്താൻ വിഎൽസി ക്ക് സാധിക്കും </string>
@@ -707,8 +707,8 @@
     <string name="send_crash_warning">നിങ്ങൾ‌ക്ക് അയയ്‌ക്കാൻ‌ താൽ‌പ്പര്യമില്ലാത്ത ഏതെങ്കിലും പ്രാധാന്യമുള്ള വിവരങ്ങൾ നീക്കംചെയ്യുന്നുവെന്ന് ഉറപ്പാക്കുക.</string>
     <string name="include_medialib">നിങ്ങളുടെ ഡാറ്റാബേസ് ഉൾപെടുത്തുക </string>
     <string name="vlc_reporter">വിഎൽസി റിപ്പോർട്ടർ </string>
-    <string name="welcome_beta_title">Mix Wave ബീറ്റ</string>
-    <string name="welcome_beta_description">Mix Wave ബീറ്റ പ്രോഗ്രാമിലേക്ക് സ്വാഗതം.\nഈ പതിപ്പിന് ചില ബഗുകൾ‌ ഉണ്ടാവാം.</string>
+    <string name="welcome_beta_title">Osho Discourse ബീറ്റ</string>
+    <string name="welcome_beta_description">Osho Discourse ബീറ്റ പ്രോഗ്രാമിലേക്ക് സ്വാഗതം.\nഈ പതിപ്പിന് ചില ബഗുകൾ‌ ഉണ്ടാവാം.</string>
     <string name="welcome_beta_description_bugs">ഒരു ബഗ് നിങ്ങളുടെ ശ്രദ്ധയിൽപ്പെട്ടാൽ, ദയവായി ഇത് ഞങ്ങളുടെ ഫോറത്തിലോ ബഗ് ട്രാക്കറിലോ റിപ്പോർട്ടുചെയ്യുക.</string>
     <string name="send">അയയ്‌ക്കുക</string>
     <string name="send_crash_action_title">നിങ്ങൾ എന്താണ് ചെയ്യാൻ ഉദേശിക്കുന്നത്?</string>
@@ -803,18 +803,18 @@
     <string name="sub_result_by_name_season">സീസൺ %s</string>
     <string name="sub_result_by_name_episode">എപ്പിസോഡ് %s</string>
     <string name="sub_result_by_file">നിങ്ങളുടെ ഫയലിനായുള്ള ഫലങ്ങൾ</string>
-    <string name="donate">Mix Wave-യെ സഹായിക്കുക</string>
-    <string name="donate_desc">Mix Wave നിർമ്മിക്കുന്ന സന്നദ്ധപ്രവർത്തകരെ പിന്തുണയ്ക്കുക</string>
+    <string name="donate">Osho Discourse-യെ സഹായിക്കുക</string>
+    <string name="donate_desc">Osho Discourse നിർമ്മിക്കുന്ന സന്നദ്ധപ്രവർത്തകരെ പിന്തുണയ്ക്കുക</string>
     <string name="donate_subscribtion">ഇത് പ്രതിമാസ സ്പോൺസർഷിപ്പ് ആകാൻ ഞാൻ ആഗ്രഹിക്കുന്നു</string>
     <string name="donate_send">നിങ്ങളുടെ സ്പോൺസർഷിപ്പ് ആരംഭിക്കുക</string>
-    <string name="donation_description">നിങ്ങളുടെ സ്പോൺസർഷിപ്പ് ഞങ്ങളെ Android-നായുള്ള Mix Wave അപ്ലിക്കേഷൻ മെച്ചപ്പെടുത്താൻ സഹായിക്കും\nMix Wave അസോസിയേഷനെ പിന്തുണയ്ക്കുക</string>
+    <string name="donation_description">നിങ്ങളുടെ സ്പോൺസർഷിപ്പ് ഞങ്ങളെ Android-നായുള്ള Osho Discourse അപ്ലിക്കേഷൻ മെച്ചപ്പെടുത്താൻ സഹായിക്കും\nOsho Discourse അസോസിയേഷനെ പിന്തുണയ്ക്കുക</string>
     <string name="subscription_purchased">നിങ്ങൾ പ്രതിമാസ സ്പോൺസർഷിപ്പിനായി സബ്‌സ്‌ക്രൈബുചെയ്‌തു</string>
     <string name="subscription_cancel">നിങ്ങൾക്ക് പ്ലേ സ്റ്റോറിൽ അൺസബ്‌സ്‌ക്രൈബുചെയ്യാനാകും</string>
     <string name="subscription_cancel_tv">അൺസബ്‌സ്‌ക്രൈബുചെയ്യുന്നതെങ്ങനെ</string>
     <string name="donate_unsubscribe_tv">അൺസബ്‌സ്‌ക്രൈബുചെയ്യാൻ, ഒരു ഫോണിലോ കമ്പ്യൂട്ടറിലോ %s തുറക്കുക അല്ലെങ്കിൽ ഈ കോഡ് സ്‌കാൻ ചെയ്യുക:</string>
-    <string name="tip_jar">Mix Wave-യെ സഹായിക്കുക</string>
+    <string name="tip_jar">Osho Discourse-യെ സഹായിക്കുക</string>
     <string name="thank_you">നന്ദി</string>
-    <string name="thank_you_desc">നിങ്ങളുടെ സ്പോൺസർഷിപ്പിന് നന്ദി!\n Mix Wave മെച്ചപ്പെടുത്തുന്നതിന് ഇത് ഞങ്ങളെ ശരിക്കും സഹായിക്കും!</string>
+    <string name="thank_you_desc">നിങ്ങളുടെ സ്പോൺസർഷിപ്പിന് നന്ദി!\n Osho Discourse മെച്ചപ്പെടുത്തുന്നതിന് ഇത് ഞങ്ങളെ ശരിക്കും സഹായിക്കും!</string>
     <string name="donate_again">അപ്ലിക്കേഷൻ വീണ്ടും സ്പോൺസർ ചെയ്യുക</string>
 
     <string name="mark_as_played">പ്രവർത്തപ്പിച്ചതായി രേഖപ്പെടുത്തുക</string>
@@ -927,7 +927,7 @@
     <string name="widget_show_configure_summary">ഇത് കാണിച്ചിട്ടില്ലെങ്കിലും, കോൺഫിഗറേഷൻ തുറക്കാൻ നിങ്ങൾക്ക് മുകളിൽ വലത് കോണിൽ ടാപ്പുചെയ്യാവുന്നതാണ്</string>
     <string name="seek_backward_content_description">സീക്ക് %s സെക്കൻഡ് ബാക്ക്‌വേഡ്‌സ്</string>
     <string name="seek_forward_content_description">സീക്ക് %s സെക്കൻഡ് ഫോർവേഡ്‌സ്</string>
-    <string name="open_vlc">Mix Wave തുറക്കുക</string>
+    <string name="open_vlc">Osho Discourse തുറക്കുക</string>
     <string name="playing">പ്ലേ ചെയ്യുന്നു</string>
     <string name="disable_track">ട്രാക്ക് അപ്രാപ്തമാക്കുക</string>
     <string name="disabled">അപ്രാപ്തമാക്കുക</string>

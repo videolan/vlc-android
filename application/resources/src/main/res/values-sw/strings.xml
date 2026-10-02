@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
         tools:ignore="MissingTranslation">
 
-    <!-- Main Mix Wave Interface -->
+    <!-- Main Osho Discourse Interface -->
     <string name="ok">Sawa</string>
     <string name="cancel">Ghairi</string>
     <string name="other">Nyingine</string>
@@ -37,7 +37,7 @@
     <string name="play_as_video">Cheza kama video</string>
     <string name="return_to_video">Gusa jalada kwa muda mrefu urejeshe video</string>
     <string name="video_app_switch_title">Nui mandharinyuma/PiP</string>
-    <string name="video_app_switch_summary">Chagua tabia ya Mix Wave unapoenda kwenye programu nyingine kutoka uchezaji video</string>
+    <string name="video_app_switch_summary">Chagua tabia ya Osho Discourse unapoenda kwenye programu nyingine kutoka uchezaji video</string>
     <string name="play_pip_title">Cheza video katika nui ya picha ndani ya picha (PiP)</string>
     <string name="play_as_audio_background">Cheza video katika mandharinyuma</string>
     <string name="insert_next">Ingiza baada yake</string>
@@ -252,12 +252,12 @@
     <string name="hold_to_stop">Shikilia ili ukatize</string>
 
     <!-- About -->
-    <string name="app_name_full">Mix Wave</string>
+    <string name="app_name_full">Osho Discourse</string>
     <string name="revision">Marudio</string>
     <string name="about">Kuhusu</string>
-    <string name="about_vlc_text">Mix Wave ya Android™ ni nakala ya kichezaji midia cha Mix Wave , kichezaji midia maarufu na programu huria. Nakala ya Android™ inaweza kusoma faili zote na mitiririko yote ya mtandao.</string>
+    <string name="about_vlc_text">Osho Discourse ya Android™ ni nakala ya kichezaji midia cha Osho Discourse , kichezaji midia maarufu na programu huria. Nakala ya Android™ inaweza kusoma faili zote na mitiririko yote ya mtandao.</string>
     <string name="authors">Waandishi</string>
-    <string name="vlc_authors">na Waandishi wa Mix Wave.</string>
+    <string name="vlc_authors">na Waandishi wa Osho Discourse.</string>
     <string name="is_compiled_by">Imekonganywa na</string>
     <string name="sources">Msimbo chanzo</string>
     <string name="libraries">Maktaba</string>
@@ -403,8 +403,8 @@
     <string name="replaygain_track">Nakala</string>
     <string name="replaygain_album">Albamu</string>
     <string name="aout">Towe ya usikiko</string>
-    <string name="aout_summary">Badili mbinu ambayo Mix Wave hutumia kutoa sauti</string>
-    <string name="audio_ducking_title">Punguza sauti ya Mix Wave arifa zikiingia</string>
+    <string name="aout_summary">Badili mbinu ambayo Osho Discourse hutumia kutoa sauti</string>
+    <string name="audio_ducking_title">Punguza sauti ya Osho Discourse arifa zikiingia</string>
     <string name="audio_ducking_summary">Hukuwezesha kusikia arifa, maelekezo ya njia au usaidizi</string>
     <string name="casting_category">Uakisi</string>
     <string name="casting_switch_title">Uakisi pasiwaya</string>
@@ -452,7 +452,7 @@
     <string name="clear_media_db">Futa kanzidata ya midia</string>
     <string name="clear_media_database_summary">Hufuta kanzidata, ili ianzie tena</string>
     <string name="clear_app_data">Futa data ya programu</string>
-    <string name="clear_app_data_summary">Hufuta data ya Mix Wave ya Android</string>
+    <string name="clear_app_data_summary">Hufuta data ya Osho Discourse ya Android</string>
     <string name="clear_history">Futa historia</string>
     <string name="clear_history_message">Utapoteza hitoria, orodha chezeshi na maendeleo yako</string>
     <string name="set_locale">Weka eneo</string>
@@ -476,7 +476,7 @@
     <string name="start_logging">Anza kuandika batli</string>
     <string name="stop_logging">Katiza kuandika batli</string>
     <string name="clear_log">Futa batli</string>
-    <string name="log_service_title">Inarekodi batli za Mix Wave</string>
+    <string name="log_service_title">Inarekodi batli za Osho Discourse</string>
     <string name="log_service_text">Fungua dungu la batli</string>
     <string name="copy_to_clipboard">Nakili kwenye baobanio</string>
     <string name="copied_to_clipboard">Maandishi ya batli yamenakiliwa</string>
@@ -486,9 +486,9 @@
     <string name="dump_logcat_failure">Imeshindwa kumbeka logcat</string>
     <string name="custom_libvlc_options">Machaguo tanafsifu ya libVLC</string>
     <string name="custom_libvlc_options_invalid">Machaguo batili ya libVLC!</string>
-    <string name="serious_crash">Kwa bahati mbaya, kosa kubwa limefanyika ikabidi Mix Wave ijifunge </string>
-    <string name="help_us_send_log">Tusaidie kuboresha Mix Wave kwa kututumia batli mparaganyo ifuatayo:</string>
-    <string name="restart_vlc">Anzisha Mix Wave tena</string>
+    <string name="serious_crash">Kwa bahati mbaya, kosa kubwa limefanyika ikabidi Osho Discourse ijifunge </string>
+    <string name="help_us_send_log">Tusaidie kuboresha Osho Discourse kwa kututumia batli mparaganyo ifuatayo:</string>
+    <string name="restart_vlc">Anzisha Osho Discourse tena</string>
     <string name="send_log">Tuma batli</string>
     <string name="sending_log">Inatuma batli...</string>
 
@@ -531,27 +531,27 @@
     <string name="music_now_playing">Kinachocheza sasa</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Wijeti nyeupe ya Mix Wave</string>
-    <string name="widget_name_b">Wijeti nyeusi ya Mix Wave</string>
-    <string name="widget_name_mini_player">Kichezaji kidogo cha Mix Wave</string>
+    <string name="widget_name_w">Wijeti nyeupe ya Osho Discourse</string>
+    <string name="widget_name_b">Wijeti nyeusi ya Osho Discourse</string>
+    <string name="widget_name_mini_player">Kichezaji kidogo cha Osho Discourse</string>
     <string name="widget_old_text">Tulisasisha wijeti zetu!</string>
     <string name="widget_old_description_start">Habari njema! Tumetoa wijeti bora.\nNi itikivu zaidi na ni rahisi kutanafsisha</string>
     <string name="whats_next">Nini kifuatacho?</string>
     <string name="widget_old_description_end">Tumegundua kwamba tayari una wijeti katika kizinduzi chako. Kwa bahati mbaya, sio laiki na zile mpya.\nKulingana na kizinduzi chako, itabidi ufute za awali.</string>
     <string name="click_here">Bofya hapa ujue zaidi</string>
-    <string name="allow_storage_access_title">Ruhusu Mix Wave ifikie faili za video na za usikiko</string>
-    <string name="allow_storage_access_description">Mix Wave inahitaji ruhusa yako ifikie faili za midia zilizo kwenye kifaa.</string>
-    <string name="partial_content">Mix Wave haiwezi kufukia faili zako zote</string>
+    <string name="allow_storage_access_title">Ruhusu Osho Discourse ifikie faili za video na za usikiko</string>
+    <string name="allow_storage_access_description">Osho Discourse inahitaji ruhusa yako ifikie faili za midia zilizo kwenye kifaa.</string>
+    <string name="partial_content">Osho Discourse haiwezi kufukia faili zako zote</string>
     <string name="partial_content_description">Kuanzia Android 11, programu zote zinahitaji ruhusa maalum zifikie faili zote za kifaa.\n\n%s</string>
     <string name="never_ask_again">Usiulizwe tena</string>
-    <string name="allow_settings_access_ringtone_title">Ruhusu Mix Wave iweke sauti ya simu</string>
-    <string name="allow_settings_access_ringtone_description">Mix Wave inahitaji ruhusa hii ili iweze kuweka wimbo kama sauti ya simu.</string>
-    <string name="allow_settings_access_brightness_title">Ruhusu Mix Wave ibadili uangavu</string>
-    <string name="allow_settings_access_brightness_description">Mix Wave inahitaji ruhusa hii ili iweze kubadili uangavu wa skrini.</string>
-    <string name="allow_draw_overlays_title">Ruhusu Mix Wave iibukie juu ya programu zingine</string>
-    <string name="allow_sdraw_overlays_description">Mix Wave inahitaji ruhusa hii ili iweze kuonyesha video katika kiibukizi juu ya programu zingine.</string>
-    <string name="allow_pip">Ruhusu kichezaji cha Mix Wave kuwasha Picha ndani ya Picha</string>
-    <string name="allow_pip_description">Mix Wave inahitahi ruhusa hii ili iweze kuonyesha video yako katika hali ya  Picha ndani ya Picha.</string>
+    <string name="allow_settings_access_ringtone_title">Ruhusu Osho Discourse iweke sauti ya simu</string>
+    <string name="allow_settings_access_ringtone_description">Osho Discourse inahitaji ruhusa hii ili iweze kuweka wimbo kama sauti ya simu.</string>
+    <string name="allow_settings_access_brightness_title">Ruhusu Osho Discourse ibadili uangavu</string>
+    <string name="allow_settings_access_brightness_description">Osho Discourse inahitaji ruhusa hii ili iweze kubadili uangavu wa skrini.</string>
+    <string name="allow_draw_overlays_title">Ruhusu Osho Discourse iibukie juu ya programu zingine</string>
+    <string name="allow_sdraw_overlays_description">Osho Discourse inahitaji ruhusa hii ili iweze kuonyesha video katika kiibukizi juu ya programu zingine.</string>
+    <string name="allow_pip">Ruhusu kichezaji cha Osho Discourse kuwasha Picha ndani ya Picha</string>
+    <string name="allow_pip_description">Osho Discourse inahitahi ruhusa hii ili iweze kuonyesha video yako katika hali ya  Picha ndani ya Picha.</string>
     <string name="permission_ask_again">Ruhusu</string>
     <string name="pick_file">Chagua faili</string>
     <string name="permission_not_granted">Haijapatiwa ruhusa</string>
@@ -560,9 +560,9 @@
     <string name="permission_onboarding_no_perm">Hutaweza kugundua midia kiotomatiki.\nUtaweza tu kucheza mitiririko au midia za mtandaoni</string>
     <string name="permission_onboarding_perm_media">Utaweza tu kugundua kiotomatiki faili za kawaida za midia</string>
     <string name="permission_onboarding_perm_all">Utaweza kugundua kiotomatiki faili zako zote, kucheza aina zote za midia au faili sinde</string>
-    <string name="exit_app">Funga Mix Wave</string>
-    <string name="exit_app_msg">Una uhakika unataka kufunga Mix Wave?</string>
-    <string name="widget_explanation_title">Wijeti za Mix Wave</string>
+    <string name="exit_app">Funga Osho Discourse</string>
+    <string name="exit_app_msg">Una uhakika unataka kufunga Osho Discourse?</string>
+    <string name="widget_explanation_title">Wijeti za Osho Discourse</string>
     <string name="widget_explanation_size">Wijeti huja katika ukubwa na aina tofauti</string>
     <string name="widget_explanation_resize">Ili ubadilishe aina ya wijeti, iguse kwa muda mrefu na utumie vishikio kubadilisha ukubwa</string>
     <string name="widget_explanation_end">Wijezi zinaweza kutanafsishwa. Jibambe kwa kutumia ubunifu wako, zikufae!</string>
@@ -602,7 +602,7 @@
     <string name="length">Urefu</string>
     <string name="tv_settings_hint">Gusa kwa muda kibonye cha SAWA uchague/usichague miongolezo</string>
     <string name="ml_external_storage_title">Hifadhi mpya ya nje imegunduliwa</string>
-    <string name="ml_external_storage_msg">Unataka Mix Wave iongeze kifaa %1$s katika maktaba yako?</string>
+    <string name="ml_external_storage_msg">Unataka Osho Discourse iongeze kifaa %1$s katika maktaba yako?</string>
     <string name="ml_external_storage_accept">Ndio</string>
     <string name="ml_external_storage_decline">La</string>
     <string name="auto_last_added_media">Iliyoongezwa mwisho</string>
@@ -632,8 +632,8 @@
     <string name="browser_storages">Hifadhi</string>
     <string name="msg_delete_failed">Imeshindwa kufuta midia %1$s</string>
     <string name="renderer_list_title">Vizinzo</string>
-    <string name="sdcard_permission_dialog_title">Lazima uruhusu Mix Wave iandike kwenye kadi ya SD</string>
-    <string name="sdcard_permission_dialog_message">Mix Wave haiweze kufuta faili bila ruhusa ya kuandika.\nTafadhali nenda kwenye Kadi ya SD, ubonyeze \"Select\".\nItabidi ubonyeze \"Show SD card\" kwanza  katika menyu iliyo juu kushoto.</string>
+    <string name="sdcard_permission_dialog_title">Lazima uruhusu Osho Discourse iandike kwenye kadi ya SD</string>
+    <string name="sdcard_permission_dialog_message">Osho Discourse haiweze kufuta faili bila ruhusa ya kuandika.\nTafadhali nenda kwenye Kadi ya SD, ubonyeze \"Select\".\nItabidi ubonyeze \"Show SD card\" kwanza  katika menyu iliyo juu kushoto.</string>
     <string name="dialog_sd_wizard">Nionyeshe</string>
     <string name="renderers_disconnect">Tenganisha</string>
     <string name="audio_digital_failed">Imeshindwa kubadili hali ya Towe ya Kidijitali ya Usikiko</string>
@@ -648,7 +648,7 @@
     <string name="playback_rewind">Chezesha kinyume</string>
     <string name="playback_forward">Chezambele</string>
     <string name="ml_wizard_scan_checkbox">Tafuta midia kwenye kifaa</string>
-    <string name="ml_wizard_description">Chagua kama Mix Wave itaskani hifadhi ya kifaa ili ipange maktaba ya midia au itumie kama kichezaji rahisi kikiwa na kivinjari unganifu.</string>
+    <string name="ml_wizard_description">Chagua kama Osho Discourse itaskani hifadhi ya kifaa ili ipange maktaba ya midia au itumie kama kichezaji rahisi kikiwa na kivinjari unganifu.</string>
     <string name="tv_my_new_videos">Video mpya</string>
     <string name="otg_device_title">Kifaa cha OTG</string>
     <string name="browser">Kivinjari</string>
@@ -680,26 +680,26 @@
     <string name="ctx_player_subs_track">Nakala ya manukuu</string>
     <string name="ctx_pip_title">Kichezaji ibukizi</string>
     <string name="device_dialog_title">Kifaa cha nje kimeingizwa</string>
-    <string name="device_dialog_message">Umeingiza kifaa kipya cha hifadhi katika TV box yako, unataka kukifungua kwa Mix Wave?</string>
+    <string name="device_dialog_message">Umeingiza kifaa kipya cha hifadhi katika TV box yako, unataka kukifungua kwa Osho Discourse?</string>
     <string name="videos_folders_title">Video kwa folda</string>
     <string name="videos_groups_title">Vikundi vya video</string>
     <string name="video_save_clone_mode">Wezesha kiotomatiki nui lahiki</string>
     <string name="video_remote_enable">Badilisha iwe nui kitenzambali</string>
     <string name="video_remote_disable">Nakili skrini</string>
     <string name="removed_from_playlist_anonymous">Vipengee vimetolewa kwenye orodha chezeshi</string>
-    <string name="welcome_title">Karibu kwenye Mix Wave</string>
+    <string name="welcome_title">Karibu kwenye Osho Discourse</string>
     <string name="welcome_subtitle">Kichezaji cha midia anuwai kisicho na malipo na ni programu huria</string>
-    <string name="permission_media">Mix Wave inahitaji ruhusa yako ifikie faili za midia zilizo kwenye kifaa.</string>
-    <string name="medialibrary_scan_explanation">Mix Wave inaweza kuskani kifaa chako kiotomatiki, ili ipange mkusanyiko wa midia zako</string>
+    <string name="permission_media">Osho Discourse inahitaji ruhusa yako ifikie faili za midia zilizo kwenye kifaa.</string>
+    <string name="medialibrary_scan_explanation">Osho Discourse inaweza kuskani kifaa chako kiotomatiki, ili ipange mkusanyiko wa midia zako</string>
     <string name="onboarding_theme_title">Karibu</string>
     <string name="done">Imemaliza</string>
     <string name="onboarding_scan_title">Gundua midia kiotomatiki</string>
-    <string name="onboarding_all_set">Mix Wave iko seti</string>
+    <string name="onboarding_all_set">Osho Discourse iko seti</string>
     <string name="onboarding_permission_given">Sasa unaweza kugundua midia zako kiotomatiki, utumie manukuu ya nje na pia ucheze mitiririko au midia zilizo mtandaoni</string>
-    <string name="daynight_system_explanation">Mix Wave itajibadilisha kiotomatiki kuwa nui nyeusi kulingana na mipangilio ya mfumo</string>
-    <string name="daynight_legacy_explanation">Mix Wave itajibadilisha kiotomatiki kuwa nui usiku katika wakati ufaao</string>
-    <string name="onboarding_scanning_enable">Ruhusu Mix Wave iskani kifaa ikitafuta midia</string>
-    <string name="onboarding_scan_customize">Nitachagua folda ambazo Mix Wave itaskani</string>
+    <string name="daynight_system_explanation">Osho Discourse itajibadilisha kiotomatiki kuwa nui nyeusi kulingana na mipangilio ya mfumo</string>
+    <string name="daynight_legacy_explanation">Osho Discourse itajibadilisha kiotomatiki kuwa nui usiku katika wakati ufaao</string>
+    <string name="onboarding_scanning_enable">Ruhusu Osho Discourse iskani kifaa ikitafuta midia</string>
+    <string name="onboarding_scan_customize">Nitachagua folda ambazo Osho Discourse itaskani</string>
     <string name="button_medialibrary_preferences">Enda kwenye mapendeleo ya maktaba ya midia</string>
     <string name="light_theme">Mandhari ya mwanga</string>
     <string name="add">Ongeza</string>
@@ -733,13 +733,13 @@
     <string name="display_in_grid">Onyesha kama gridi</string>
     <string name="dump_db_succes">Kanzidata imembekwa katika mzizi wa hifadhi ya ndani</string>
     <string name="dump_db_failure">Haikuweza kumbeka kanzidata</string>
-    <string name="send_crash_title">Kiwasilishi ripoti Mix Wave inapoparaganya</string>
-    <string name="send_crash_description">Unapotuma ripoti ya mparaganyo, unatusaidia kuboresha udhabiti wa Mix Wave.</string>
+    <string name="send_crash_title">Kiwasilishi ripoti Osho Discourse inapoparaganya</string>
+    <string name="send_crash_description">Unapotuma ripoti ya mparaganyo, unatusaidia kuboresha udhabiti wa Osho Discourse.</string>
     <string name="send_crash_warning">Hakikisha umefuta data yoyote nyeti ambayo hutaki kutuma.</string>
     <string name="include_medialib">Jumuisha kanzidata</string>
-    <string name="vlc_reporter">Kiwasilishi ripoti cha Mix Wave</string>
-    <string name="welcome_beta_title">Mix Wave Beta</string>
-    <string name="welcome_beta_description">Karibu kwenye programu beta ya Mix Wave.\nJua kwamba nakala hii inawezakuwa na vitata.</string>
+    <string name="vlc_reporter">Kiwasilishi ripoti cha Osho Discourse</string>
+    <string name="welcome_beta_title">Osho Discourse Beta</string>
+    <string name="welcome_beta_description">Karibu kwenye programu beta ya Osho Discourse.\nJua kwamba nakala hii inawezakuwa na vitata.</string>
     <string name="welcome_beta_description_bugs">Ukigundua kitata, tafadhali kiripoti kwenye jukwaa letu au kifuatiliaji vitata chetu.</string>
     <string name="send">Tuma</string>
     <string name="send_crash_action_title">Unataka kufanya nini?</string>
@@ -779,8 +779,8 @@
     <string name="recently_played">Kilichochezwa hivi karibuni</string>
     <string name="recently_added">Kilichoongezwa hivi karibuni</string>
     <string name="playback_multiple_errors">Midia nyingi hazichezeki</string>
-    <string name="clear_media_db_message">Utapoteza kinachocheza, vialamisho na orodha chezeshi ulizounda, lakini utabaki na mipangilio ya Mix Wave ya Android</string>
-    <string name="clear_app_data_message">Utapoteza kinachocheza, vialamisho, orodha chezeshi na mipangilio yote ya Mix Wave</string>
+    <string name="clear_media_db_message">Utapoteza kinachocheza, vialamisho na orodha chezeshi ulizounda, lakini utabaki na mipangilio ya Osho Discourse ya Android</string>
+    <string name="clear_app_data_message">Utapoteza kinachocheza, vialamisho, orodha chezeshi na mipangilio yote ya Osho Discourse</string>
     <string name="clear">Futa</string>
     <string name="abrepeat_add_first_marker">Weka mahali pa kuanzia</string>
     <string name="abrepeat_add_second_marker">Weka mahali pa kusitia</string>
@@ -834,18 +834,18 @@
     <string name="sub_result_by_name_season">Msimu wa %s</string>
     <string name="sub_result_by_name_episode">Kipindi %s</string>
     <string name="sub_result_by_file">Matokeo ya faili</string>
-    <string name="donate">Saidia Mix Wave</string>
-    <string name="donate_desc">Saidia wanaojitolea kuunda Mix Wave</string>
+    <string name="donate">Saidia Osho Discourse</string>
+    <string name="donate_desc">Saidia wanaojitolea kuunda Osho Discourse</string>
     <string name="donate_subscribtion">Ningetaka uwe ufadhili wa kila mwezi</string>
     <string name="donate_send">Anza kufadhili</string>
-    <string name="donation_description">Ufadhili wako utatuwezesha:\nKuboresha programu ya Mix Wave ya Android\nKusaidia Ushirika wa Mix Wave</string>
+    <string name="donation_description">Ufadhili wako utatuwezesha:\nKuboresha programu ya Osho Discourse ya Android\nKusaidia Ushirika wa Osho Discourse</string>
     <string name="subscription_purchased">Ufadhili wako utakuwa kila mwezi</string>
     <string name="subscription_cancel">Unaweza kukatiza ufadhili katika Duka la Play</string>
     <string name="subscription_cancel_tv">Jinsi ya kukatiza ufadhili</string>
     <string name="donate_unsubscribe_tv">Ili ukatize, tafadhali fungua %s katika simu au tarakilishi au uskani msimbo:</string>
-    <string name="tip_jar">Saidia Mix Wave</string>
+    <string name="tip_jar">Saidia Osho Discourse</string>
     <string name="thank_you">Asante</string>
-    <string name="thank_you_desc">Asante kwa ufadhili wako!\nUtatusaidia kuboresha Mix Wave!</string>
+    <string name="thank_you_desc">Asante kwa ufadhili wako!\nUtatusaidia kuboresha Osho Discourse!</string>
     <string name="donate_again">Fadhili programu tena</string>
 
     <string name="mark_as_played">Tia alama kuwa umecheza</string>
@@ -862,7 +862,7 @@
     <string name="air_action_next">Kinachofuata katika uchezaji</string>
     <string name="air_action_previous">Kilichopita katika uchezaji</string>
     <string name="allow_otg">Ruhusu OTG ifikie</string>
-    <string name="allow_otg_description">Tafadhali chagua kifaa cha OTG ili ukiruhusu kifikie Mix Wave.</string>
+    <string name="allow_otg_description">Tafadhali chagua kifaa cha OTG ili ukiruhusu kifikie Osho Discourse.</string>
     <string name="timeout_infinite">Isiyo kikomo</string>
     <string name="video_hud_timeout">Vidhibiti vya kichezaji video vya kuficha kawizo</string>
     <string name="video_hud_timeout_summary">%s</string>
@@ -899,7 +899,7 @@
     <string name="optional_features_warning">Kipengele hiki ni beta na kinaweza kufanya miparaganyo</string>
     <string name="network_indexing">Faharasa ya mtandao</string>
     <string name="network_indexing_warning">Faharasa ya mtandao ni beta kwa wakati huu.\nShida zinazojulikana:\nUtendakazi pole\n\nUkishuhudia shida zingine, tafadhali ziripoti katika jukwaa letu.</string>
-    <string name="start_vlc">Anza Mix Wave</string>
+    <string name="start_vlc">Anza Osho Discourse</string>
     <string name="jump_delay">Kawizo la saa mbele/nyuma</string>
     <string name="long_jump_delay">Gusa kwa muda mrefu kawizo la saa mbele/nyuma</string>
     <string name="jump_delay_summary">Sekunde %s</string>
@@ -917,7 +917,7 @@
     <string name="lock_use_sensor_summary">Mwelekeo unapofungwa, tumia kihisi ili uwezeshe mwelekeo pindu</string>
     <string name="start">Anza</string>
     <string name="notification_permission">Ruhusa ya arifa</string>
-    <string name="notification_permission_explanation">Mix Wave inahitaji ruhusa yako ili itume arifa.\nProgramu itakuarifu inaposkani midia au inapotumia video tanafsifu ya picha ndani ya picha.\nKuikataza hakutazuia utendakazi wa Mix Wave, lakini arifa zitafichwa.</string>
+    <string name="notification_permission_explanation">Osho Discourse inahitaji ruhusa yako ili itume arifa.\nProgramu itakuarifu inaposkani midia au inapotumia video tanafsifu ya picha ndani ya picha.\nKuikataza hakutazuia utendakazi wa Osho Discourse, lakini arifa zitafichwa.</string>
     <string name="permission">Ruhusa</string>
     <string name="customize">Tanafsisha</string>
     <string name="selection_count">%d imechaguliwa</string>
@@ -963,7 +963,7 @@
     <string name="widget_show_configure_summary">Hata kama haionyeshwi, unaweza kugusa kona ya juu kushoto ili ufungue msabidi</string>
     <string name="seek_backward_content_description">Tafuta sekunde %s nyuma</string>
     <string name="seek_forward_content_description">Tafuta sekunde %s mbele</string>
-    <string name="open_vlc">Fungua Mix Wave</string>
+    <string name="open_vlc">Fungua Osho Discourse</string>
     <string name="playing">Inacheza</string>
     <string name="disable_track">Lemaza nakala</string>
     <string name="ascending">Kupanda</string>
