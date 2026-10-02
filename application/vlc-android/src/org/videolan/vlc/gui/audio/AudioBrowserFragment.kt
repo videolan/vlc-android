@@ -31,6 +31,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.asFlow
@@ -205,9 +206,6 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
             val changed = bundle.getBoolean(KEY_PERMISSION_CHANGED)
             if (changed) viewModel.refresh()
         }
-        PlaylistManager.showAudioPlayer.observe(viewLifecycleOwner) {
-            if (it == true && currentTab == MIXER_TAB) (activity as? AudioPlayerContainerActivity)?.hideAudioPlayer()
-        }
     }
 
     override fun onDestroy() {
@@ -337,7 +335,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
         val selected = view.findViewById<TextView>(R.id.audio_mixer_selected)
         val toggle = view.findViewById<MaterialButton>(R.id.audio_mixer_off)
         val loop = view.findViewById<MaterialButton>(R.id.audio_mixer_loop)
-        val clear = view.findViewById<MaterialButton>(R.id.audio_mixer_clear)
+        val more = view.findViewById<ImageButton>(R.id.audio_mixer_more)
         val volume = view.findViewById<Slider>(R.id.audio_mixer_volume)
         val volumeValue = view.findViewById<TextView>(R.id.audio_mixer_volume_value)
         val volumeDown = view.findViewById<MaterialButton>(R.id.audio_mixer_volume_down)
@@ -355,12 +353,14 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
             selected.text = media?.title?.let { getString(R.string.audio_mixer_selected_track, it) }
             selected.visibility = if (media == null) View.GONE else View.VISIBLE
             val mixerEnabled = service?.mixerEnabled == true
-            toggle.contentDescription = getString(if (mixerEnabled) R.string.pause else R.string.play)
+            toggle.setText(if (mixerEnabled) R.string.audio_mixer_on else R.string.audio_mixer_turn_off)
+            toggle.isSelected = mixerEnabled
             toggle.setIconResource(if (mixerEnabled) R.drawable.ic_pause_player else R.drawable.ic_play)
             toggle.isEnabled = media != null
             loop.isChecked = service?.mixerLoop ?: true
+            loop.isSelected = loop.isChecked
             loop.setIconResource(if (loop.isChecked) R.drawable.ic_repeat_all else R.drawable.ic_repeat)
-            clear.isEnabled = AudioMixerProvider.count(requireContext()) > 0
+            more.isEnabled = AudioMixerProvider.count(requireContext()) > 0
             setVolume(service?.mixerVolume ?: 50, false)
         }
         volume.addOnChangeListener { _, value, fromUser ->
@@ -377,7 +377,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
             PlaybackService.instance?.setAudioMixerLoop(checked)
             update()
         }
-        clear.setOnClickListener {
+        fun clearMixer() {
             val snapshot = AudioMixerProvider.snapshot(requireContext())
             AudioMixerProvider.clear(requireContext())
             PlaybackService.instance?.clearAudioMixer()
@@ -390,6 +390,15 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
                 viewModel.mixerTracksProvider.refresh()
                 updateTabs()
                 update()
+            }
+        }
+        more.setOnClickListener {
+            PopupMenu(requireContext(), more).apply {
+                menu.add(R.string.audio_mixer_clear).setOnMenuItemClickListener {
+                    clearMixer()
+                    true
+                }
+                show()
             }
         }
         refreshMixerControls = ::update
@@ -667,8 +676,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
 
     private fun updateMainPlayerForTab() {
         (activity as? AudioPlayerContainerActivity)?.setMixerControlsAtNavigation(currentTab == MIXER_TAB)
-        if (currentTab == MIXER_TAB) (activity as? AudioPlayerContainerActivity)?.hideAudioPlayer()
-        else showMainPlayerIfNeeded()
+        showMainPlayerIfNeeded()
     }
 
     private fun showMainPlayerIfNeeded() {
