@@ -40,7 +40,7 @@
                 android:layout_height="176dp"
                 android:contentDescription="@null"
                 android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Osho.Thumbnail" />
+                app:shapeAppearanceOverlay="@style/OshoThumbnailShapeAppearanceOverlay" />
 
             <TextView
                 android:id="@+id/discourse_detail_title"

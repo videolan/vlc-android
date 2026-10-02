@@ -25,7 +25,7 @@
         android:layout_marginEnd="12dp"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Osho.Thumbnail" />
+        app:shapeAppearanceOverlay="@style/OshoThumbnailShapeAppearanceOverlay" />
 
     <LinearLayout
         android:layout_width="0dp"
