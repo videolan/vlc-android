@@ -4,6 +4,8 @@
 /vlc/
 /toolchains/
 application/app/src/main/assets/
+application/app/signedRelease
+application/app/signedRelease/*
 
 #medialibrary
 medialibrary/medialibrary
