@@ -1,84 +1,22 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="108.0px"
-   height="108.0px"
-   viewBox="0 0 108.0 108.0"
-   version="1.1"
-   id="SVGRoot"
-   sodipodi:docname="ic_launcher_monochrome.svg"
-   inkscape:version="1.4 (1:1.4+202410161351+e7c3feb100)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs1600" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="18.435284"
-     inkscape:cy="-59.346462"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     inkscape:document-rotation="0"
-     showgrid="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="1043"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:pagecheckerboard="0"
-     inkscape:snap-grids="true"
-     inkscape:snap-center="true"
-     inkscape:snap-object-midpoints="true"
-     inkscape:snap-midpoints="true"
-     inkscape:snap-smooth-nodes="true"
-     inkscape:snap-intersection-paths="true"
-     inkscape:object-paths="true"
-     inkscape:snap-bbox="true"
-     inkscape:bbox-paths="true"
-     inkscape:bbox-nodes="true"
-     inkscape:snap-bbox-edge-midpoints="true"
-     inkscape:snap-bbox-midpoints="true"
-     inkscape:showpageshadow="2"
-     inkscape:deskcolor="#d1d1d1">
-    <inkscape:grid
-       type="xygrid"
-       id="grid2170"
-       originx="0"
-       originy="0"
-       spacingy="1"
-       spacingx="1"
-       units="px"
-       empspacing="4" />
-  </sodipodi:namedview>
-  <metadata
-     id="metadata1603">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1">
-    <path
-       id="path1152"
-       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.0862069"
-       d="m 57.679668,31.091736 c 0,0 -0.66268,-2.282771 -1.431619,-3.068313 C 55.691928,27.455322 55.020648,27.000001 53.998083,27 c -1.022675,0 -1.693845,0.455322 -2.249967,1.023423 -0.769048,0.785542 -1.431619,3.068313 -1.431619,3.068313 l -8.765495,25.769148 h -3.298778 c -1.087804,0 -2.119217,0.951398 -2.455042,2.04489 l -3.580024,12.271302 c -0.478303,1.639776 -0.304584,3.273388 1.945283,3.273388 h 19.835642 19.839548 c 2.249746,0 2.423466,-1.633612 1.945283,-3.273388 L 72.202889,58.905774 c -0.336065,-1.093493 -1.365404,-2.04489 -2.453088,-2.04489 h -3.302686 z m -6.339749,3.222609 c 1.819893,0.627931 3.454373,0.666352 5.324139,0.01758 l 3.027299,8.890492 c -1.853235,1.096264 -3.676531,1.673803 -5.69718,1.673803 -2.016789,0 -3.839303,-0.575832 -5.689369,-1.667944 z m 11.763496,18.933311 2.9648,8.704948 c 0.115045,0.337785 -0.102091,0.732965 -0.3789,0.947252 -3.191873,2.466603 -7.678218,3.37004 -11.695138,3.36909 -4.019291,-8.3e-4 -8.487971,-0.934838 -11.691233,-3.388621 -0.275538,-0.21114 -0.481146,-0.608529 -0.367181,-0.943346 l 2.956987,-8.68737 c 2.84506,2.168657 5.887152,2.792927 9.10338,2.792927 3.216456,0 6.261537,-0.625457 9.107285,-2.79488 z"
-       sodipodi:nodetypes="ccscccsccscsccscccccscccscccscsc" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="48"
+     height="48"
+     viewBox="0 0 512 512">
+  <!-- Transparent background -->
+  <g opacity="0.5">
+  <circle
+      cx="256"
+      cy="256"
+      r="184.32"
+      fill="#800000" />
+  <path
+      d="M 204.39,167.526
+         L 204.39,344.474
+         L 351.846,256
+         Z"
+      fill="#ffffff"
+      stroke="none"
+      stroke-linejoin="round" />
   </g>
 </svg>
