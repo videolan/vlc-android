@@ -58,6 +58,27 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp">
+
+            <Button
+                android:id="@+id/discourse_download_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/discourse_download_all" />
+
+            <Button
+                android:id="@+id/discourse_remove_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/discourse_remove_all" />
+        </LinearLayout>
+
         <org.videolan.vlc.gui.view.SwipeRefreshLayout
             android:id="@+id/discourse_tracks_swipe"
             android:layout_width="match_parent"

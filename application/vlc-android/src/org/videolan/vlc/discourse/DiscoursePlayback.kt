@@ -6,8 +6,8 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.media.MediaUtils
 
-fun DiscourseAudio.toMediaWrapper(): MediaWrapper = MLServiceLocator.getAbstractMediaWrapper(
-    Uri.parse(audioUrl),
+fun DiscourseAudio.toMediaWrapper(context: Context): MediaWrapper = MLServiceLocator.getAbstractMediaWrapper(
+    DiscourseDownloadStore(context).playbackUri(this) ?: Uri.EMPTY,
     0L,
     0f,
     durationSeconds?.times(1_000)?.toLong() ?: 0L,
@@ -23,7 +23,7 @@ fun DiscourseAudio.toMediaWrapper(): MediaWrapper = MLServiceLocator.getAbstract
     "Osho",
     0,
     0,
-    discourseThumbnailUrl,
+    resolveDiscourseUrl(discourseThumbnailUrl),
     -2,
     -2,
     trackNumber ?: 0,
@@ -33,7 +33,7 @@ fun DiscourseAudio.toMediaWrapper(): MediaWrapper = MLServiceLocator.getAbstract
     0L
 ).apply { tag = this@toMediaWrapper.id }
 
-fun Context.playDiscourseAudio(audio: DiscourseAudio) = MediaUtils.openMedia(this, audio.toMediaWrapper())
+fun Context.playDiscourseAudio(audio: DiscourseAudio) = MediaUtils.openMedia(this, audio.toMediaWrapper(this))
 
 fun Context.playDiscourseAudios(audios: List<DiscourseAudio>, position: Int = 0) =
-    MediaUtils.openList(this, audios.map(DiscourseAudio::toMediaWrapper), position)
+    MediaUtils.openList(this, audios.map { it.toMediaWrapper(this) }, position)

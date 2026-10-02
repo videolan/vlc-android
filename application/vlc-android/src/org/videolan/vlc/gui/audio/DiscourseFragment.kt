@@ -1,5 +1,11 @@
 package org.videolan.vlc.gui.audio
 
+import android.app.AlertDialog
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -11,6 +17,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.ActionMode
 import androidx.core.view.isVisible
@@ -24,11 +31,15 @@ import org.videolan.medialibrary.Tools
 import org.videolan.vlc.R
 import org.videolan.vlc.discourse.Discourse
 import org.videolan.vlc.discourse.DiscourseAudio
+import org.videolan.vlc.discourse.DiscourseDownloadState
+import org.videolan.vlc.discourse.DiscourseDownloadStore
 import org.videolan.vlc.discourse.playDiscourseAudios
+import org.videolan.vlc.discourse.shouldEnqueue
 import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
 import org.videolan.vlc.viewmodels.DiscourseViewModel
+import org.videolan.resources.util.registerReceiverCompat
 
 class DiscourseFragment : BaseFragment() {
     private val model: DiscourseViewModel by viewModels { DiscourseViewModel.Factory(requireContext()) }
@@ -42,6 +53,12 @@ class DiscourseFragment : BaseFragment() {
     private lateinit var message: TextView
     private lateinit var retry: Button
     private lateinit var backCallback: OnBackPressedCallback
+    private lateinit var downloads: DiscourseDownloadStore
+    private val downloadReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            tracks.adapter?.notifyDataSetChanged()
+        }
+    }
 
     override fun getTitle() = getString(R.string.discourse)
     override fun onCreateActionMode(mode: ActionMode, menu: Menu) = false
@@ -53,6 +70,7 @@ class DiscourseFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        downloads = DiscourseDownloadStore(requireContext())
         grid = view.findViewById(R.id.discourse_grid)
         gridSwipe = view.findViewById(R.id.discourse_grid_swipe)
         detail = view.findViewById(R.id.discourse_detail)
@@ -82,6 +100,17 @@ class DiscourseFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         model.load()
+        tracks.adapter?.notifyDataSetChanged()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        requireContext().registerReceiverCompat(downloadReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), true)
+    }
+
+    override fun onStop() {
+        requireContext().unregisterReceiver(downloadReceiver)
+        super.onStop()
     }
 
     private fun render(value: DiscourseViewModel.State) {
@@ -116,6 +145,21 @@ class DiscourseFragment : BaseFragment() {
                     value.tracks.isEmpty() -> showState(getString(R.string.discourse_no_tracks))
                     else -> {
                         state.isVisible = false
+                        detail.findViewById<Button>(R.id.discourse_download_all).setOnClickListener {
+                            if (value.tracks.filter { shouldEnqueue(downloads.state(it)) }.any { !downloads.download(it) }) {
+                                Toast.makeText(requireContext(), R.string.discourse_download_failed, Toast.LENGTH_SHORT).show()
+                            }
+                            tracks.adapter?.notifyDataSetChanged()
+                        }
+                        detail.findViewById<Button>(R.id.discourse_remove_all).setOnClickListener {
+                            AlertDialog.Builder(requireContext())
+                                .setMessage(R.string.discourse_remove_all_confirm)
+                                .setNegativeButton(R.string.cancel, null)
+                                .setPositiveButton(R.string.discourse_remove_download) { _, _ ->
+                                    value.tracks.forEach(downloads::remove)
+                                    tracks.adapter?.notifyDataSetChanged()
+                                }.show()
+                        }
                         tracks.adapter = TrackAdapter(value.tracks) { position ->
                             requireContext().playDiscourseAudios(value.tracks, position)
                         }
@@ -141,8 +185,7 @@ class DiscourseFragment : BaseFragment() {
 
     private fun loadImage(image: ImageView, url: String?) {
         image.setImageDrawable(UiTools.getDefaultAudioDrawable(requireContext()))
-        val imageUrl = url?.takeIf { it.startsWith("http") }
-            ?: url?.let { IMAGE_BASE_URL.trimEnd('/') + "/" + it.trimStart('/') }
+        val imageUrl = org.videolan.vlc.discourse.resolveDiscourseUrl(url)
         image.tag = imageUrl
         if (imageUrl.isNullOrBlank()) return
         viewLifecycleOwner.lifecycleScope.launch {
@@ -199,14 +242,25 @@ class DiscourseFragment : BaseFragment() {
             holder.meta.text = item.durationSeconds?.let { Tools.millisToString((it * 1000).toLong()) }.orEmpty()
             holder.itemView.contentDescription = "${holder.number.text}. ${item.title}. ${holder.meta.text}"
             holder.itemView.setOnClickListener { click(holder.bindingAdapterPosition) }
+            holder.download.text = getString(when (downloads.state(item)) {
+                DiscourseDownloadState.MISSING, DiscourseDownloadState.FAILED -> R.string.download
+                DiscourseDownloadState.DOWNLOADING -> R.string.cancel
+                DiscourseDownloadState.DOWNLOADED -> R.string.discourse_remove_download
+            })
+            holder.download.setOnClickListener {
+                when (downloads.state(item)) {
+                    DiscourseDownloadState.MISSING, DiscourseDownloadState.FAILED -> if (!downloads.download(item))
+                        Toast.makeText(requireContext(), R.string.discourse_download_failed, Toast.LENGTH_SHORT).show()
+                    DiscourseDownloadState.DOWNLOADING -> downloads.cancel(item)
+                    DiscourseDownloadState.DOWNLOADED -> downloads.remove(item)
+                }
+                notifyItemChanged(holder.bindingAdapterPosition)
+            }
         }
 
         override fun getItemCount() = items.size
     }
 
-    private companion object {
-        const val IMAGE_BASE_URL = "https://osho.b-cdn.net/OSHO"
-    }
 }
 
 private class DiscourseTrackHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -214,4 +268,5 @@ private class DiscourseTrackHolder(view: View) : RecyclerView.ViewHolder(view) {
     val image: ImageView = view.findViewById(R.id.discourse_track_image)
     val title: TextView = view.findViewById(R.id.discourse_track_title)
     val meta: TextView = view.findViewById(R.id.discourse_track_meta)
+    val download: Button = view.findViewById(R.id.discourse_track_download)
 }
