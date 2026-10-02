@@ -14,6 +14,7 @@ data class Discourse(
     val title: String,
     @Json(name = "thumbnail_url") val thumbnailUrl: String?,
     @Json(name = "is_audio_cleaned") val isAudioCleaned: Boolean,
+    val language: String,
     val slug: String?,
     @Json(name = "created_at") val createdAt: String,
     @Json(name = "updated_at") val updatedAt: String

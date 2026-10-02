@@ -84,7 +84,7 @@ class DiscourseFragment : BaseFragment() {
                 else {
                     state.isVisible = false
                     grid.isVisible = true
-                    if (grid.adapter == null) grid.adapter = DiscourseAdapter(value.discourses, value.languages, model::select)
+                    if (grid.adapter == null) grid.adapter = DiscourseAdapter(value.discourses, model::select)
                 }
             }
             is DiscourseViewModel.State.Detail -> {
@@ -136,7 +136,6 @@ class DiscourseFragment : BaseFragment() {
 
     private inner class DiscourseAdapter(
         private val items: List<Discourse>,
-        private val languages: Map<String, List<String>>,
         private val click: (Discourse) -> Unit
     ) : RecyclerView.Adapter<DiscourseAdapter.Holder>() {
         inner class Holder(view: View) : RecyclerView.ViewHolder(view) {
@@ -152,7 +151,7 @@ class DiscourseFragment : BaseFragment() {
         override fun onBindViewHolder(holder: Holder, position: Int) {
             val item = items[position]
             holder.title.text = item.title
-            holder.language.text = languages[item.id].orEmpty().joinToString(" • ") { it.replaceFirstChar(Char::uppercase) }
+            holder.language.text = item.language.replaceFirstChar(Char::uppercase)
             holder.itemView.contentDescription = listOf(item.title, holder.language.text).filter(CharSequence::isNotBlank).joinToString(". ")
             holder.itemView.setOnClickListener { click(item) }
             loadImage(holder.image, item.thumbnailUrl)
