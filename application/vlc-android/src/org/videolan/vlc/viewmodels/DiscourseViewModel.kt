@@ -30,26 +30,46 @@ class DiscourseViewModel(
     val state: LiveData<State> = mutableState
     private var loadJob: Job? = null
     private var cachedCatalogue: State.Catalogue? = null
+    private var nextPage = 1
+    private var totalPages = 1
 
-    fun load() {
-        if (mutableState.value !is State.Idle && mutableState.value !is State.Error || loadJob?.isActive == true) return
+    fun load() = load(refresh = false)
+
+    fun refresh() = load(refresh = true)
+
+    private fun load(refresh: Boolean) {
+        val initialLoad = mutableState.value is State.Idle || mutableState.value is State.Error
+        if ((!refresh && !initialLoad) || loadJob?.isActive == true) return
         loadJob = viewModelScope.launch {
-            mutableState.value = State.Loading
+            if (initialLoad) mutableState.value = State.Loading
             try {
-                val result = mutableListOf<Discourse>()
-                var page = 1
-                var totalPages: Int
-                do {
-                    val response = pageLoader(page++)
-                    result += response.data
-                    totalPages = response.meta.totalPages
-                } while (page <= totalPages)
-                cachedCatalogue = State.Catalogue(result.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.title }))
+                val response = pageLoader(1)
+                nextPage = 2
+                totalPages = response.meta.totalPages
+                cachedCatalogue = State.Catalogue(response.data)
                 mutableState.value = cachedCatalogue
             } catch (error: CancellationException) {
                 throw error
             } catch (error: Exception) {
-                mutableState.value = State.Error
+                if (initialLoad) mutableState.value = State.Error
+            }
+        }
+    }
+
+    fun loadMore() {
+        val catalogue = cachedCatalogue ?: return
+        if (nextPage > totalPages || loadJob?.isActive == true) return
+        loadJob = viewModelScope.launch {
+            try {
+                val response = pageLoader(nextPage)
+                nextPage++
+                totalPages = response.meta.totalPages
+                cachedCatalogue = State.Catalogue(catalogue.discourses + response.data)
+                mutableState.value = cachedCatalogue
+            } catch (error: CancellationException) {
+                throw error
+            } catch (error: Exception) {
+                // Keep the current page visible; reaching the end retries on the next scroll.
             }
         }
     }

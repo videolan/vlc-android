@@ -27,13 +27,16 @@ import org.videolan.vlc.discourse.DiscourseAudio
 import org.videolan.vlc.discourse.playDiscourseAudios
 import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.view.SwipeRefreshLayout
 import org.videolan.vlc.viewmodels.DiscourseViewModel
 
 class DiscourseFragment : BaseFragment() {
     private val model: DiscourseViewModel by viewModels { DiscourseViewModel.Factory(requireContext()) }
     private lateinit var grid: RecyclerView
+    private lateinit var gridSwipe: SwipeRefreshLayout
     private lateinit var detail: View
     private lateinit var tracks: RecyclerView
+    private lateinit var tracksSwipe: SwipeRefreshLayout
     private lateinit var state: View
     private lateinit var progress: ProgressBar
     private lateinit var message: TextView
@@ -51,14 +54,23 @@ class DiscourseFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         grid = view.findViewById(R.id.discourse_grid)
+        gridSwipe = view.findViewById(R.id.discourse_grid_swipe)
         detail = view.findViewById(R.id.discourse_detail)
         tracks = view.findViewById(R.id.discourse_tracks)
+        tracksSwipe = view.findViewById(R.id.discourse_tracks_swipe)
         state = view.findViewById(R.id.discourse_state)
         progress = view.findViewById(R.id.discourse_progress)
         message = view.findViewById(R.id.discourse_message)
         retry = view.findViewById(R.id.discourse_retry)
         grid.layoutManager = LinearLayoutManager(requireContext())
         tracks.layoutManager = LinearLayoutManager(requireContext())
+        gridSwipe.setOnRefreshListener { model.refresh() }
+        tracksSwipe.setOnRefreshListener { model.retryDetail() }
+        grid.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0 && !recyclerView.canScrollVertically(1)) model.loadMore()
+            }
+        })
         view.findViewById<ImageButton>(R.id.discourse_back).setOnClickListener { model.back() }
         backCallback = object : OnBackPressedCallback(false) {
             override fun handleOnBackPressed() = model.back()
@@ -73,6 +85,8 @@ class DiscourseFragment : BaseFragment() {
     }
 
     private fun render(value: DiscourseViewModel.State) {
+        gridSwipe.isRefreshing = false
+        tracksSwipe.isRefreshing = false
         retry.setOnClickListener(null)
         when (value) {
             DiscourseViewModel.State.Idle, DiscourseViewModel.State.Loading -> showState(null, loading = true)
@@ -83,8 +97,9 @@ class DiscourseFragment : BaseFragment() {
                 if (value.discourses.isEmpty()) showState(getString(R.string.discourse_empty))
                 else {
                     state.isVisible = false
-                    grid.isVisible = true
-                    if (grid.adapter == null) grid.adapter = DiscourseAdapter(value.discourses, model::select)
+                    gridSwipe.isVisible = true
+                    (grid.adapter as? DiscourseAdapter)?.update(value.discourses)
+                        ?: run { grid.adapter = DiscourseAdapter(value.discourses, model::select) }
                 }
             }
             is DiscourseViewModel.State.Detail -> {
@@ -118,6 +133,7 @@ class DiscourseFragment : BaseFragment() {
         retry.setOnClickListener { action?.invoke() }
         if (model.state.value !is DiscourseViewModel.State.Detail) {
             grid.isVisible = false
+            gridSwipe.isVisible = false
             detail.isVisible = false
         }
     }
@@ -135,9 +151,10 @@ class DiscourseFragment : BaseFragment() {
     }
 
     private inner class DiscourseAdapter(
-        private val items: List<Discourse>,
+        items: List<Discourse>,
         private val click: (Discourse) -> Unit
     ) : RecyclerView.Adapter<DiscourseAdapter.Holder>() {
+        private var items = items
         inner class Holder(view: View) : RecyclerView.ViewHolder(view) {
             val image: ImageView = view.findViewById(R.id.discourse_image)
             val title: TextView = view.findViewById(R.id.discourse_title)
@@ -158,6 +175,11 @@ class DiscourseFragment : BaseFragment() {
         }
 
         override fun getItemCount() = items.size
+
+        fun update(items: List<Discourse>) {
+            this.items = items
+            notifyDataSetChanged()
+        }
     }
 
     private inner class TrackAdapter(
