@@ -1269,7 +1269,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                         bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover.copy(config, false))
                     else
                         bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, ctx.getBitmapFromDrawable(
-                            R.drawable.ic_widget_icon, 512, 512))
+                            R.drawable.icon, 512, 512))
                 }
             }
             return@withContext bob.build()
