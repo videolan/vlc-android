@@ -1,3 +1,11 @@
+Changes between 3.7.2 Beta 2 and 3.7.2 Beta 3:
+------------------
+ * Pre-build font cache at startup
+ * Fix player UI crop issue on 4K resolution
+ * Media library fixes
+ * Remote Access security hardening and fixes
+ * Security and behavior fixes
+
 Changes between 3.7.2 Beta 1 and 3.7.2 Beta 2:
 ------------------
  * Manage video playback audio/subtitle tracks using the Remote access
