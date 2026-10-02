@@ -160,23 +160,18 @@ class DiscourseFragment : BaseFragment() {
         override fun getItemCount() = items.size
     }
 
-    private class TrackAdapter(
+    private inner class TrackAdapter(
         private val items: List<DiscourseAudio>,
         private val click: (Int) -> Unit
-    ) : RecyclerView.Adapter<TrackAdapter.Holder>() {
-        class Holder(view: View) : RecyclerView.ViewHolder(view) {
-            val number: TextView = view.findViewById(R.id.discourse_track_number)
-            val title: TextView = view.findViewById(R.id.discourse_track_title)
-            val meta: TextView = view.findViewById(R.id.discourse_track_meta)
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = Holder(
+    ) : RecyclerView.Adapter<DiscourseTrackHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DiscourseTrackHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.discourse_track, parent, false)
         )
 
-        override fun onBindViewHolder(holder: Holder, position: Int) {
+        override fun onBindViewHolder(holder: DiscourseTrackHolder, position: Int) {
             val item = items[position]
             holder.number.text = (item.trackNumber ?: position + 1).toString()
+            loadImage(holder.image, item.discourseThumbnailUrl)
             holder.title.text = item.title
             holder.meta.text = item.durationSeconds?.let { Tools.millisToString((it * 1000).toLong()) }.orEmpty()
             holder.itemView.contentDescription = "${holder.number.text}. ${item.title}. ${holder.meta.text}"
@@ -189,4 +184,11 @@ class DiscourseFragment : BaseFragment() {
     private companion object {
         const val IMAGE_BASE_URL = "https://osho.b-cdn.net/OSHO"
     }
+}
+
+private class DiscourseTrackHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val number: TextView = view.findViewById(R.id.discourse_track_number)
+    val image: ImageView = view.findViewById(R.id.discourse_track_image)
+    val title: TextView = view.findViewById(R.id.discourse_track_title)
+    val meta: TextView = view.findViewById(R.id.discourse_track_meta)
 }
