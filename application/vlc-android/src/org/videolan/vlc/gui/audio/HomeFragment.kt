@@ -32,7 +32,11 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Filterable
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = 3
-            override fun createFragment(position: Int) = if (position == LOCAL_TAB) AudioBrowserFragment() else Fragment()
+            override fun createFragment(position: Int) = when (position) {
+                DISCOURSE_TAB -> DiscourseFragment()
+                LOCAL_TAB -> AudioBrowserFragment()
+                else -> Fragment()
+            }
         }
         viewPager.isUserInputEnabled = false
         if (savedInstanceState == null) viewPager.setCurrentItem(LOCAL_TAB, false)
@@ -79,6 +83,7 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Filterable
     override fun allowedToExpand() = currentFragment<Filterable>()?.allowedToExpand() == true
 
     private companion object {
+        const val DISCOURSE_TAB = 1
         const val LOCAL_TAB = 2
     }
 }

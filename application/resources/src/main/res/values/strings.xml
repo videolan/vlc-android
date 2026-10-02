@@ -38,6 +38,10 @@
     <string name="music">Music</string>
     <string name="all">All</string>
     <string name="discourse">Discourse</string>
+    <string name="discourse_empty">No discourses found</string>
+    <string name="discourse_load_failed">Could not load discourses</string>
+    <string name="discourse_tracks_failed">Could not load tracks</string>
+    <string name="discourse_no_tracks">No tracks found</string>
     <string name="local">Local</string>
     <string name="music_player">Music Player</string>
     <string name="back">Back</string>
