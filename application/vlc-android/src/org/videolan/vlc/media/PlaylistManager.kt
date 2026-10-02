@@ -494,6 +494,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             Log.w(TAG, "Warning: empty media list, nothing to play !")
             return
         }
+        // A new playback starts: the previous "media ended" marker only exists to protect
+        // the end-of-media position of the media that just ended. It must not keep preventing
+        // the progress of this media from being saved (e.g. when a shuffle replay selects it again).
+        endReachedFor = null
         currentIndex = if (isValidPosition(index)) {
             index
         } else {
@@ -718,7 +722,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                                     // the Medialibrary sometimes doesn't have the media's length,
                                     // and won't know that the file has ended. This forces the ML
                                     // to mark the file as finished and reset it's time
-                                    if (time == length) {
+                                    // When we are handling the end of the media, the value written
+                                    // to the ML is `length`, so the raw `time` may already have been
+                                    // reset to 0: only compare it when this is a regular save.
+                                    if (end || time == length) {
                                         medialibrary.setLastTime(media.id, 0)
                                         media.seen = 1L
                                         media.playCount += 1
