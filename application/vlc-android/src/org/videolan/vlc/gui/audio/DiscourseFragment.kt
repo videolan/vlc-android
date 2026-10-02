@@ -57,6 +57,7 @@ class DiscourseFragment : BaseFragment() {
         progress = view.findViewById(R.id.discourse_progress)
         message = view.findViewById(R.id.discourse_message)
         retry = view.findViewById(R.id.discourse_retry)
+        grid.layoutManager = LinearLayoutManager(requireContext())
         tracks.layoutManager = LinearLayoutManager(requireContext())
         view.findViewById<ImageButton>(R.id.discourse_back).setOnClickListener { model.back() }
         backCallback = object : OnBackPressedCallback(false) {
@@ -83,7 +84,7 @@ class DiscourseFragment : BaseFragment() {
                 else {
                     state.isVisible = false
                     grid.isVisible = true
-                    if (grid.adapter == null) grid.adapter = DiscourseAdapter(value.discourses, model::select)
+                    if (grid.adapter == null) grid.adapter = DiscourseAdapter(value.discourses, value.languages, model::select)
                 }
             }
             is DiscourseViewModel.State.Detail -> {
@@ -135,11 +136,13 @@ class DiscourseFragment : BaseFragment() {
 
     private inner class DiscourseAdapter(
         private val items: List<Discourse>,
+        private val languages: Map<String, List<String>>,
         private val click: (Discourse) -> Unit
     ) : RecyclerView.Adapter<DiscourseAdapter.Holder>() {
         inner class Holder(view: View) : RecyclerView.ViewHolder(view) {
             val image: ImageView = view.findViewById(R.id.discourse_image)
             val title: TextView = view.findViewById(R.id.discourse_title)
+            val language: TextView = view.findViewById(R.id.discourse_language)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = Holder(
@@ -149,7 +152,8 @@ class DiscourseFragment : BaseFragment() {
         override fun onBindViewHolder(holder: Holder, position: Int) {
             val item = items[position]
             holder.title.text = item.title
-            holder.itemView.contentDescription = item.title
+            holder.language.text = languages[item.id].orEmpty().joinToString(" • ") { it.replaceFirstChar(Char::uppercase) }
+            holder.itemView.contentDescription = listOf(item.title, holder.language.text).filter(CharSequence::isNotBlank).joinToString(". ")
             holder.itemView.setOnClickListener { click(item) }
             loadImage(holder.image, item.thumbnailUrl)
         }
@@ -175,10 +179,7 @@ class DiscourseFragment : BaseFragment() {
             val item = items[position]
             holder.number.text = (item.trackNumber ?: position + 1).toString()
             holder.title.text = item.title
-            holder.meta.text = listOfNotNull(
-                item.durationSeconds?.let { Tools.millisToString((it * 1000).toLong()) },
-                item.language.takeIf(String::isNotBlank)
-            ).joinToString(" • ")
+            holder.meta.text = item.durationSeconds?.let { Tools.millisToString((it * 1000).toLong()) }.orEmpty()
             holder.itemView.contentDescription = "${holder.number.text}. ${item.title}. ${holder.meta.text}"
             holder.itemView.setOnClickListener { click(holder.bindingAdapterPosition) }
         }

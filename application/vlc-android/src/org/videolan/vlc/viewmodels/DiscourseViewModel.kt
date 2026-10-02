@@ -16,12 +16,13 @@ import org.videolan.vlc.discourse.PageResponse
 
 class DiscourseViewModel(
     private val pageLoader: suspend (Int) -> PageResponse<Discourse>,
+    private val audioPageLoader: suspend (Int) -> PageResponse<DiscourseAudio>,
     private val trackLoader: suspend (String) -> List<DiscourseAudio>
 ) : ViewModel() {
     sealed class State {
         object Idle : State()
         object Loading : State()
-        data class Catalogue(val discourses: List<Discourse>) : State()
+        data class Catalogue(val discourses: List<Discourse>, val languages: Map<String, List<String>>) : State()
         data class Detail(val discourse: Discourse, val tracks: List<DiscourseAudio>? = null, val error: Boolean = false) : State()
         object Error : State()
     }
@@ -44,7 +45,17 @@ class DiscourseViewModel(
                     result += response.data
                     totalPages = response.meta.totalPages
                 } while (page <= totalPages)
-                cachedCatalogue = State.Catalogue(result.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.title }))
+                val languages = mutableMapOf<String, MutableSet<String>>()
+                page = 1
+                do {
+                    val response = audioPageLoader(page++)
+                    response.data.forEach { audio -> languages.getOrPut(audio.discourseId) { mutableSetOf() }.add(audio.language) }
+                    totalPages = response.meta.totalPages
+                } while (page <= totalPages)
+                cachedCatalogue = State.Catalogue(
+                    result.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.title }),
+                    languages.mapValues { it.value.sorted() }
+                )
                 mutableState.value = cachedCatalogue
             } catch (error: CancellationException) {
                 throw error
@@ -82,6 +93,7 @@ class DiscourseViewModel(
             @Suppress("UNCHECKED_CAST")
             return DiscourseViewModel(
                 { repository.getDiscourses(page = it) },
+                { repository.getDiscourseAudios(page = it) },
                 { repository.getDiscourseAudios(it).data }
             ) as T
         }

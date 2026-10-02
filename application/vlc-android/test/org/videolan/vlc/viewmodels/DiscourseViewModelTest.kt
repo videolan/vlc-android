@@ -66,7 +66,7 @@ class DiscourseViewModelTest : BaseTest() {
     }
 
     private fun model(loader: suspend (Int) -> PageResponse<Discourse>) =
-        DiscourseViewModel(loader) { emptyList() }
+        DiscourseViewModel(loader, { page(emptyList()) }) { emptyList() }
 
     private fun catalogue(model: DiscourseViewModel) =
         (model.state.value as DiscourseViewModel.State.Catalogue).discourses
@@ -81,6 +81,6 @@ class DiscourseViewModelTest : BaseTest() {
         updatedAt = ""
     )
 
-    private fun page(items: List<Discourse>, page: Int = 1, totalPages: Int = 1) =
+    private fun <T> page(items: List<T>, page: Int = 1, totalPages: Int = 1) =
         PageResponse(items, PaginationMeta(page, 16, items.size, totalPages))
 }

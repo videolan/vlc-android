@@ -3,11 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <org.videolan.vlc.gui.view.AutoFitRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/discourse_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnWidth="160dp"
         android:clipToPadding="false"
         android:padding="8dp"
         android:scrollbars="none" />
