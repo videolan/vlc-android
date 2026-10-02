@@ -116,6 +116,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
     private var playlistDisplayMode: ImageButton? = null
 
     private val lists = mutableListOf<RecyclerView>()
+    private val observedProviders = mutableSetOf<Int>()
     private lateinit var settings: SharedPreferences
     override val hasTabs = false
     override fun hasFAB() = false
@@ -407,7 +408,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
 
     private fun setupProvider(index: Int = viewModel.currentTab) {
         val provider = viewModel.providers[index.coerceIn(0, viewModel.providers.size - 1)]
-        if (provider.loading.hasObservers()) return
+        if (!observedProviders.add(index)) return
         provider.loading.observe(viewLifecycleOwner) { loading ->
             if (loading == null || currentTab != index) return@observe
             setRefreshing(loading) { refresh ->
@@ -443,6 +444,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
     }
 
     override fun onDestroyView() {
+        observedProviders.clear()
         showMainPlayerIfNeeded()
         super.onDestroyView()
     }
