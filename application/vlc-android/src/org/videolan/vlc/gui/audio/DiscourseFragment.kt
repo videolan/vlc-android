@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import org.videolan.tools.HttpImageLoader
 import org.videolan.medialibrary.Tools
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.discourse.Discourse
 import org.videolan.vlc.discourse.DiscourseAudio
@@ -125,7 +124,7 @@ class DiscourseFragment : BaseFragment() {
     private fun loadImage(image: ImageView, url: String?) {
         image.setImageDrawable(UiTools.getDefaultAudioDrawable(requireContext()))
         val imageUrl = url?.takeIf { it.startsWith("http") }
-            ?: url?.let { BuildConfig.OSHO_API_URL.trimEnd('/') + "/" + it.trimStart('/') }
+            ?: url?.let { IMAGE_BASE_URL.trimEnd('/') + "/" + it.trimStart('/') }
         image.tag = imageUrl
         if (imageUrl.isNullOrBlank()) return
         viewLifecycleOwner.lifecycleScope.launch {
@@ -185,5 +184,9 @@ class DiscourseFragment : BaseFragment() {
         }
 
         override fun getItemCount() = items.size
+    }
+
+    private companion object {
+        const val IMAGE_BASE_URL = "https://osho.b-cdn.net/OSHO"
     }
 }
