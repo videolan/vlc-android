@@ -206,9 +206,6 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
             val changed = bundle.getBoolean(KEY_PERMISSION_CHANGED)
             if (changed) viewModel.refresh()
         }
-        PlaylistManager.showAudioPlayer.observe(viewLifecycleOwner) {
-            if (it == true && currentTab == MIXER_TAB) (activity as? AudioPlayerContainerActivity)?.hideAudioPlayer()
-        }
     }
 
     override fun onDestroy() {
@@ -679,8 +676,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
 
     private fun updateMainPlayerForTab() {
         (activity as? AudioPlayerContainerActivity)?.setMixerControlsAtNavigation(currentTab == MIXER_TAB)
-        if (currentTab == MIXER_TAB) (activity as? AudioPlayerContainerActivity)?.hideAudioPlayer()
-        else showMainPlayerIfNeeded()
+        showMainPlayerIfNeeded()
     }
 
     private fun showMainPlayerIfNeeded() {
