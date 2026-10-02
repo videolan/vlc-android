@@ -131,7 +131,7 @@
                         android:id="@+id/audio_mixer_volume"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="4dp"
+                        android:layout_marginHorizontal="0dp"
                         android:layout_weight="1"
                         android:contentDescription="@string/audio_mixer_volume"
                         android:value="50"
