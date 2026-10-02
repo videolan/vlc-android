@@ -12,17 +12,19 @@ class DiscourseRepository(
 
     suspend fun apiIndex() = api.index()
 
-    suspend fun getDiscourses(page: Int = 1, search: String? = null, isAudioCleaned: Boolean? = null) =
-        api.discourses(page, search.cleanQuery(), isAudioCleaned)
+    suspend fun getDiscourses(page: Int = 1, search: String? = null, isAudioCleaned: Boolean? = null, forceRefresh: Boolean = false) =
+        api.discourses(page, search.cleanQuery(), isAudioCleaned, cacheControl(forceRefresh))
 
     suspend fun getDiscourseAudios(
         page: Int = 1,
         search: String? = null,
         discourseName: String? = null,
-        language: String? = null
-    ) = api.discourseAudios(page, search.cleanQuery(), discourseName.cleanQuery(), language.cleanQuery())
+        language: String? = null,
+        forceRefresh: Boolean = false
+    ) = api.discourseAudios(page, search.cleanQuery(), discourseName.cleanQuery(), language.cleanQuery(), cacheControl(forceRefresh))
 
-    suspend fun getDiscourseAudios(discourseId: String) = api.discourseAudios(discourseId)
+    suspend fun getDiscourseAudios(discourseId: String, forceRefresh: Boolean = false) =
+        api.discourseAudios(discourseId, cacheControl(forceRefresh))
 
     suspend fun likeDiscourse(id: String): LikeData = api.likeDiscourse(id, LikeRequest(userId)).data.also {
         settings.edit().putStringSet(KEY_LIKED_DISCOURSES, likedDiscourses + id).apply()

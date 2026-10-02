@@ -15,8 +15,8 @@ import org.videolan.vlc.discourse.DiscourseRepository
 import org.videolan.vlc.discourse.PageResponse
 
 class DiscourseViewModel(
-    private val pageLoader: suspend (Int) -> PageResponse<Discourse>,
-    private val trackLoader: suspend (String) -> List<DiscourseAudio>
+    private val pageLoader: suspend (Int, Boolean) -> PageResponse<Discourse>,
+    private val trackLoader: suspend (String, Boolean) -> List<DiscourseAudio>
 ) : ViewModel() {
     sealed class State {
         object Idle : State()
@@ -32,6 +32,7 @@ class DiscourseViewModel(
     private var cachedCatalogue: State.Catalogue? = null
     private var nextPage = 1
     private var totalPages = 1
+    private var forceRefreshPages = false
 
     fun load() = load(refresh = false)
 
@@ -43,7 +44,8 @@ class DiscourseViewModel(
         loadJob = viewModelScope.launch {
             if (initialLoad) mutableState.value = State.Loading
             try {
-                val response = pageLoader(1)
+                val response = pageLoader(1, refresh)
+                forceRefreshPages = refresh
                 nextPage = 2
                 totalPages = response.meta.totalPages
                 cachedCatalogue = State.Catalogue(response.data)
@@ -61,7 +63,7 @@ class DiscourseViewModel(
         if (nextPage > totalPages || loadJob?.isActive == true) return
         loadJob = viewModelScope.launch {
             try {
-                val response = pageLoader(nextPage)
+                val response = pageLoader(nextPage, forceRefreshPages)
                 nextPage++
                 totalPages = response.meta.totalPages
                 cachedCatalogue = State.Catalogue(catalogue.discourses + response.data)
@@ -74,12 +76,12 @@ class DiscourseViewModel(
         }
     }
 
-    fun select(discourse: Discourse) {
+    fun select(discourse: Discourse, forceRefresh: Boolean = false) {
         if (loadJob?.isActive == true) return
         loadJob = viewModelScope.launch {
             mutableState.value = State.Detail(discourse)
             try {
-                mutableState.value = State.Detail(discourse, trackLoader(discourse.id))
+                mutableState.value = State.Detail(discourse, trackLoader(discourse.id, forceRefresh))
             } catch (error: CancellationException) {
                 throw error
             } catch (error: Exception) {
@@ -88,7 +90,7 @@ class DiscourseViewModel(
         }
     }
 
-    fun retryDetail() = (mutableState.value as? State.Detail)?.discourse?.let(::select)
+    fun retryDetail() = (mutableState.value as? State.Detail)?.discourse?.let { select(it, forceRefresh = true) }
 
     fun back() {
         val current = mutableState.value as? State.Detail ?: return
@@ -101,8 +103,8 @@ class DiscourseViewModel(
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return DiscourseViewModel(
-                { repository.getDiscourses(page = it) },
-                { repository.getDiscourseAudios(it).data }
+                { page, forceRefresh -> repository.getDiscourses(page = page, forceRefresh = forceRefresh) },
+                { id, forceRefresh -> repository.getDiscourseAudios(id, forceRefresh).data }
             ) as T
         }
     }

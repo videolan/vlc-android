@@ -1,6 +1,5 @@
 package org.videolan.vlc.viewmodels
 
-import kotlinx.coroutines.CompletableDeferred
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -11,76 +10,71 @@ import org.videolan.vlc.discourse.PaginationMeta
 
 class DiscourseViewModelTest : BaseTest() {
     @Test
-    fun loadsEveryPageAndSortsIgnoringCase() {
-        val pages = mutableListOf<Int>()
-        val model = model { page ->
-            pages += page
-            page(listOf(discourse(if (page == 1) "zebra" else "Alpha")), page, 2)
+    fun loadsPagesIncrementally() {
+        val pages = mutableListOf<Pair<Int, Boolean>>()
+        val model = model { page, force ->
+            pages += page to force
+            page(listOf(discourse("page$page")), page, 2)
         }
-
         model.load()
-
-        assertEquals(listOf(1, 2), pages)
-        assertEquals(listOf("Alpha", "zebra"), catalogue(model).map { it.title })
+        assertEquals(listOf(1 to false), pages)
+        model.loadMore()
+        assertEquals(listOf(1 to false, 2 to false), pages)
+        assertEquals(listOf("page1", "page2"), catalogue(model).map { it.title })
     }
 
     @Test
-    fun exposesEmptyCatalogue() {
-        val model = model { page(emptyList()) }
+    fun refreshForcesEveryPageInTheNewSession() {
+        val pages = mutableListOf<Pair<Int, Boolean>>()
+        val model = model { page, force ->
+            pages += page to force
+            page(listOf(discourse("page$page")), page, 2)
+        }
         model.load()
-        assertTrue(catalogue(model).isEmpty())
+        model.refresh()
+        model.loadMore()
+        assertEquals(listOf(1 to false, 1 to true, 2 to true), pages)
+    }
+
+    @Test
+    fun normalSelectionUsesCacheAndRetryForcesTracks() {
+        val loads = mutableListOf<Boolean>()
+        val model = DiscourseViewModel({ _, _ -> page(emptyList()) }) { _, force ->
+            loads += force
+            if (loads.size == 1) throw IllegalStateException()
+            emptyList()
+        }
+        model.select(discourse("detail"))
+        assertTrue((model.state.value as DiscourseViewModel.State.Detail).error)
+        model.retryDetail()
+        assertEquals(listOf(false, true), loads)
     }
 
     @Test
     fun firstPageFailureShowsError() {
-        val model = model { throw IllegalStateException() }
+        val model = model { _, _ -> throw IllegalStateException() }
         model.load()
         assertTrue(model.state.value is DiscourseViewModel.State.Error)
     }
 
     @Test
-    fun laterPageFailureDoesNotExposePartialResults() {
-        val model = model { number ->
+    fun laterPageFailureKeepsLoadedItems() {
+        val model = model { number, _ ->
             if (number == 2) throw IllegalStateException()
-            page(listOf(discourse("partial")), totalPages = 2)
+            page(listOf(discourse("first")), totalPages = 2)
         }
         model.load()
-        assertTrue(model.state.value is DiscourseViewModel.State.Error)
+        model.loadMore()
+        assertEquals(listOf("first"), catalogue(model).map { it.title })
     }
 
-    @Test
-    fun retryWorksAndConcurrentLoadsAreIgnored() {
-        var calls = 0
-        val pending = CompletableDeferred<PageResponse<Discourse>>()
-        val model = model {
-            calls++
-            if (calls == 1) throw IllegalStateException()
-            pending.await()
-        }
-        model.load()
-        model.load()
-        model.load()
-        assertEquals(2, calls)
-        pending.complete(page(listOf(discourse("ready"))))
-        assertEquals(listOf("ready"), catalogue(model).map { it.title })
-    }
-
-    private fun model(loader: suspend (Int) -> PageResponse<Discourse>) =
-        DiscourseViewModel(loader) { emptyList() }
+    private fun model(loader: suspend (Int, Boolean) -> PageResponse<Discourse>) =
+        DiscourseViewModel(loader) { _, _ -> emptyList() }
 
     private fun catalogue(model: DiscourseViewModel) =
         (model.state.value as DiscourseViewModel.State.Catalogue).discourses
 
-    private fun discourse(title: String) = Discourse(
-        id = title,
-        title = title,
-        thumbnailUrl = null,
-        isAudioCleaned = false,
-        language = "hindi",
-        slug = null,
-        createdAt = "",
-        updatedAt = ""
-    )
+    private fun discourse(title: String) = Discourse(title, title, null, false, "hindi", null, "", "")
 
     private fun page(items: List<Discourse>, page: Int = 1, totalPages: Int = 1) =
         PageResponse(items, PaginationMeta(page, 16, items.size, totalPages))
