@@ -31,13 +31,65 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            app:cardUseCompatPadding="true">
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="?attr/background_default_darker"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/audio_mixer_off"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="48dp"
+                        android:minWidth="0dp"
+                        android:paddingHorizontal="8dp"
+                        android:textAllCaps="false"
+                        android:text="@string/audio_mixer_turn_off"
+                        app:backgroundTint="@color/audio_mixer_toggle_background"
+                        app:icon="@drawable/ic_play"
+                        app:iconSize="20dp" />
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/audio_mixer_loop"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:minHeight="48dp"
+                        android:minWidth="0dp"
+                        android:paddingHorizontal="8dp"
+                        android:checked="true"
+                        android:textAllCaps="false"
+                        android:text="@string/audio_mixer_loop"
+                        app:backgroundTint="@color/audio_mixer_toggle_background"
+                        app:iconSize="20dp" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/audio_mixer_more"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="4dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/more_actions"
+                        app:srcCompat="@drawable/ic_more"
+                        app:tint="?attr/colorControlNormal" />
+            </LinearLayout>
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -68,7 +120,7 @@
 
                 <com.google.android.material.button.MaterialButton
                         android:id="@+id/audio_mixer_volume_down"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:minWidth="48dp"
@@ -79,7 +131,7 @@
                         android:id="@+id/audio_mixer_volume"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginHorizontal="4dp"
                         android:layout_weight="1"
                         android:contentDescription="@string/audio_mixer_volume"
                         android:value="50"
@@ -90,7 +142,7 @@
 
                 <com.google.android.material.button.MaterialButton
                         android:id="@+id/audio_mixer_volume_up"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:minWidth="48dp"
@@ -99,42 +151,5 @@
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginBottom="4dp"
-            android:paddingHorizontal="16dp">
-
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/audio_mixer_off"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginHorizontal="4dp"
-                android:contentDescription="@string/play"
-                android:minWidth="48dp"
-                android:text=""
-                app:icon="@drawable/ic_play"
-                app:iconSize="24dp" />
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/audio_mixer_loop"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
-                android:checked="true"
-                android:text="@string/audio_mixer_loop"
-                app:iconSize="24dp" />
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/audio_mixer_clear"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
-                android:text="@string/clear" />
-    </LinearLayout>
 
 </LinearLayout>
