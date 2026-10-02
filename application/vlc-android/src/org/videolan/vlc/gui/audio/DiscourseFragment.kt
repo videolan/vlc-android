@@ -98,6 +98,7 @@ class DiscourseFragment : BaseFragment() {
                 else {
                     state.isVisible = false
                     gridSwipe.isVisible = true
+                    grid.isVisible = true
                     (grid.adapter as? DiscourseAdapter)?.update(value.discourses)
                         ?: run { grid.adapter = DiscourseAdapter(value.discourses, model::select) }
                 }
