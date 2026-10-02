@@ -65,21 +65,19 @@
        x="25.714283"
        y="752.36218" />
     <path
-       sodipodi:nodetypes="sccccccscccccccccccccccccccc"
-       inkscape:connector-curvature="0"
        id="path6774"
-       d="m 68.66486,763.36218 c -0.88664,0 -1.773245,0.21582 -2.47501,0.64984 -1.5693,0.97 -2.47501,4.95072 -2.47501,4.95072 l -1.485005,4.45573 c 4.28996,2.69857 8.579955,2.72668 12.86994,0 l -1.484965,-4.45573 c 0,0 -0.90574,-3.98072 -2.475045,-4.95072 -0.701765,-0.43385 -1.58837,-0.64984 -2.474905,-0.64984 z m -10.395005,21.93817 -4.950045,14.85228 c 10.151725,6.54756 20.38039,6.67471 30.689985,0 l -4.95001,-14.85228 c -6.98818,5.19902 -13.918445,5.21552 -20.78993,0 z m -15.125,23.65683 c -1.76,5.83 -3.52,11.66001 -5.28,17.49 -0.44,1.4575 0.88,2.91501 3.08,2.91501 18.48,0 36.96,0 55.44,0 2.2,0 3.52,-1.32 3.08,-2.91501 -1.76,-5.82999 -3.52,-11.66 -5.28,-17.49 -0.748745,-2.47262 -1.32,-2.915 -4.5925,-2.915 h -3.7125 l 1.09991,3.02187 c 0,0 0.82226,2.65419 0,3.46549 -8.692625,8.57742 -28.053935,8.19895 -36.629925,-0.49503 -0.69536,-0.70485 0,-2.97046 0,-2.97046 l 1.099975,-3.02187 H 47.73734 c -3.272485,0 -3.877485,0.43313 -4.592485,2.915 z"
-       style="fill:#fafafa;fill-opacity:1;stroke:none;stroke-width:0.5" />
+       d="M 52,770 L 52,822 L 92,796 Z"
+       style="fill:#fafafa;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linejoin:round" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6px;line-height:0%;font-family:Raleway;-inkscape-font-specification:'Raleway, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#fafafa;fill-opacity:1;stroke:none;stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="110.38564"
+       x="101.38564"
        y="806.98218"
        id="text6776"><tspan
          sodipodi:role="line"
          id="tspan6778"
-         x="110.38564"
+         x="101.38564"
          y="806.98218"
-         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:30px;line-height:1.25;font-family:Raleway;-inkscape-font-specification:'Raleway Semi-Bold';fill:#fafafa;fill-opacity:1;stroke-width:0.5px">VLC</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:30px;line-height:1.25;font-family:Raleway;-inkscape-font-specification:'Raleway Semi-Bold';fill:#fafafa;fill-opacity:1;stroke-width:0.5px">Play</tspan></text>
   </g>
 </svg>

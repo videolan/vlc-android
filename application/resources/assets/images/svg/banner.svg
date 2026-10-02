@@ -80,30 +80,29 @@
          height="176"
          width="320"
          id="rect6741"
-         style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#ff8800;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#800000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
       <path
          inkscape:connector-curvature="0"
          id="path6774-7"
          d="m 281.44955,938.73056 c -1.09267,4.04551 3.78739,6.34516 7.17421,5.83 36.88972,-0.0203 73.78097,0.0405 110.66974,-0.0304 3.55835,1.11074 8.49507,-6.33912 3.14645,-5.83845 -40.32898,-0.83478 -80.66133,-0.70528 -120.9904,0.0389 z"
-         style="fill:#ca6800;fill-opacity:1;stroke:none;filter:url(#filter8749)" />
+         style="fill:#5b0000;fill-opacity:1;stroke:none;filter:url(#filter8749)" />
       <path
-         style="fill:#fafafa;fill-opacity:1;stroke:none"
-         d="m 343.04956,810.72766 c -1.77328,0 -3.54649,0.43164 -4.95002,1.29967 -3.1386,1.94001 -4.95002,9.90145 -4.95002,9.90145 l -2.97001,8.91146 c 8.57992,5.39714 17.15991,5.45337 25.73988,0 l -2.96993,-8.91146 c 0,0 -1.81148,-7.96144 -4.95009,-9.90145 -1.40353,-0.8677 -3.17674,-1.29967 -4.94981,-1.29967 z m -20.79001,43.87633 -9.90009,29.70456 c 20.30345,13.09513 40.76078,13.34943 61.37997,0 l -9.90002,-29.70456 c -13.97636,10.39804 -27.83689,10.43104 -41.57986,0 z m -30.25,47.31367 c -3.52,11.66 -7.04,23.32001 -10.56,34.98001 -0.88,2.915 1.76,5.83 6.16,5.83 36.96,0 73.92,0 110.88,0 4.4,0 7.04,-2.64 6.16,-5.83 -3.52,-11.66 -7.04,-23.32001 -10.56,-34.98001 -1.49749,-4.94523 -2.64,-5.83 -9.185,-5.83 l -7.425,0 2.19982,6.04373 c 0,0 1.64452,5.30838 0,6.93099 -17.38525,17.15485 -56.10787,16.3979 -73.25985,-0.99006 -1.39072,-1.4097 0,-5.94093 0,-5.94093 l 2.19995,-6.04373 -7.42495,0 c -6.54497,0 -7.75497,0.86625 -9.18497,5.83 z"
          id="path6774"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="sccccccscccccccccccccccccccc" />
+         d="M 300,815 L 300,930 L 395,872.5 Z"
+         style="fill:#fafafa;fill-opacity:1;stroke:none"
+         inkscape:connector-curvature="0" />
       <text
          sodipodi:linespacing="125%"
          id="text6776"
          y="897.96765"
-         x="426.49112"
+         x="414.49112"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50px;line-height:125%;font-family:Raleway;-inkscape-font-specification:'Raleway, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#fafafa;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          xml:space="preserve"><tspan
            style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:60px;font-family:Raleway;-inkscape-font-specification:'Raleway Semi-Bold';fill:#fafafa;fill-opacity:1"
            y="897.96765"
-           x="426.49112"
+           x="414.49112"
            id="tspan6778"
-           sodipodi:role="line">VLC</tspan></text>
+           sodipodi:role="line">Play</tspan></text>
     </g>
   </g>
 </svg>
