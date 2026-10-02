@@ -139,9 +139,9 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), IListEve
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val appbar = view.rootView.findViewById<AppBarLayout>(R.id.appbar)
-        val coordinator = view.rootView.findViewById<CoordinatorLayout>(R.id.coordinator)
-        val fab = view.rootView.findViewById<FloatingActionButton>(R.id.fab)
+        val appbar = requireActivity().findViewById<AppBarLayout>(R.id.appbar)
+        val coordinator = requireActivity().findViewById<CoordinatorLayout>(R.id.coordinator)
+        val fab = requireActivity().findViewById<FloatingActionButton>(R.id.fab)
         binding.songsFastScroller.attachToCoordinator(appbar, coordinator, fab)
         binding.audioEmptyLoading.setOnNoMediaClickListener {
             if (currentTab == MIXER_TAB) {

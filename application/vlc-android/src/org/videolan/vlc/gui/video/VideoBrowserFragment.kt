@@ -52,7 +52,7 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Fi
     override fun getTitle() = getString(R.string.videos)
 
     private lateinit var videoPagerAdapter: VideoPagerAdapter
-    override val hasTabs = false
+    override val hasTabs = true
     private var tabLayout: TabLayout? = null
     private lateinit var viewPager: ViewPager2
 
@@ -76,6 +76,7 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Fi
         videoPagerAdapter = VideoPagerAdapter(this)
         viewPager.adapter = videoPagerAdapter
         viewPager.isUserInputEnabled = false
+        if (savedInstanceState == null) viewPager.setCurrentItem(LOCAL_TAB, false)
     }
 
     override fun onStart() {
@@ -96,6 +97,8 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Fi
     override fun onDestroyActionMode(mode: ActionMode?) {}
 
     override fun onTabSelected(tab: TabLayout.Tab) {
+        viewPager.setCurrentItem(tab.position, false)
+        activity?.invalidateOptionsMenu()
         setFabPlayVisibility(hasFAB())
     }
 
@@ -127,6 +130,13 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Fi
     override fun onTabReselected(tab: TabLayout.Tab) {}
 
     private fun setupTabLayout() {
+        tabLayout?.apply {
+            removeAllTabs()
+            addTab(newTab().setText(R.string.all))
+            addTab(newTab().setText(R.string.local))
+            addOnTabSelectedListener(this@VideoBrowserFragment)
+            selectTab(getTabAt(viewPager.currentItem))
+        }
     }
 
     override fun hasFAB(): Boolean {
@@ -145,13 +155,13 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Fi
      */
     inner class VideoPagerAdapter(fa: VideoBrowserFragment) : FragmentStateAdapter(fa) {
 
-        override fun getItemCount() = 1
+        override fun getItemCount() = 2
 
         // Returns the fragment to display for that page
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                0 -> VideoGridFragment.newInstance()
-                else -> throw IllegalStateException("Invalid fragment index")
+                LOCAL_TAB -> VideoGridFragment.newInstance()
+                else -> Fragment()
             }
         }
     }
@@ -184,5 +194,9 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Fi
     }
 
     override fun allowedToExpand() = (getCurrentFragment() as? Filterable)?.allowedToExpand() == true
+
+    private companion object {
+        const val LOCAL_TAB = 1
+    }
 
 }

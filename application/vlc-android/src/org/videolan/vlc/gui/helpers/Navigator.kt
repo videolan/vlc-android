@@ -51,6 +51,7 @@ import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.PlaylistFragment
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
+import org.videolan.vlc.gui.audio.HomeFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.browser.MainBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
@@ -96,7 +97,7 @@ class Navigator : NavigationBarView.OnItemSelectedListener, DefaultLifecycleObse
 
     private fun getNewFragment(id: Int): Fragment {
         return when (id) {
-            R.id.nav_audio -> AudioBrowserFragment()
+            R.id.nav_audio -> HomeFragment()
             R.id.nav_audio_mixer -> AudioBrowserFragment().apply {
                 arguments = bundleOf(AudioBrowserFragment.EXTRA_OPEN_AUDIO_MIXER to true)
             }
