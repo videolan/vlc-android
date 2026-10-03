@@ -17,6 +17,14 @@ class DiscourseRepository(
         .add(KotlinJsonAdapterFactory())
         .build()
         .adapter<List<Discourse>>(Types.newParameterizedType(List::class.java, Discourse::class.java))
+    private val statsDiscoursesAdapter = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
+        .adapter<List<Discourse>>(Types.newParameterizedType(List::class.java, Discourse::class.java))
+    private val statsAudiosAdapter = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
+        .adapter<List<DiscourseAudio>>(Types.newParameterizedType(List::class.java, DiscourseAudio::class.java))
 
     suspend fun apiIndex() = api.index()
 
@@ -58,6 +66,16 @@ class DiscourseRepository(
     suspend fun getDiscourseAudios(discourseId: String, forceRefresh: Boolean = false) =
         api.discourseAudios(discourseId, cacheControl(forceRefresh))
 
+    suspend fun getWeeklyDiscourseStats(forceRefresh: Boolean = false): List<Discourse> =
+        getWeeklyStats(KEY_STATS_DISCOURSES, statsDiscoursesAdapter, forceRefresh) {
+            api.discourseStats(cacheControl = cacheControl(forceRefresh)).data
+        }
+
+    suspend fun getWeeklyAudioStats(forceRefresh: Boolean = false): List<DiscourseAudio> =
+        getWeeklyStats(KEY_STATS_AUDIOS, statsAudiosAdapter, forceRefresh) {
+            api.discourseAudioStats(cacheControl = cacheControl(forceRefresh)).data
+        }
+
     suspend fun likeDiscourse(id: String): LikeData = api.likeDiscourse(id, LikeRequest(userId)).data.also {
         settings.edit().putStringSet(KEY_LIKED_DISCOURSES, likedDiscourses + id).apply()
     }
@@ -90,6 +108,31 @@ class DiscourseRepository(
             .apply()
     }
 
+    private suspend fun <T> getWeeklyStats(
+        key: String,
+        adapter: com.squareup.moshi.JsonAdapter<List<T>>,
+        forceRefresh: Boolean,
+        request: suspend () -> List<T>
+    ): List<T> {
+        val cached = settings.getString(key, null)?.let { json ->
+            runCatching { adapter.fromJson(json).orEmpty() }.getOrDefault(emptyList())
+        }.orEmpty()
+        val cachedAt = settings.getLong("$key.time", 0L)
+        if (!forceRefresh && cachedAt > System.currentTimeMillis() - STATS_CACHE_TTL) return cached
+        return try {
+            request().also { saveStats(key, adapter, it) }
+        } catch (_: Exception) {
+            cached
+        }
+    }
+
+    private fun <T> saveStats(key: String, adapter: com.squareup.moshi.JsonAdapter<List<T>>, value: List<T>) {
+        settings.edit()
+            .putString(key, adapter.toJson(value))
+            .putLong("$key.time", System.currentTimeMillis())
+            .apply()
+    }
+
     private val userId: String
         get() = OshoUserIdentity.ensure(appContext)
 
@@ -102,5 +145,8 @@ class DiscourseRepository(
         const val KEY_CATALOGUE_LANGUAGE = "osho_api_catalogue_language"
         const val KEY_CATALOGUE_SORT = "osho_api_catalogue_sort"
         const val MAX_RECENTLY_PLAYED = 24
+        const val KEY_STATS_DISCOURSES = "osho_api_stats_discourses"
+        const val KEY_STATS_AUDIOS = "osho_api_stats_audios"
+        const val STATS_CACHE_TTL = 3L * 60L * 60L * 1000L
     }
 }

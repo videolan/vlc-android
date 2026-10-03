@@ -60,6 +60,20 @@ interface DiscourseApi {
 
     @POST("stats")
     suspend fun recordStats(@Body body: StatsRequest): StatsResponse
+
+    @GET("stats")
+    suspend fun discourseStats(
+        @Query("by") by: String = "discourse",
+        @Query("time") time: String = "7_days",
+        @Header("Cache-Control") cacheControl: String? = null
+    ): DiscourseStatsResponse
+
+    @GET("stats")
+    suspend fun discourseAudioStats(
+        @Query("by") by: String = "discourse_audio",
+        @Query("time") time: String = "7_days",
+        @Header("Cache-Control") cacheControl: String? = null
+    ): DiscourseAudioStatsResponse
 }
 
 object DiscourseApiClient {

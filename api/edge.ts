@@ -230,7 +230,19 @@ async function getTopListening(url: URL): Promise<Response> {
 		sql: `SELECT ${column} AS id, COUNT(*) AS plays FROM stats WHERE ${column} IS NOT NULL AND created_at >= datetime('now', ?) GROUP BY ${column} ORDER BY plays DESC, id ASC LIMIT ?`,
 		args: [interval, PAGE_SIZE],
 	});
-	return jsonResponse({ data: result.rows, meta: { by, time, limit: PAGE_SIZE } });
+	const ranked = result.rows as { id: string; plays: number }[];
+	const records = ranked.length
+		? await db.execute({
+			sql: `SELECT * FROM ${by === "discourse" ? "discourse" : "discourse_audio"} WHERE id IN (${ranked.map(() => "?").join(", ")})`,
+			args: ranked.map(({ id }) => id),
+		})
+		: { rows: [] as any[] };
+	const byId = new Map(records.rows.map((row: any) => [row.id, by === "discourse" ? normalizeDiscourse(row) : row]));
+	const data = ranked.flatMap(({ id, plays }) => {
+		const record = byId.get(id);
+		return record ? [{ ...record, plays }] : [];
+	});
+	return jsonResponse({ data, meta: { by, time, limit: PAGE_SIZE } });
 }
 
 const parsePage = (value: string | null) => {

@@ -41,7 +41,7 @@ Both IDs are required and must refer to existing records. If the same user has r
 
 GET /stats?by=discourse&time=7_days
 GET /stats?by=discourse_audio&time=24_hours
-`by` accepts `discourse` or `discourse_audio`; `time` accepts `7_days` or `24_hours`. Returns up to 16 `{ "id", "plays" }` rows ordered by plays descending, then ID ascending.
+`by` accepts `discourse` or `discourse_audio`; `time` accepts `7_days` or `24_hours`. Returns up to 16 full discourse or audio objects, each with an additional `plays` count, ordered by plays descending and ID ascending. Records are fetched separately after ranking IDs; no SQL join is used.
 
 
 # Seed

@@ -79,15 +79,18 @@ export type ListeningStatsBy = "discourse" | "discourse_audio";
 
 export type ListeningStatsTime = "7_days" | "24_hours";
 
-export type ListeningStatsResult = {
-	id: string;
-	plays: number;
-};
+export type ListeningStatsResult =
+	| (Discourse & { plays: number })
+	| (DiscourseAudio & { plays: number });
 
-export type GetListeningStatsResponse = {
-	data: ListeningStatsResult[];
+export type GetListeningStatsResponse<T extends ListeningStatsBy = ListeningStatsBy> = {
+	data: T extends "discourse"
+		? (Discourse & { plays: number })[]
+		: T extends "discourse_audio"
+			? (DiscourseAudio & { plays: number })[]
+			: ListeningStatsResult[];
 	meta: {
-		by: ListeningStatsBy;
+		by: T;
 		time: ListeningStatsTime;
 		limit: number;
 	};

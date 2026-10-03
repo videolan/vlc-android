@@ -19,7 +19,8 @@ data class Discourse(
     @Json(name = "created_at") val createdAt: String,
     @Json(name = "updated_at") val updatedAt: String,
     @Json(name = "total_tracks") val totalTracks: Int = 0,
-    @Json(name = "total_likes") val totalLikes: Int = 0
+    @Json(name = "total_likes") val totalLikes: Int = 0,
+    val plays: Int = 0
 )
 
 data class DiscourseAudio(
@@ -36,7 +37,8 @@ data class DiscourseAudio(
     @Json(name = "track_number") val trackNumber: Int?,
     @Json(name = "created_at") val createdAt: String,
     @Json(name = "updated_at") val updatedAt: String,
-    @Json(name = "total_likes") val totalLikes: Int = 0
+    @Json(name = "total_likes") val totalLikes: Int = 0,
+    val plays: Int = 0
 )
 
 data class PageResponse<T>(val data: List<T>, val meta: PaginationMeta)
@@ -59,6 +61,12 @@ data class StatsRequest(
 )
 
 data class StatsResponse(val data: StatsData)
+
+data class ListeningStatsMeta(val by: String, val time: String, val limit: Int)
+
+data class DiscourseStatsResponse(val data: List<Discourse>, val meta: ListeningStatsMeta)
+
+data class DiscourseAudioStatsResponse(val data: List<DiscourseAudio>, val meta: ListeningStatsMeta)
 
 data class StatsData(
     val recorded: Boolean,
