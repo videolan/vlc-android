@@ -109,6 +109,20 @@ class DiscourseViewModelTest : BaseTest() {
         assertEquals(listOf(null to null), saved)
     }
 
+    @Test
+    fun recordsRecentlyPlayedDiscourseThroughCallback() {
+        val saved = mutableListOf<Discourse>()
+        val selected = discourse("selected")
+        val model = DiscourseViewModel(
+            { _, _, _, _ -> page(emptyList()) },
+            saveRecentlyPlayed = { saved += it }
+        ) { _, _ -> emptyList() }
+
+        model.recordRecentlyPlayed(selected)
+
+        assertEquals(listOf(selected), saved)
+    }
+
     private fun model(loader: suspend (Int, Boolean) -> PageResponse<Discourse>) =
         DiscourseViewModel({ page, force, _, _ -> loader(page, force) }) { _, _ -> emptyList() }
 

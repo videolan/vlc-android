@@ -1,6 +1,9 @@
 package org.videolan.vlc.discourse
 
 import android.content.Context
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.videolan.tools.Settings
 import java.util.UUID
 
@@ -9,6 +12,10 @@ class DiscourseRepository(
     private val api: DiscourseApi = DiscourseApiClient.instance
 ) {
     private val settings = Settings.getInstance(context)
+    private val recentlyPlayedAdapter = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
+        .adapter<List<Discourse>>(Types.newParameterizedType(List::class.java, Discourse::class.java))
 
     suspend fun apiIndex() = api.index()
 
@@ -64,6 +71,18 @@ class DiscourseRepository(
     val likedAudios: Set<String>
         get() = settings.getStringSet(KEY_LIKED_AUDIOS, emptySet()).orEmpty()
 
+    val recentlyPlayedDiscourses: List<Discourse>
+        get() = settings.getString(KEY_RECENTLY_PLAYED_DISCOURSES, null)?.let { json ->
+            runCatching { recentlyPlayedAdapter.fromJson(json).orEmpty() }.getOrDefault(emptyList())
+        } ?: emptyList()
+
+    fun recordRecentlyPlayed(discourse: Discourse) {
+        val recent = recentlyPlayedDiscourses.filterNot { it.id == discourse.id }
+        settings.edit()
+            .putString(KEY_RECENTLY_PLAYED_DISCOURSES, recentlyPlayedAdapter.toJson((listOf(discourse) + recent).take(MAX_RECENTLY_PLAYED)))
+            .apply()
+    }
+
     private val userId: String
         get() = settings.getString(KEY_USER_ID, null) ?: UUID.randomUUID().toString().also {
             settings.edit().putString(KEY_USER_ID, it).apply()
@@ -75,7 +94,9 @@ class DiscourseRepository(
         const val KEY_USER_ID = "osho_api_user_id"
         const val KEY_LIKED_DISCOURSES = "osho_api_liked_discourses"
         const val KEY_LIKED_AUDIOS = "osho_api_liked_audios"
+        const val KEY_RECENTLY_PLAYED_DISCOURSES = "osho_api_recently_played_discourses"
         const val KEY_CATALOGUE_LANGUAGE = "osho_api_catalogue_language"
         const val KEY_CATALOGUE_SORT = "osho_api_catalogue_sort"
+        const val MAX_RECENTLY_PLAYED = 24
     }
 }

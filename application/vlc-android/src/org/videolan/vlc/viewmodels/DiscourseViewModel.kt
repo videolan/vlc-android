@@ -19,6 +19,7 @@ class DiscourseViewModel(
     initialLanguage: String? = null,
     initialSort: String? = null,
     private val saveFilters: (String?, String?) -> Unit = { _, _ -> },
+    private val saveRecentlyPlayed: (Discourse) -> Unit = {},
     private val trackLoader: suspend (String, Boolean) -> List<DiscourseAudio>
 ) : ViewModel() {
     enum class LanguageFilter(val query: String?) { ALL(null), HINDI("hindi"), ENGLISH("english") }
@@ -113,6 +114,8 @@ class DiscourseViewModel(
 
     fun retryDetail() = (mutableState.value as? State.Detail)?.discourse?.let { select(it, forceRefresh = true) }
 
+    fun recordRecentlyPlayed(discourse: Discourse) = saveRecentlyPlayed(discourse)
+
     fun back() {
         val current = mutableState.value as? State.Detail ?: return
         loadJob?.cancel()
@@ -130,6 +133,7 @@ class DiscourseViewModel(
                 repository.catalogueLanguage,
                 repository.catalogueSort,
                 repository::saveCatalogueFilters,
+                repository::recordRecentlyPlayed,
                 { id, forceRefresh -> repository.getDiscourseAudios(id, forceRefresh).data }
             ) as T
         }

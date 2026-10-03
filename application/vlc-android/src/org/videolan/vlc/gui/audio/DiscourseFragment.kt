@@ -200,6 +200,7 @@ class DiscourseFragment : BaseFragment() {
                                 }.show()
                         }
                         tracks.adapter = TrackAdapter(value.tracks) { position ->
+                            model.recordRecentlyPlayed(value.discourse)
                             requireContext().playDiscourseAudios(value.tracks, position)
                         }
                     }
