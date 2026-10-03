@@ -65,6 +65,13 @@ object DiscourseApiClient {
             .client(
                 OkHttpClient.Builder()
                     .cache(Cache(File(AppContextProvider.appContext.cacheDir, "osho-api"), 10L * 1024 * 1024))
+                    .addInterceptor { chain ->
+                        chain.proceed(
+                            chain.request().newBuilder()
+                                .header("x-api-key", BuildConfig.OSHO_API_KEY)
+                                .build()
+                        )
+                    }
                     .addInterceptor(StaleCacheInterceptor())
                     .addNetworkInterceptor(ConnectivityInterceptor(AppContextProvider.appContext))
                     .addNetworkInterceptor(CacheResponseInterceptor())

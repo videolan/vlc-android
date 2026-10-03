@@ -6,6 +6,19 @@ plugins {
     id 'kotlin-parcelize'
 }
 
+def oshoApiKey = System.getenv('API_KEY')?.trim()
+if (!oshoApiKey) {
+    def productionEnv = rootProject.file('.env.production')
+    if (productionEnv.exists()) {
+        def env = new Properties()
+        productionEnv.withInputStream { env.load(it) }
+        oshoApiKey = env.getProperty('API_KEY')?.trim()
+    }
+}
+if (!oshoApiKey) {
+    throw new GradleException('Missing API_KEY environment variable or .env.production entry')
+}
+
 def build_revision = providers.exec {
     commandLine('git', 'rev-parse', '--short', 'HEAD')
 }.standardOutput.asText.get().trim()
@@ -36,6 +49,7 @@ android {
         buildConfigField 'int', 'VLC_VERSION_CODE', "${rootProject.ext.versionCode}"
         buildConfigField 'String', 'VLC_VERSION_NAME', "\"${rootProject.ext.versionName}\""
         buildConfigField 'String', 'OSHO_API_URL', '"https://oshoapi-0i8tq.bunny.run/"'
+        buildConfigField 'String', 'OSHO_API_KEY', groovy.json.JsonOutput.toJson(oshoApiKey)
         buildConfigField 'String[]', 'TRANSLATION_ARRAY', generateTranslation()
         buildConfigField 'int', 'VLC_MAJOR_VERSION', "${rootProject.ext.vlcMajorVersion}"
 
