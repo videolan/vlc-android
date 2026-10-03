@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.discourse.Discourse
 import org.videolan.vlc.gui.BaseFragment
@@ -22,8 +23,10 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Filterable
     private var tabLayout: TabLayout? = null
     private lateinit var viewPager: ViewPager2
     private var pendingDiscourse: Discourse? = null
+    private val settings by lazy(LazyThreadSafetyMode.NONE) { Settings.getInstance(requireContext()) }
     private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
+            if (position in 0 until TAB_COUNT) settings.putSingle(KEY_HOME_TAB, position)
             showPendingDiscourse()
         }
     }
@@ -48,7 +51,7 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Filterable
         }
         viewPager.isUserInputEnabled = false
         viewPager.registerOnPageChangeCallback(pageChangeCallback)
-        if (savedInstanceState == null) viewPager.setCurrentItem(LOCAL_TAB, false)
+        viewPager.setCurrentItem(settings.getInt(KEY_HOME_TAB, ALL_TAB).coerceIn(0, TAB_COUNT - 1), false)
     }
 
     fun openDiscourse(discourse: Discourse) {
@@ -116,5 +119,7 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Filterable
         const val ALL_TAB = 0
         const val DISCOURSE_TAB = 1
         const val LOCAL_TAB = 2
+        const val TAB_COUNT = 3
+        const val KEY_HOME_TAB = "osho_home_current_tab"
     }
 }
