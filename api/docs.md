@@ -36,9 +36,8 @@ Adds one to the audio and parent discourse `total_likes` on the first like from 
 # Listening stats
 
 POST /stats
-BODY: `{ "user_id": "USER_UUID", "discourse_id": "DISCOURSE_UUID" }`
-Or: `{ "user_id": "USER_UUID", "discourse_audio_id": "AUDIO_UUID" }`
-Exactly one entity ID is required. The same user and entity are recorded at most once per 24 hours. New events return `201` with `{ "data": { "recorded": true } }`; suppressed repeats return `200` with `{ "data": { "recorded": false, "reason": "duplicate_within_24_hours" } }`.
+BODY: `{ "user_id": "USER_UUID", "discourse_id": "DISCOURSE_UUID", "discourse_audio_id": "AUDIO_UUID" }`
+Both IDs are required and must refer to existing records. If the same user has recorded either discourse or audio ID within the prior 24 hours, the entire event is suppressed. New events return `201` with `{ "data": { "recorded": true } }`; suppressed repeats return `200` with `{ "data": { "recorded": false, "reason": "duplicate_within_24_hours" } }`.
 
 GET /stats?by=discourse&time=7_days
 GET /stats?by=discourse_audio&time=24_hours

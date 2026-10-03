@@ -101,10 +101,26 @@ await db.execute(`
     discourse_audio_id TEXT,
     user_id TEXT NOT NULL,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CHECK ((discourse_id IS NOT NULL) != (discourse_audio_id IS NOT NULL))
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
   )
 `);
+
+const statsSchema = await db.execute("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'stats'");
+if (String(statsSchema.rows[0]?.sql ?? "").includes("discourse_id IS NOT NULL) != (discourse_audio_id IS NOT NULL")) {
+	await db.batch([
+		{ sql: "ALTER TABLE stats RENAME TO stats_legacy", args: [] },
+		{ sql: `CREATE TABLE stats (
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			discourse_id TEXT,
+			discourse_audio_id TEXT,
+			user_id TEXT NOT NULL,
+			created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+		)`, args: [] },
+		{ sql: "INSERT INTO stats SELECT * FROM stats_legacy", args: [] },
+		{ sql: "DROP TABLE stats_legacy", args: [] },
+	], "write");
+}
 
 /**
  * Indexes
@@ -178,22 +194,23 @@ async function recordListening(request: Request): Promise<Response> {
 	const userId = typeof payload?.user_id === "string" ? payload.user_id.trim() : "";
 	const discourseId = typeof payload?.discourse_id === "string" ? payload.discourse_id.trim() : "";
 	const audioId = typeof payload?.discourse_audio_id === "string" ? payload.discourse_audio_id.trim() : "";
-	if (!userId || Boolean(discourseId) === Boolean(audioId)) {
-		return jsonResponse({ error: "user_id and exactly one entity ID are required." }, 400);
+	if (!userId || !discourseId || !audioId) {
+		return jsonResponse({ error: "user_id, discourse_id, and discourse_audio_id are required." }, 400);
 	}
 
-	const entityColumn = discourseId ? "discourse_id" : "discourse_audio_id";
-	const entityId = discourseId || audioId;
-	const entityTable = discourseId ? "discourse" : "discourse_audio";
-	const entity = await db.execute({
-		sql: `SELECT id FROM ${entityTable} WHERE id = ? LIMIT 1`,
-		args: [entityId],
-	});
-	if (!entity.rows.length) return jsonResponse({ error: "Listening item not found." }, 404);
+	const [discourse, audio] = await Promise.all([
+		db.execute({ sql: "SELECT id FROM discourse WHERE id = ? LIMIT 1", args: [discourseId] }),
+		db.execute({ sql: "SELECT id FROM discourse_audio WHERE id = ? LIMIT 1", args: [audioId] }),
+	]);
+	if (!discourse.rows.length || !audio.rows.length) return jsonResponse({ error: "Discourse or audio not found." }, 404);
 
 	const insert = await db.execute({
-		sql: `INSERT INTO stats (${entityColumn}, user_id) SELECT ?, ? WHERE NOT EXISTS (SELECT 1 FROM stats WHERE user_id = ? AND ${entityColumn} = ? AND created_at >= datetime('now', '-24 hours'))`,
-		args: [entityId, userId, userId, entityId],
+		sql: `INSERT INTO stats (discourse_id, discourse_audio_id, user_id)
+		SELECT ?, ?, ? WHERE NOT EXISTS (
+			SELECT 1 FROM stats WHERE user_id = ? AND created_at >= datetime('now', '-24 hours')
+			AND (discourse_id = ? OR discourse_audio_id = ?)
+		)`,
+		args: [discourseId, audioId, userId, userId, discourseId, audioId],
 	});
 	return insert.rowsAffected
 		? jsonResponse({ data: { recorded: true } }, 201)

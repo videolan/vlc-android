@@ -6,6 +6,11 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.media.MediaUtils
 
+private const val DISCOURSE_TAG_PREFIX = "osho_discourse:"
+private const val DISCOURSE_TAG_SEPARATOR = "|"
+
+data class DiscoursePlaybackIds(val discourseId: String, val audioId: String)
+
 fun DiscourseAudio.toMediaWrapper(context: Context): MediaWrapper = MLServiceLocator.getAbstractMediaWrapper(
     DiscourseDownloadStore(context).playbackUri(this) ?: Uri.EMPTY,
     0L,
@@ -31,7 +36,14 @@ fun DiscourseAudio.toMediaWrapper(context: Context): MediaWrapper = MLServiceLoc
     0L,
     0L,
     0L
-).apply { tag = this@toMediaWrapper.id }
+).apply { tag = "$DISCOURSE_TAG_PREFIX${this@toMediaWrapper.discourseId}$DISCOURSE_TAG_SEPARATOR${this@toMediaWrapper.id}" }
+
+fun MediaWrapper.discoursePlaybackIds(): DiscoursePlaybackIds? {
+    val value = tag?.removePrefix(DISCOURSE_TAG_PREFIX) ?: return null
+    if (value == tag) return null
+    val ids = value.split(DISCOURSE_TAG_SEPARATOR, limit = 2)
+    return if (ids.size == 2 && ids.all(String::isNotBlank)) DiscoursePlaybackIds(ids[0], ids[1]) else null
+}
 
 fun Context.playDiscourseAudio(audio: DiscourseAudio) = MediaUtils.openMedia(this, audio.toMediaWrapper(this))
 

@@ -16,6 +16,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.PUT
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.io.File
@@ -56,6 +57,9 @@ interface DiscourseApi {
 
     @PUT("discourse-audios/{id}/like")
     suspend fun likeDiscourseAudio(@Path("id") id: String, @Body body: LikeRequest): LikeResponse
+
+    @POST("stats")
+    suspend fun recordStats(@Body body: StatsRequest): StatsResponse
 }
 
 object DiscourseApiClient {

@@ -12,6 +12,7 @@ class DiscourseRepository(
 ) {
     private val appContext = context.applicationContext
     private val settings = Settings.getInstance(context)
+    private val statsStore = DiscourseStatsStore(appContext)
     private val recentlyPlayedAdapter = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
@@ -63,6 +64,12 @@ class DiscourseRepository(
 
     suspend fun likeDiscourseAudio(id: String): LikeData = api.likeDiscourseAudio(id, LikeRequest(userId)).data.also {
         settings.edit().putStringSet(KEY_LIKED_AUDIOS, likedAudios + id).apply()
+    }
+
+    suspend fun recordListeningStats(discourseId: String, audioId: String) {
+        if (!statsStore.shouldSend(discourseId, audioId)) return
+        api.recordStats(StatsRequest(userId, discourseId, audioId))
+        statsStore.markSent(discourseId, audioId)
     }
 
     val likedDiscourses: Set<String>

@@ -175,6 +175,8 @@ import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.PopupManager
 import org.videolan.vlc.gui.video.VideoPlayerActivity
+import org.videolan.vlc.discourse.DiscourseRepository
+import org.videolan.vlc.discourse.discoursePlaybackIds
 import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
@@ -210,6 +212,7 @@ import java.util.Calendar
 import kotlin.math.absoluteValue
 
 private const val TAG = "VLC/PlaybackService"
+private const val DISCOURSE_STATS_DELAY_MS = 2L * 60L * 1000L
 
 class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineScope, SchedulerCallback {
     override val coroutineContext = Dispatchers.IO + SupervisorJob()
@@ -274,6 +277,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private var mixerStartJob: Job? = null
     private var mixerFadeJob: Job? = null
     private var mixerStopJob: Job? = null
+    private var discourseStatsJob: Job? = null
     var mixerMedia: MediaWrapper? = null
         private set
     var mixerVolume: Int = 50
@@ -349,6 +353,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 audioFocusHelper.changeAudioFocus(true)
                 if (!wakeLock.isHeld) wakeLock.acquire()
                 showNotification()
+                startDiscourseStatsTimer()
                 nbErrors = 0
                 syncAudioMixerWithPlayback()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -362,6 +367,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 executeUpdate(true)
                 showNotification()
                 if (wakeLock.isHeld) wakeLock.release()
+                cancelDiscourseStatsTimer()
                 pauseAudioMixer()
             }
             MediaPlayer.Event.EncounteredError -> executeUpdate()
@@ -391,9 +397,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             MediaPlayer.Event.EndReached -> {
                 mediaEndReached = true
                 playQueueFinished = !playlistManager.hasNext() || playlistManager.stopAfter == currentMediaPosition
+                cancelDiscourseStatsTimer()
                 stopAudioMixer()
             }
-            MediaPlayer.Event.Stopped -> stopAudioMixer()
+            MediaPlayer.Event.Stopped -> {
+                cancelDiscourseStatsTimer()
+                stopAudioMixer()
+            }
         }
         cbActor.trySend(CbMediaPlayerEvent(event))
     }
@@ -933,6 +943,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     override fun onDestroy() {
+        cancelDiscourseStatsTimer()
         releaseAudioMixer()
         serviceFlow.value = null
         dispatcher.onServicePreSuperOnDestroy()
@@ -946,6 +957,23 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
         unregisterReceiver(receiver)
         playlistManager.onServiceDestroyed()
+    }
+
+    private fun startDiscourseStatsTimer() {
+        cancelDiscourseStatsTimer()
+        val media = currentMediaWrapper ?: return
+        val ids = media.discoursePlaybackIds() ?: return
+        val tag = media.tag
+        discourseStatsJob = lifecycleScope.launch {
+            delay(DISCOURSE_STATS_DELAY_MS)
+            if (!isPlaying || currentMediaWrapper?.tag != tag) return@launch
+            DiscourseRepository(this@PlaybackService).recordListeningStats(ids.discourseId, ids.audioId)
+        }
+    }
+
+    private fun cancelDiscourseStatsTimer() {
+        discourseStatsJob?.cancel()
+        discourseStatsJob = null
     }
 
     override fun onBind(intent: Intent): IBinder? {

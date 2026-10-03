@@ -79,6 +79,7 @@ import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import org.videolan.vlc.gui.onboarding.startOnboarding
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.discourse.OshoUserIdentity
+import org.videolan.vlc.discourse.DiscourseStatsStore
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
@@ -123,6 +124,7 @@ class StartActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         OshoUserIdentity.ensure(this)
+        lifecycleScope.launch(Dispatchers.IO) { DiscourseStatsStore(this@StartActivity).cleanup() }
 
         try {
             if (!Settings.showTvUi && BuildConfig.BETA && !Settings.getInstance(this).getBoolean(BETA_WELCOME, false)) {
