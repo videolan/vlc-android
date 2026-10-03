@@ -49,6 +49,7 @@ class DiscourseFragment : BaseFragment() {
     private lateinit var grid: RecyclerView
     private lateinit var gridSwipe: SwipeRefreshLayout
     private lateinit var catalogue: View
+    private lateinit var catalogueEmpty: TextView
     private lateinit var languageFilter: Spinner
     private lateinit var sortFilter: Spinner
     private lateinit var detail: View
@@ -80,6 +81,7 @@ class DiscourseFragment : BaseFragment() {
         grid = view.findViewById(R.id.discourse_grid)
         gridSwipe = view.findViewById(R.id.discourse_grid_swipe)
         catalogue = view.findViewById(R.id.discourse_catalogue)
+        catalogueEmpty = view.findViewById(R.id.discourse_catalogue_empty)
         languageFilter = view.findViewById(R.id.discourse_language_filter)
         sortFilter = view.findViewById(R.id.discourse_sort_filter)
         languageFilter.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, resources.getStringArray(R.array.discourse_languages)).also {
@@ -152,9 +154,16 @@ class DiscourseFragment : BaseFragment() {
                 backCallback.isEnabled = false
                 detail.isVisible = false
                 catalogue.isVisible = true
-                if (value.discourses.isEmpty()) showState(getString(R.string.discourse_empty))
-                else {
+                if (value.discourses.isEmpty()) {
                     state.isVisible = false
+                    catalogueEmpty.isVisible = true
+                    gridSwipe.isVisible = false
+                    grid.isVisible = false
+                    (grid.adapter as? DiscourseAdapter)?.update(emptyList())
+                        ?: run { grid.adapter = DiscourseAdapter(emptyList(), model::select) }
+                } else {
+                    state.isVisible = false
+                    catalogueEmpty.isVisible = false
                     gridSwipe.isVisible = true
                     grid.isVisible = true
                     (grid.adapter as? DiscourseAdapter)?.update(value.discourses)
