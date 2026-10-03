@@ -5,26 +5,64 @@
     android:orientation="vertical"
     android:paddingTop="16dp">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/recently_played_discourses_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:text="@string/recently_played"
-        android:textAppearance="?attr/textAppearanceHeadline6" />
+        android:orientation="vertical">
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:clipToPadding="false"
-        android:fillViewport="false"
-        android:horizontalScrollBarEnabled="false"
-        android:paddingHorizontal="10dp">
-
-        <LinearLayout
-            android:id="@+id/recently_played_discourses_list"
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" />
-    </HorizontalScrollView>
+            android:paddingHorizontal="16dp"
+            android:text="@string/recently_played"
+            android:textAppearance="?attr/textAppearanceHeadline6" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:fillViewport="false"
+            android:horizontalScrollBarEnabled="false"
+            android:paddingHorizontal="10dp">
+
+            <LinearLayout
+                android:id="@+id/recently_played_discourses_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/recently_played_tracks_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:text="@string/recently_played_tracks"
+            android:textAppearance="?attr/textAppearanceHeadline6" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:fillViewport="false"
+            android:horizontalScrollBarEnabled="false"
+            android:paddingHorizontal="10dp">
+
+            <LinearLayout
+                android:id="@+id/recently_played_tracks_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+    </LinearLayout>
 </LinearLayout>

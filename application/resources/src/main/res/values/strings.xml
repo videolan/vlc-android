@@ -1044,6 +1044,7 @@
     <string name="next_episode">Next episode</string>
     <string name="open_network_settings">Open network settings?</string>
     <string name="recently_played">Recently played</string>
+    <string name="recently_played_tracks">Recently played tracks</string>
     <string name="recently_added">Recently added</string>
     <string name="playback_multiple_errors">Multiple media cannot be played</string>
     <string name="clear_media_db_message">You will lose your progresses, bookmarks and the playlists you created but you will keep your Osho Discourse for Android settings</string>
