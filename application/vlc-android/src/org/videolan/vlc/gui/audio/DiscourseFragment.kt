@@ -36,6 +36,7 @@ import org.videolan.vlc.discourse.Discourse
 import org.videolan.vlc.discourse.DiscourseAudio
 import org.videolan.vlc.discourse.DiscourseDownloadState
 import org.videolan.vlc.discourse.DiscourseDownloadStore
+import org.videolan.vlc.discourse.DiscoursePlaybackStore
 import org.videolan.vlc.discourse.playDiscourseAudios
 import org.videolan.vlc.discourse.shouldEnqueue
 import org.videolan.vlc.gui.BaseFragment
@@ -61,6 +62,7 @@ class DiscourseFragment : BaseFragment() {
     private lateinit var retry: Button
     private lateinit var backCallback: OnBackPressedCallback
     private lateinit var downloads: DiscourseDownloadStore
+    private lateinit var playbackStore: DiscoursePlaybackStore
     private val downloadReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             tracks.adapter?.notifyDataSetChanged()
@@ -82,6 +84,7 @@ class DiscourseFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         downloads = DiscourseDownloadStore(requireContext())
+        playbackStore = DiscoursePlaybackStore(requireContext())
         grid = view.findViewById(R.id.discourse_grid)
         gridSwipe = view.findViewById(R.id.discourse_grid_swipe)
         catalogue = view.findViewById(R.id.discourse_catalogue)
@@ -288,6 +291,7 @@ class DiscourseFragment : BaseFragment() {
             holder.title.text = item.title
             holder.meta.text = item.durationSeconds?.let { Tools.millisToString((it * 1000).toLong()) }.orEmpty()
             holder.likes.text = getString(R.string.discourse_likes, item.totalLikes)
+            holder.played.isVisible = playbackStore.isPlayed(item.id)
             holder.itemView.contentDescription = "${holder.number.text}. ${item.title}. ${holder.meta.text}. ${holder.likes.text}"
             holder.itemView.setOnClickListener { click(holder.bindingAdapterPosition) }
             holder.download.text = getString(when (downloads.state(item)) {
@@ -317,5 +321,6 @@ private class DiscourseTrackHolder(view: View) : RecyclerView.ViewHolder(view) {
     val title: TextView = view.findViewById(R.id.discourse_track_title)
     val meta: TextView = view.findViewById(R.id.discourse_track_meta)
     val likes: TextView = view.findViewById(R.id.discourse_track_likes)
+    val played: ImageView = view.findViewById(R.id.discourse_track_played)
     val download: Button = view.findViewById(R.id.discourse_track_download)
 }

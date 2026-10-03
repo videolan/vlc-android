@@ -1329,6 +1329,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (Settings.getInstance(AppContextProvider.appContext).getBoolean(KEY_INCOGNITO, false)) return
         var currentMedia = mw
         if (settings.getBoolean(PLAYBACK_HISTORY, true) && !mw.uri.scheme.isSchemeFD()) withContext(Dispatchers.IO) {
+            mw.discoursePlaybackIds()?.audioId?.let(discoursePlaybackStore::markPlayed)
             var id = mw.id
             if (id == 0L) {
                 var internalMedia = medialibrary.findMedia(mw)

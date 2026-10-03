@@ -58,6 +58,16 @@
             android:textAppearance="?attr/textAppearanceCaption" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/discourse_track_played"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/talkback_already_played"
+        android:padding="3dp"
+        android:src="@drawable/ic_mark_as_played"
+        android:tint="@color/red"
+        android:visibility="gone" />
+
     <Button
         android:id="@+id/discourse_track_download"
         android:layout_width="wrap_content"

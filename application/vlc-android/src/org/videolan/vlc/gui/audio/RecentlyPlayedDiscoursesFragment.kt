@@ -21,6 +21,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.discourse.Discourse
 import org.videolan.vlc.discourse.DiscourseAudio
 import org.videolan.vlc.discourse.DiscourseRepository
+import org.videolan.vlc.discourse.DiscoursePlaybackStore
 import org.videolan.vlc.discourse.playDiscourseAudio
 import org.videolan.vlc.discourse.resolveDiscourseUrl
 import org.videolan.vlc.discourse.toMediaWrapper
@@ -76,11 +77,14 @@ class RecentlyPlayedDiscoursesFragment : Fragment(R.layout.recently_played_disco
         lifecycleScope.launch {
             val tracks = withContext(Dispatchers.IO) {
                 val repository = DiscourseRepository(requireContext())
+                val playbackStore = DiscoursePlaybackStore(requireContext())
                 val localTracks = Medialibrary.getInstance().history(Medialibrary.HISTORY_TYPE_LOCAL)
                     ?.toList()
                     ?.filter { MediaSessionBrowser.isMediaAudio(it) }
                     .orEmpty()
-                (repository.recentlyPlayedAudios.map { it.toMediaWrapper(requireContext()) } + localTracks)
+                (repository.recentlyPlayedAudios
+                    .filter { playbackStore.isPlayed(it.id) }
+                    .map { it.toMediaWrapper(requireContext()) } + localTracks)
                     .distinctBy { it.tag ?: it.uri }
                     .take(MAX_TRACKS)
             }

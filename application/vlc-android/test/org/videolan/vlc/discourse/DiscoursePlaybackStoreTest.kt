@@ -48,6 +48,26 @@ class DiscoursePlaybackStoreTest : BaseTest() {
     }
 
     @Test
+    fun markingPlayedIsIndependentAndPersists() {
+        store.markPlayed("first")
+
+        val restored = DiscoursePlaybackStore(context)
+        assertEquals(true, restored.isPlayed("first"))
+        assertEquals(false, restored.isPlayed("second"))
+    }
+
+    @Test
+    fun clearingPlayedOnlyRemovesSelectedTrack() {
+        store.markPlayed("first")
+        store.markPlayed("second")
+
+        store.clearPlayed("first")
+
+        assertEquals(false, store.isPlayed("first"))
+        assertEquals(true, store.isPlayed("second"))
+    }
+
+    @Test
     fun mediaWrapperStartsAtStoredPosition() {
         store.save("first", 1_234L)
 
