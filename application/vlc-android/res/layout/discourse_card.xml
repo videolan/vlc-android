@@ -47,6 +47,13 @@
                 android:maxLines="1"
                 android:textAppearance="?attr/textAppearanceCaption"
                 android:textSize="14.4sp" />
+
+            <TextView
+                android:id="@+id/discourse_counts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="?attr/textAppearanceCaption" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

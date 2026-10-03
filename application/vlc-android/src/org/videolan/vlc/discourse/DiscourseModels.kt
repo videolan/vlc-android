@@ -17,7 +17,9 @@ data class Discourse(
     val language: String,
     val slug: String?,
     @Json(name = "created_at") val createdAt: String,
-    @Json(name = "updated_at") val updatedAt: String
+    @Json(name = "updated_at") val updatedAt: String,
+    @Json(name = "total_tracks") val totalTracks: Int = 0,
+    @Json(name = "total_likes") val totalLikes: Int = 0
 )
 
 data class DiscourseAudio(
@@ -33,7 +35,8 @@ data class DiscourseAudio(
     @Json(name = "mime_type") val mimeType: String?,
     @Json(name = "track_number") val trackNumber: Int?,
     @Json(name = "created_at") val createdAt: String,
-    @Json(name = "updated_at") val updatedAt: String
+    @Json(name = "updated_at") val updatedAt: String,
+    @Json(name = "total_likes") val totalLikes: Int = 0
 )
 
 data class PageResponse<T>(val data: List<T>, val meta: PaginationMeta)

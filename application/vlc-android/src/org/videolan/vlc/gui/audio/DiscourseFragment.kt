@@ -203,6 +203,7 @@ class DiscourseFragment : BaseFragment() {
             val image: ImageView = view.findViewById(R.id.discourse_image)
             val title: TextView = view.findViewById(R.id.discourse_title)
             val language: TextView = view.findViewById(R.id.discourse_language)
+            val counts: TextView = view.findViewById(R.id.discourse_counts)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = Holder(
@@ -213,7 +214,8 @@ class DiscourseFragment : BaseFragment() {
             val item = items[position]
             holder.title.text = item.title
             holder.language.text = item.language.replaceFirstChar(Char::uppercase)
-            holder.itemView.contentDescription = listOf(item.title, holder.language.text).filter(CharSequence::isNotBlank).joinToString(". ")
+            holder.counts.text = getString(R.string.discourse_counts, item.totalTracks, item.totalLikes)
+            holder.itemView.contentDescription = listOf(item.title, holder.language.text, holder.counts.text).filter(CharSequence::isNotBlank).joinToString(". ")
             holder.itemView.setOnClickListener { click(item) }
             loadImage(holder.image, item.thumbnailUrl)
         }
@@ -240,7 +242,8 @@ class DiscourseFragment : BaseFragment() {
             loadImage(holder.image, item.discourseThumbnailUrl)
             holder.title.text = item.title
             holder.meta.text = item.durationSeconds?.let { Tools.millisToString((it * 1000).toLong()) }.orEmpty()
-            holder.itemView.contentDescription = "${holder.number.text}. ${item.title}. ${holder.meta.text}"
+            holder.likes.text = getString(R.string.discourse_likes, item.totalLikes)
+            holder.itemView.contentDescription = "${holder.number.text}. ${item.title}. ${holder.meta.text}. ${holder.likes.text}"
             holder.itemView.setOnClickListener { click(holder.bindingAdapterPosition) }
             holder.download.text = getString(when (downloads.state(item)) {
                 DiscourseDownloadState.MISSING, DiscourseDownloadState.FAILED -> R.string.download
@@ -268,5 +271,6 @@ private class DiscourseTrackHolder(view: View) : RecyclerView.ViewHolder(view) {
     val image: ImageView = view.findViewById(R.id.discourse_track_image)
     val title: TextView = view.findViewById(R.id.discourse_track_title)
     val meta: TextView = view.findViewById(R.id.discourse_track_meta)
+    val likes: TextView = view.findViewById(R.id.discourse_track_likes)
     val download: Button = view.findViewById(R.id.discourse_track_download)
 }

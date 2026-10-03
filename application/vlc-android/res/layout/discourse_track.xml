@@ -48,6 +48,14 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="?attr/textAppearanceCaption" />
+
+        <TextView
+            android:id="@+id/discourse_track_likes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceCaption" />
     </LinearLayout>
 
     <Button
