@@ -74,3 +74,21 @@ export type GetDiscourseAudiosRequest = {
 	discourse_name?: string;
 	language?: DiscourseLanguage;
 };
+
+export type ListeningStatsBy = "discourse" | "discourse_audio";
+
+export type ListeningStatsTime = "7_days" | "24_hours";
+
+export type ListeningStatsResult = {
+	id: string;
+	plays: number;
+};
+
+export type GetListeningStatsResponse = {
+	data: ListeningStatsResult[];
+	meta: {
+		by: ListeningStatsBy;
+		time: ListeningStatsTime;
+		limit: number;
+	};
+};

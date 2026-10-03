@@ -1,5 +1,7 @@
 https://oshoapi-0i8tq.bunny.run/discourses/?page=1
 
+All routes require the `x-api-key` header matching the configured API key.
+
 GET /discourses
 GET /discourses?page=2
 GET /discourses?search=dhyan
@@ -30,6 +32,17 @@ Adds one to the discourse `total_likes` on the first like from this user. Repeat
 PUT /discourse-audios/:id/like
 BODY: { "user_id": "USER_UUID" }
 Adds one to the audio and parent discourse `total_likes` on the first like from this user. Repeated likes are idempotent.
+
+# Listening stats
+
+POST /stats
+BODY: `{ "user_id": "USER_UUID", "discourse_id": "DISCOURSE_UUID" }`
+Or: `{ "user_id": "USER_UUID", "discourse_audio_id": "AUDIO_UUID" }`
+Exactly one entity ID is required. The same user and entity are recorded at most once per 24 hours. New events return `201` with `{ "data": { "recorded": true } }`; suppressed repeats return `200` with `{ "data": { "recorded": false, "reason": "duplicate_within_24_hours" } }`.
+
+GET /stats?by=discourse&time=7_days
+GET /stats?by=discourse_audio&time=24_hours
+`by` accepts `discourse` or `discourse_audio`; `time` accepts `7_days` or `24_hours`. Returns up to 16 `{ "id", "plays" }` rows ordered by plays descending, then ID ascending.
 
 
 # Seed

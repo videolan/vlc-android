@@ -2,6 +2,7 @@ import * as BunnySDK from "npm:@bunny.net/edgescript-sdk@0.12.1";
 import { createClient } from "npm:@libsql/client@0.17.4/web";
 import process from "node:process";
 
+const API_KEY = process.env.API_KEY;
 const db = createClient({
 	url: process.env.BUNNY_DATABASE_URL!,
 	authToken: process.env.BUNNY_DATABASE_AUTH_TOKEN,
@@ -93,6 +94,18 @@ await db.execute(`
   )
 `);
 
+await db.execute(`
+  CREATE TABLE IF NOT EXISTS stats (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    discourse_id TEXT,
+    discourse_audio_id TEXT,
+    user_id TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHECK ((discourse_id IS NOT NULL) != (discourse_audio_id IS NOT NULL))
+  )
+`);
+
 /**
  * Indexes
  */
@@ -127,6 +140,21 @@ await db.execute(`
   ON discourse_audio(language)
 `);
 
+await db.execute(`
+  CREATE INDEX IF NOT EXISTS idx_stats_discourse_created
+  ON stats(discourse_id, created_at)
+`);
+
+await db.execute(`
+  CREATE INDEX IF NOT EXISTS idx_stats_audio_created
+  ON stats(discourse_audio_id, created_at)
+`);
+
+await db.execute(`
+  CREATE INDEX IF NOT EXISTS idx_stats_user_entity_created
+  ON stats(user_id, discourse_id, discourse_audio_id, created_at)
+`);
+
 /**
  * Helpers
  */
@@ -141,6 +169,52 @@ const jsonResponse = (
 			"content-type": "application/json",
 		},
 	});
+
+const hasValidApiKey = (request: Request) =>
+	Boolean(API_KEY) && request.headers.get("x-api-key") === API_KEY;
+
+async function recordListening(request: Request): Promise<Response> {
+	const payload: any = await request.json().catch(() => null);
+	const userId = typeof payload?.user_id === "string" ? payload.user_id.trim() : "";
+	const discourseId = typeof payload?.discourse_id === "string" ? payload.discourse_id.trim() : "";
+	const audioId = typeof payload?.discourse_audio_id === "string" ? payload.discourse_audio_id.trim() : "";
+	if (!userId || Boolean(discourseId) === Boolean(audioId)) {
+		return jsonResponse({ error: "user_id and exactly one entity ID are required." }, 400);
+	}
+
+	const entityColumn = discourseId ? "discourse_id" : "discourse_audio_id";
+	const entityId = discourseId || audioId;
+	const entityTable = discourseId ? "discourse" : "discourse_audio";
+	const entity = await db.execute({
+		sql: `SELECT id FROM ${entityTable} WHERE id = ? LIMIT 1`,
+		args: [entityId],
+	});
+	if (!entity.rows.length) return jsonResponse({ error: "Listening item not found." }, 404);
+
+	const insert = await db.execute({
+		sql: `INSERT INTO stats (${entityColumn}, user_id) SELECT ?, ? WHERE NOT EXISTS (SELECT 1 FROM stats WHERE user_id = ? AND ${entityColumn} = ? AND created_at >= datetime('now', '-24 hours'))`,
+		args: [entityId, userId, userId, entityId],
+	});
+	return insert.rowsAffected
+		? jsonResponse({ data: { recorded: true } }, 201)
+		: jsonResponse({ data: { recorded: false, reason: "duplicate_within_24_hours" } });
+}
+
+async function getTopListening(url: URL): Promise<Response> {
+	const by = url.searchParams.get("by");
+	const time = url.searchParams.get("time");
+	if (!["discourse", "discourse_audio"].includes(by ?? "") || !["7_days", "24_hours"].includes(time ?? "")) {
+		return jsonResponse({ error: "by must be discourse or discourse_audio; time must be 7_days or 24_hours." }, 400);
+	}
+
+	const column = by === "discourse" ? "discourse_id" : "discourse_audio_id";
+	const interval = time === "7_days" ? "-7 days" : "-24 hours";
+	const result = await db.execute({
+		sql: `SELECT ${column} AS id, COUNT(*) AS plays FROM stats WHERE ${column} IS NOT NULL AND created_at >= datetime('now', ?) GROUP BY ${column} ORDER BY plays DESC, id ASC LIMIT ?`,
+		args: [interval, PAGE_SIZE],
+	});
+	return jsonResponse({ data: result.rows, meta: { by, time, limit: PAGE_SIZE } });
+}
 
 const parsePage = (value: string | null) => {
 	const page = Number(value ?? "1");
@@ -738,6 +812,10 @@ BunnySDK.net.http.serve(
 		request: Request,
 	): Promise<Response> => {
 		try {
+			if (!hasValidApiKey(request)) {
+				return jsonResponse({ error: "Unauthorized" }, 401);
+			}
+
 			const url = new URL(
 				request.url,
 			);
@@ -765,8 +843,16 @@ BunnySDK.net.http.serve(
 
 						discourse_audios:
 							"/discourse-audios",
+
+						stats:
+							"/stats",
 					},
 				});
+			}
+
+			if (resource === "stats") {
+				if (request.method === "POST" && !id) return recordListening(request);
+				if (request.method === "GET" && !id) return getTopListening(url);
 			}
 
 			/**
