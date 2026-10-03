@@ -5,12 +5,12 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.videolan.tools.Settings
-import java.util.UUID
 
 class DiscourseRepository(
     context: Context,
     private val api: DiscourseApi = DiscourseApiClient.instance
 ) {
+    private val appContext = context.applicationContext
     private val settings = Settings.getInstance(context)
     private val recentlyPlayedAdapter = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
@@ -84,14 +84,11 @@ class DiscourseRepository(
     }
 
     private val userId: String
-        get() = settings.getString(KEY_USER_ID, null) ?: UUID.randomUUID().toString().also {
-            settings.edit().putString(KEY_USER_ID, it).apply()
-        }
+        get() = OshoUserIdentity.ensure(appContext)
 
     private fun String?.cleanQuery() = this?.trim()?.takeIf(String::isNotEmpty)
 
     private companion object {
-        const val KEY_USER_ID = "osho_api_user_id"
         const val KEY_LIKED_DISCOURSES = "osho_api_liked_discourses"
         const val KEY_LIKED_AUDIOS = "osho_api_liked_audios"
         const val KEY_RECENTLY_PLAYED_DISCOURSES = "osho_api_recently_played_discourses"
