@@ -36,7 +36,10 @@ fun DiscourseAudio.toMediaWrapper(context: Context): MediaWrapper = MLServiceLoc
     0L,
     0L,
     0L
-).apply { tag = "$DISCOURSE_TAG_PREFIX${this@toMediaWrapper.discourseId}$DISCOURSE_TAG_SEPARATOR${this@toMediaWrapper.id}" }
+).apply {
+    time = DiscoursePlaybackStore(context).position(this@toMediaWrapper.id) ?: 0L
+    tag = "$DISCOURSE_TAG_PREFIX${this@toMediaWrapper.discourseId}$DISCOURSE_TAG_SEPARATOR${this@toMediaWrapper.id}"
+}
 
 fun MediaWrapper.discoursePlaybackIds(): DiscoursePlaybackIds? {
     val value = tag?.removePrefix(DISCOURSE_TAG_PREFIX) ?: return null

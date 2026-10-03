@@ -88,6 +88,8 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.video.VideoPlayerActivity
+import org.videolan.vlc.discourse.DiscoursePlaybackStore
+import org.videolan.vlc.discourse.discoursePlaybackIds
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.awaitMedialibraryStarted
 import org.videolan.vlc.util.isSchemeFD
@@ -130,6 +132,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController(service.applicationContext) }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { Settings.getInstance(service) }
     private val ctx by lazy(LazyThreadSafetyMode.NONE) { service.applicationContext }
+    private val discoursePlaybackStore by lazy(LazyThreadSafetyMode.NONE) { DiscoursePlaybackStore(ctx) }
     var currentIndex = -1
         set(value) {
             field = value
@@ -276,7 +279,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         service.onPlaylistLoaded()
         if (mlUpdate) {
             service.awaitMedialibraryStarted()
-            mediaList.replaceWith(withContext(Dispatchers.IO) { mediaList.copy.updateWithMLMeta() })
+            val original = mediaList.copy
+            val updated = withContext(Dispatchers.IO) { original.updateWithMLMeta() }
+            updated.forEachIndexed { index, media ->
+                original.getOrNull(index)?.discoursePlaybackIds()?.let { ids ->
+                    media.tag = original[index].tag
+                    media.time = discoursePlaybackStore.position(ids.audioId) ?: original[index].time
+                }
+            }
+            mediaList.replaceWith(updated)
             getCurrentMedia()?.let { refreshTrackMeta(it) }
             if (BuildConfig.BETA) {
                 Log.d(TAG, "load after ml update with values: ")
@@ -498,7 +509,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
         val mw = mediaList.getMedia(index) ?: return
         val mediaFromMl = medialibrary.getMedia(mw.uri)
-        if (mediaFromMl != null)
+        if (mediaFromMl != null && mw.discoursePlaybackIds() == null)
             mw.time = mediaFromMl.time
 
         val isInCustomPiP: Boolean = service.isInPiPMode.value ?: false
@@ -1033,6 +1044,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private fun savePosition(reset: Boolean = false, video: Boolean = false) {
         if (settings.getBoolean(KEY_INCOGNITO, false)) return
         if (!hasMedia()) return
+        getCurrentMedia()?.discoursePlaybackIds()?.audioId?.let { audioId ->
+            if (reset) discoursePlaybackStore.clear(audioId)
+            else discoursePlaybackStore.save(audioId, player.getCurrentTime())
+        }
         settings.edit {
             val audio = !video && isAudioList()
             putBoolean(if (audio) AUDIO_SHUFFLING else MEDIA_SHUFFLING, shuffling)
@@ -1225,7 +1240,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
                 MediaPlayer.Event.EndReached -> {
                     clearABRepeat()
-                    getCurrentMedia()?.addFlags(MediaWrapper.MEDIA_FROM_START)
+                    getCurrentMedia()?.let { media ->
+                        media.addFlags(MediaWrapper.MEDIA_FROM_START)
+                        media.discoursePlaybackIds()?.audioId?.let(discoursePlaybackStore::clear)
+                    }
                     if (currentIndex != nextIndex) {
                         endReachedFor = getCurrentMedia()?.uri.toString()
                         saveMediaMeta(true)
