@@ -62,9 +62,16 @@ class VideosProvider(val folder : Folder?, val group: VideoGroup?, context: Cont
         return list
     }
 
-    override fun getAll(): Array<MediaWrapper> = when {
+    override fun getAll(): Array<MediaWrapper> = if (model.filterQuery == null) when {
         folder !== null -> folder.getAll(Folder.TYPE_FOLDER_VIDEO, sort, desc, Settings.includeMissing).toTypedArray()
         group !== null -> group.getAll(sort, desc, Settings.includeMissing, onlyFavorites).toTypedArray()
         else -> medialibrary.getVideos(sort, desc, Settings.includeMissing, onlyFavorites)
+    } else {
+        val count = getTotalCount()
+        when {
+            folder !== null -> folder.searchTracks(model.filterQuery, Folder.TYPE_FOLDER_VIDEO, sort, desc, Settings.includeMissing, onlyFavorites, count, 0)
+            group !== null -> group.searchTracks(model.filterQuery, sort, desc, Settings.includeMissing, onlyFavorites, count, 0)
+            else -> medialibrary.searchVideo(model.filterQuery, sort, desc, Settings.includeMissing, onlyFavorites, count, 0)
+        }
     }
 }

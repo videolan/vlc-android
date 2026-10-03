@@ -1158,7 +1158,7 @@
         <receiver
             android:name=".StoragesMonitor"
             android:enabled="false"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_MOUNTED"/>
                 <action android:name="android.intent.action.MEDIA_REMOVED"/>

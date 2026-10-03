@@ -594,6 +594,48 @@ object FileUtils {
     }
 
     fun getSoundFontExtensions() = arrayOf("sf2", "sf3")
+
+    /**
+     * Get the size of a folder (recursively) or a file.
+     *
+     * @param file the folder or file to measure
+     * @return the size in bytes
+     */
+    fun getFolderSize(file: File): Long {
+        var size: Long = 0
+        if (file.isDirectory) {
+            val files = file.listFiles()
+            if (files != null) {
+                for (f in files) {
+                    size += getFolderSize(f)
+                }
+            }
+        } else {
+            size = file.length()
+        }
+        return size
+    }
+
+    /**
+     * Get the number of files in a folder (recursively).
+     *
+     * @param file the folder to scan
+     * @return the number of files
+     */
+    fun getFileCount(file: File): Int {
+        var count = 0
+        if (file.isDirectory) {
+            val files = file.listFiles()
+            if (files != null) {
+                for (f in files) {
+                    count += getFileCount(f)
+                }
+            }
+        } else {
+            count = 1
+        }
+        return count
+    }
 }
 
 fun String?.getParentFolder(): String? {

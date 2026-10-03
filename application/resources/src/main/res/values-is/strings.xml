@@ -185,11 +185,8 @@
     <string name="subtitle_select">Veldu skjátextaskrá</string>
     <string name="video_player_remote">Myndspilarafjarstýring</string>
     <string name="server_add_title">Bæta nýjum þjóni í eftirlæti</string>
-    <string name="server_domain_hint">Vistfang þjóns (heiti léns eða IP-tala)</string>
-    <string name="server_share_hint">Nafn netsameignar (eða IP vistfang)</string>
     <string name="server_folder_hint">Slóð á möppu (valkvætt)</string>
     <string name="server_username_hint">Notandanafn</string>
-    <string name="server_servername_hint">Heiti þjóns, til þæginda</string>
     <string name="server_port">Gátt:</string>
     <string name="login">Innskráning</string>
     <string name="password">Lykilorð</string>
@@ -202,8 +199,6 @@
     <string name="favorite_removed">Fjarlægt úr eftirlætum</string>
 
     <string name="streams">Straumar</string>
-    <string name="open_mrl_dialog_msg">Settu inn netslóð: t.d. http://, mms:// eða rtsp://</string>
-    <string name="invalid_location">Ekki er hægt að spila staðsetninguna %1$s</string>
     <string name="search">Leita</string>
 
 
@@ -503,7 +498,6 @@
     <string name="no_internet_connection">Athugaðu með nettenginguna þína</string>
     <string name="retry">Reyna aftur</string>
     <string name="open_subs_download_error">OpenSubtitles er ekki tiltækt eins og er. Vinsamlegast reyndu aftur síðar</string>
-
     <string name="network_browsing">Staðarnet</string>
     <string name="browsing">Vafur</string>
 
@@ -1004,7 +998,6 @@
     <string name="home">Heim</string>
     <string name="ra_code">Settu inn þennan kóða: %s</string>
     <string name="ra_otp_not_me">Þetta er ekki ég</string>
-
     <string name="ra_onboarding_how_title">Stýrðu tækinu þínu</string>
     <string name="ra_onboarding_ssl_title">Dulritun gagna</string>
     <string name="ra_onboarding_otp_title">Auðkenning</string>

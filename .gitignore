@@ -79,6 +79,6 @@ libvlc.pc.backup
 libvlcpp.pc
 lib/
 /buildsystem/automation/certificates/
-
 .env.production
 .env.development
+/buildsystem/.check-commits/

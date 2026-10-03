@@ -239,10 +239,10 @@
 
     <string name="server_add_title">Új kiszolgáló hozzáadása a kedvencekhez</string>
     <string name="server_domain_hint">Kiszolgálócím (doménnév vagy IP-cím)</string>
-    <string name="server_share_hint">Hálózati megosztás neve (vagy IP-címe)</string>
+    <string name="server_share_hint">Kiszolgálócím (doménnév vagy IP-cím)</string>
     <string name="server_folder_hint">Mappaútvonal (nem kötelező)</string>
     <string name="server_username_hint">Felhasználónév</string>
-    <string name="server_servername_hint">Kiszolgálónév, az egyszerűség kedvéért</string>
+    <string name="server_servername_hint">Megjelenítendő név (nem kötelező)</string>
     <string name="server_port">Port:</string>
     <string name="login">Bejelentkezés</string>
     <string name="password">Jelszó</string>
@@ -255,9 +255,9 @@
     <string name="favorite_removed">Eltávolítva a kedvencek közül</string>
 
     <string name="streams">Közvetítések</string>
-    <string name="open_mrl_dialog_msg">Írja be a hálózati címet: pl. http://, mms:// vagy rtsp://</string>
-    <string name="invalid_location">A(z) %1$s helyet nem lehet lejátszani.</string>
-    <string name="missing_location">A média egy nem elérhető tárhelyen található, ezért nem lehet lejátszani.</string>
+    <string name="open_mrl_dialog_msg">Írjon be egy hálózati címet, például egy http://, mms:// vagy rtsp:// címet</string>
+    <string name="invalid_location">A(z) %1$s helyen lévő médiát nem lehet lejátszani.</string>
+    <string name="missing_location">Ez a média egy nem elérhető tárolóeszközön található, és nem lehet lejátszani.</string>
 
     <string name="search">Keresés</string>
 

@@ -225,11 +225,8 @@
     <string name="remote_keyboard_navigation">Teklatu bidezko nabigazioa</string>
 
     <string name="server_add_title">Gehitu zerbitzari berri bat gogokoetara</string>
-    <string name="server_domain_hint">Zerbitzariaren helbidea (domeinu-izena edo IPa)</string>
-    <string name="server_share_hint">Sareko partekatzearen izena (edo IP helbidea)</string>
     <string name="server_folder_hint">Karpetarako bidea (aukerakoa)</string>
     <string name="server_username_hint">Erabiltzaile-izena</string>
-    <string name="server_servername_hint">Zerbitzariaren izena, erosotasunagatik</string>
     <string name="server_port">Ataka:</string>
     <string name="login">Saio-hasiera</string>
     <string name="password">Pasahitza</string>
@@ -242,10 +239,6 @@
     <string name="favorite_removed">Gogokoetatik kenduta</string>
 
     <string name="streams">Transmisioak</string>
-    <string name="open_mrl_dialog_msg">Sartu sareko helbidea: adib. http://, mms:// edo rtsp://</string>
-    <string name="invalid_location">Ezin da %1$s kokalekua erreproduzitu.</string>
-    <string name="missing_location">Multimedia hau erabilgarri ez dagoen biltegiratze batekoa da eta ezin da erreproduzitu.</string>
-
     <string name="search">Bilatu</string>
 
 

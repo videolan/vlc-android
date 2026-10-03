@@ -238,11 +238,11 @@
     <string name="remote_keyboard_navigation">Navigointi näppäimistöllä</string>
 
     <string name="server_add_title">Lisää uusi serveri suosikkeihin</string>
-    <string name="server_domain_hint">Serverin osoite (domain tai IP-osoite)</string>
-    <string name="server_share_hint">Verkkojaon nimi (tai IP-osoite)</string>
+    <string name="server_domain_hint">Palvelimen osoite (verkkonimi tai IP-osoite)</string>
+    <string name="server_share_hint">Palvelimen osoite (verkkonimi tai IP-osoite)</string>
     <string name="server_folder_hint">Kansioin polku (valinnainen)</string>
     <string name="server_username_hint">Käyttäjänimi</string>
-    <string name="server_servername_hint">Palvelimen nimi mukavuussyistä</string>
+    <string name="server_servername_hint">Näyttönimi (valinnainen)</string>
     <string name="server_port">Portti:</string>
     <string name="login">Kirjaudu</string>
     <string name="password">Salasana</string>
@@ -255,9 +255,9 @@
     <string name="favorite_removed">Poistettu suosikeista</string>
 
     <string name="streams">Suoratoistot</string>
-    <string name="open_mrl_dialog_msg">Kirjoita verkko-osoite: esim. http://, mms:// tai rtsp://</string>
-    <string name="invalid_location">Kohdetta %1$s ei voida toistaa.</string>
-    <string name="missing_location">Tämä media on muistikotilla, joka ei ole käytettävissä, eikä sitä voi toistaa.</string>
+    <string name="open_mrl_dialog_msg">Anna osoite, kuten http://, mms://, tai rtsp://</string>
+    <string name="invalid_location">Mediatiedostoa %1$s ei voida toistaa.</string>
+    <string name="missing_location">Tämä media on muistikortilla, joka ei ole käytettävissä, eikä siksi voi toistaa.</string>
 
     <string name="search">Etsi</string>
 

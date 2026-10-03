@@ -176,11 +176,8 @@
     <string name="subtitle_select">Chagua faili ya manukuu</string>
     <string name="wait_before_sleep">Subiri midia inayocheza sasa imalize</string>
     <string name="server_add_title">Ongeza seva mpya kwenye vipendwa</string>
-    <string name="server_domain_hint">Anwani ya seva (jina miliki au itifaki ya wavuti)</string>
-    <string name="server_share_hint">Jina la ushiriki la mtandao (au anwani ya itifaki ya wavuti)</string>
     <string name="server_folder_hint">Njia ya folda (sio lazima)</string>
     <string name="server_username_hint">Jina la mtumiaji</string>
-    <string name="server_servername_hint">Jina la seva, ya kurahisisha mambo</string>
     <string name="server_port">Diko:</string>
     <string name="login">Ingia</string>
     <string name="password">Nenosiri</string>
@@ -193,10 +190,6 @@
     <string name="favorite_removed">Imetolewa kutoka vipendwa</string>
 
     <string name="streams">Mitiririko</string>
-    <string name="open_mrl_dialog_msg">Ingiza anwani ya mtandao: k.m. http://, mms:// au rtsp://</string>
-    <string name="invalid_location">Eneo %1$s haliwezi likachezwa.</string>
-    <string name="missing_location">Hifadhi ya midia hii haipatikani, kwa hivyo, haiwezi kuchezwa</string>
-
     <string name="search">Tafuta</string>
 
 

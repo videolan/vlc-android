@@ -91,6 +91,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.discourse.DiscoursePlaybackStore
 import org.videolan.vlc.discourse.discoursePlaybackIds
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.FontCache
 import org.videolan.vlc.util.awaitMedialibraryStarted
 import org.videolan.vlc.util.isSchemeFD
 import org.videolan.vlc.util.isSchemeHttpOrHttps
@@ -495,6 +496,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     suspend fun playIndex(index: Int, flags: Int = 0, forceResume:Boolean = false, forceRestart:Boolean = false) {
+        // The fonts are scanned when the first text renderer is created, which would otherwise
+        // delay the playback by several seconds on the first run. See [FontCache]
+        // Wait before reading any state, as the queue can change in the meantime
+        FontCache.await(service) {
+            service.showToast(service.getString(R.string.font_cache_building), Toast.LENGTH_LONG)
+        }
+
         videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
@@ -1229,7 +1237,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         savePosition()
                         saveCurrentMedia()
                         newMedia = false
-                        if (player.hasRenderer || !player.isVideoPlaying()) showAudioPlayer.value = true
+                        if (player.hasRenderer || (!player.isVideoPlaying() && (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || !player.canSwitchToVideo()))) {
+                            showAudioPlayer.value = true
+                        }
                         savePlaycount(mw)
                         if (mw.title == mw.fileName || (mw.type == MediaWrapper.TYPE_STREAM && (mw.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || mw.artistName != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true)))) {
                             // used for initial metadata update. We avoid the metadata load when the initial MediaPlayer.Event.ESSelected is sent to avoid race conditions

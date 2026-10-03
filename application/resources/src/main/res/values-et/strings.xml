@@ -238,11 +238,11 @@
     <string name="remote_keyboard_navigation">Liikumine klahvistikuga</string>
 
     <string name="server_add_title">Lisa uus server lemmikutesse</string>
-    <string name="server_domain_hint">Serveri aadress (domeeni nimi või IP)</string>
-    <string name="server_share_hint">Jagatud võrgu nimi (või IP aadress)</string>
+    <string name="server_domain_hint">Serveri aadress (hosti nimi või IP-aadress)</string>
+    <string name="server_share_hint">Serveri aadress (hosti nimi või IP-aadress)</string>
     <string name="server_folder_hint">Kaust (valikuline)</string>
     <string name="server_username_hint">Kasutajanimi</string>
-    <string name="server_servername_hint">Serveri nimi, mugavuse mõttes</string>
+    <string name="server_servername_hint">Kuvatav nimi (kui tahad lisada)</string>
     <string name="server_port">Port:</string>
     <string name="login">Logi sisse</string>
     <string name="password">Salasõna</string>
@@ -255,9 +255,9 @@
     <string name="favorite_removed">Eemaldatud lemmikutest</string>
 
     <string name="streams">Vood</string>
-    <string name="open_mrl_dialog_msg">Sisesta võrguaadress: nt. http://, mms:// või rtsp://</string>
-    <string name="invalid_location">Asukohta %1$s ei saa esitada.</string>
-    <string name="missing_location">See meedia asub andmekandjal, mida hetkel ei leidu ja tema esitamine pole seega võimalik.</string>
+    <string name="open_mrl_dialog_msg">Sisesta võrguaadress, nagu näiteks http://, mms:// või rtsp://</string>
+    <string name="invalid_location">„%1$s“ multimeediasisu ei saa esitada.</string>
+    <string name="missing_location">See meedium asub andmekandjal, mida hetkel ei leidu ja tema esitamine pole seega võimalik.</string>
 
     <string name="search">Otsing</string>
 

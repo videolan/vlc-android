@@ -17,7 +17,10 @@ class VideoGroupsProvider(context: Context, model: SortableModel) : Medialibrary
     override fun canSortByMediaNumber() = true
     override val isVideoPermDependant = true
 
-    override fun getAll() : Array<VideoGroup> = medialibrary.getVideoGroups(sort, desc, Settings.includeMissing, onlyFavorites, getTotalCount(), 0)
+    override fun getAll() : Array<VideoGroup> = if (model.filterQuery.isNullOrEmpty())
+        medialibrary.getVideoGroups(sort, desc, Settings.includeMissing, onlyFavorites, getTotalCount(), 0)
+    else
+        medialibrary.searchVideoGroups(model.filterQuery, sort, desc, Settings.includeMissing, onlyFavorites, getTotalCount(), 0)
 
     override fun getTotalCount() = medialibrary.getVideoGroupsCount(model.filterQuery)
 

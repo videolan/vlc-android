@@ -1,6 +1,8 @@
 package org.videolan.vlc
 
 import android.content.Context
+import android.util.Log
+import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
@@ -100,4 +102,13 @@ fun getDisableTrack(context: Context) = object : VlcTrack {
     override fun getFrameRateDen() = 0
 
     override fun getFrameRateNum() = 0
+}
+
+/**
+ * VLC4's libvlcjni build disables the fontconfig contrib, so there is no cache to build here.
+ * See [org.videolan.vlc.util.FontCache].
+ */
+fun LibVLC.buildFontCacheIfSupported(): Boolean {
+    Log.i("VLC/FontCache", "fontconfig is disabled on VLC4, nothing to build")
+    return true
 }

@@ -227,11 +227,11 @@
     <string name="remote_keyboard_navigation">键盘导航</string>
 
     <string name="server_add_title">向收藏夹添加新的服务器</string>
-    <string name="server_domain_hint">服务器地址 (域名或 IP)</string>
-    <string name="server_share_hint">网络共享名称 (或 IP 地址)</string>
+    <string name="server_domain_hint">服务器地址（主机名或 IP 地址）</string>
+    <string name="server_share_hint">服务器地址（主机名或 IP 地址）</string>
     <string name="server_folder_hint">文件夹路径 (可选)</string>
     <string name="server_username_hint">用户名</string>
-    <string name="server_servername_hint">服务器名称 (方便识别)</string>
+    <string name="server_servername_hint">显示名称（可选）</string>
     <string name="server_port">端口: </string>
     <string name="login">登录名</string>
     <string name="password">密码</string>
@@ -244,10 +244,6 @@
     <string name="favorite_removed">已从收藏夹移除</string>
 
     <string name="streams">串流</string>
-    <string name="open_mrl_dialog_msg">请输入网络地址: 如 http://、mms:// 或 rtsp://</string>
-    <string name="invalid_location">无法播放位置 %1$s。</string>
-    <string name="missing_location">此媒体所存放的位置暂不可用，无法播放。</string>
-
     <string name="search">搜索</string>
 
 
@@ -625,6 +621,8 @@
     <string name="no_internet_connection">请检查网络连接</string>
     <string name="retry">重试</string>
     <string name="open_subs_download_error">OpenSubtitles 暂不可用。请稍后再试</string>
+    <string name="open_subs_download_link_error">OpenSubtitles 存在问题。请稍后重试</string>
+
     <string name="network_browsing">本地网络</string>
     <string name="browsing">浏览</string>
 

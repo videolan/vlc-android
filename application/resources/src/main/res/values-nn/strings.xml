@@ -74,6 +74,7 @@
     <string name="invalid_equalizer_file">Ugyldig tonekontrollfil</string>
     <string name="confirm_delete_vlc_eq">Er du sikker på at du vil skjula denne førehandsinnstillinga?\nDu kan stilla tilbake dette i tonekontrollinnstillingane.</string>
     <string name="confirm_replace_playlist">Er du sikker på at du vil erstatta spelelista \'%1$s\'?</string>
+    <string name="invalid_settings_file">Ugyldig innstillingsfil</string>
     <string name="confirm_delete_message">Dette er endeleg og kan ikkje angrast.</string>
     <string name="confirm_delete_album">Slette albumet \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Slette desse %1$d media?</string>
@@ -225,11 +226,12 @@
     <string name="remote_keyboard_navigation">Tastaturnavigering</string>
 
     <string name="server_add_title">Legg til ein ny server i favorittar</string>
-    <string name="server_domain_hint">Serveradresse (domenenamn eller IP)</string>
-    <string name="server_share_hint">Delingsnamn til nettverket (eller IP-adresse)</string>
+    <string name="server_domain_hint">Server-addresse (vertsnamn eller IP-addresse)</string>
+    <string name="server_share_hint">Sever-addresse (vertsnamn eller IP-addresse)</string>
     <string name="server_folder_hint">Mappesti (valfritt)</string>
     <string name="server_username_hint">Brukarnamn</string>
-    <string name="server_port">Port: </string>
+    <string name="server_servername_hint">Visningsnamn (valfritt)</string>
+    <string name="server_port">Port:</string>
     <string name="login">Innlogging</string>
     <string name="password">Passord</string>
 
@@ -241,10 +243,6 @@
     <string name="favorite_removed">Fjerna frå favorittar</string>
 
     <string name="streams">Straumar</string>
-    <string name="open_mrl_dialog_msg">Skriv inn nettverkadresse: t.d. http://, mms:// or rtsp://</string>
-    <string name="invalid_location">Plasseringa %1$skan ikkje spelast.</string>
-    <string name="missing_location">Dette mediet er frå ei utilgjengeleg lagring og kan ikkje spelast av.</string>
-
     <string name="search">Søk</string>
 
 
@@ -787,7 +785,6 @@
     <string name="home">Heim</string>
     <string name="ra_code">Skriv inn denne koden: %s</string>
     <string name="ra_otp_not_me">Det er ikkje meg</string>
-
     <string name="ra_onboarding_how_title">Kontroller eininga di</string>
     <string name="ra_onboarding_ssl_title">Datakryptering</string>
     <string name="ra_onboarding_otp_title">Autentisering</string>

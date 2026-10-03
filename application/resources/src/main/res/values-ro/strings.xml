@@ -249,11 +249,11 @@
     <string name="remote_keyboard_navigation">Navigare prin tastatură</string>
 
     <string name="server_add_title">Adaugă un server nou la favorite</string>
-    <string name="server_domain_hint">Adresa serverului (nume domeniu sau IP)</string>
-    <string name="server_share_hint">Numele rețelei partajate (sau adresa IP)</string>
+    <string name="server_domain_hint">Adresa serverului (numele gazdei sau adresa IP)</string>
+    <string name="server_share_hint">Adresa serverului (numele gazdei sau adresa IP)</string>
     <string name="server_folder_hint">Calea la director (opțional)</string>
     <string name="server_username_hint">Nume utilizator</string>
-    <string name="server_servername_hint">Numele serverului, pentru comoditate</string>
+    <string name="server_servername_hint">Numele afișat (opțional)</string>
     <string name="server_port">Port: </string>
     <string name="login">Loghin</string>
     <string name="password">Parola</string>
@@ -266,9 +266,9 @@
     <string name="favorite_removed">Stergeti din favorite</string>
 
     <string name="streams">Fluxuri</string>
-    <string name="open_mrl_dialog_msg">Adaugă adresa de rețea: de exemplu http://, mms:// sau rtsp://</string>
-    <string name="invalid_location">Locaţia %1$s nu poate fi redată.</string>
-    <string name="missing_location">Locația nu poate fi găsită.</string>
+    <string name="open_mrl_dialog_msg">Introdu o adresă de rețea, cum ar fi http://, mms:// sau rtsp://</string>
+    <string name="invalid_location">Fișierul media %1$s nu poate fi redat.</string>
+    <string name="missing_location">Acest fișier media se află pe un dispozitiv de stocare indisponibil și nu poate fi redat.</string>
 
     <string name="search">Căutare</string>
 

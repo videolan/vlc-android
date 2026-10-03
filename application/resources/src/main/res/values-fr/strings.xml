@@ -249,11 +249,11 @@
     <string name="remote_keyboard_navigation">Navigation au clavier</string>
 
     <string name="server_add_title">Ajouter un serveur aux favoris</string>
-    <string name="server_domain_hint">Adresse du serveur (domaine ou adresse IP)</string>
-    <string name="server_share_hint">Nom du partage réseau (ou adresse IP)</string>
+    <string name="server_domain_hint">Adresse du serveur (nom d’hôte ou adresse IP)</string>
+    <string name="server_share_hint">Adresse du serveur (nom d’hôte ou adresse IP)</string>
     <string name="server_folder_hint">Chemin du dossier (facultatif)</string>
     <string name="server_username_hint">Nom d’utilisateur</string>
-    <string name="server_servername_hint">Nom à afficher</string>
+    <string name="server_servername_hint">Nom d’affichage (optionnel)</string>
     <string name="server_port">Port :</string>
     <string name="login">Identifiant</string>
     <string name="password">Mot de passe</string>
@@ -266,9 +266,9 @@
     <string name="favorite_removed">Retiré des favoris</string>
 
     <string name="streams">Flux</string>
-    <string name="open_mrl_dialog_msg">Entrez une addresse réseau : p. ex. http://, mms:// ou rtsp://</string>
-    <string name="invalid_location">L’emplacement « %1$s » ne peut être lu.</string>
-    <string name="missing_location">Ce média provient d’un disque non disponible et ne peut être lu.</string>
+    <string name="open_mrl_dialog_msg">Saisissez une adresse réseau, par exemple http://, mms:// ou rtsp://</string>
+    <string name="invalid_location">Le média situé à %1$s ne peut pas être lu.</string>
+    <string name="missing_location">Ce média se trouve sur un périphérique de stockage indisponible et ne peut pas être lu.</string>
 
     <string name="search">Rechercher</string>
 

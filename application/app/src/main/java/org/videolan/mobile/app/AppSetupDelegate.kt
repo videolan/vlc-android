@@ -28,6 +28,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import kotlinx.coroutines.DEBUG_PROPERTY_NAME
 import kotlinx.coroutines.DEBUG_PROPERTY_VALUE_ON
 import kotlinx.coroutines.Dispatchers
@@ -56,9 +57,14 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
+import org.videolan.vlc.util.FontCache
 import org.videolan.vlc.util.NetworkConnectionManager
 import org.videolan.vlc.util.VersionMigration
 import org.videolan.vlc.widget.MiniPlayerAppWidgetProvider
+import java.io.File
+import java.io.IOException
+
+private const val TAG = "VLC/AppSetupDelegate"
 
 interface AppDelegate {
     val appContextProvider : AppContextProvider
@@ -121,6 +127,22 @@ class AppSetupDelegate : AppDelegate,
         })
     }
 
+    /**
+     * The application is also created in the secondary processes (the logger one), which don't
+     * have to take part in the app setup.
+     */
+    private fun Context.isMainProcess(): Boolean {
+        val processName = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) Application.getProcessName()
+        else try {
+            // The arguments are separated by null characters, the first one is the process name
+            File("/proc/self/cmdline").readText().substringBefore('\u0000')
+        } catch (e: IOException) {
+            Log.w(TAG, "Can't read the process name", e)
+            return true
+        }
+        return processName == packageName
+    }
+
     // init operations executed in background threads
     private fun Context.backgroundInit() = AppScope.launch outerLaunch@ {
         VersionMigration.migrateVersion(this@backgroundInit)
@@ -129,6 +151,8 @@ class AppSetupDelegate : AppDelegate,
             if (!VLCInstance.testCompatibleCPU(AppContextProvider.appContext)) return@innerLaunch
             Dialog.setCallbacks(VLCInstance.getInstance(this@backgroundInit), DialogDelegate)
             VersionMigration.migrateVersionAfterLibVLC(this@backgroundInit)
+            // Scan the system fonts now, so that the first playback doesn't have to
+            if (isMainProcess()) FontCache.prepare(this@backgroundInit)
         }
         if (!AndroidDevices.isAndroidTv) sendBroadcast(Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT).apply {
             component = ComponentName(appContextProvider.appContext, MiniPlayerAppWidgetProvider::class.java)

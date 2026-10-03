@@ -249,11 +249,11 @@
     <string name="remote_keyboard_navigation">Navigazione da tastiera</string>
 
     <string name="server_add_title">Aggiungi un nuovo server ai preferiti</string>
-    <string name="server_domain_hint">Indirizzo server (nome dominio o IP)</string>
-    <string name="server_share_hint">Nome condivisione di rete (o indirizzo IP)</string>
+    <string name="server_domain_hint">Indirizzo server (nome host o indirizzo IP)</string>
+    <string name="server_share_hint">Indirizzo server (nome host o indirizzo IP)</string>
     <string name="server_folder_hint">Percorso cartella (opzionale)</string>
     <string name="server_username_hint">Nome utente</string>
-    <string name="server_servername_hint">Nome del server, per comodità</string>
+    <string name="server_servername_hint">Nome visualizzato (facoltativo)</string>
     <string name="server_port">Porta:</string>
     <string name="login">Nome utente</string>
     <string name="password">Password</string>
@@ -266,8 +266,8 @@
     <string name="favorite_removed">Rimosso dai preferiti</string>
 
     <string name="streams">Flussi</string>
-    <string name="open_mrl_dialog_msg">Digita indirizzo di rete: ad es. http://, mms:// o rtsp://</string>
-    <string name="invalid_location">La posizione %1$s non può essere riprodotta.</string>
+    <string name="open_mrl_dialog_msg">Digita un indirizzo di rete, come http://, mms:// o rtsp://</string>
+    <string name="invalid_location">Il media su %1$s non può essere riprodotto.</string>
     <string name="missing_location">Questo media proviene da un\'archiviazione non disponibile e non può essere riprodotto.</string>
 
     <string name="search">Cerca</string>

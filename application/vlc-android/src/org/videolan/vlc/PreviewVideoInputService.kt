@@ -24,6 +24,7 @@ import org.videolan.resources.util.getFromMl
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.media.MediaPlayerEventListener
 import org.videolan.vlc.media.PlayerController
+import org.videolan.vlc.util.FontCache
 import org.videolan.vlc.util.random
 import java.io.IOException
 
@@ -66,6 +67,8 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope by MainScope()
                     return@launch
                 }
                 try {
+                    // No preview until the fonts have been scanned, see [FontCache]
+                    FontCache.await(this@PreviewVideoInputService)
                     val media = factory.getFromUri(VLCInstance.getInstance(this@PreviewVideoInputService), mw.uri)
                     val start = if (mw.length <= 0L) 0L else mw.length.random()
                     media.addOption(":start-time=${start/1000L}")

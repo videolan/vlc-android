@@ -13,6 +13,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -160,5 +161,30 @@ public class Tools {
      */
     public static Boolean hasSubString(String source, String substring) {
         return Pattern.compile(Pattern.quote(substring), Pattern.CASE_INSENSITIVE).matcher(source).find();
+    }
+
+    /**
+     * Removes null items from an array.
+     * This method is optimized to avoid allocations if the array is already "clean"
+     * and handles empty or null input safely.
+     *
+     * @param source The source array to clean
+     * @param <T> The type of the array elements
+     * @return A new array without nulls, or the original array if it was already clean or null/empty.
+     */
+    public static <T> T[] cleanupArray(T[] source) {
+        if (source == null || source.length == 0) return source;
+        int count = 0;
+        // Count non-null items first to determine the final size
+        for (T s : source) if (s != null) count++;
+        // If the array is already clean, return it as-is to save an allocation
+        if (count == source.length) return source;
+        // Create a new array of the same type and proper size
+        T[] result = Arrays.copyOf(source, count);
+        if (count == 0) return result;
+        int i = 0;
+        // Fill the new array with non-null items
+        for (T s : source) if (s != null) result[i++] = s;
+        return result;
     }
 }

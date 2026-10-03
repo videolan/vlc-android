@@ -421,6 +421,9 @@ const val KEY_ANDROID_AUTO_SUBTITLE_SCALE_VAL = "android_auto_subtitle_scale_val
 const val KEY_NAVIGATOR_SCREEN_UNSTABLE = "navigator_screen_unstable"
 const val KEY_FRAGMENT_ID = "fragment_id"
 
+const val KEY_FONT_CACHE_FINGERPRINT = "font_cache_fingerprint"
+const val KEY_FONT_CACHE_FAILURES = "font_cache_failures"
+
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

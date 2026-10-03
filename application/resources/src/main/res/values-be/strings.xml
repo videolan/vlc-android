@@ -209,8 +209,6 @@
     <string name="jump_to_time">Пераход да часу</string>
     <string name="subtitle_select">Выбраць файл субтытраў</string>
     <string name="server_add_title">Дадаць у Абраныя сервер</string>
-    <string name="server_domain_hint">Адрас сервера (даменнае імя або IP-адрас)</string>
-    <string name="server_share_hint">Імя сеткавага рэсурсу (або IP-адрас)</string>
     <string name="server_folder_hint">Шлях да папкі (неабавязковы)</string>
     <string name="server_username_hint">Імя карыстальніка</string>
     <string name="server_port">Порт:</string>
@@ -225,8 +223,6 @@
     <string name="favorite_removed">Выдалена з абраных</string>
 
     <string name="streams">Патокі</string>
-    <string name="open_mrl_dialog_msg">Сеткавы адрас, http://, mms:// або rtsp://</string>
-    <string name="invalid_location">Немагчыма прайграць размяшчэнне %1$s.</string>
     <string name="search">Пошук</string>
 
 
@@ -533,7 +529,6 @@
     <string name="no_internet_connection">Праверце злучэнне з інтэрнетам</string>
     <string name="retry">Паўтарыць</string>
     <string name="open_subs_download_error">OpenSubtitles зараз недаступны. Паўтарыце спробу пазней</string>
-
     <string name="network_browsing">Лакальная сетка</string>
     <string name="browsing">Агляд</string>
 
@@ -1068,7 +1063,6 @@
     <string name="ra_otp">Аднаразовы пароль аддаленага доступу</string>
     <string name="ra_otp_subtitle">Калі гэта вы, увядзіце код на другой прыладзе</string>
     <string name="ra_otp_not_me">Гэта не я</string>
-
     <string name="ra_onboarding_ssl_title">Шыфраванне даных</string>
     <string name="ra_onboarding_otp_title">Аўтэнтыфікацыя</string>
     <string name="ra_onboarding_content_title">Доступ да змесціва</string>

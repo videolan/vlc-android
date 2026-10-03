@@ -174,8 +174,6 @@
     <string name="jump_to_time">Léim chuig am</string>
     <string name="subtitle_select">Roghnaigh comhad fotheidil</string>
     <string name="server_add_title">Cuir freastalaí nua leis na ceanáin</string>
-    <string name="server_domain_hint">Seoladh an fhreastalaithe (ainm fearainn nó IP)</string>
-    <string name="server_share_hint">Ainm don chomhroinnt ar an líonra (nó seoladh IP)</string>
     <string name="server_folder_hint">Conair an fhillteáin (roghnach)</string>
     <string name="server_username_hint">Ainm úsáideora</string>
     <string name="server_port">Port:</string>
@@ -190,8 +188,6 @@
     <string name="favorite_removed">Bainte ó na ceanáin</string>
 
     <string name="streams">Sruthanna</string>
-    <string name="open_mrl_dialog_msg">Cuir isteach seoladh an líonra: m.sh. http://, mms:// nó rtsp://</string>
-    <string name="invalid_location">Ní féidir an suíomh %1$s a sheinm.</string>
     <string name="search">Cuardaigh</string>
 
 
@@ -806,7 +802,6 @@
     <string name="home">Baile</string>
     <string name="ra_code">Cuir isteach an tagairt seo: %s</string>
     <string name="ra_otp_not_me">Ní mise atá ann</string>
-
     <string name="ra_onboarding_how_title">Rialaigh do ghléas</string>
     <string name="ra_onboarding_otp_title">Fíordheimhniú</string>
     <string name="ra_onboarding_content_playback">Rialú athsheanma</string>

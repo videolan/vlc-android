@@ -204,25 +204,42 @@ fun Service.stopForegroundCompat(removeNotification:Boolean = true) = when {
  * @param serviceNotificationId the notification id to be used. Depends on the service type
  * @param notification the notification to display
  * @param foregroundServiceType the foreground service type, needed for API >= 33
+ * @return true if startForeground succeeded, false if ForegroundServiceStartNotAllowedException occurred
  */
-fun Service.startForegroundCompat(serviceNotificationId:NotificationIds, notification:Notification, foregroundServiceType: Int) {
-    if (SDK_INT >= Build.VERSION_CODES.Q)
-        startForeground(serviceNotificationId.id, notification, foregroundServiceType)
-    else
-        startForeground(serviceNotificationId.id, notification)
+fun Service.startForegroundCompat(serviceNotificationId: NotificationIds, notification: Notification, foregroundServiceType: Int): Boolean {
+    return try {
+        if (SDK_INT >= Build.VERSION_CODES.Q)
+            startForeground(serviceNotificationId.id, notification, foregroundServiceType)
+        else
+            startForeground(serviceNotificationId.id, notification)
+        true
+    } catch (e: Exception) {
+        if (SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
+            Log.w("Service", "ForegroundServiceStartNotAllowedException caught in startForegroundCompat", e)
+            false
+        } else throw e
+    }
 }
 
 /**
  * Use the new registerReceiver API when needed
  *
+ * Below API 33 there is no equivalent of [Context.RECEIVER_NOT_EXPORTED]: passing
+ * `exported = false` on those versions still leaves the receiver reachable from other
+ * apps. If that matters for a given receiver, also pass [permission] so senders are
+ * required to hold it on every API level.
+ *
  * @param receiver the receiver to register
  * @param filter the filter to apply
  * @param exported true if it needs to be exported
+ * @param permission a signature-level permission senders must hold, or null for none
  */
 @SuppressLint("UnspecifiedRegisterReceiverFlag")
-fun Context.registerReceiverCompat(receiver: BroadcastReceiver, filter: IntentFilter, exported: Boolean) {
+fun Context.registerReceiverCompat(receiver: BroadcastReceiver, filter: IntentFilter, exported: Boolean, permission: String? = null) {
     if (SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-        registerReceiver(receiver, filter, if (exported) Context.RECEIVER_EXPORTED else Context.RECEIVER_NOT_EXPORTED)
+        registerReceiver(receiver, filter, permission, null, if (exported) Context.RECEIVER_EXPORTED else Context.RECEIVER_NOT_EXPORTED)
+    else if (permission != null)
+        registerReceiver(receiver, filter, permission, null)
     else
         registerReceiver(receiver, filter)
 }

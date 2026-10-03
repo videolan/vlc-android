@@ -254,11 +254,11 @@
     <string name="remote_keyboard_navigation">ניווט עם מקלדת</string>
 
     <string name="server_add_title">הוספת שרת חדש למועדפים</string>
-    <string name="server_domain_hint">כתובת השרת (שם מתחם או IP)</string>
-    <string name="server_share_hint">שם השיתוף ברשת (או כתובת IP)</string>
+    <string name="server_domain_hint">כתובת השרת (שם מארח או כתובת IP)</string>
+    <string name="server_share_hint">כתובת השרת (שם מארח או כתובת IP)</string>
     <string name="server_folder_hint">נתיב התיקייה (רשות)</string>
     <string name="server_username_hint">שם משתמש</string>
-    <string name="server_servername_hint">שם השרת, לנוחות</string>
+    <string name="server_servername_hint">שם תצוגה (רשות)</string>
     <string name="server_port">פתחה:</string>
     <string name="login">שם לכניסה</string>
     <string name="password">ססמה</string>
@@ -271,9 +271,9 @@
     <string name="favorite_removed">הוסר מהמועדפים</string>
 
     <string name="streams">תזרימים</string>
-    <string name="open_mrl_dialog_msg">להזין כתובת הרשת: למשל http://‎,‏ mms://‎ או rtsp://‎</string>
-    <string name="invalid_location">לא ניתן לנגן את המיקום %1$s.</string>
-    <string name="missing_location">פריט המדיה הזה מגיע מאמצעי אחסון שאינו זמין עוד ולא ניתן לנגן אותו.</string>
+    <string name="open_mrl_dialog_msg">נא למלא כתובת רשת כגון http://‎,‏ mms://‎, או rtsp://‎</string>
+    <string name="invalid_location">לא ניתן לנגן את המדיה תחת %1$s.</string>
+    <string name="missing_location">המדיה הזאת היא על התקן אחסון שאינו זמין ולא ניתן לנגן אותה.</string>
 
     <string name="search">חיפוש</string>
 

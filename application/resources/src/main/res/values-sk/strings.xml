@@ -260,11 +260,11 @@
     <string name="remote_keyboard_navigation">Navigovanie pomocou klávesnice</string>
 
     <string name="server_add_title">Pridať nový server do obľúbených</string>
-    <string name="server_domain_hint">Adresa servera (názov domény alebo IP)</string>
-    <string name="server_share_hint">Názov zdieľania v sieti (alebo IP adresa)</string>
+    <string name="server_domain_hint">Adresa servera (názov hostiteľa alebo IP adresa)</string>
+    <string name="server_share_hint">Adresa servera (názov hostiteľa alebo IP adresa)</string>
     <string name="server_folder_hint">Cesta k priečinku (voliteľne)</string>
     <string name="server_username_hint">Meno používateľa</string>
-    <string name="server_servername_hint">Názov servera, kvôli zjednodušeniu</string>
+    <string name="server_servername_hint">Zobrazovaný názov (voliteľne)</string>
     <string name="server_port">Port:</string>
     <string name="login">Prihlasovacie meno</string>
     <string name="password">Heslo</string>
@@ -277,9 +277,9 @@
     <string name="favorite_removed">Odstránené z obľúbených</string>
 
     <string name="streams">Streamy</string>
-    <string name="open_mrl_dialog_msg">Zadajte sieťovú adresu: napr. http://, mms:// alebo rtsp://</string>
-    <string name="invalid_location">Z umiestnenia %1$s nie je možné prehrávanie.</string>
-    <string name="missing_location">Toto médium je uložené na nedostupnom úložisku a nedá sa prehrať.</string>
+    <string name="open_mrl_dialog_msg">Zadajte sieťovú adresu, ako napríklad http://, mms:// alebo rtsp://</string>
+    <string name="invalid_location">Médium na %1$s nemožno prehrať.</string>
+    <string name="missing_location">Toto médium je uložené na nedostupnom úložisku a nemožno ho prehrať.</string>
 
     <string name="search">Vyhľadať</string>
 

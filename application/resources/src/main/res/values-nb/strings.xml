@@ -197,11 +197,8 @@
     <string name="remote_keyboard_navigation">Tastaturstyring</string>
 
     <string name="server_add_title">Legg til en ny tjener til favorittene</string>
-    <string name="server_domain_hint">Tjeneradresse (domenenavn eller IP)</string>
-    <string name="server_share_hint">Delt nettverksnavn (eller IP-adresse)</string>
     <string name="server_folder_hint">Mappesti (valgfritt)</string>
     <string name="server_username_hint">Brukernavn</string>
-    <string name="server_servername_hint">Servernavn, for enkelhets skyld</string>
     <string name="server_port">Port:</string>
     <string name="login">Pålogging</string>
     <string name="password">Passord</string>
@@ -214,10 +211,6 @@
     <string name="favorite_removed">Fjernet fra favoritter</string>
 
     <string name="streams">Strømmer</string>
-    <string name="open_mrl_dialog_msg">Skriv inn nettverksadresse: f.eks. https://, http://, mms:// eller rtsp://</string>
-    <string name="invalid_location">Plasseringen %1$s kan ikke avspilles.</string>
-    <string name="missing_location">Dette mediet er fra en utilgjengelig kilde og kan ikke spilles.</string>
-
     <string name="search">Søk</string>
 
 

@@ -223,16 +223,14 @@
     <string name="subtitle_select">자막 파일 선택하기</string>
     <string name="wait_before_sleep">현재 미디어 항목이 먼저 완료될 때까지 대기하기</string>
     <string name="reset_on_interaction">사용자 입력 시 타이머 재설정</string>
-    <string name="default_sleep_timer_summary">기본 슬립 타이머 설정을 구성합니다</string>
     <string name="video_player_remote">동영상 플레이어 리모컨</string>
     <string name="remote_keyboard_navigation">키보드 탐색</string>
 
     <string name="server_add_title">즐겨찾기에 새로운 서버 추가하기</string>
-    <string name="server_domain_hint">서버 주소 (도메인 이름 또는 IP)</string>
-    <string name="server_share_hint">네트워크 공유 이름 (또는 IP 주소)</string>
+    <string name="server_domain_hint">서버 주소(호스트 이름 또는 IP 주소)</string>
+    <string name="server_share_hint">서버 주소(호스트 이름 또는 IP 주소)</string>
     <string name="server_folder_hint">폴더 경로 (선택 사항)</string>
     <string name="server_username_hint">사용자명</string>
-    <string name="server_servername_hint">편의상, 서버 이름</string>
     <string name="server_port">포트:</string>
     <string name="login">로그인</string>
     <string name="password">비밀번호</string>
@@ -246,7 +244,7 @@
 
     <string name="streams">스트림</string>
     <string name="open_mrl_dialog_msg">네트워크 주소 입력: 예) http://, mms:// 또는 rtsp://</string>
-    <string name="invalid_location">%1$s 위치를 재생할 수 없습니다.</string>
+    <string name="invalid_location">%1$s 에 있는 미디어를 재생할 수 없습니다.</string>
     <string name="missing_location">이 미디어는 사용할 수 없는 저장소에 있으며 재생할 수 없습니다.</string>
 
     <string name="search">검색</string>
