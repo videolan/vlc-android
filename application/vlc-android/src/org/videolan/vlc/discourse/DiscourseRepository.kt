@@ -25,6 +25,10 @@ class DiscourseRepository(
         .add(KotlinJsonAdapterFactory())
         .build()
         .adapter<List<DiscourseAudio>>(Types.newParameterizedType(List::class.java, DiscourseAudio::class.java))
+    private val recentlyPlayedAudiosAdapter = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
+        .adapter<List<DiscourseAudio>>(Types.newParameterizedType(List::class.java, DiscourseAudio::class.java))
 
     suspend fun apiIndex() = api.index()
 
@@ -108,6 +112,18 @@ class DiscourseRepository(
             .apply()
     }
 
+    val recentlyPlayedAudios: List<DiscourseAudio>
+        get() = settings.getString(KEY_RECENTLY_PLAYED_AUDIOS, null)?.let { json ->
+            runCatching { recentlyPlayedAudiosAdapter.fromJson(json).orEmpty() }.getOrDefault(emptyList())
+        } ?: emptyList()
+
+    fun recordRecentlyPlayed(audio: DiscourseAudio) {
+        val recent = recentlyPlayedAudios.filterNot { it.id == audio.id }
+        settings.edit()
+            .putString(KEY_RECENTLY_PLAYED_AUDIOS, recentlyPlayedAudiosAdapter.toJson((listOf(audio) + recent).take(MAX_RECENTLY_PLAYED)))
+            .apply()
+    }
+
     private suspend fun <T> getWeeklyStats(
         key: String,
         adapter: com.squareup.moshi.JsonAdapter<List<T>>,
@@ -142,6 +158,7 @@ class DiscourseRepository(
         const val KEY_LIKED_DISCOURSES = "osho_api_liked_discourses"
         const val KEY_LIKED_AUDIOS = "osho_api_liked_audios"
         const val KEY_RECENTLY_PLAYED_DISCOURSES = "osho_api_recently_played_discourses"
+        const val KEY_RECENTLY_PLAYED_AUDIOS = "osho_api_recently_played_audios"
         const val KEY_CATALOGUE_LANGUAGE = "osho_api_catalogue_language"
         const val KEY_CATALOGUE_SORT = "osho_api_catalogue_sort"
         const val MAX_RECENTLY_PLAYED = 24

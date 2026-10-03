@@ -23,6 +23,7 @@ import org.videolan.vlc.discourse.DiscourseAudio
 import org.videolan.vlc.discourse.DiscourseRepository
 import org.videolan.vlc.discourse.playDiscourseAudio
 import org.videolan.vlc.discourse.resolveDiscourseUrl
+import org.videolan.vlc.discourse.toMediaWrapper
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.getAudioIconDrawable
 import org.videolan.vlc.gui.helpers.loadImage
@@ -73,11 +74,14 @@ class RecentlyPlayedDiscoursesFragment : Fragment(R.layout.recently_played_disco
         }
         lifecycleScope.launch {
             val tracks = withContext(Dispatchers.IO) {
-                Medialibrary.getInstance().history(Medialibrary.HISTORY_TYPE_LOCAL)
+                val repository = DiscourseRepository(requireContext())
+                val localTracks = Medialibrary.getInstance().history(Medialibrary.HISTORY_TYPE_LOCAL)
                     ?.toList()
                     ?.filter { MediaSessionBrowser.isMediaAudio(it) }
-                    ?.take(MAX_TRACKS)
                     .orEmpty()
+                (repository.recentlyPlayedAudios.map { it.toMediaWrapper(requireContext()) } + localTracks)
+                    .distinctBy { it.tag ?: it.uri }
+                    .take(MAX_TRACKS)
             }
             if (!isAdded || view !== this@RecentlyPlayedDiscoursesFragment.view) return@launch
             container.removeAllViews()
