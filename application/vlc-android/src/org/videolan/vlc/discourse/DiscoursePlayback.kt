@@ -45,7 +45,12 @@ fun MediaWrapper.discoursePlaybackIds(): DiscoursePlaybackIds? {
     return if (ids.size == 2 && ids.all(String::isNotBlank)) DiscoursePlaybackIds(ids[0], ids[1]) else null
 }
 
-fun Context.playDiscourseAudio(audio: DiscourseAudio) = MediaUtils.openMedia(this, audio.toMediaWrapper(this))
+fun Context.playDiscourseAudio(audio: DiscourseAudio) {
+    DiscourseRepository(this).recordRecentlyPlayed(audio)
+    MediaUtils.openMedia(this, audio.toMediaWrapper(this))
+}
 
-fun Context.playDiscourseAudios(audios: List<DiscourseAudio>, position: Int = 0) =
+fun Context.playDiscourseAudios(audios: List<DiscourseAudio>, position: Int = 0) {
+    audios.getOrNull(position)?.let { DiscourseRepository(this).recordRecentlyPlayed(it) }
     MediaUtils.openList(this, audios.map { it.toMediaWrapper(this) }, position)
+}

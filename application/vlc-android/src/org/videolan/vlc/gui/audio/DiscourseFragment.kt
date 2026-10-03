@@ -36,7 +36,6 @@ import org.videolan.vlc.discourse.Discourse
 import org.videolan.vlc.discourse.DiscourseAudio
 import org.videolan.vlc.discourse.DiscourseDownloadState
 import org.videolan.vlc.discourse.DiscourseDownloadStore
-import org.videolan.vlc.discourse.DiscourseRepository
 import org.videolan.vlc.discourse.playDiscourseAudios
 import org.videolan.vlc.discourse.shouldEnqueue
 import org.videolan.vlc.gui.BaseFragment
@@ -202,7 +201,6 @@ class DiscourseFragment : BaseFragment() {
                         }
                         tracks.adapter = TrackAdapter(value.tracks) { position ->
                             model.recordRecentlyPlayed(value.discourse)
-                            DiscourseRepository(requireContext()).recordRecentlyPlayed(value.tracks[position])
                             requireContext().playDiscourseAudios(value.tracks, position)
                         }
                     }
