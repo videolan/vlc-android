@@ -29,6 +29,7 @@ import org.videolan.tools.KEY_AUDIO_JUMP_DELAY
 import org.videolan.tools.KEY_AUDIO_LONG_JUMP_DELAY
 import org.videolan.tools.KEY_AUDIO_SHOW_BOOkMARK_BUTTONS
 import org.videolan.tools.KEY_AUDIO_SHOW_TRACK_NUMBERS
+import org.videolan.tools.KEY_HEADSET_JUMP_ON_PREVIOUS_NEXT
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -74,6 +75,9 @@ class PreferencesAudioControls : BasePreferenceFragment(), SharedPreferences.OnS
                 if (!sharedPreferences.getBoolean(KEY_AUDIO_SHOW_BOOkMARK_BUTTONS, true)) {
                     bookmarkMarkersPreference.isChecked = false
                 }
+            }
+            KEY_HEADSET_JUMP_ON_PREVIOUS_NEXT -> {
+                Settings.headsetJumpOnPreviousNext = sharedPreferences.getBoolean(KEY_HEADSET_JUMP_ON_PREVIOUS_NEXT, false)
             }
         }
         Settings.onAudioControlsChanged()
