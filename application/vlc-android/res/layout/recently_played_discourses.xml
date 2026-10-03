@@ -34,7 +34,7 @@
             android:layout_marginTop="8dp"
             android:clipToPadding="false"
             android:fillViewport="false"
-            android:horizontalScrollBarEnabled="false"
+            android:scrollbars="none"
             android:paddingHorizontal="10dp">
 
             <LinearLayout
@@ -65,7 +65,7 @@
             android:layout_marginTop="8dp"
             android:clipToPadding="false"
             android:fillViewport="false"
-            android:horizontalScrollBarEnabled="false"
+            android:scrollbars="none"
             android:paddingHorizontal="10dp">
 
             <LinearLayout
@@ -97,7 +97,7 @@
             android:layout_marginTop="8dp"
             android:clipToPadding="false"
             android:fillViewport="false"
-            android:horizontalScrollBarEnabled="false"
+            android:scrollbars="none"
             android:paddingHorizontal="10dp">
 
             <LinearLayout
@@ -129,7 +129,7 @@
             android:layout_marginTop="8dp"
             android:clipToPadding="false"
             android:fillViewport="false"
-            android:horizontalScrollBarEnabled="false"
+            android:scrollbars="none"
             android:paddingHorizontal="10dp">
 
             <LinearLayout
