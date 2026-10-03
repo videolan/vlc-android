@@ -12,6 +12,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import org.videolan.vlc.R
+import org.videolan.vlc.discourse.Discourse
 import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.util.findCurrentFragment
@@ -20,6 +21,12 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Filterable
     override val hasTabs = true
     private var tabLayout: TabLayout? = null
     private lateinit var viewPager: ViewPager2
+    private var pendingDiscourse: Discourse? = null
+    private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            showPendingDiscourse()
+        }
+    }
 
     override fun getTitle() = getString(R.string.music)
 
@@ -40,7 +47,23 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Filterable
             }
         }
         viewPager.isUserInputEnabled = false
+        viewPager.registerOnPageChangeCallback(pageChangeCallback)
         if (savedInstanceState == null) viewPager.setCurrentItem(LOCAL_TAB, false)
+    }
+
+    fun openDiscourse(discourse: Discourse) {
+        pendingDiscourse = discourse
+        viewPager.setCurrentItem(DISCOURSE_TAB, false)
+        tabLayout?.getTabAt(DISCOURSE_TAB)?.let { tabLayout?.selectTab(it) }
+        viewPager.post { showPendingDiscourse() }
+    }
+
+    private fun showPendingDiscourse() {
+        val discourse = pendingDiscourse ?: return
+        if (viewPager.currentItem != DISCOURSE_TAB) return
+        val fragment = currentFragment<DiscourseFragment>() ?: return
+        pendingDiscourse = null
+        fragment.openDiscourse(discourse)
     }
 
     override fun onStart() {
@@ -59,6 +82,12 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Filterable
         tabLayout?.removeOnTabSelectedListener(this)
         currentFragment<BaseFragment>()?.stopActionMode()
         super.onStop()
+    }
+
+    override fun onDestroyView() {
+        viewPager.unregisterOnPageChangeCallback(pageChangeCallback)
+        pendingDiscourse = null
+        super.onDestroyView()
     }
 
     override fun onTabSelected(tab: TabLayout.Tab) {

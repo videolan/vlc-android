@@ -112,6 +112,12 @@ class DiscourseViewModel(
         }
     }
 
+    fun openDiscourse(discourse: Discourse) {
+        loadJob?.cancel()
+        loadJob = null
+        select(discourse)
+    }
+
     fun retryDetail() = (mutableState.value as? State.Detail)?.discourse?.let { select(it, forceRefresh = true) }
 
     fun recordRecentlyPlayed(discourse: Discourse) = saveRecentlyPlayed(discourse)

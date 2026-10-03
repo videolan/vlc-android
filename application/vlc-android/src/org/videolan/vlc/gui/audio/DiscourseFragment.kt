@@ -68,6 +68,10 @@ class DiscourseFragment : BaseFragment() {
     }
 
     override fun getTitle() = getString(R.string.discourse)
+
+    fun openDiscourse(discourse: Discourse) {
+        model.openDiscourse(discourse)
+    }
     override fun onCreateActionMode(mode: ActionMode, menu: Menu) = false
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem) = false
     override fun onDestroyActionMode(mode: ActionMode) = Unit

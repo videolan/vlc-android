@@ -59,6 +59,7 @@ class RecentlyPlayedDiscoursesFragment : Fragment(R.layout.recently_played_disco
                     discourse.totalLikes
                 )
                 loadImage(card.findViewById(R.id.recently_played_discourse_image), discourse)
+                card.setOnClickListener { (parentFragment as? HomeFragment)?.openDiscourse(discourse) }
                 container.addView(card)
             }
         }
@@ -114,6 +115,7 @@ class RecentlyPlayedDiscoursesFragment : Fragment(R.layout.recently_played_disco
             card.findViewById<TextView>(R.id.recently_played_discourse_title).text = discourse.title
             card.findViewById<TextView>(R.id.recently_played_discourse_meta).text = getString(R.string.weekly_plays, discourse.plays)
             loadImage(card.findViewById(R.id.recently_played_discourse_image), discourse)
+            card.setOnClickListener { (parentFragment as? HomeFragment)?.openDiscourse(discourse) }
             discourseContainer.addView(card)
         }
 
