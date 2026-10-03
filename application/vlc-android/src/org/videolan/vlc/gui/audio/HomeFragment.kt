@@ -12,6 +12,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.discourse.Discourse
 import org.videolan.vlc.gui.BaseFragment
