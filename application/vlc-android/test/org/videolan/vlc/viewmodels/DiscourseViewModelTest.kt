@@ -12,9 +12,9 @@ class DiscourseViewModelTest : BaseTest() {
     @Test
     fun loadsPagesIncrementally() {
         val pages = mutableListOf<Pair<Int, Boolean>>()
-        val model = model { page, force ->
-            pages += page to force
-            page(listOf(discourse("page$page")), page, 2)
+        val model = model { number, force ->
+            pages += number to force
+            page(listOf(discourse("page$number")), number, 2)
         }
         model.load()
         assertEquals(listOf(1 to false), pages)
@@ -26,9 +26,9 @@ class DiscourseViewModelTest : BaseTest() {
     @Test
     fun refreshForcesEveryPageInTheNewSession() {
         val pages = mutableListOf<Pair<Int, Boolean>>()
-        val model = model { page, force ->
-            pages += page to force
-            page(listOf(discourse("page$page")), page, 2)
+        val model = model { number, force ->
+            pages += number to force
+            page(listOf(discourse("page$number")), number, 2)
         }
         model.load()
         model.refresh()
@@ -39,7 +39,7 @@ class DiscourseViewModelTest : BaseTest() {
     @Test
     fun normalSelectionUsesCacheAndRetryForcesTracks() {
         val loads = mutableListOf<Boolean>()
-        val model = DiscourseViewModel({ _, _ -> page(emptyList()) }) { _, force ->
+        val model = DiscourseViewModel({ _, _, _, _ -> page(emptyList()) }) { _, force ->
             loads += force
             if (loads.size == 1) throw IllegalStateException()
             emptyList()
@@ -68,8 +68,49 @@ class DiscourseViewModelTest : BaseTest() {
         assertEquals(listOf("first"), catalogue(model).map { it.title })
     }
 
+    @Test
+    fun filtersAreSentToEveryPageAndResetPagination() {
+        val requests = mutableListOf<List<Any?>>()
+        val model = DiscourseViewModel({ number, _, language, sort ->
+            requests += listOf(number, language, sort)
+            page(listOf(discourse("page$number")), number, 2)
+        }) { _, _ -> emptyList() }
+
+        model.load()
+        model.loadMore()
+        model.setFilters(DiscourseViewModel.LanguageFilter.HINDI, DiscourseViewModel.SortFilter.MOST_LIKED)
+        model.loadMore()
+
+        assertEquals(
+            listOf(
+                listOf(1, null, null),
+                listOf(2, null, null),
+                listOf(1, "hindi", "most_liked"),
+                listOf(2, "hindi", "most_liked")
+            ),
+            requests
+        )
+    }
+
+    @Test
+    fun restoredFiltersAndChangesArePersisted() {
+        val saved = mutableListOf<Pair<String?, String?>>()
+        val model = DiscourseViewModel(
+            { _, _, _, _ -> page(emptyList()) },
+            initialLanguage = "english",
+            initialSort = "most_liked",
+            saveFilters = { language, sort -> saved += language to sort }
+        ) { _, _ -> emptyList() }
+
+        assertEquals(DiscourseViewModel.LanguageFilter.ENGLISH, model.languageFilter)
+        assertEquals(DiscourseViewModel.SortFilter.MOST_LIKED, model.sortFilter)
+        model.setFilters(DiscourseViewModel.LanguageFilter.ALL, DiscourseViewModel.SortFilter.DEFAULT)
+
+        assertEquals(listOf(null to null), saved)
+    }
+
     private fun model(loader: suspend (Int, Boolean) -> PageResponse<Discourse>) =
-        DiscourseViewModel(loader) { _, _ -> emptyList() }
+        DiscourseViewModel({ page, force, _, _ -> loader(page, force) }) { _, _ -> emptyList() }
 
     private fun catalogue(model: DiscourseViewModel) =
         (model.state.value as DiscourseViewModel.State.Catalogue).discourses

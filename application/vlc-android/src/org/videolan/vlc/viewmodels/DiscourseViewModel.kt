@@ -15,9 +15,15 @@ import org.videolan.vlc.discourse.DiscourseRepository
 import org.videolan.vlc.discourse.PageResponse
 
 class DiscourseViewModel(
-    private val pageLoader: suspend (Int, Boolean) -> PageResponse<Discourse>,
+    private val pageLoader: suspend (Int, Boolean, String?, String?) -> PageResponse<Discourse>,
+    initialLanguage: String? = null,
+    initialSort: String? = null,
+    private val saveFilters: (String?, String?) -> Unit = { _, _ -> },
     private val trackLoader: suspend (String, Boolean) -> List<DiscourseAudio>
 ) : ViewModel() {
+    enum class LanguageFilter(val query: String?) { ALL(null), HINDI("hindi"), ENGLISH("english") }
+    enum class SortFilter(val query: String?) { DEFAULT(null), MOST_LIKED("most_liked") }
+
     sealed class State {
         object Idle : State()
         object Loading : State()
@@ -33,18 +39,22 @@ class DiscourseViewModel(
     private var nextPage = 1
     private var totalPages = 1
     private var forceRefreshPages = false
+    var languageFilter = LanguageFilter.values().firstOrNull { it.query == initialLanguage } ?: LanguageFilter.ALL
+        private set
+    var sortFilter = SortFilter.values().firstOrNull { it.query == initialSort } ?: SortFilter.DEFAULT
+        private set
 
     fun load() = load(refresh = false)
 
     fun refresh() = load(refresh = true)
 
-    private fun load(refresh: Boolean) {
-        val initialLoad = mutableState.value is State.Idle || mutableState.value is State.Error
+    private fun load(refresh: Boolean, reset: Boolean = false) {
+        val initialLoad = reset || mutableState.value is State.Idle || mutableState.value is State.Error
         if ((!refresh && !initialLoad) || loadJob?.isActive == true) return
         loadJob = viewModelScope.launch {
             if (initialLoad) mutableState.value = State.Loading
             try {
-                val response = pageLoader(1, refresh)
+                val response = pageLoader(1, refresh, languageFilter.query, sortFilter.query)
                 forceRefreshPages = refresh
                 nextPage = 2
                 totalPages = response.meta.totalPages
@@ -63,7 +73,7 @@ class DiscourseViewModel(
         if (nextPage > totalPages || loadJob?.isActive == true) return
         loadJob = viewModelScope.launch {
             try {
-                val response = pageLoader(nextPage, forceRefreshPages)
+                val response = pageLoader(nextPage, forceRefreshPages, languageFilter.query, sortFilter.query)
                 nextPage++
                 totalPages = response.meta.totalPages
                 cachedCatalogue = State.Catalogue(catalogue.discourses + response.data)
@@ -74,6 +84,17 @@ class DiscourseViewModel(
                 // Keep the current page visible; reaching the end retries on the next scroll.
             }
         }
+    }
+
+    fun setFilters(language: LanguageFilter, sort: SortFilter) {
+        if (language == languageFilter && sort == sortFilter) return
+        languageFilter = language
+        sortFilter = sort
+        saveFilters(language.query, sort.query)
+        loadJob?.cancel()
+        loadJob = null
+        cachedCatalogue = null
+        load(refresh = true, reset = true)
     }
 
     fun select(discourse: Discourse, forceRefresh: Boolean = false) {
@@ -103,7 +124,12 @@ class DiscourseViewModel(
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return DiscourseViewModel(
-                { page, forceRefresh -> repository.getDiscourses(page = page, forceRefresh = forceRefresh) },
+                { page, forceRefresh, language, sort ->
+                    repository.getDiscourses(page = page, language = language, sort = sort, forceRefresh = forceRefresh)
+                },
+                repository.catalogueLanguage,
+                repository.catalogueSort,
+                repository::saveCatalogueFilters,
                 { id, forceRefresh -> repository.getDiscourseAudios(id, forceRefresh).data }
             ) as T
         }

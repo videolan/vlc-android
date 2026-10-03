@@ -12,8 +12,32 @@ class DiscourseRepository(
 
     suspend fun apiIndex() = api.index()
 
-    suspend fun getDiscourses(page: Int = 1, search: String? = null, isAudioCleaned: Boolean? = null, forceRefresh: Boolean = false) =
-        api.discourses(page, search.cleanQuery(), isAudioCleaned, cacheControl(forceRefresh))
+    suspend fun getDiscourses(
+        page: Int = 1,
+        search: String? = null,
+        isAudioCleaned: Boolean? = null,
+        language: String? = null,
+        sort: String? = null,
+        forceRefresh: Boolean = false
+    ) = api.discourses(
+        page,
+        search.cleanQuery(),
+        isAudioCleaned,
+        language.cleanQuery(),
+        sort.cleanQuery(),
+        cacheControl(forceRefresh)
+    )
+
+    val catalogueLanguage: String?
+        get() = settings.getString(KEY_CATALOGUE_LANGUAGE, null)
+
+    val catalogueSort: String?
+        get() = settings.getString(KEY_CATALOGUE_SORT, null)
+
+    fun saveCatalogueFilters(language: String?, sort: String?) = settings.edit()
+        .putString(KEY_CATALOGUE_LANGUAGE, language)
+        .putString(KEY_CATALOGUE_SORT, sort)
+        .apply()
 
     suspend fun getDiscourseAudios(
         page: Int = 1,
@@ -51,5 +75,7 @@ class DiscourseRepository(
         const val KEY_USER_ID = "osho_api_user_id"
         const val KEY_LIKED_DISCOURSES = "osho_api_liked_discourses"
         const val KEY_LIKED_AUDIOS = "osho_api_liked_audios"
+        const val KEY_CATALOGUE_LANGUAGE = "osho_api_catalogue_language"
+        const val KEY_CATALOGUE_SORT = "osho_api_catalogue_sort"
     }
 }

@@ -31,6 +31,8 @@ interface DiscourseApi {
         @Query("page") page: Int = 1,
         @Query("search") search: String? = null,
         @Query("is_audio_cleaned") isAudioCleaned: Boolean? = null,
+        @Query("language") language: String? = null,
+        @Query("sort") sort: String? = null,
         @Header("Cache-Control") cacheControl: String? = null
     ): PageResponse<Discourse>
 

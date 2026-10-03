@@ -13,9 +13,12 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ArrayAdapter
+import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -45,6 +48,9 @@ class DiscourseFragment : BaseFragment() {
     private val model: DiscourseViewModel by viewModels { DiscourseViewModel.Factory(requireContext()) }
     private lateinit var grid: RecyclerView
     private lateinit var gridSwipe: SwipeRefreshLayout
+    private lateinit var catalogue: View
+    private lateinit var languageFilter: Spinner
+    private lateinit var sortFilter: Spinner
     private lateinit var detail: View
     private lateinit var tracks: RecyclerView
     private lateinit var tracksSwipe: SwipeRefreshLayout
@@ -73,6 +79,28 @@ class DiscourseFragment : BaseFragment() {
         downloads = DiscourseDownloadStore(requireContext())
         grid = view.findViewById(R.id.discourse_grid)
         gridSwipe = view.findViewById(R.id.discourse_grid_swipe)
+        catalogue = view.findViewById(R.id.discourse_catalogue)
+        languageFilter = view.findViewById(R.id.discourse_language_filter)
+        sortFilter = view.findViewById(R.id.discourse_sort_filter)
+        languageFilter.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, resources.getStringArray(R.array.discourse_languages)).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        sortFilter.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, resources.getStringArray(R.array.discourse_sorts)).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        languageFilter.setSelection(model.languageFilter.ordinal)
+        sortFilter.setSelection(model.sortFilter.ordinal)
+        val filtersChanged = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+            override fun onItemSelected(parent: AdapterView<*>?, item: View?, position: Int, id: Long) {
+                model.setFilters(
+                    DiscourseViewModel.LanguageFilter.values()[languageFilter.selectedItemPosition],
+                    DiscourseViewModel.SortFilter.values()[sortFilter.selectedItemPosition]
+                )
+            }
+        }
+        languageFilter.onItemSelectedListener = filtersChanged
+        sortFilter.onItemSelectedListener = filtersChanged
         detail = view.findViewById(R.id.discourse_detail)
         tracks = view.findViewById(R.id.discourse_tracks)
         tracksSwipe = view.findViewById(R.id.discourse_tracks_swipe)
@@ -123,6 +151,7 @@ class DiscourseFragment : BaseFragment() {
             is DiscourseViewModel.State.Catalogue -> {
                 backCallback.isEnabled = false
                 detail.isVisible = false
+                catalogue.isVisible = true
                 if (value.discourses.isEmpty()) showState(getString(R.string.discourse_empty))
                 else {
                     state.isVisible = false
@@ -134,6 +163,7 @@ class DiscourseFragment : BaseFragment() {
             }
             is DiscourseViewModel.State.Detail -> {
                 backCallback.isEnabled = true
+                catalogue.isVisible = false
                 grid.isVisible = false
                 detail.isVisible = true
                 val image = detail.findViewById<ImageView>(R.id.discourse_detail_image)
@@ -179,6 +209,7 @@ class DiscourseFragment : BaseFragment() {
         if (model.state.value !is DiscourseViewModel.State.Detail) {
             grid.isVisible = false
             gridSwipe.isVisible = false
+            catalogue.isVisible = false
             detail.isVisible = false
         }
     }

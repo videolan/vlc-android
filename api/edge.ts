@@ -19,6 +19,9 @@ await db.execute(`
     title TEXT NOT NULL,
     thumbnail_url TEXT,
     is_audio_cleaned INTEGER NOT NULL DEFAULT 0,
+    language TEXT NOT NULL DEFAULT '',
+    total_tracks INTEGER NOT NULL DEFAULT 0,
+    total_likes INTEGER NOT NULL DEFAULT 0,
     slug TEXT UNIQUE,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -38,6 +41,7 @@ await db.execute(`
     file_size INTEGER,
     mime_type TEXT,
     track_number INTEGER,
+    total_likes INTEGER NOT NULL DEFAULT 0,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -46,6 +50,18 @@ await db.execute(`
       ON DELETE CASCADE
   )
 `);
+
+for (const [table, column] of [
+	["discourse", "total_tracks"],
+	["discourse", "total_likes"],
+	["discourse", "language"],
+	["discourse_audio", "total_likes"],
+]) {
+	const columns = await db.execute(`PRAGMA table_info(${table})`);
+	if (!columns.rows.some((row) => row.name === column)) {
+		await db.execute(`ALTER TABLE ${table} ADD COLUMN ${column} INTEGER NOT NULL DEFAULT 0`);
+	}
+}
 
 await db.execute(`
   CREATE TABLE IF NOT EXISTS discourse_likes (
@@ -197,6 +213,8 @@ const normalizeDiscourse = (
  * ?page=1
  * ?search=dhyan
  * ?is_audio_cleaned=true
+ * ?language=hindi
+ * ?sort=most_liked
  */
 
 async function getDiscourses(
@@ -205,10 +223,15 @@ async function getDiscourses(
 	const page = parsePage(
 		url.searchParams.get("page"),
 	);
+	const sortByLikes = url.searchParams.get("sort") === "most_liked";
 
 	const search =
 		url.searchParams
 			.get("search")
+			?.trim() ?? "";
+	const language =
+		url.searchParams
+			.get("language")
 			?.trim() ?? "";
 
 	const cleanedRaw =
@@ -241,6 +264,10 @@ async function getDiscourses(
 		);
 
 		args.push(`%${search}%`);
+	}
+	if (language) {
+		where.push("language = ? COLLATE NOCASE");
+		args.push(language);
 	}
 
 	if (isAudioCleaned !== null) {
@@ -284,7 +311,7 @@ async function getDiscourses(
         SELECT *
         FROM discourse
         ${whereSql}
-        ORDER BY title COLLATE NOCASE ASC
+		ORDER BY ${sortByLikes ? "total_likes DESC, title COLLATE NOCASE ASC" : "title COLLATE NOCASE ASC"}
         LIMIT ?
         OFFSET ?
       `,
@@ -316,6 +343,7 @@ async function getDiscourses(
  * ?search=upanishad
  * ?discourse_name=Adhyatam Upanishad
  * ?language=hindi
+ * ?sort=most_liked
  *
  * OR:
  *
@@ -366,6 +394,7 @@ async function getDiscourseAudios(
 	const page = parsePage(
 		url.searchParams.get("page"),
 	);
+	const sortByLikes = url.searchParams.get("sort") === "most_liked";
 
 	const search =
 		url.searchParams
@@ -460,10 +489,9 @@ async function getDiscourseAudios(
         FROM discourse_audio
         ${whereSql}
 
-        ORDER BY
-          discourse_name COLLATE NOCASE ASC,
-          track_number ASC,
-          title COLLATE NOCASE ASC
+		ORDER BY ${sortByLikes
+			? "total_likes DESC, discourse_name COLLATE NOCASE ASC, track_number ASC, title COLLATE NOCASE ASC"
+			: "discourse_name COLLATE NOCASE ASC, track_number ASC, title COLLATE NOCASE ASC"}
 
         LIMIT ?
         OFFSET ?
@@ -545,7 +573,7 @@ async function likeDiscourse(
 	 * INSERT OR IGNORE makes this
 	 * endpoint idempotent.
 	 */
-	await db.execute({
+	const likeResult = await db.execute({
 		sql: `
       INSERT OR IGNORE INTO discourse_likes (
         discourse_id,
@@ -558,13 +586,17 @@ async function likeDiscourse(
 			userId,
 		],
 	});
+	if (likeResult.rowsAffected) await db.execute({
+		sql: `UPDATE discourse SET total_likes = total_likes + 1 WHERE id = ?`,
+		args: [discourseId],
+	});
 
 	const countResult =
 		await db.execute({
 			sql: `
-        SELECT COUNT(*) AS total
-        FROM discourse_likes
-        WHERE discourse_id = ?
+		SELECT total_likes AS total
+		FROM discourse
+		WHERE id = ?
       `,
 			args: [discourseId],
 		});
@@ -643,7 +675,7 @@ async function likeDiscourseAudio(
 		);
 	}
 
-	await db.execute({
+	const likeResult = await db.execute({
 		sql: `
       INSERT OR IGNORE INTO discourse_audio_likes (
         discourse_audio_id,
@@ -656,13 +688,25 @@ async function likeDiscourseAudio(
 			userId,
 		],
 	});
+	if (likeResult.rowsAffected) {
+		await db.batch([
+			{
+				sql: `UPDATE discourse_audio SET total_likes = total_likes + 1 WHERE id = ?`,
+				args: [audioId],
+			},
+			{
+				sql: `UPDATE discourse SET total_likes = total_likes + 1 WHERE id = (SELECT discourse_id FROM discourse_audio WHERE id = ?)`,
+				args: [audioId],
+			},
+		], "write");
+	}
 
 	const countResult =
 		await db.execute({
 			sql: `
-        SELECT COUNT(*) AS total
-        FROM discourse_audio_likes
-        WHERE discourse_audio_id = ?
+		SELECT total_likes AS total
+		FROM discourse_audio
+		WHERE id = ?
       `,
 			args: [audioId],
 		});

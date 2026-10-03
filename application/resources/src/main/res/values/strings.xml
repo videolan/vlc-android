@@ -39,6 +39,8 @@
     <string name="all">All</string>
     <string name="discourse">Discourse</string>
     <string name="discourse_empty">No discourses found</string>
+    <string name="discourse_language_filter">Language</string>
+    <string name="discourse_sort_filter">Sort</string>
     <string name="discourse_load_failed">Could not load discourses</string>
     <string name="discourse_tracks_failed">Could not load tracks</string>
     <string name="discourse_no_tracks">No tracks found</string>
@@ -916,6 +918,15 @@
     <string name="discourse_download_failed">Could not start download</string>
     <string name="discourse_counts">%1$d tracks · %2$d likes</string>
     <string name="discourse_likes">%1$d likes</string>
+    <string-array name="discourse_languages">
+        <item>All languages</item>
+        <item>Hindi</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="discourse_sorts">
+        <item>Default</item>
+        <item>Number of likes</item>
+    </string-array>
     <string name="ctx_player_video_track">Select video track</string>
     <string name="ctx_player_audio_track">Audio track</string>
     <string name="ctx_player_subs_track">Subtitles track</string>

@@ -4,11 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <org.videolan.vlc.gui.view.SwipeRefreshLayout
-        android:id="@+id/discourse_grid_swipe"
+    <LinearLayout
+        android:id="@+id/discourse_catalogue"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp">
+
+            <Spinner
+                android:id="@+id/discourse_language_filter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/discourse_language_filter" />
+
+            <Spinner
+                android:id="@+id/discourse_sort_filter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/discourse_sort_filter" />
+        </LinearLayout>
+
+        <org.videolan.vlc.gui.view.SwipeRefreshLayout
+            android:id="@+id/discourse_grid_swipe"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/discourse_grid"
@@ -17,7 +45,8 @@
             android:clipToPadding="false"
             android:padding="8dp"
             android:scrollbars="none" />
-    </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+        </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/discourse_detail"

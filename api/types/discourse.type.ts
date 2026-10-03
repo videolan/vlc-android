@@ -10,6 +10,9 @@ export type Discourse = {
 	title: string;
 	thumbnail_url: string | null;
 	is_audio_cleaned: boolean;
+	language: string;
+	total_tracks: number;
+	total_likes: number;
 	slug: string;
 	created_at: string;
 	updated_at: string;
@@ -27,6 +30,7 @@ export type DiscourseAudio = {
 	file_size: number | null;
 	mime_type: string | null;
 	track_number: number | null;
+	total_likes: number;
 	created_at: string;
 	updated_at: string;
 };
@@ -35,6 +39,8 @@ export type GetDiscoursesRequest = {
 	page?: number;
 	search?: string;
 	is_audio_cleaned?: boolean;
+	language?: DiscourseLanguage;
+	sort?: "most_liked";
 };
 
 export type GetDiscoursesResponse = {

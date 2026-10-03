@@ -7,11 +7,12 @@ const db = createClient({
 	authToken: process.env.BUNNY_DATABASE_AUTH_TOKEN,
 });
 
+const randomNumber = () => Math.floor(Math.random() * 1000) + 1;
 const DISCOURSE_URL =
-	"https://osho.b-cdn.net/seed_data/discourses.json";
+	`https://osho.b-cdn.net/seed_data/discourses.json?v=${randomNumber()}`;
 
 const DISCOURSE_AUDIO_URL =
-	"https://osho.b-cdn.net/seed_data/discourse_audio.json";
+	`https://osho.b-cdn.net/seed_data/discourse_audio.json?v=${randomNumber()}`;
 
 const BATCH_SIZE = 100;
 
@@ -20,6 +21,9 @@ type Discourse = {
 	title: string;
 	thumbnail_url: string | null;
 	is_audio_cleaned: boolean;
+	total_tracks: number;
+	total_likes: number;
+	language: string;
 	slug: string;
 };
 
@@ -35,6 +39,7 @@ type DiscourseAudio = {
 	file_size: number | null;
 	mime_type: string | null;
 	track_number: number | null;
+	total_likes: number;
 };
 
 const jsonResponse = (
@@ -72,6 +77,53 @@ async function fetchJson<T>(
 	}
 
 	return (await response.json()) as T;
+}
+
+async function createTables() {
+	await db.batch(
+		[
+			{
+				sql: `
+          CREATE TABLE IF NOT EXISTS discourse (
+            id TEXT PRIMARY KEY,
+            title TEXT NOT NULL,
+            thumbnail_url TEXT,
+            is_audio_cleaned INTEGER NOT NULL DEFAULT 0,
+            language TEXT NOT NULL,
+			total_tracks INTEGER NOT NULL DEFAULT 0,
+			total_likes INTEGER NOT NULL DEFAULT 0,
+            slug TEXT NOT NULL UNIQUE,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+          )
+        `,
+				args: [],
+			},
+			{
+				sql: `
+          CREATE TABLE IF NOT EXISTS discourse_audio (
+            id TEXT PRIMARY KEY,
+            discourse_id TEXT NOT NULL,
+            discourse_name TEXT NOT NULL,
+            discourse_thumbnail_url TEXT,
+            language TEXT NOT NULL,
+            title TEXT NOT NULL,
+            audio_url TEXT NOT NULL,
+            duration_seconds REAL,
+            file_size INTEGER,
+            mime_type TEXT,
+            track_number INTEGER,
+            total_likes INTEGER NOT NULL DEFAULT 0,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (discourse_id) REFERENCES discourse(id)
+          )
+        `,
+				args: [],
+			},
+		],
+		"write",
+	);
 }
 
 function validateDiscourses(
@@ -195,29 +247,32 @@ async function insertDiscourses(
 				.map(
 					(row) => ({
 						sql: `
-              INSERT INTO discourse (
-                id,
-                title,
-                thumbnail_url,
-                is_audio_cleaned,
-                slug,
-                created_at,
-                updated_at
-              )
-              VALUES (
-                ?, ?, ?, ?, ?,
-                CURRENT_TIMESTAMP,
-                CURRENT_TIMESTAMP
-              )
-            `,
+                            INSERT INTO discourse (
+                                id,
+                                title,
+                                thumbnail_url,
+                                is_audio_cleaned,
+                                language,
+                                total_tracks,
+                                total_likes,
+                                slug,
+                                created_at,
+                                updated_at
+                            )
+                            VALUES (
+                                       ?, ?, ?, ?, ?, ?, ?, ?,
+                                       CURRENT_TIMESTAMP,
+                                       CURRENT_TIMESTAMP
+                                   )
+						`,
 						args: [
 							row.id,
 							row.title,
-							row.thumbnail_url ??
-							null,
-							row.is_audio_cleaned
-								? 1
-								: 0,
+							row.thumbnail_url ?? null,
+							row.is_audio_cleaned ? 1 : 0,
+							row.language,
+							row.total_tracks ?? 0,
+							row.total_likes ?? 0,
 							row.slug,
 						],
 					}),
@@ -270,12 +325,13 @@ async function insertDiscourseAudios(
                 file_size,
                 mime_type,
                 track_number,
+                total_likes,
                 created_at,
                 updated_at
               )
               VALUES (
                 ?, ?, ?, ?, ?,
-                ?, ?, ?, ?, ?,
+                ?, ?, ?, ?, ?, ?,
                 ?,
                 CURRENT_TIMESTAMP,
                 CURRENT_TIMESTAMP
@@ -298,6 +354,7 @@ async function insertDiscourseAudios(
 							null,
 							row.track_number ??
 							null,
+							row.total_likes ?? 0,
 						],
 					}),
 				);
@@ -392,6 +449,8 @@ async function seedDatabase() {
 	console.log(
 		"Seed data validated.",
 	);
+
+	await createTables();
 
 	/**
 	 * Clear existing rows.
