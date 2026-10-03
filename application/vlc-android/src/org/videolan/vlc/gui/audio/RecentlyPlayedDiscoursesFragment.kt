@@ -93,8 +93,9 @@ class RecentlyPlayedDiscoursesFragment : Fragment(R.layout.recently_played_disco
             val discourses = withContext(Dispatchers.IO) { repository.getWeeklyDiscourseStats(forceRefresh) }
             val audios = withContext(Dispatchers.IO) { repository.getWeeklyAudioStats(forceRefresh) }
             if (!isAdded || view !== this@RecentlyPlayedDiscoursesFragment.view) return@launch
+            val root = view ?: return@launch
             renderStats(discourses, audios)
-            view.findViewById<org.videolan.vlc.gui.view.SwipeRefreshLayout>(R.id.all_stats_swipe).isRefreshing = false
+            root.findViewById<org.videolan.vlc.gui.view.SwipeRefreshLayout>(R.id.all_stats_swipe).isRefreshing = false
         }
     }
 
