@@ -39,7 +39,6 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
-import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.EXPORT_EQUALIZERS_FILE
 import org.videolan.tools.KEY_CURRENT_EQUALIZER_ID
@@ -96,7 +95,7 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
 
     fun updateEqualizer() {
         if (!settings.getBoolean(KEY_EQUALIZER_ENABLED, false))
-            PlaybackService.equalizer.value = MediaPlayer.Equalizer.create()
+            PlaybackService.equalizer.value = null
         else
             PlaybackService.equalizer.value = getCurrentEqualizer().getEqualizer()
     }
