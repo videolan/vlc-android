@@ -20,6 +20,10 @@
     <color name="orange800">#ff610a</color>
     <color name="orange900">#ff5014</color>
 
+    <color name="neon_cyan">#52FFE0</color>
+    <color name="neon_cyan_focus">#6652FFE0</color>
+    <color name="neon_cyan_20">#3352FFE0</color>
+
     <color name="red500transparent_10">#1aff0000</color>
     <color name="red500transparent25">#40ff0000</color>
     <color name="red500transparent">#b4ff0000</color>
@@ -56,7 +60,9 @@
     <color name="action_mode_light">#fff3e0</color>
 
 
-    <color name="dark_background">#131313</color>
+    <color name="dark_background">#0B1118</color>
+    <color name="dark_surface">#141F29</color>
+    <color name="dark_surface_border">#223341</color>
 
     <color name="playerbackground">#c0141414</color>
     <color name="playerbackground_invert">#c0ebebeb</color>
@@ -79,7 +85,7 @@
     <color name="grey900transparent">#80212121</color>
     <color name="grey200_transparent_20">#33eeeeee</color>
 
-    <color name="mini_player_dark">#121212</color>
+    <color name="mini_player_dark">#111A22</color>
     <color name="mini_visualizer">#BF141414</color>
 
     <color name="blacktransparent">#b4000000</color>

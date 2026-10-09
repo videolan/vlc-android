@@ -24,7 +24,7 @@
         <clip>
             <shape android:shape="rectangle">
                 <size android:height="4dp" />
-                <solid android:color="@color/orange800" />
+                <solid android:color="@color/neon_cyan" />
             </shape>
         </clip>
     </item>
