@@ -279,6 +279,7 @@
     <string name="streams">Streamy</string>
     <string name="open_mrl_dialog_msg">Zadejte síťovou adresu, například http://, mms:// nebo rtsp://</string>
     <string name="invalid_location">Médium z umístění „%1$s“ nelze přehrát.</string>
+    <string name="font_cache_building">Připravují se písma pro první přehrávání. Může to trvat několik sekund.</string>
     <string name="missing_location">Toto médium se nachází na nedostupném úložišti a nelze je přehrát.</string>
 
     <string name="search">Hledat</string>
@@ -1369,6 +1370,7 @@
     <string name="ra_play_on_device">Přehrát na zařízení</string>
     <string name="ra_browser_audio_not_found">Médium nebylo nalezeno nebo je nelze přehrát v prohlížeči</string>
     <string name="ra_browser_audio_unsupported_format">Zvukový formát není podporován ve vašem prohlížeči</string>
+    <string name="ra_upload_subtitle">Nahrát titulky</string>
 
     <string name="ra_onboarding_welcome_desc">Vítejte ve vzdáleném přístupu VLC pro Android\nPo zapnutí této funkce budete moci ovládat přehrávání na tomto zařízení a využívat další možnosti</string>
     <string name="ra_onboarding_how_title">Ovládání vašeho zařízení</string>

@@ -1338,6 +1338,7 @@
     <string name="ra_play_on_device">Reprodueix al dispositiu</string>
     <string name="ra_browser_audio_not_found">No s\'ha trobat el contingut multimèdia o no es pot reproduir al navegador</string>
     <string name="ra_browser_audio_unsupported_format">Aquest format d\'àudio no és compatible amb el vostre navegador</string>
+    <string name="ra_upload_subtitle">Puja el subtítol</string>
 
     <string name="ra_onboarding_welcome_desc">Benvingut a l\'accés remot del VLC per a Android\nEn habilitar-lo, podreu controlar la reproducció d\'aquest dispositiu i més</string>
     <string name="ra_onboarding_how_title">Controla el vostre dispositiu</string>

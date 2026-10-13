@@ -1,4 +1,3 @@
-# 
 # Translators:
 # Nicolas POMEPUY <npomepuy.videolabs@gmail.com>, 2025
 # 

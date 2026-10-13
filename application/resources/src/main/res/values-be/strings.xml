@@ -14,7 +14,9 @@
     <string name="sortby_length">Працягласць</string>
     <string name="sortby_date">Дата</string>
     <string name="sortby_last_modified_date">Час дадавання</string>
+    <string name="sortby_insertion">Дата дадавання</string>
     <string name="sortby_date_last_modified">Час дадавання</string>
+    <string name="sortby_date_insertion">Дата дадавання</string>
     <string name="sortby_date_release">Дата выпуску</string>
     <string name="sortby_media_number">Нумар</string>
     <string name="sortby_number">№ дарожкі</string>
@@ -38,12 +40,14 @@
     </plurals>
 
     <string name="play">Прайграць</string>
+    <string name="quick_play">Хутка прайграць</string>
     <string name="playback">Прайграванне</string>
     <string name="playback_controls">Кіраванне прайграваннем</string>
     <string name="medialibrary_scan">Сканаванне медыятэкі</string>
     <string name="play_from_start">Граць спачатку</string>
     <string name="play_as_audio">Прайграць як аўдыя</string>
     <string name="play_as_video">Прайграць як відэа</string>
+    <string name="return_to_video">Працяглае націсканне на вокладку, каб аднавіць відэа</string>
     <string name="video_app_switch_title">Рэжымы «У фоне» і «У акне»</string>
     <string name="video_app_switch_summary">Паводзіны VLC пры пераключэнні на іншую праграму падчас прайгравання відэа</string>
     <string name="play_pip_title">Прайграваць відэа ў акне</string>
@@ -54,6 +58,8 @@
     <string name="append_all">Дадаць усё</string>
     <string name="resume_playback_short_title">Узнавіць прайграванне</string>
     <string name="resume_playback_long_title">Узнавіць прайграванне апошняга плэйліста</string>
+    <string name="resume_audio_playback_short_title">Узнавіць прайграванне аўдыя</string>
+    <string name="resume_audio_playback_long_title">Узнавіць прайграванне апошняга плэйліста з аўдыя</string>
     <string name="resume_playback_error">Няма што ўзнаўляць</string>
     <string name="delete">Выдаліць</string>
     <string name="remove">Выдаліць</string>
@@ -61,6 +67,16 @@
     <string name="set_song_question">Зрабіць «%1$s» мелодыяй выкліку?</string>
     <string name="info">Звесткі</string>
     <string name="confirm_delete">Выдаліць файл «%1$s»?</string>
+    <string name="equalizer_overwrite_warning">Эквалайзер ужо існуе</string>
+    <string name="overwrite">Перазапісаць</string>
+    <string name="eq_cannot_overwrite">Немагчыма перазапісаць стандартны эквалайзер</string>
+    <string name="equalizer_name">Назва эквалайзера</string>
+    <string name="equalizer_deleted">Эквалайзер выдалены</string>
+    <string name="invalid_equalizer_file">Памылковы файл эквалайзера</string>
+    <string name="confirm_delete_eq">Сапраўды выдаліць канфігурацыю?</string>
+    <string name="confirm_delete_vlc_eq">Сапраўды схаваць канфігурацыю?\nЯе можна будзе аднавіць у наладах эквалайзера.</string>
+    <string name="confirm_replace_playlist">Сапраўды замяніць плэйліст «%1$s»?</string>
+    <string name="invalid_settings_file">Памылковы файл налад</string>
     <string name="confirm_delete_message">Гэтае дзеянне нельга скасаваць.</string>
     <string name="confirm_delete_album">Выдаліць альбом «%1$s»?</string>
     <string name="confirm_delete_several_media">Выдаліць файлы «%1$d»?</string>
@@ -143,6 +159,14 @@
     <string name="video">Відэа</string>
     <string name="bookmarks">Закладкі</string>
     <string name="equalizer">Эквалайзер</string>
+    <string name="import_equalizer">Імпартаваць эквалайзер</string>
+    <string name="equalizer_exported">Эквалайзер(ы) экспартаваны ў %s</string>
+    <string name="equalizer_copy_template">(копія%s)</string>
+    <string name="new_equalizer_copy_template">Новы эквалайзер%s</string>
+    <string name="show_all">Паказаць усе</string>
+    <string name="hide_all">Схаваць усе</string>
+    <string name="export_all">Экспартаваць усе</string>
+    <string name="import_all">Імпартаваць усе</string>
     <string name="all_albums">Усе альбомы</string>
     <string name="genres">Жанры</string>
     <string name="playlists">Плэйлісты</string>
@@ -152,6 +176,7 @@
     <string name="please_wait">Чакайце…</string>
     <string name="nomedia">Медыяфайлы не знойдзены. Перадайце на прыладу якія-небудзь файлы або змяніце налады.</string>
     <string name="nofav">Абранага не знойдзена.</string>
+    <string name="empty_search">Для запыту %s нічога не знойдзена</string>
     <string name="noplaylist">Плэйлісты не знойдзены</string>
     <string name="nosubfolder">Няма падпапак</string>
     <string name="directorynotfound">Каталог «%1$s» не знойдзены.</string>
@@ -177,6 +202,7 @@
     <string name="surface_fit_screen">Падагнаць пад экран</string>
     <string name="surface_fill">Запоўніць</string>
     <string name="surface_original">Па цэнтры</string>
+    <string name="resize_tip">Працяглае націсканне, каб паказаць больш параметраў</string>
     <string name="unseekable_stream">Паток без падтрымкі перамотвання</string>
     <string name="refresh">Абнавіць</string>
     <string name="track_audio">Аўдыядарожка</string>
@@ -192,6 +218,8 @@
     <string name="sound_off">Гуку няма</string>
     <string name="brightness">Яркасць</string>
     <string name="advanced">Дадатковыя параметры</string>
+    <string name="audio_boost_warning">Правядзіце ўверх яшчэ раз, каб павялічыць больш за 100%</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 канал\n</item>
         <item quantity="few">%1$d каналы\n</item>
@@ -204,11 +232,27 @@
     <string name="track_framerate_info">Частата кадраў: %1$.3f\n</string>
 
     <string name="playback_speed">Хуткасць прайгравання</string>
+    <string name="warning_stream_speed">Пры павелічэнні хуткасці прайгравання патокаў вышэй за 1 можа быць балбатанне.</string>
+    <string name="playback_speed_this_video">Гэта відэа</string>
+    <string name="playback_speed_this_track">Гэта дарожка</string>
+    <string name="playback_speed_all_videos">Усе відэа</string>
+    <string name="playback_speed_all_tracks">Усе дарожкі</string>
+    <string name="playback_speed_explanation_all_videos">Хуткасць будзе ўжыта да ўсіх відэа. \nХуткасць прайгравання для асобных відэа будзе ігнаравацца.</string>
+    <string name="playback_speed_explanation_all_tracks">Хуткасць будзе ўжыта да ўсіх дарожак. \nХуткасць прайгравання для асобных дарожак будзе ігнаравацца.</string>
+    <string name="playback_speed_explanation_all_incognito">Задзейнічаны прыватны рэжым. Хуткасць вернецца да нармальнай пасля выхаду з прыватнага рэжыму.</string>
+    <string name="playback_speed_explanation_one_video">Хуткасць будзе ўжыта да гэтага відэа</string>
+    <string name="playback_speed_explanation_one_track">Хуткасць будзе ўжыта да гэтай дарожкі</string>
+    <string name="audio_playback_speed_global">Выкарыстоўваць глабальную хуткасць прайгравання</string>
+    <string name="audio_playback_speed_global_summary">Выкарыстоўваць глабальная хуткасць прайгравання для ўсіх дарожак. Хуткасць прайгравання асобных дарожак будзе ігнаравацца.</string>
+
     <string name="sleep_title">Таймер сну</string>
     <string name="sleep_in">Заснуць праз</string>
     <string name="jump_to_time">Пераход да часу</string>
     <string name="subtitle_select">Выбраць файл субтытраў</string>
+    <string name="video_player_remote">Аддаленая кіраванне відэаплэерам</string>
     <string name="server_add_title">Дадаць у Абраныя сервер</string>
+    <string name="server_domain_hint">Адрас сервера (даменнае імя або IP-адрас)</string>
+    <string name="server_share_hint">Адрас сервера (даменнае імя або IP-адрас)</string>
     <string name="server_folder_hint">Шлях да папкі (неабавязковы)</string>
     <string name="server_username_hint">Імя карыстальніка</string>
     <string name="server_port">Порт:</string>
@@ -223,6 +267,7 @@
     <string name="favorite_removed">Выдалена з абраных</string>
 
     <string name="streams">Патокі</string>
+    <string name="open_mrl_dialog_msg">Сеткавы адрас, http://, mms:// або rtsp://</string>
     <string name="search">Пошук</string>
 
 
@@ -231,6 +276,8 @@
     <string name="video_resume_playback_title">Гісторыя чаргі прайгравання відэа</string>
     <string name="video_resume_playback_summary">Дазваляе захоўваць чаргу прайгравання відэа, каб узнаўляць яе пазней</string>
     <string name="audio_resume_playback_title">Гісторыя чаргі прайгравання аўдыя</string>
+    <string name="audio_resume_playback_warning">Адключэнне гісторыі чаргі прайгравання аўдыя можа прывесці да нязручных наступстваў у паводзінах праграмы. Пасля адключэння магчыма не атрымаецца ўзнаўляць прайграванне праз\n\n\t- Bluetooth-прыладу\n\t-  віджат\n\t-  апавяшчэнні пра мультымедыя</string>
+    <string name="playback_history_warning">Адключэнне гісторыі прайгравання схавае гісторыю, захаванне пазіцыі прайгравання і метку аб праглядзе. Праграма працягне захоўваць гісторыю дзеянняў, якая стане бачнай пасля ўключэння.\nКалі вы хочаце цалкам спыніць захаванне дзеянняў, выкарыстоўвайце прыватны рэжым. \nТаксама гісторыю можна сцерці на экране гісторыі або ў раздзеле пашыраных налад.</string>
     <string name="audio_resume_playback_summary">Дазваляе захоўваць чаргу прайгравання аўдыя, каб узнаўляць яе пазней</string>
 
     <string name="play_button">Кнопка прайгравання</string>
@@ -246,6 +293,7 @@
     <string name="lock">Заблакаваць</string>
     <string name="tap">Націсніце, каб праглядзець</string>
     <string name="tap_to_remove">Націсніце, каб выдаліць</string>
+    <string name="tap_to_rearrange">Націсніце, каб змяніць парадак</string>
     <string name="tap_to_previous_next">Націсніце, каб перайсці да папярэдняга/наступнага</string>
     <string name="lock_orientation">Арыентацыя</string>
     <string name="lock_orientation_description">Націсніце, каб заблакіраваць/разблакіраваць арыентацыю</string>
@@ -290,11 +338,15 @@
 
     <!-- Preferences -->
     <string name="preferences">Налады</string>
+    <string name="more_preferences">Яшчэ налады</string>
     <string name="directories_summary">Выберыце каталогі для ўключэння ў медыятэку</string>
     <string name="add_custom_path">Дадаць уласны шлях</string>
     <string name="add_custom_path_description">Увядзіце дадатковы каталог для сканавання:</string>
     <string name="remove_custom_path">Выдаліць уласны шлях</string>
     <string name="group_ban_folder">Выключыць папку з медыятэкі</string>
+    <string name="ban_folder">Выключыць папку</string>
+    <string name="ban_folder_explanation">Выключэнне папкі азначае, што вы не ўбачыце змесціва з яе ў раздзелах праграмы «відэа» і «аўдыя», аднак доступ праз агляд захаваецца.\nКаб прыбраць папку з выключэнняў, перайдзіце ў налады, %s і зрабіце працяглае націсканне на папку.</string>
+
     <string name="hardware_acceleration">Апаратнае паскарэнне</string>
     <string name="hardware_acceleration_summary">Адключана: лепшая стабільнасць\nДэкадаванне: можа палепшыць прадукцыйнасць\nПоўнае: можа дадаткова палепшыць прадукцыйнасць</string>
     <string name="hardware_acceleration_disabled">Адключана</string>
@@ -334,13 +386,19 @@
     <string name="video_min_group_length_disable">Не групаваць відэа</string>
     <string name="video_min_group_length_folder">Групаваць па папках</string>
     <string name="video_min_group_length_name">Групаваць па назвах</string>
+    <string name="video_transition_title">Пераходы відэа</string>
+    <string name="video_transition_summary">Паказваць загаловак новага відэа пры пераходзе</string>
     <string name="media_seen">Пазначаць прагледжаныя відэа</string>
     <string name="media_seen_summary">Пазначаць відэа прагледжаным, калі яно прайгравалася да канца</string>
     <string name="force_play_all_summary">Прайграваць усе відэа, пачаўшы з выбранага</string>
     <string name="force_play_all_audio_summary">Прайграваць усе аўдыя, пачаўшы з выбранага</string>
+    <string name="force_play_all_title">Рэжым плэйліста відэа</string>
+    <string name="force_play_all_audio_title">Рэжым плэйліста аўдыя</string>
+    <string name="save_brightness_summary">Захоўваць узровень яркасці паміж відэа</string>
     <string name="save_brightness_title">Захоўваць узровень яркасці</string>
     <string name="save_audiodelay_summary">Захоўваць затрымку гуку асобна для кожнага відэа</string>
     <string name="save_audiodelay_title">Захоўваць затрымку гуку</string>
+    <string name="video_show_orientation_button">Паказваць кнопку змянення арыентацыі</string>
     <string name="enable_brightness_gesture_title">Змяненне яркасці жэстам</string>
     <string name="enable_brightness_gesture_summary">Кіраванне яркасцю жэстам падчас прайгравання відэа</string>
     <string name="enable_volume_gesture_title">Змяненне гучнасці жэстам</string>
@@ -349,6 +407,11 @@
     <string name="enable_seek_buttons_summary">Паказваць кнопкі перамотвання назад і наперад у відэапрайгравальніку</string>
     <string name="enable_android_auto_speed_buttons">Хуткасць прайгравання ў Android Auto</string>
     <string name="enable_android_auto_seek_buttons">Кнопкі перамотвання ў Android Auto</string>
+    <string name="artist">Выканаўца</string>
+    <string name="album">Альбом</string>
+    <string name="track">Дарожка</string>
+    <string name="genre">Жанр</string>
+    <string name="playlist">Плэйліст</string>
     <string name="enable_double_tap_seek_title">Перамотванне падвойным націсканнем</string>
     <string name="enable_double_tap_seek_summary">Падвойнае націсканне па краі экрана перамотвае на 10 секунд</string>
     <string name="enable_double_tap_play_title">Прайграванне/паўза падвойным націсканнем</string>
@@ -366,9 +429,15 @@
     <string name="enable_tap_and_hold_fastplay_summary">Націсніце і трымайце, каб павялічыць хуткасць прайгравання</string>
     <string name="fastplay_speed_title">Хуткасць паскоранага прайгравання</string>
     <string name="fastplay_title">Прайграванне на %sx</string>
+    <string name="show_chapter_buttons">Паказваць кнопкі раздзелаў</string>
+    <string name="show_chapter_buttons_summary">Паказваць кнопкі для пераходу паміж раздзеламі</string>
+
     <string name="subtitles_prefs_category">Субтытры</string>
     <string name="subtitles_size_title">Памер субтытраў</string>
     <string name="subtitles_presets_title">Наборы налад для субтытраў</string>
+    <string name="subtitles_size_nano">нана</string>
+    <string name="subtitles_size_micro">мікра</string>
+    <string name="subtitles_size_smallest">маленечкі</string>
     <string name="subtitles_size_small">маленькі</string>
     <string name="subtitles_size_normal">звычайны</string>
     <string name="subtitles_size_big">вялікі</string>
@@ -380,7 +449,9 @@
     <string name="subtitles_size">Памер</string>
     <string name="subtitles_background_color_title">Фон субтытраў</string>
     <string name="subtitles_background_title">Фон субтытраў</string>
+    <string name="subtitles_outline_title">Контур субтытраў</string>
     <string name="subtitles_shadow_title">Цень субтытраў</string>
+    <string name="subtitles_decoration_title">Афармленне субтытраў</string>
     <string name="subtitle_decoration_none">Няма</string>
     <string name="subtitle_decoration_shadow">Цень</string>
     <string name="subtitle_decoration_outline">Контур</string>
@@ -397,8 +468,15 @@
 
     <string name="audio_prefs_category">Аўдыя</string>
     <string name="lockscreen_cover_title">Вокладка на экране блакіравання</string>
+    <string name="lockscreen_cover_summary">Калі ёсць вокладка альбома, зрабіць яе фонам экрана блакіравання</string>
     <string name="show_seek_in_compact_notif_title">Кнопкі перамотвання ў панэлі апавяшчэнняў</string>
     <string name="show_seek_in_compact_notif_summary">Паказваць кнопкі перамотвання назад і наперад у відэа ў кампактным інтэрфейсе кіравання</string>
+    <string name="list_title_ellipsize">Скарачэнне назвы ў спісе</string>
+    <string name="list_title_ellipsize_default">Прадвызначана</string>
+    <string name="list_title_ellipsize_left">Злева</string>
+    <string name="list_title_ellipsize_right">Справа</string>
+    <string name="list_title_ellipsize_middle">Усярэдзіне</string>
+    <string name="list_title_ellipsize_marquee">Бягучы радок</string>
     <string name="audio_boost_title">Узмацненне гучнасці</string>
     <string name="audio_boost_summary">Дазволіць павялічваць гучнасць да 200%</string>
     <string name="headset_prefs_category">Навушнікі</string>
@@ -419,6 +497,7 @@
     <string name="casting_category">Трансляванне</string>
     <string name="remote_access">Аддалены доступ</string>
     <string name="remote_access_version_title">Версія аддаленага доступу</string>
+    <string name="remote_access_hash_title">Кантрольная сума аддаленага доступу</string>
     <string name="remote_access_status">Стан сервера</string>
     <string name="remote_access_status_summary">Націсніце, каб паглядзець стан сервера</string>
     <string name="remote_access_connections">Злучэнні</string>
@@ -426,6 +505,7 @@
     <string name="remote_access_active">Аддалены доступ задзейнічаны</string>
     <string name="remote_access_notification">Аддалены доступ задзейнічаны на %s</string>
     <string name="remote_access_notification_stopped">Аддалены доступ спынены</string>
+    <string name="remote_access_notification_connecting">Падлучэнне аддаленага доступу</string>
     <string name="remote_access_notification_error">Памылка аддаленага доступу</string>
     <string name="remote_access_notification_stopping">Спыненне аддаленага доступу</string>
     <string name="remote_access_notification_not_init">Запуск аддаленага доступу</string>
@@ -436,7 +516,10 @@
     <string name="remote_access_file_browser_content">Файлавы менеджар</string>
     <string name="remote_access_network_browser_content">Сеткавы агляд</string>
     <string name="remote_access_playback_control">Кіраванне прайграваннем</string>
+    <string name="remote_access_logs">Доступ да файлаў журнала</string>
     <string name="casting_switch_title">Бесправадное трансляванне</string>
+    <string name="casting_audio_only">Толькі гук</string>
+    <string name="casting_audio_only_summary">Толькі гук, без відэа</string>
     <string name="casting_conversion_quality_title">Якасць пераўтварэння</string>
     <string name="casting_conversion_quality_summary">Выберыце якасць пераўтварэння відэа пры трансляванні на аддалены экран</string>
     <string name="casting_quality_high">Высокая</string>
@@ -478,6 +561,7 @@
     <string name="dump_app_db">Выгрузіць базу даных праграмы</string>
     <string name="dump_media_db_summary">Скапіяваць базу даных ў корань знешняга сховішча</string>
     <string name="clear_media_db">Ачысціць медыятэку</string>
+    <string name="clear_media_database_summary">Ачышчае базу даных, каб пачаць нанава</string>
     <string name="clear_app_data">Ачысціць даныя праграмы</string>
     <string name="clear_app_data_summary">Ачышчае даныя VLC для Android</string>
     <string name="clear_history">Ачысціць гісторыю</string>
@@ -487,6 +571,7 @@
     <string name="resume_playback_title">Узнаўляць прайграванне пасля выкліку</string>
     <string name="resume_playback_summary">Інакш, заставацца прыпыненым</string>
     <string name="blurred_cover_background_title">Размыццё вокладкі</string>
+    <string name="blurred_cover_background_summary">Размытая вокладка на фоне пры прайграванні аўдыя</string>
     <string name="force_shuffle_title">Прымусовае перамешванне</string>
     <string name="force_shuffle_summary">Прымусовае перамешванне калі пачынаецца прайграванне</string>
     <string name="network_caching_popup">Гэта значэнне павінна быць ад 0 да 60000 мс</string>
@@ -515,8 +600,14 @@
     <string name="custom_libvlc_options_invalid">Недапушчальныя параметры libVLC</string>
     <string name="dav1d_thread_number">Нумар патоку Dav1d </string>
     <string name="dav1d_thread_number_invalid">Няправільны нумар патоку (>=1)</string>
+    <string name="browser_quick_play">Меню «Хутка прайграць» у Аглядзе</string>
+    <string name="browser_quick_play_summary">Дадаць пункт «Хуткае прайграванне» ў меню рэжыму Агляд. Медыяфайлы будуць загружацца хутчэй, але некаторыя метаданыя могуць адсутнічаць</string>
+    <string name="browser_quick_play_default">Хуткае прайграванне, як прадвызначанае дзеянне</string>
+    <string name="browser_quick_play_default_summary">Калі задзейнічана, пры націсканні на аб\'ект у браўзеры, ён будзе запускацца праз хуткае прайграванне</string>
+
     <string name="serious_crash">На жаль, здарылася сур’ёзная памылка і VLC давялося закрыцца.</string>
     <string name="help_us_send_log">Дапамажыце палепшыць VLC, адправіўшы гэтую справаздачу:</string>
+    <string name="ml_crash_send">Медыятэка толькі што зламалася. Адпраўце нам фалы журналаў, каб памачы разабрацца з прычынай.</string>
     <string name="restart_vlc">Перазапусціць VLC</string>
     <string name="send_log">Адправіць журнал</string>
     <string name="sending_log">Адпраўка журнала…</string>
@@ -529,6 +620,8 @@
     <string name="no_internet_connection">Праверце злучэнне з інтэрнетам</string>
     <string name="retry">Паўтарыць</string>
     <string name="open_subs_download_error">OpenSubtitles зараз недаступны. Паўтарыце спробу пазней</string>
+    <string name="open_subs_download_link_error">Узнікла праблема з OpenSubtitles. Паўтарыце спробу пазней</string>
+
     <string name="network_browsing">Лакальная сетка</string>
     <string name="browsing">Агляд</string>
 
@@ -539,6 +632,8 @@
     <string name="network_shares_discovery">Пошук сеткавых рэсурсаў</string>
     <string name="network_empty">Каталог пусты.</string>
     <string name="network_connection_needed">Няма злучэння з лакальнай сеткай.</string>
+    <string name="network_disabled">Агляд сеткі адключаны</string>
+    <string name="browse_network">Агляд сеткі</string>
     <string name="search_hint">Пошук медыяфайлаў</string>
     <string name="search_in_list_hint">Пошук у гэтым спісе</string>
     <string name="search_global">Пошук ва ўсёй медыятэцы</string>
@@ -558,7 +653,9 @@
 
     <!--What's new-->
     <string name="whats_new_title">Што новага ў VLC для Android %s</string>
-    <!--    update-->
+    <string name="show_in_settings">Паказаць у наладах</string>
+
+<!--    update-->
     <string name="update_title">Даступна абнаўленне</string>
     <string name="install_nightly_title">Усталяваць начную зборку</string>
     <string name="update_text">Даступны начны выпуск VLC для Android!\n\nВы бачыце гэта паведамленне, бо карыстаецеся начной зборкай.</string>
@@ -589,14 +686,22 @@
     <string name="widget_old_description_start">Добрыя навіны! Мы выпусцілі палепшаныя віджэты.\nПавысілася хуткасць узаемадзеяння і больш налад выгляду</string>
     <string name="whats_next">Што далей?</string>
     <string name="click_here">Націсніце, каб даведацца больш.</string>
+    <string name="allow_storage_access_title">Дазволіць VLC мець доступ да відэа- і аўдыяфайлаў</string>
+    <string name="allow_storage_access_description">VLC патрабуецца гэты дазвол, каб мець доступ да медыяфайлаў на гэтай прыладзе.</string>
+    <string name="partial_content">VLC не мае доступу да ўсіх вашых файлаў</string>
+    <string name="partial_content_description">Пачынаючы з Android 11, праграмам патрабуецца спецыяльны дазвол на доступ да ўсіх файлаў прылады.\n\n%s</string>
     <string name="never_ask_again">Больш не пытаць</string>
     <string name="never_show_again">Больш ніколі не паказваць, нават у новых версіях</string>
     <string name="allow_settings_access_ringtone_title">Дазволіць VLC змяняць мелодыю выкліку</string>
+    <string name="allow_settings_access_ringtone_description">VLC патрабуецца гэты дазвол, каб змяняць мелодыю выкліку.</string>
     <string name="allow_settings_access_brightness_title">Дазволіць VLC змяняць рэжым яркасці</string>
     <string name="allow_settings_access_brightness_description">VLC патрабуецца гэты дазвол, каб змяняць рэжым яркасці.</string>
     <string name="allow_draw_overlays_title">Дазволіць VLC выводзіць акно па-над астатнімі праграмамі</string>
     <string name="allow_sdraw_overlays_description">VLC патрабуецца гэты дазвол, каб паказваць відэа ў акне па-над астатнімі праграмамі.</string>
+    <string name="allow_pip">Дазволіць прайгравальніку VLC запускаць відэа ў акне</string>
+    <string name="allow_pip_description">VLC патрабуецца дазвол на вываду відэа ў акне.</string>
     <string name="permission_ask_again">Даць дазвол</string>
+    <string name="pick_file">Выбраць файл</string>
     <string name="permission_not_granted">Дазвол не атрыманы</string>
     <string name="exit_app">Закрыць VLC</string>
     <string name="exit_app_msg">Сапраўды закрыць VLC?</string>
@@ -637,6 +742,7 @@
     <string name="episodes">серыі</string>
     <string name="movies">фільмы</string>
     <string name="videos">відэа</string>
+    <string name="default_action_videos">Відэа</string>
     <string name="videos_all">Усе відэа</string>
     <string name="clear_playback_history">Ачысціць гісторыю прайгравання</string>
     <string name="ml_scanning">Пошук медыяфайлаў</string>
@@ -733,6 +839,8 @@
     <string name="create">Стварыць</string>
     <string name="resume_card_message">Узнавіць прайграванне %1$s?</string>
     <string name="misc">Іншае</string>
+    <string name="popup_force_legacy_title">Выкарыстоўваць карыстальніцкае акно для рэжыму «Карцінка ў карцінцы»</string>
+    <string name="popup_force_legacy_summary">Выкарыстоўваць карыстальніцкае акно са змяняльным памерам для рэжыму «Карцінка ў карцінцы»</string>
     <string name="jump_to">Перайсці да</string>
     <string name="show_video_thumbnails_summary">Паказваць у спісах эскізы</string>
     <string name="show_video_thumbnails">Эскізы відэа</string>
@@ -757,6 +865,8 @@
     <string name="validation_delete_playlist_text">Гэтае дзеянне нельга скасаваць.</string>
     <string name="display_settings">Налады адлюстравання</string>
     <string name="incognito_mode">Прыватны рэжым</string>
+    <string name="persistent_incognito_mode">Пастаянны прыватны рэжым</string>
+    <string name="persistent_incognito_mode_summary">Пасля перазапуску праграмы пакідаць прыватны рэжым уключаным</string>
     <string name="display_in_list">Спіс</string>
     <string name="display_in_grid">Табліца</string>
     <string name="dump_db_succes">База даных выгружана ў корань знешняга сховішча</string>
@@ -785,6 +895,7 @@
     <string name="directed_by">Рэжысёр</string>
     <string name="casting">Трансляванне</string>
     <string name="written_by">Сцэнарыст</string>
+    <string name="music_by">Кампазітар</string>
     <string name="header_tvshows">Тэлеперадачы</string>
     <string name="header_movies">Фільмы</string>
     <string name="season_number">Сезон %s</string>
@@ -922,6 +1033,12 @@
     <string name="move_down">Перамясціць ніжэй</string>
     <string name="remove_from_playlist">Прыбраць з плэйліста</string>
     <string name="play_media">Прайграць %s</string>
+    <string name="edit_eq_preset">Змяніць канфігурацыю эквалайзера</string>
+    <string name="edit_eq_name_not_allowed">Гэта назва недапушчальная</string>
+    <string name="export_equalizer">Экспартаваць эквалайзер</string>
+    <string name="hide_equalizer">Схаваць эквалайзер</string>
+    <string name="show_equalizer">Паказаць эквалайзер</string>
+
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Дадаць дублікат(ы)?</string>
     <string name="add_button">Дадаць</string>
@@ -930,6 +1047,8 @@
     <string name="discovery_failed">Не ўдалося даследаваць: %s</string>
     <string name="lock_use_sensor_title">Блакіраванне з датчыкам</string>
     <string name="lock_use_sensor_summary">Калі арыентацыя заблакіравана, выкарыстанне датчыка дазваляе змяняць арыентацыю на перавернутую</string>
+    <string name="notification_permission">Дазвол на апавяшчэнні</string>
+    <string name="notification_permission_explanation">VLC патрабуецца дазвол на адпраўку апавяшчэнняў. \nПраграма будзе апавяшчаць толькі пра сканаванне медыяфайлаў або пра выкарыстанне карыстальніцкага рэжыму «Карцінка ў карцінцы». \nАдсутнасць дазволу не перашкодзіць працы VLC, але апавяшчэнняў не будзе бачна.</string>
     <string name="permission">Дазвол</string>
     <string name="permission_no_access">Без доступу да файлаў</string>
     <string name="permissions">Дазволы</string>
@@ -958,6 +1077,8 @@
     <string name="always_fast_seek_summary">Перамотванне працуе хутчэй, але можа быць менш дакладным</string>
     <string name="no_web_browser">Вэб-браўзер не ўсталяваны</string>
     <string name="no_video">Няма відэа</string>
+    <string name="fold_optimized">Аптымізавана для згінальных экранаў</string>
+    <string name="fold_optimize">Аптымізаваць для згінальных экранаў</string>
     <string name="foldable">Складны экран</string>
     <string name="undo">Адрабіць</string>
     <string name="add_server_favorite">Дадаць у Абраныя сервер</string>
@@ -1007,6 +1128,7 @@
     <string name="talkback_duration">Працягласць: %s</string>
     <string name="talkback_album">Альбом: %s</string>
     <string name="talkback_artist">Выканаўца: %s</string>
+    <string name="talkback_release_date">Выпушчана ў %s</string>
     <string name="talkback_video">Відэа: %s</string>
     <string name="talkback_stream">Паток: %s</string>
     <string name="talkback_audio_track">Аўдыядарожка: %s</string>
@@ -1023,6 +1145,7 @@
     <string name="talkback_audio_tracks">Аўдыядарожкі</string>
     <string name="talkback_subtitle_tracks">Дарожкі субтытраў</string>
     <string name="talkback_subtitle_dowload_item">Мова: %1$s. %2$s. Назва: %3$s</string>
+    <string name="selected">Выбрана</string>
     <string name="talkback_increase_delay">Павялічыць затрымку</string>
     <string name="talkback_decrease_delay">Паменшыць затрымку</string>
     <string name="talkback_increase_speed">Павялічыць хуткасць</string>
@@ -1040,20 +1163,27 @@
     <string name="downloading">Спампоўванне</string>
     <string name="talkback_action_rewind">Назад на %s cекунд</string>
     <string name="talkback_action_forward">Наперад на %s cекунд</string>
+    <string name="talkback_display_settings">Налады адлюстравання</string>
+    <string name="talkback_already_played">Ужо прайграна</string>
     <string name="show_only_favs">Паказваць толькі абраныя</string>
     <string name="replace_playlist">Замяніць плэйліст</string>
 
     <!-- Remote access -->
     <string name="ra_server_running">Аддалены доступ задзейнічаны</string>
     <string name="ra_remote_access">Аддалены доступ</string>
+    <string name="ra_remote_access_description">Апавяшчэнне пра стан аддаленага доступу</string>
     <string name="ra_log_file">Файлы журнала</string>
     <string name="ra_log_type">Тып журнала</string>
     <string name="ra_send_files">Адправіць файлы</string>
     <string name="ra_not_in_foreground">Праграма выконваецца не ў фоне. Немагчыма запусціць відэа.</string>
     <string name="ra_disconnected">Адлучаны ад прылады</string>
     <string name="ra_file">Файл</string>
+    <string name="ra_upload_remaining">Запампоўваецца %s файл(аў)</string>
     <string name="ra_upload_all">Запампаваць усе</string>
+    <string name="ra_drop_files_tip">Перацягніце файлы сюды, каб адправіць іх на сваю прыладу</string>
+    <string name="ra_prepare_download">Падрыхтоўка спампоўвання</string>
     <string name="ra_forbidden">Змесціва адключана ў наладах</string>
+    <string name="ra_playback_forbidden">Кнопкі кіравання прайграваннем адключаны ў наладах</string>
     <string name="ra_ssl_explanation_title">Небяспечнае злучэнне</string>
     <string name="ra_ssl_explanation">Ваша злучэнне не з\'яўляецца бяспечным.</string>
     <string name="ra_ssl_button">Выкарыстоўваць бяспечнае злучэнне</string>
@@ -1063,24 +1193,39 @@
     <string name="ra_otp">Аднаразовы пароль аддаленага доступу</string>
     <string name="ra_otp_subtitle">Калі гэта вы, увядзіце код на другой прыладзе</string>
     <string name="ra_otp_not_me">Гэта не я</string>
+    <string name="ra_output">Аўдыявыхад</string>
+    <string name="ra_play_on_browser">Прайграць у браўзеры</string>
+    <string name="ra_play_on_device">Прайграць на прыладзе</string>
+    <string name="ra_upload_subtitle">Запампаваць субтытры</string>
+
     <string name="ra_onboarding_ssl_title">Шыфраванне даных</string>
     <string name="ra_onboarding_otp_title">Аўтэнтыфікацыя</string>
     <string name="ra_onboarding_content_title">Доступ да змесціва</string>
+    <string name="ra_onboarding_content_ml">Доступ да змесціва медыятэкі</string>
     <string name="ra_onboarding_content_files">Файлавы менеджар</string>
     <string name="ra_onboarding_content_playback">Кіраванне прайграваннем</string>
     <string name="ra_disable">Адключыць</string>
     <string name="ra_log_web">Журнал аддаленага доступу</string>
+    <string name="ra_log_crash">Журнал аварыйнага спынення</string>
+    <string name="ra_log_mobile">Журнал прылады</string>
     <string name="learn_more">Даведацца больш</string>
 
     <!-- car screens -->
     <string name="help">Даведка</string>
     <string name="podcast_mode">Рэжым падкаста</string>
+    <string name="podcast_mode_help">Кнопкі кіравання для падкастаў з\'яўляюцца пры прайграванні адзінай дарожкі, якая адпавядае аднаму з наступных крытэрыяў:\n\t• Працягласць больш за 60 хв\n\t• Працягласць больш за 15 хв і няма назвы альбома\n\t• Жанр %s</string>
     <string name="voice_control">Кіраванне голасам</string>
     <string name="voice_control_help">Можна кіраваць VLC з дапамогай Google Assistant, для гэтага трэба прамаўляць наступныя каманды:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
 
     <string name="network" >Сетка</string>
+    <string name="metered_connection">Дзеянне для трансляцый пры злучэнні з тарыфікацыяй</string>
     <string name="metered_do_nothing">Нічога не рабіць</string>
     <string name="metered_stop">Спыніць прайграванне</string>
+    <string name="metered_warn">Папярэдзіць (калі прайграецца аўдыя, папярэджанне можна не заўважыць)</string>
+    <string name="metered_connection_stopped">Прайграванне спынена, бо задзейнічана злучэнне з тарыфікацыяй</string>
+    <string name="metered_connection_warning">Задзейнічана злучэнне з тарыфікацыяй. Можа спаганяцца плата.</string>
+    <string name="adding">Дадаванне</string>
+    <string name="to">у</string>
     <string name="device">Прылада</string>
     <string name="connected_device">Падлучаная прылада</string>
     <string name="model">Мадэль прылады</string>
@@ -1089,6 +1234,7 @@
     <string name="export_settings">Экспартаваць налады</string>
     <string name="restore_settings_summary">Аднавіць налады з экспартаванага раней файла</string>
     <string name="restore_settings">Аднавіць налады</string>
+    <string name="obsolete_restore_settings">Тэрмін экспарту налад сышоў. Паўтарыце экспарт</string>
     <string name="export_settings_success">Налады паспяхова экспартаваны ў корань знешняга сховішча</string>
     <string name="export_settings_failure">Падчас экспартавання налад адбылася памылка</string>
 
@@ -1104,4 +1250,19 @@
     <string name="queue_format">Фармат чаргі</string>
     <string name="queue_format_short_desc">Пазіцыя ў чарзе</string>
     <string name="queue_format_long_desc">Пазіцыя ў чарзе / Памер чаргі</string>
+    <string name="video_settings_disclaimer">Некаторыя налады былі перанесены ў налады кіравання відэа ў відэаплэеры.</string>
+    <string name="feedback_type">Тып паведамлення</string>
+    <string name="report_crash">Паведаміць пра аварыйнае спыненне працы</string>
+    <string name="email_support">Звязацца з камандай падтрымкі праз эл. пошту</string>
+    <string name="read_doc">Азнаёміцца з дакументацыяй</string>
+    <string name="subject">Тэма</string>
+    <string name="body">Паведамленне</string>
+    <string name="rate_us">Ацаніць праграму</string>
+    <string name="generating_logs">Стварэнне файлаў журналаў. Пачакайце.</string>
+    <string name="files">Файлы</string>
+    <string name="remote_access_feedback_generate">Стварыць справаздачу</string>
+    <string name="generic_copied_to_clipboard">Скапіяваць у буфер</string>
+    <string name="feedback_email_warning">Паштовы кліент не ўсталяваны</string>
+    <string name="feedback_email_warning_remote_action">Адкрыць налады</string>
+    <string name="feedback_email_warning_try_anyway">Усё адно паспрабаваць</string>
     </resources>

@@ -257,6 +257,7 @@
     <string name="streams">Streams</string>
     <string name="open_mrl_dialog_msg"> Angiv en netværksadresse, f.eks. http://, mms:// eller rtsp://</string>
     <string name="invalid_location">Mediet på %1$s kan ikke afspilles.</string>
+    <string name="font_cache_building">Forbereder skrifttyperne til den første afspilning. Det kan tage et par sekunder.</string>
     <string name="missing_location">Dette medie er placeret på en lagerenhed, som ikke er tilgængelig, og kan derfor ikke afspilles.</string>
 
     <string name="search">Søg</string>
@@ -1338,6 +1339,7 @@
     <string name="ra_play_on_device">Afspil på enheden</string>
     <string name="ra_browser_audio_not_found">Mediet blev ikke fundet eller kan ikke afspilles i browseren</string>
     <string name="ra_browser_audio_unsupported_format">Dette lydformat understøttes ikke af din browser.</string>
+    <string name="ra_upload_subtitle">Upload undertekster</string>
 
     <string name="ra_onboarding_welcome_desc">Velkommen til VLC fjernadgang\nVed at slå det til bliver du i stand til at kontrollere enhedens afspilning og meget mere</string>
     <string name="ra_onboarding_how_title">Kontrollér din enhed</string>

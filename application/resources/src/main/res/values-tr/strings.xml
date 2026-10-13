@@ -257,6 +257,7 @@
     <string name="streams">Akışlar</string>
     <string name="open_mrl_dialog_msg">Bir ağ adresi yazın. Örnek: http://, mms://, or rtsp://</string>
     <string name="invalid_location">%1$s konumundaki ortam oynatılamadı.</string>
+    <string name="font_cache_building">İlk oynatma için yazı tiplerinin hazırlanıyor. Bu işlem birkaç saniye sürebilir</string>
     <string name="missing_location">Bu ortam kullanılamayan bir depolama aygıtında olduğundan oynatılamaz.</string>
 
     <string name="search">Arama</string>
@@ -1339,6 +1340,7 @@
     <string name="ra_play_on_device">Aygıtta oynat</string>
     <string name="ra_browser_audio_not_found">Ortam bulunamadı veya tarayıcıda oynatılamıyor</string>
     <string name="ra_browser_audio_unsupported_format">Ses biçimi tarayıcınız tarafından desteklenmiyor</string>
+    <string name="ra_upload_subtitle">Alt yazı yükle</string>
 
     <string name="ra_onboarding_welcome_desc">Android için VLC uygulamasının uzaktan erişim özelliğine hoş geldiniz\Bu özelliği etkinleştirerek bu aygıtın oynatma ve diğer işlemlerini denetleyebileceksiniz</string>
     <string name="ra_onboarding_how_title">Aygıtınızı denetleyin</string>

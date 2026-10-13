@@ -257,6 +257,7 @@
     <string name="streams">Közvetítések</string>
     <string name="open_mrl_dialog_msg">Írjon be egy hálózati címet, például egy http://, mms:// vagy rtsp:// címet</string>
     <string name="invalid_location">A(z) %1$s helyen lévő médiát nem lehet lejátszani.</string>
+    <string name="font_cache_building">Betűkészletek előkészítése az első lejátszáshoz, ez eltarthat néhány másodpercig</string>
     <string name="missing_location">Ez a média egy nem elérhető tárolóeszközön található, és nem lehet lejátszani.</string>
 
     <string name="search">Keresés</string>
@@ -1338,6 +1339,7 @@
     <string name="ra_play_on_device">Lejátszás eszközön</string>
     <string name="ra_browser_audio_not_found">A média nem található, vagy nem játszható le böngészőben</string>
     <string name="ra_browser_audio_unsupported_format">A böngészője nem támogatja ezt a hangformátumot</string>
+    <string name="ra_upload_subtitle">Felirat feltöltése</string>
 
     <string name="ra_onboarding_welcome_desc">Üdvözli a VLC for Android távoli elérése\nAz engedélyezésével távolról is fogja tudni vezérelni az eszköz lejátszását, és még több mindent.</string>
     <string name="ra_onboarding_how_title">Vezérelje az eszközét</string>

@@ -257,6 +257,7 @@
     <string name="streams">Suoratoistot</string>
     <string name="open_mrl_dialog_msg">Anna osoite, kuten http://, mms://, tai rtsp://</string>
     <string name="invalid_location">Mediatiedostoa %1$s ei voida toistaa.</string>
+    <string name="font_cache_building">Fontit valmistellaan toistoa varten; tämä kestää muutaman sekunnin</string>
     <string name="missing_location">Tämä media on muistikortilla, joka ei ole käytettävissä, eikä siksi voi toistaa.</string>
 
     <string name="search">Etsi</string>
@@ -1362,6 +1363,7 @@ Anna ilmoituksissa näkyvä koodi</string>
     <string name="ra_play_on_device">Toista laitteella</string>
     <string name="ra_browser_audio_not_found">Mediaa ei löydy tai sitä ei voi toistaa selaimella</string>
     <string name="ra_browser_audio_unsupported_format">Selaimesi ei tue tätä audio formaattia</string>
+    <string name="ra_upload_subtitle">Lataa tekstitys</string>
 
     <string name="ra_onboarding_welcome_desc">Tervetuloa VLC Android etäkäyttöön
 Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>

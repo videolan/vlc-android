@@ -238,8 +238,11 @@
     <string name="remote_keyboard_navigation">Navigatzione dae tecladu</string>
 
     <string name="server_add_title">Annanghe unu server nou a sos preferidos</string>
+    <string name="server_domain_hint">Indiritzu serbidore (nùmene istrangiadore o indiritzu IP)</string>
+    <string name="server_share_hint">Indiritzu serbidore (nùmene istrangiadore o indiritzu IP)</string>
     <string name="server_folder_hint">Àndala cartella (optzionale)</string>
     <string name="server_username_hint">Nùmene impreadore</string>
+    <string name="server_servername_hint">Nùmene ammustradu (facoltativu)</string>
     <string name="server_port">Ghenna:</string>
     <string name="login">Nùmene impreadore</string>
     <string name="password">Crae de intrada</string>
@@ -252,6 +255,10 @@
     <string name="favorite_removed">Bogadu dae sos preferidos</string>
 
     <string name="streams">Flussos</string>
+    <string name="open_mrl_dialog_msg">Dìgita un\'indiritzu de retza, che a http://, mms:// o rtsp://</string>
+    <string name="invalid_location">Su mèdiu in %1$s non si podet riproduire.</string>
+    <string name="missing_location">Custu elementu multimediale est in unu dispositivu de archiviatzione chi no est a disponimentu e non si podet riproduire.</string>
+
     <string name="search">Chirca</string>
 
 
@@ -1331,7 +1338,6 @@
     <string name="ra_play_on_device">Reprodue in su dispositivu</string>
     <string name="ra_browser_audio_not_found">Elementu multimediale no atzapadu o non faghet a lu riproduire in su navigadore</string>
     <string name="ra_browser_audio_unsupported_format">Custu formadu àudio no est suportadu dae su navigadore tuo</string>
-
     <string name="ra_onboarding_welcome_desc">Bene bènnidu in s\'atzessu remotu de VLC pro Android.\nAbilitende·lu, as a pòdere controllare sa riprodutzione de custu dispositivu e àteru galu</string>
     <string name="ra_onboarding_how_title">Controlla su dispositivu tuo</string>
     <string name="ra_onboarding_how_desc">Controlla sa riprodutzione de su dispositivu tuo, imbia o recùpera documentos e àteru galu</string>

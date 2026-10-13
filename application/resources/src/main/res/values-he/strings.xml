@@ -1360,6 +1360,7 @@
     <string name="ra_play_on_device">לנגן במכשיר</string>
     <string name="ra_browser_audio_not_found">המדיה לא נמצאה או שלא ניתן לנגן אותה בדפדפן</string>
     <string name="ra_browser_audio_unsupported_format">תסדיר השמע הזה לא נתמך על ידי הדפדפן שלך</string>
+    <string name="ra_upload_subtitle">העלאת כתוביות</string>
 
     <string name="ra_onboarding_welcome_desc">ברוך בואך לגישה המרוחקת ל־VLC ל־Android\nהפעלת היכולת תאפשר לך לשלוט בנגינה במכשיר הזה אך לא רק</string>
     <string name="ra_onboarding_how_title">שליטה במכשיר שלך</string>

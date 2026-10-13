@@ -1338,6 +1338,7 @@
     <string name="ra_play_on_device">მოწყობილობაზე გაშვება</string>
     <string name="ra_browser_audio_not_found">ფაილი ვერ მოიძებნა ან ვერ გაეშვება ბრაუზერში</string>
     <string name="ra_browser_audio_unsupported_format">ხმის ეს სახეობა არაა მხარდაჭერილი თქვენს ბრაუზერში</string>
+    <string name="ra_upload_subtitle">ქვეწარწერების ატვირთვა</string>
 
     <string name="ra_onboarding_welcome_desc">გაეცანით დაშორებული წვდომის შესაძლებლობას, რომელსაც გთავაზობთ VLC Android\nმისი ამოქმედებით შეგეძლებათ მოწყობილობაზე მართოთ დაკვრის საშუალებები და კიდევ ბევრი სხვა რამ</string>
     <string name="ra_onboarding_how_title">თქვენი მოწყობილობის მართვა</string>

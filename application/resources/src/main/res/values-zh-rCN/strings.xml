@@ -244,6 +244,11 @@
     <string name="favorite_removed">已从收藏夹移除</string>
 
     <string name="streams">串流</string>
+    <string name="open_mrl_dialog_msg">请输入网络地址，例如 http://、mms:// 或 rtsp://</string>
+    <string name="invalid_location">无法播放 %1$s 处的媒体。</string>
+    <string name="font_cache_building">正在为首次播放准备字体，这可能需要几秒钟</string>
+    <string name="missing_location">此媒体位于不可用的存储设备上，无法播放。</string>
+
     <string name="search">搜索</string>
 
 
@@ -1320,6 +1325,7 @@
     <string name="ra_play_on_device">在设备上播放</string>
     <string name="ra_browser_audio_not_found">媒体文件未找到，或无法在浏览器中播放</string>
     <string name="ra_browser_audio_unsupported_format">您的浏览器不支持此音频格式</string>
+    <string name="ra_upload_subtitle">上传字幕</string>
 
     <string name="ra_onboarding_welcome_desc">欢迎使用 ｢VLC for Android｣ 的远程访问功能！\n启用此功能，即可从其他设备控制此设备的播放，还能做到很多其他事情</string>
     <string name="ra_onboarding_how_title">控制您的设备</string>

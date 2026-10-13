@@ -42,6 +42,8 @@
     <string name="playback_controls">Kawalan main balik</string>
     <string name="medialibrary_scan">Imbas pustaka media</string>
     <string name="Medialibrary_progress">Kemas kini kemajuan pengimbasan pustaka media</string>
+    <string name="ml_database_warning">Pangkalan data anda mengandungi senarai semua media anda. Ia akan dikongsikan dengan para pembangun VLC</string>
+    <string name="logs_warning">Mungkin mengandungi maklumat berkenaan media yang anda mainkan. Ia akan dikongsikan dengan para pembangun VLC</string>
     <string name="play_from_start">Main dari mula</string>
     <string name="play_as_audio">Main sebagai audio</string>
     <string name="play_as_video">Main sebagai video</string>
@@ -67,7 +69,11 @@
     <string name="confirm_delete">Padam fail \'%1$s\' ?</string>
     <string name="equalizer_overwrite_warning">Penyama ini sudah wujud</string>
     <string name="overwrite">Tulis ganti</string>
+    <string name="eq_cannot_overwrite">Tidak dapat menulis ganti penyama lalai</string>
     <string name="equalizer_name">Nama Penyama</string>
+    <string name="equalizer_deleted">Penyama telah dipadamkan</string>
+    <string name="equalizer_leave_warning">Anda akan menutup pemain video</string>
+    <string name="invalid_equalizer_file">Fail penyama tidak sah</string>
     <string name="confirm_replace_playlist">Anda pasti mahu menggantikan senarai main \'%1$s\'?</string>
     <string name="confirm_delete_message">Tindakan ini kekal dan tidak boleh dikembalikan.</string>
     <string name="confirm_delete_album">Padam album \'%1$s\'?</string>

@@ -257,6 +257,7 @@
     <string name="streams">Vood</string>
     <string name="open_mrl_dialog_msg">Sisesta võrguaadress, nagu näiteks http://, mms:// või rtsp://</string>
     <string name="invalid_location">„%1$s“ multimeediasisu ei saa esitada.</string>
+    <string name="font_cache_building">Valmistan kirjatüüpe esimeseks kasutuseks ette, selleks võib kuluda mõni sekund</string>
     <string name="missing_location">See meedium asub andmekandjal, mida hetkel ei leidu ja tema esitamine pole seega võimalik.</string>
 
     <string name="search">Otsing</string>
@@ -1341,6 +1342,7 @@
     <string name="ra_play_on_device">Esita seadmes</string>
     <string name="ra_browser_audio_not_found">Meediumi kas ei leidu või pole veebibrauseris esitatav</string>
     <string name="ra_browser_audio_unsupported_format">See helivorming pole sinu veebibrauseris toetatud</string>
+    <string name="ra_upload_subtitle">Laadi subtiitrid üles</string>
 
     <string name="ra_onboarding_welcome_desc">Tere tulemast kasutama VLC Androidiversiooni kaughaldust ja kaugligipääsu\nSelle sisselülitamisel sa võid hallata taasesitust selles seadmes ning teha muud põnevat</string>
     <string name="ra_onboarding_how_title">Juhi oma nutiseadet</string>

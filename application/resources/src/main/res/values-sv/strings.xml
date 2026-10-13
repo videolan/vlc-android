@@ -257,6 +257,7 @@
     <string name="streams">Strömmar</string>
     <string name="open_mrl_dialog_msg">Ange en nätverksadress</string>
     <string name="invalid_location">Ogiltig adress</string>
+    <string name="font_cache_building">Förbereder typsnitten för den första uppspelningen. Detta kan ta några sekunder.</string>
     <string name="missing_location">Ange en adress</string>
 
     <string name="search">Sök</string>
@@ -1338,6 +1339,7 @@
     <string name="ra_play_on_device">Spela upp på enhet</string>
     <string name="ra_browser_audio_not_found">Mediafil hittades inte eller kan inte spelas upp i webbläsare</string>
     <string name="ra_browser_audio_unsupported_format">Detta ljudformat stöds inte av din webbläsare</string>
+    <string name="ra_upload_subtitle">Ladda upp undertext</string>
 
     <string name="ra_onboarding_welcome_desc">Välkommen till fjärråtkomst i VLC for Android\nGenom att aktivera detta kommer du kunna styra uppspelningen på denna enhet och mer</string>
     <string name="ra_onboarding_how_title">Styr denna enhet</string>

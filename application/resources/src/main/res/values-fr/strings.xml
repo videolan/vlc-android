@@ -268,6 +268,7 @@
     <string name="streams">Flux</string>
     <string name="open_mrl_dialog_msg">Saisissez une adresse réseau, par exemple http://, mms:// ou rtsp://</string>
     <string name="invalid_location">Le média situé à %1$s ne peut pas être lu.</string>
+    <string name="font_cache_building">Préparation des polices pour la première lecture, cela peut prendre quelques secondes</string>
     <string name="missing_location">Ce média se trouve sur un périphérique de stockage indisponible et ne peut pas être lu.</string>
 
     <string name="search">Rechercher</string>
@@ -1353,6 +1354,7 @@
     <string name="ra_play_on_device">Lire sur l’appareil</string>
     <string name="ra_browser_audio_not_found">Média introuvable ou impossible à lire dans le navigateur</string>
     <string name="ra_browser_audio_unsupported_format">Ce format audio n’est pas pris en charge par votre navigateur</string>
+    <string name="ra_upload_subtitle">Téléverser un sous‑titre</string>
 
     <string name="ra_onboarding_welcome_desc">Bienvenue dans l’accès à distance de VLC pour Android.\nEn l’activant, vous pourrez contrôler la lecture de cet appareil et plus encore.</string>
     <string name="ra_onboarding_how_title">Contrôler votre appareil</string>

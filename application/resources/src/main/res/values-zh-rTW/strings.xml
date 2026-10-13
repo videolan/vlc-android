@@ -227,8 +227,11 @@
     <string name="remote_keyboard_navigation">鍵盤導覽</string>
 
     <string name="server_add_title">新增伺服器至收藏</string>
+    <string name="server_domain_hint">伺服器地址（主機名稱或 IP 地址）</string>
+    <string name="server_share_hint">伺服器地址（主機名稱或 IP 地址）</string>
     <string name="server_folder_hint">資料夾路徑 (可選)</string>
     <string name="server_username_hint">使用者名稱</string>
+    <string name="server_servername_hint">顯示名稱（選擇性）</string>
     <string name="server_port">連接埠:</string>
     <string name="login">登入</string>
     <string name="password">密碼</string>
@@ -241,6 +244,11 @@
     <string name="favorite_removed">已從收藏中移除</string>
 
     <string name="streams">串流</string>
+    <string name="open_mrl_dialog_msg">請輸入一個網路位址，例如 http://、mms:// 或 rtsp://</string>
+    <string name="invalid_location">位於 %1$s 的媒體無法播放。</string>
+    <string name="font_cache_building">正在為首次播放準備字型，這可能需要幾秒</string>
+    <string name="missing_location">此媒體位於無法使用的儲存裝置，因此無法播放。</string>
+
     <string name="search">搜尋</string>
 
 
@@ -618,6 +626,8 @@
     <string name="no_internet_connection">檢查您的網路連線</string>
     <string name="retry">重試</string>
     <string name="open_subs_download_error">OpenSubtitles 目前無法使用。請稍後再試</string>
+    <string name="open_subs_download_link_error">OpenSubtitles 發生問題。請稍後再試</string>
+
     <string name="network_browsing">區域網路</string>
     <string name="browsing">瀏覽中</string>
 
@@ -1309,6 +1319,13 @@
     <string name="ra_otp_title">遠端存取登入嘗試</string>
     <string name="ra_otp_subtitle">如果是您本人，請在其他裝置上輸入此代碼</string>
     <string name="ra_otp_not_me">這不是我</string>
+    <string name="ra_output">音訊輸出</string>
+    <string name="ra_play_on_browser">在瀏覽器上播放</string>
+    <string name="ra_play_on_device">在裝置上播放</string>
+    <string name="ra_browser_audio_not_found">找不到媒體，或無法在瀏覽器中播放</string>
+    <string name="ra_browser_audio_unsupported_format">您的瀏覽器不支援此音訊格式</string>
+    <string name="ra_upload_subtitle">上傳字幕</string>
+
     <string name="ra_onboarding_welcome_desc">歡迎使用 Android 版 VLC 的遠端存取\n啟用此功能，您將可以控制此裝置的播放等功能</string>
     <string name="ra_onboarding_how_title">控制您的裝置</string>
     <string name="ra_onboarding_how_desc">控制您的裝置播放，傳送或擷取檔案等</string>

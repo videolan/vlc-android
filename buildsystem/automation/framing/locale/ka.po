@@ -1,14 +1,13 @@
-# 
 # Translators:
 # Nicolas POMEPUY <npomepuy.videolabs@gmail.com>, 2025
-# Georgianization, 2025
+# Georgianization, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2024-12-17 11:54+0000\n"
-"Last-Translator: Georgianization, 2025\n"
+"Last-Translator: Georgianization, 2026\n"
 "Language-Team: Georgian (https://app.transifex.com/yaron/teams/16553/ka/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,11 +32,10 @@ msgid "Easy to use file browser"
 msgstr "ფაილების ადვილად მოძიებით"
 
 msgid "Video player with gesture controls and other advanced options"
-msgstr "ვიდეოჩვენება ჟესტების მართვითა და სხვა დამატებითი შესაძლებლობებით"
+msgstr "ვიდეოჩვენება ჟესტებითა და გაუმჯობესებული მართვით"
 
 msgid "Keep watching with the popup player while using other apps"
-msgstr ""
-"განაგრძეთ ყურება სხვა პროგრამებზე გადასვლისას ამომხტომი ფანჯრის მეშვეობით"
+msgstr "განაგრძეთ ყურება სხვა აპებზე გადასვლისას ამომხტომი ფანჯრით"
 
 msgid "Play everywhere on all of your Android devices"
 msgstr "ყველგან გაეშვება თქვენს ნებისმიერ Android-მოწყობილობაზე"

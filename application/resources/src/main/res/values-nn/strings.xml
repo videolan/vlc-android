@@ -43,7 +43,9 @@
     <string name="playback_controls">Avspelingskontrollar</string>
     <string name="medialibrary_scan">Skanning av mediebibliotek</string>
     <string name="Medialibrary_progress">Oppdateringar for skanningsprosess av mediebibliotek</string>
-    <string name="play_from_start">Spel frå start</string>
+    <string name="ml_database_warning">Databasen din inneheld ei liste over alle mediefilene dine. Ho vil bli delt med utviklarane til VLC.</string>
+    <string name="logs_warning">Kan innehalda informasjon om avspelte medium. Dette vil bli delt med utviklarane til VLC.</string>
+    <string name="play_from_start">Spel av frå start</string>
     <string name="play_as_audio">Spel av som lyd</string>
     <string name="play_as_video">Spel av som video</string>
     <string name="return_to_video">Langtrykk på omslaget for å tilbakestilla videoen</string>
@@ -71,7 +73,9 @@
     <string name="eq_cannot_overwrite">Kan ikkje skrive over ein standard tonekontroll</string>
     <string name="equalizer_name">Tonekontrollnamn</string>
     <string name="equalizer_deleted">Tonekontrollen er sletta</string>
+    <string name="equalizer_leave_warning">Du vil forlata videospelaren</string>
     <string name="invalid_equalizer_file">Ugyldig tonekontrollfil</string>
+    <string name="confirm_delete_eq">Er du sikker på at du vil sletta denne førehandsinnstillinga?</string>
     <string name="confirm_delete_vlc_eq">Er du sikker på at du vil skjula denne førehandsinnstillinga?\nDu kan stilla tilbake dette i tonekontrollinnstillingane.</string>
     <string name="confirm_replace_playlist">Er du sikker på at du vil erstatta spelelista \'%1$s\'?</string>
     <string name="invalid_settings_file">Ugyldig innstillingsfil</string>
@@ -215,6 +219,14 @@
     <string name="playback_speed_this_track">Dette sporet</string>
     <string name="playback_speed_all_videos">Alle videoar</string>
     <string name="playback_speed_all_tracks">Alle spor</string>
+    <string name="playback_speed_explanation_all_videos">Farta vil bli brukt på alle videoar.\nAvspelingsfarta til individuelle videoar vil bli ignorert.</string>
+    <string name="playback_speed_explanation_all_tracks">Farta vil bli brukt på alle spor.\nAvspelingsfarta for individuelle spor vil bli ignorert.</string>
+    <string name="playback_speed_explanation_all_incognito">Du er i inkognitomodus. Farta går tilbake til normal når du går ut av inkognitomodus.</string>
+    <string name="playback_speed_explanation_one_video">Farta vil berre bli brukt på denne videoen</string>
+    <string name="playback_speed_explanation_one_track">Farta vil berre bli brukt på dette sporet</string>
+    <string name="audio_playback_speed_global">Bruk den globale avspelingsfarta</string>
+    <string name="audio_playback_speed_global_summary">Bruk den globale avspelingsfarta for alle spor.\nAvspelingsfarta for individuelle spor vil bli ignorert.</string>
+
     <string name="sleep_title">Søvntidsur</string>
     <string name="sleep_in">Sovne inn</string>
     <string name="jump_to_time">Hopp til tid</string>
@@ -243,6 +255,7 @@
     <string name="favorite_removed">Fjerna frå favorittar</string>
 
     <string name="streams">Straumar</string>
+    <string name="open_mrl_dialog_msg">Skriv inn ei nettverksaddresse, til dømes http://, mms://, or rtsp://</string>
     <string name="search">Søk</string>
 
 
