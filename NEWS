@@ -1,3 +1,9 @@
+Changes between 3.7.2 Beta 3 and 3.7.2:
+------------------
+ * Fix equalizer reset volume
+ * Translations update
+ * Crash and behavior fixes
+
 Changes between 3.7.2 Beta 2 and 3.7.2 Beta 3:
 ------------------
  * Pre-build font cache at startup
