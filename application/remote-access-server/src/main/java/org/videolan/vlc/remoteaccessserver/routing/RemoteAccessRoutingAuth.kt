@@ -51,7 +51,7 @@ fun Route.publicAuthRouting(appContext: Context, scope: CoroutineScope, settings
     //the client is requesting a new code.
     // if the formparameters "challenge" is sent. Remove the corresponding code
     post("/code") {
-        if (!RemoteAccessServer.getInstance(appContext).isHttpsPort(call.request.local.serverPort)) {
+        if (!RemoteAccessServer.byPassAuth && !RemoteAccessServer.getInstance(appContext).isHttpsPort(call.request.local.serverPort)) {
             call.respond(HttpStatusCode.Forbidden)
             return@post
         }
@@ -72,7 +72,7 @@ fun Route.publicAuthRouting(appContext: Context, scope: CoroutineScope, settings
     }
     //Verify the code and inject the cookie if valid
     post("/verify-code") {
-        if (!RemoteAccessServer.getInstance(appContext).isHttpsPort(call.request.local.serverPort)) {
+        if (!RemoteAccessServer.byPassAuth && !RemoteAccessServer.getInstance(appContext).isHttpsPort(call.request.local.serverPort)) {
             call.respond(HttpStatusCode.Forbidden)
             return@post
         }

@@ -65,7 +65,7 @@ fun Route.publicCommonRouting(appContext: Context) {
     // Main end point redirect to index.html
     get("/") {
         val isHttps = RemoteAccessServer.getInstance(appContext).isHttpsPort(call.request.local.serverPort)
-        if (isHttps) {
+        if (isHttps || RemoteAccessServer.byPassAuth) {
             call.respondRedirect("index.html", permanent = true)
         } else {
             call.respondRedirect("/index.html#/ssl", permanent = false)

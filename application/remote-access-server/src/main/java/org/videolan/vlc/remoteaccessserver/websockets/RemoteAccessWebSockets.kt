@@ -276,6 +276,7 @@ object RemoteAccessWebSockets {
      * @return true if the websocket message is allowed
      */
     private fun verifyWebsocketAuth(incomingMessage: WSIncomingMessage?): Boolean {
+        if (RemoteAccessServer.byPassAuth) return true
         synchronized(tickets) {
             tickets.removeIf { it.expiration < System.currentTimeMillis() }
             return incomingMessage?.authTicket != null && tickets.firstOrNull { incomingMessage.authTicket == it.id } != null

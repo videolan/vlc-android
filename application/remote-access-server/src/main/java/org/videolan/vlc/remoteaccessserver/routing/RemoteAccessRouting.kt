@@ -54,7 +54,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     authenticate("user_session", optional = RemoteAccessServer.byPassAuth) {
         intercept(ApplicationCallPipeline.Call) {
             val server = RemoteAccessServer.getInstance(appContext)
-            if (!server.isHttpsPort(call.request.local.serverPort)) {
+            if (!RemoteAccessServer.byPassAuth && !server.isHttpsPort(call.request.local.serverPort)) {
                 call.respond(HttpStatusCode.Forbidden)
                 finish()
             }
