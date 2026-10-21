@@ -196,6 +196,7 @@ object BitmapUtil {
      * @return a rounded [Bitmap]
      */
     fun roundBitmap(bm: Bitmap): Bitmap {
+        if (bm.width <= 0 || bm.height <= 0) return bm
 
         var w: Int = bm.width
         var h: Int = bm.height
@@ -242,6 +243,7 @@ object BitmapUtil {
         val w: Int = width
         val h: Int = if (height == -1) width else height
 
+        if (w <= 0 || h <= 0) return bm
 
         val bmOut = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bmOut)

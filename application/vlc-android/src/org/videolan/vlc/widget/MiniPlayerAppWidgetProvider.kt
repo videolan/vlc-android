@@ -77,6 +77,7 @@ import org.videolan.vlc.widget.utils.WidgetCache
 import org.videolan.vlc.widget.utils.WidgetCacheEntry
 import org.videolan.vlc.widget.utils.WidgetSizeUtil
 import org.videolan.vlc.widget.utils.WidgetType
+import org.videolan.vlc.widget.utils.WidgetUtils
 import org.videolan.vlc.widget.utils.WidgetUtils.getWidgetType
 import org.videolan.vlc.widget.utils.WidgetUtils.shouldShowSeek
 import org.videolan.vlc.widget.utils.generateCircularProgressbar
@@ -211,6 +212,10 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         log(appWidgetId, WidgetLogType.INFO, "New widget size by provider: ${correctedSize.first} / ${correctedSize.second} // ratio = ${correctedSize.first.toFloat() / correctedSize.second}")
         val widgetType = getWidgetType(widgetCacheEntry.widget)
 
+        val minSize = WidgetUtils.getMinimalWidgetSize(widgetType)
+        if (widgetCacheEntry.widget.width <= 0) widgetCacheEntry.widget.width = if (correctedSize.first > 0) correctedSize.first else minSize.first.coerceAtLeast(1)
+        if (widgetCacheEntry.widget.height <= 0) widgetCacheEntry.widget.height = if (correctedSize.second > 0) correctedSize.second else minSize.second.coerceAtLeast(1)
+
 
         val views = RemoteViews(context.packageName, widgetType.layout)
         if (oldType != widgetType) {
@@ -256,7 +261,10 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         views.setOnClickPendingIntent(R.id.seek_forward, piSeekForward)
 
         if (colorChanged) {
-            if (widgetType == WidgetType.MACRO) views.setImageViewBitmap(R.id.cover_background, context.getColoredBitmapFromColor(R.drawable.widget_rectangle_background, widgetCacheEntry.widget.getBackgroundColor(context, palette), widgetCacheEntry.widget.width.dp,  widgetCacheEntry.widget.width.dp))
+            if (widgetType == WidgetType.MACRO) {
+                val bgWidth = if (widgetCacheEntry.widget.width > 0) widgetCacheEntry.widget.width.dp else 220.dp
+                views.setImageViewBitmap(R.id.cover_background, context.getColoredBitmapFromColor(R.drawable.widget_rectangle_background, widgetCacheEntry.widget.getBackgroundColor(context, palette), bgWidth, bgWidth))
+            }
             log(appWidgetId, WidgetLogType.BITMAP_GENERATION, "Bugfix Color changed!!! for widget $appWidgetId // forPreview $forPreview // foreground color: ${java.lang.String.format("#%06X", 0xFFFFFF and foregroundColor)} /// palette ${widgetCacheEntry.palette}")
             if (android.text.TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
                 views.setImageViewBitmap(R.id.forward, context.getColoredBitmapFromColor(R.drawable.ic_widget_previous_normal, foregroundColor))
@@ -310,7 +318,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         //cover
 
         //set it square on layouts needing it
-        val coverPadding = (widgetCacheEntry.widget.height.dp - 48.dp) / 2
+        val coverPadding = ((widgetCacheEntry.widget.height.dp - 48.dp) / 2).coerceAtLeast(0)
         log(appWidgetId, WidgetLogType.INFO, "coverPadding: $coverPadding: ${widgetCacheEntry.widget.height} /// ${48.dp}")
         views.setViewPadding(R.id.cover_parent, coverPadding, 0, coverPadding, 0)
 
@@ -442,8 +450,14 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             when (widgetType) {
                 WidgetType.MICRO -> BitmapUtil.roundBitmap(cover)
                 WidgetType.PILL -> BitmapUtil.roundBitmap(cover)
-                WidgetType.MINI -> BitmapUtil.roundedRectangleBitmap(cover, widgetCacheEntry.widget.height.dp, bottomRight = false, topRight = false)
-                WidgetType.MACRO -> BitmapUtil.roundedRectangleBitmap(cover, widgetCacheEntry.widget.width.dp)
+                WidgetType.MINI -> {
+                    val height = if (widgetCacheEntry.widget.height > 0) widgetCacheEntry.widget.height.dp else 72.dp
+                    BitmapUtil.roundedRectangleBitmap(cover, height, bottomRight = false, topRight = false)
+                }
+                WidgetType.MACRO -> {
+                    val width = if (widgetCacheEntry.widget.width > 0) widgetCacheEntry.widget.width.dp else 220.dp
+                    BitmapUtil.roundedRectangleBitmap(cover, width)
+                }
             }
 
     /**
