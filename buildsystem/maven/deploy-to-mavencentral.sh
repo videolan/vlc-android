@@ -97,74 +97,76 @@ blue "Setup Maven credentials"
 unzip -P $pass settings.xml.zip
 trap cleanup EXIT
 
-
-
 file="pwd.txt"
+PWD=$(cat "$file")
 
-PWD=$(cat "$file") 
+function deploy_artifact() {
+  local artifact_name=$1
+  local version=$2
+  local base_dir=$3
 
+  blue "Preparing and signing $artifact_name $version in $base_dir"
+
+  # Sign all release files (.aar, .pom, .jar, .module) and generate md5/sha1 checksums
+  for f in "$base_dir"/*; do
+    [ -f "$f" ] || continue
+    case "$f" in
+      *.asc|*.md5|*.sha1|*.sha256|*.sha512) ;;
+      *)
+        if [ ! -f "${f}.asc" ]; then
+          gpg --batch --yes -u 49A7E6FE58DCF183F0B349DFB83763AD62ED0721 --detach-sign --armor "$f" || true
+        fi
+        md5sum "$f" | awk '{print $1}' > "${f}.md5"
+        sha1sum "$f" | awk '{print $1}' > "${f}.sha1"
+        if [ -f "${f}.asc" ]; then
+          md5sum "${f}.asc" | awk '{print $1}' > "${f}.asc.md5"
+          sha1sum "${f}.asc" | awk '{print $1}' > "${f}.asc.sha1"
+        fi
+        ;;
+    esac
+  done
+
+  # Create bundle.zip preserving full Maven directory structure from artifacts/aars/repository
+  local bundle_zip="/tmp/bundle-${artifact_name}-${version}.zip"
+  rm -f "$bundle_zip"
+  (cd "$OUTPUT_DIR/aars/repository" && zip -r "$bundle_zip" "org/videolan/android/$artifact_name/$version")
+
+  blue "Uploading bundle to Sonatype Central Publisher Portal (POST /api/v1/publisher/upload)..."
+  local upload_res
+  upload_res=$(curl -s -X POST \
+    -H "Authorization: Bearer $PWD" \
+    -F "bundle=@$bundle_zip" \
+    "https://central.sonatype.com/api/v1/publisher/upload?name=${artifact_name}-${version}&publishingType=USER_MANAGED")
+
+  echo "Central Publisher Portal response: $upload_res"
+
+  rm -f "$bundle_zip"
+
+  if [[ "$upload_res" =~ ^[0-9a-fA-F]{8}- || "$upload_res" == *"deploymentId"* ]]; then
+    purple "Successfully submitted $artifact_name $version to Central Publisher Portal!"
+  else
+    red "Failed to upload $artifact_name $version to Central Publisher Portal. Response: $upload_res"
+    exit 1
+  fi
+}
 
 if [ -z "$LIBVLC_VERSION" ]; then
   purple "No version for libvlc. Skipping"
 else
   BASE_DIR="$OUTPUT_DIR/aars/repository/org/videolan/android/libvlc-all/$LIBVLC_VERSION"
-  blue "Deploying $BASE_DIR"
-
-  mvn gpg:sign-and-deploy-file \
-    --settings settings.xml \
-    -DpomFile=$BASE_DIR/libvlc-all-$LIBVLC_VERSION.pom \
-    -Dfile=$BASE_DIR/libvlc-all-$LIBVLC_VERSION.aar \
-    -Dsources=$BASE_DIR/libvlc-all-$LIBVLC_VERSION-sources.jar \
-    -Djavadoc=$BASE_DIR/libvlc-all-$LIBVLC_VERSION-javadoc.jar \
-    -Durl="https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/" \
-    -DgroupId=org.videolan.android \
-    -Dgpg.keyname=49A7E6FE58DCF183F0B349DFB83763AD62ED0721 \
-    -DrepositoryId=central
-  curl -H "Authorization: Bearer $PWD" \
-      -X POST \
-      https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/org.videolan
+  deploy_artifact "libvlc-all" "$LIBVLC_VERSION" "$BASE_DIR"
 fi
 
 if [ -z "$MEDIALIB_VERSION" ]; then
   purple "No version for medialibrary Skipping"
 else
   BASE_DIR="$OUTPUT_DIR/aars/repository/org/videolan/android/medialibrary-all/$MEDIALIB_VERSION"
-  blue "Deploying $BASE_DIR"
-
-  mvn gpg:sign-and-deploy-file \
-    --settings settings.xml \
-    -DpomFile=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION.pom \
-    -Dfile=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION.aar \
-    -Dsources=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION-sources.jar \
-    -Djavadoc=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION-javadoc.jar \
-    -Durl="https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/" \
-    -DgroupId=org.videolan.android \
-    -Dgpg.keyname=49A7E6FE58DCF183F0B349DFB83763AD62ED0721 \
-    -DrepositoryId=central
-  curl -H "Authorization: Bearer $PWD" \
-      -X POST \
-      https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/org.videolan
+  deploy_artifact "medialibrary-all" "$MEDIALIB_VERSION" "$BASE_DIR"
 fi
 
 if [ -z "$REMOTE_ACCESS_VERSION" ]; then
   purple "No version for remote access Skipping"
 else
   BASE_DIR="$OUTPUT_DIR/aars/repository/org/videolan/android/remote-access/$REMOTE_ACCESS_VERSION"
-  blue "Deploying $BASE_DIR"
-
-  mvn gpg:sign-and-deploy-file \
-    --settings settings.xml \
-    -DpomFile=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION.pom \
-    -Dfile=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION.aar \
-    -Dsources=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION-sources.jar \
-    -Djavadoc=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION-javadoc.jar \
-    -Durl="https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/" \
-    -DgroupId=org.videolan.android \
-    -Dgpg.keyname=49A7E6FE58DCF183F0B349DFB83763AD62ED0721 \
-    -DrepositoryId=central
-  curl -H "Authorization: Bearer $PWD" \
-      -X POST \
-      https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/org.videolan
+  deploy_artifact "remote-access" "$REMOTE_ACCESS_VERSION" "$BASE_DIR"
 fi
-
-
