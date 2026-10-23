@@ -96,8 +96,8 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.PlaylistManager
-import org.videolan.vlc.media.ResumeStatus
 import org.videolan.vlc.media.WaitConfirmation
+import org.videolan.vlc.media.persistence.ResumeStatus
 import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.isTalkbackIsEnabled

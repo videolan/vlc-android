@@ -1,5 +1,6 @@
 package org.videolan.vlc.media
 
+import org.videolan.vlc.media.persistence.PlaybackPersistenceManager
 import org.videolan.vlc.media.queue.QueueNavigator
 import org.videolan.vlc.media.queue.PlayQueue
 import android.content.Intent
@@ -14,6 +15,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -90,6 +92,7 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.video.VideoPlayerActivity
+import org.videolan.vlc.media.persistence.ResumeStatus
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.FontCache
 import org.videolan.vlc.util.awaitMedialibraryStarted
@@ -133,6 +136,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController(service.applicationContext) }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { Settings.getInstance(service) }
     private val ctx by lazy(LazyThreadSafetyMode.NONE) { service.applicationContext }
+    val persistenceManager by lazy(LazyThreadSafetyMode.NONE) { PlaybackPersistenceManager(settings, medialibrary) }
     val playQueue = PlayQueue(mediaList)
     var currentIndex: Int
         get() = playQueue.currentIndex
@@ -196,10 +200,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     fun resetResumeStatus() {
-        val string = settings.getString(KEY_VIDEO_CONFIRM_RESUME, "0")
-        videoResumeStatus = if (string == "2") ResumeStatus.ASK else if (string == "0") ResumeStatus.ALWAYS else ResumeStatus.NEVER
-        val audio = settings.getString(KEY_AUDIO_CONFIRM_RESUME, "0")
-        audioResumeStatus = if (audio == "2") ResumeStatus.ASK else if (audio == "0") ResumeStatus.ALWAYS else ResumeStatus.NEVER
+        videoResumeStatus = persistenceManager.loadResumeStatus(KEY_VIDEO_CONFIRM_RESUME)
+        audioResumeStatus = persistenceManager.loadResumeStatus(KEY_AUDIO_CONFIRM_RESUME)
         waitForConfirmation.postValue(null)
         waitForConfirmationAudio.postValue(null)
     }
@@ -694,100 +696,32 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         service.executeUpdate(true)
     }
 
-    fun saveMediaMeta(end:Boolean = false) = launch(start = CoroutineStart.UNDISPATCHED) outerLaunch@ {
-        if (endReachedFor != null && endReachedFor == getCurrentMedia()?.uri.toString() && !end) return@outerLaunch
-        val titleIdx = player.getTitleIdx()
-        val currentMedia = getCurrentMedia() ?: return@outerLaunch
-        if (currentMedia.uri.scheme.isSchemeFD()) return@outerLaunch
-        if (Settings.getInstance(AppContextProvider.appContext).getBoolean(KEY_INCOGNITO, false)) return@outerLaunch
-        //Save progress
-        val time = player.mediaplayer.time
-        val length = player.getLength()
-        val canSwitchToVideo = player.canSwitchToVideo()
-        launch(Dispatchers.IO) innerLaunch@ {
-            val media = if (entryUrl != null) medialibrary.getMedia(entryUrl) else medialibrary.findMedia(currentMedia) ?: return@innerLaunch
-            if (showAudioPlayer.value != true) BaseBrowserFragment.needRefresh.postValue(true)
-            if (media.id == 0L) return@innerLaunch
-            if (titleIdx > 0) media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong())
-            //checks if the [MediaPlayer] has not been reset in the meantime to prevent saving 0
-            if (time != 0L || player.isPlaying())
-                if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
-                    if (length == 0L) {
-                        media.time = -1L
-                        media.position = player.lastPosition
-                        medialibrary.setLastPosition(media.id, if (end) 1F else media.position)
-                    } else {
-                        //todo verify that this info is persisted in DB
-                        if (media.length <= 0 && length > 0) media.length = length
-                        try {
-                            when (medialibrary.setLastTime(media.id, if (end) length else time)) {
-                                Medialibrary.ML_SET_TIME_ERROR -> {
-                                }
-                                Medialibrary.ML_SET_TIME_END, Medialibrary.ML_SET_TIME_BEGIN -> media.time = 0
-                                Medialibrary.ML_SET_TIME_AS_IS -> {
-                                    media.time = time
-                                    // the Medialibrary sometimes doesn't have the media's length,
-                                    // and won't know that the file has ended. This forces the ML
-                                    // to mark the file as finished and reset it's time
-                                    // When we are handling the end of the media, the value written
-                                    // to the ML is `length`, so the raw `time` may already have been
-                                    // reset to 0: only compare it when this is a regular save.
-                                    if (end || time == length) {
-                                        medialibrary.setLastTime(media.id, 0)
-                                        media.seen = 1L
-                                        media.playCount += 1
-                                        media.time = 0
-                                    }
-                                }
-                            }
-                        } catch (e: NullPointerException) {
-                            VLCCrashHandler.saveLog(e, "NullPointerException in PlaylistManager saveMediaMeta")
-                        }
-                    }
-                }
-            if (media.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !media.isPodcast) skipMediaUpdateRefresh = true
-
-        }
+    fun saveMediaMeta(end: Boolean = false): Job {
+        return persistenceManager.saveMediaMeta(
+            scope = this,
+            end = end,
+            currentMedia = getCurrentMedia(),
+            player = player,
+            entryUrl = entryUrl,
+            endReachedFor = endReachedFor,
+            onSkipMediaUpdateRefresh = { skipMediaUpdateRefresh = true }
+        )
     }
 
     fun setSpuTrack(index: String) {
-        if (!player.setSpuTrack(index)) return
-        val media = getCurrentMedia() ?: return
-        if (media.id != 0L) launch(Dispatchers.IO) { media.setStringMeta(MediaWrapper.META_SUBTITLE_TRACK, index) }
+        persistenceManager.setSpuTrack(this, index, player, getCurrentMedia())
     }
 
     fun setAudioDelay(delay: Long) {
-        if (!player.setAudioDelay(delay)) return
-        val media = getCurrentMedia() ?: return
-        if (media.id != 0L && settings.getBoolean(KEY_SAVE_INDIVIDUAL_AUDIO_DELAY, true)) {
-            launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_AUDIODELAY, player.getAudioDelay()) }
-        }
+        persistenceManager.setAudioDelay(this, delay, player, getCurrentMedia())
     }
 
     fun setSpuDelay(delay: Long) {
-        if (!player.setSpuDelay(delay)) return
-        val media = getCurrentMedia() ?: return
-        if (media.id != 0L) launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_SUBTITLE_DELAY, player.getSpuDelay()) }
+        persistenceManager.setSpuDelay(this, delay, player, getCurrentMedia())
     }
 
-    private fun loadMediaMeta(media: MediaWrapper) {
-        if (player.canSwitchToVideo()) {
-            val savedDelay = media.getMetaLong(MediaWrapper.META_AUDIODELAY)
-            val globalDelay = Settings.getInstance(AppContextProvider.appContext).getLong(AUDIO_DELAY_GLOBAL, 0L)
-            if (savedDelay == 0L && globalDelay != 0L) {
-                player.setAudioDelay(globalDelay)
-            } else if (settings.getBoolean(KEY_SAVE_INDIVIDUAL_AUDIO_DELAY, true)) {
-                player.setAudioDelay(savedDelay)
-            }
-            val abStart = if (settings.getBoolean(PLAYBACK_HISTORY, true))  media.getMetaLong(MediaWrapper.META_AB_REPEAT_START) else 0L
-            if (abStart != 0L) {
-                abRepeatOn.value = true
-                val abStop = media.getMetaLong(MediaWrapper.META_AB_REPEAT_STOP)
-                abRepeat.postValue(ABRepeat(abStart, if (abStop == 0L) -1L else abStop))
-            }
-            player.setSpuTrack(media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toString())
-            player.setSpuDelay(media.getMetaLong(MediaWrapper.META_SUBTITLE_DELAY))
-        }
+    internal fun loadMediaMeta(media: MediaWrapper) {
+        persistenceManager.loadMediaMeta(media, player, abRepeatOn, abRepeat)
         restoreSpeed(media)
     }
 
@@ -797,82 +731,17 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      * @param media
      */
     fun restoreSpeed(media: MediaWrapper) {
-        val incognitoMode = settings.getBoolean(KEY_INCOGNITO, false)
-        val playbackSpeedModeAll = settings.getBoolean(if (player.isVideoPlaying()) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, false)
-        val playbackRate = when {
-            incognitoMode && playbackSpeedModeAll -> settings.getFloat(if (player.isVideoPlaying()) KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, 1.0f)
-            //restore all
-            playbackSpeedModeAll -> settings.getFloat(if (player.isVideoPlaying()) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, 1.0f)
-            incognitoMode -> 1F
-            //restore one
-            else -> try {
-                media.getMetaString(MediaWrapper.META_SPEED).toFloat()
-            } catch (e: Exception) {
-                1F
-            }
-        }
+        val playbackRate = persistenceManager.restoreSpeed(media, player.isVideoPlaying())
         player.setRate(playbackRate, false)
     }
 
     @Synchronized
-    fun saveCurrentMedia(forceVideo:Boolean = false) {
-        if (settings.getBoolean(KEY_INCOGNITO, false)) return
-        val media = getCurrentMedia() ?: return
-        val isAudio = isAudioList() || forceVideo
-        settings.putSingle(KEY_CURRENT_MEDIA_IS_AUDIO, isAudio)
-
-        if (media.uri.scheme.isSchemeFD()) {
-            if (isAudio) {
-                settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, "")
-                settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, "")
-                settings.putSingle(KEY_CURRENT_AUDIO_RESUME_THUMB, "")
-            }
-            return
-        }
-        val saveAudioPlayQueue = settings.getBoolean(AUDIO_RESUME_PLAYBACK, true)
-        val saveVideoPlayQueue = settings.getBoolean(VIDEO_RESUME_PLAYBACK, true)
-        if (!isAudio && saveVideoPlayQueue) {
-            settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
-            // !player.isVideoPlaying means that there are no view attached, but if the media is a
-            // video then it must have been played as Audio
-            if (Settings.getInstance(ctx).getString(KEY_VIDEO_APP_SWITCH, "0") == "1" || !player.isVideoPlaying()) {
-                settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, media.title ?: "")
-                settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, media.artistName ?: "")
-                settings.putSingle(KEY_CURRENT_AUDIO_RESUME_THUMB, media.artworkURL ?: "")
-            }
-            settings.putSingle(KEY_CURRENT_MEDIA, media.location)
-        }
-        if (isAudio && saveAudioPlayQueue) {
-            settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
-            settings.putSingle(KEY_CURRENT_AUDIO, media.location)
-            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, media.title ?: "")
-            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, media.artistName ?: "")
-            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_THUMB, media.artworkURL ?: "")
-        }
+    fun saveCurrentMedia(forceVideo: Boolean = false) {
+        persistenceManager.saveCurrentMedia(getCurrentMedia(), isAudioList() || forceVideo, player.isVideoPlaying())
     }
 
-    suspend fun saveMediaList(forceVideo:Boolean = false) {
-        if (settings.getBoolean(KEY_INCOGNITO, false)) return
-        val currentMedia = getCurrentMedia() ?: return
-        if (currentMedia.uri.scheme.isSchemeFD()) return
-        val locations = StringBuilder()
-        val isAudio = isAudioList() || forceVideo
-        withContext(Dispatchers.Default) {
-            val list = mediaList.copy.takeIf { it.isNotEmpty() } ?: return@withContext
-            for (mw in list) locations.append(" ").append(mw.uri.toString())
-            //We save a concatenated String because putStringSet is APIv11.
-            if (isAudio) {
-                if (settings.getBoolean(AUDIO_RESUME_PLAYBACK, true)) {
-                    settings.putSingle(KEY_MEDIA_LAST_PLAYLIST_RESUME, locations.toString().trim())
-                    settings.putSingle(KEY_AUDIO_LAST_PLAYLIST, locations.toString().trim())
-                }
-            } else {
-                if (settings.getBoolean(VIDEO_RESUME_PLAYBACK, true)) {
-                    settings.putSingle(KEY_MEDIA_LAST_PLAYLIST_RESUME, locations.toString().trim())
-                    settings.putSingle(KEY_MEDIA_LAST_PLAYLIST, locations.toString().trim())
-                }
-            }
-        }
+    suspend fun saveMediaList(forceVideo: Boolean = false) {
+        persistenceManager.saveMediaList(getCurrentMedia(), getMediaList(), isAudioList() || forceVideo)
     }
 
     override fun onItemMoved(indexBefore: Int, indexAfter: Int, mrl: String) {
@@ -989,22 +858,17 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @Synchronized
     private fun savePosition(reset: Boolean = false, video: Boolean = false) {
-        if (settings.getBoolean(KEY_INCOGNITO, false)) return
-        if (!hasMedia()) return
-        settings.edit {
-            val audio = !video && isAudioList()
-            putBoolean(if (audio) AUDIO_SHUFFLING else MEDIA_SHUFFLING, shuffling)
-            putInt(if (audio) POSITION_IN_AUDIO_LIST else POSITION_IN_MEDIA_LIST, if (reset) 0 else currentIndex)
-            putLong(if (audio) POSITION_IN_SONG else POSITION_IN_MEDIA, if (reset) 0L else player.getCurrentTime())
-            if (!audio) {
-                putFloat(VIDEO_SPEED, player.getRate())
-            }
-            //we reached the end. The next proposed media should be the first of the list
-            if (reset) {
-                val media = getMediaList()[0]
-                if(audio && settings.getBoolean(AUDIO_RESUME_PLAYBACK, true)) putString(KEY_CURRENT_AUDIO, media.location)
-            }
-        }
+        persistenceManager.savePosition(
+            hasMedia = hasMedia(),
+            isAudioList = isAudioList(),
+            shuffling = shuffling,
+            currentIndex = currentIndex,
+            currentTime = player.getCurrentTime(),
+            rate = player.getRate(),
+            firstMedia = getMedia(0),
+            reset = reset,
+            video = video
+        )
     }
 
     /**
@@ -1307,6 +1171,3 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 class ABRepeat(var start: Long = -1L, var stop: Long = -1L)
 class DelayValues(var start: Long = -1L, var stop: Long = -1L)
 class WaitConfirmation(val title: String, val index: Int, val flags: Int, var used: Boolean = false)
-enum class ResumeStatus {
-    ALWAYS, ASK, NEVER
-}

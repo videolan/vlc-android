@@ -53,7 +53,7 @@ import org.videolan.tools.awaitAppIsForegroung
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.media.ResumeStatus
+import org.videolan.vlc.media.persistence.ResumeStatus
 import org.videolan.vlc.remoteaccessserver.RemoteAccessServer
 
 private const val TAG = "RARoutingPlayback"
