@@ -1,5 +1,6 @@
 package org.videolan.vlc.media
 
+import org.videolan.vlc.media.queue.QueueNavigator
 import org.videolan.vlc.media.queue.PlayQueue
 import android.content.Intent
 import android.support.v4.media.session.PlaybackStateCompat
@@ -138,16 +139,20 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         set(value) {
             playQueue.currentIndex = value
         }
-    private var nextIndex = -1
-    private var prevIndex = -1
-    private var previous = Stack<Int>()
+    val navigator = QueueNavigator(repeating, PlaylistManager.shuffling)
+    internal var nextIndex: Int
+        get() = navigator.nextIndex
+        set(value) { navigator.nextIndex = value }
+    private var prevIndex: Int
+        get() = navigator.prevIndex
+        set(value) { navigator.prevIndex = value }
+    private val previous: Stack<Int>
+        get() = navigator.previous
     var stopAfter = -1
-    var shuffling: Boolean = false
+    var shuffling: Boolean
+        get() = navigator.isShuffling
         set(value) {
-            field = value
-            AppScope.launch {
-                PlaylistManager.shuffling.emit(value)
-            }
+            navigator.isShuffling = value
         }
     var videoBackground = false
         private set
@@ -646,9 +651,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         player.setVideoTrackEnabled(enabled)
     }
 
-    fun hasPrevious() = prevIndex != -1
+    fun hasPrevious() = navigator.hasPrevious()
 
-    fun hasNext() = nextIndex != -1
+    fun hasNext() = navigator.hasNext()
 
     @MainThread
     override fun onItemAdded(index: Int, mrl: String) {
@@ -888,81 +893,20 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         addUpdateActor.trySend(Unit)
     }
 
-    private suspend fun determinePrevAndNextIndices(expand: Boolean = false) {
+    internal suspend fun determinePrevAndNextIndices(expand: Boolean = false) {
         val media = getCurrentMedia()
-        if (expand && media !== null) {
-            expanding = true
-            nextIndex = expand(media.type == MediaWrapper.TYPE_STREAM, media.hasFlag(MediaWrapper.MEDIA_NO_PARSE))
-            expanding = false
-        } else {
-            nextIndex = -1
-        }
-        prevIndex = -1
-
-        if (nextIndex == -1) {
-            // No subitems; play the next item.
-            val size = mediaList.size()
-            shuffling = shuffling and (size > 2)
-
-            if (shuffling) {
-                if (!previous.isEmpty()) {
-                    prevIndex = previous.peek()
-                    while (!isValidPosition(prevIndex)) {
-                        previous.removeAt(previous.size - 1)
-                        if (previous.isEmpty()) {
-                            prevIndex = -1
-                            break
-                        }
-                        prevIndex = previous.peek()
-                    }
-                }
-                // If we've played all songs already in shuffle, then either
-                // reshuffle or stop (depending on RepeatType).
-                if (previous.size + 1 == size) {
-                    if (repeating.value == PlaybackStateCompat.REPEAT_MODE_NONE) {
-                        nextIndex = -1
-                        return
-                    } else {
-                        previous.clear()
-                    }
-                }
-                // Find a new index not in previous.
-                do {
-                    nextIndex = random.nextInt(size)
-                } while (nextIndex == currentIndex || previous.contains(nextIndex))
-            } else {
-                // normal playback
-                if (currentIndex > 0) prevIndex = currentIndex - 1
-                nextIndex = when {
-                    currentIndex + 1 < size -> currentIndex + 1
-                    repeating.value == PlaybackStateCompat.REPEAT_MODE_NONE -> -1
-                    else -> 0
-                }
+        val expandFn: (suspend (Boolean, Boolean) -> Int)? = if (expand && media != null) {
+            { isStream, noParse ->
+                expanding = true
+                val result = expand(isStream, noParse)
+                expanding = false
+                result
             }
-        }
+        } else null
+        navigator.determinePrevAndNextIndices(currentIndex, playQueue, expand, expandFn)
     }
 
-    fun previousTotalTime(): Long {
-        val index = currentIndex
-        val copy = mediaList.copy
-        return when {
-            copy.size == 0 || index < 0 -> {
-                0
-            }
-            shuffling -> {
-                copy.asSequence()
-                        .filterIndexed { prevIndex, _ -> previous.contains(prevIndex) }
-                        .map { it.length }
-                        .sum()
-            }
-            else -> {
-                copy.asSequence()
-                        .take(index)
-                        .map { it.length }
-                        .sum()
-            }
-        }
-    }
+    fun previousTotalTime(): Long = navigator.previousTotalTime(playQueue, currentIndex)
 
     /**
      * Expand the current media.
