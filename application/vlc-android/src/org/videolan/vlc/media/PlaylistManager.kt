@@ -1,5 +1,6 @@
 package org.videolan.vlc.media
 
+import org.videolan.vlc.media.queue.PlayQueue
 import android.content.Intent
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
@@ -131,10 +132,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController(service.applicationContext) }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { Settings.getInstance(service) }
     private val ctx by lazy(LazyThreadSafetyMode.NONE) { service.applicationContext }
-    var currentIndex = -1
+    val playQueue = PlayQueue(mediaList)
+    var currentIndex: Int
+        get() = playQueue.currentIndex
         set(value) {
-            field = value
-            currentPlayedMedia.postValue(mediaList.getMedia(value))
+            playQueue.currentIndex = value
         }
     private var nextIndex = -1
     private var prevIndex = -1
@@ -172,15 +174,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     lateinit var videoResumeStatus: ResumeStatus
     lateinit var audioResumeStatus: ResumeStatus
 
-    fun hasCurrentMedia() = isValidPosition(currentIndex)
+    fun hasCurrentMedia() = playQueue.isValidPosition(currentIndex)
 
-    fun canRepeat() = mediaList.size() > 0
+    fun canRepeat() = playQueue.canRepeat()
 
-    fun hasPlaylist() = mediaList.size() > 1
+    fun hasPlaylist() = playQueue.hasPlaylist()
 
-    fun canShuffle() = mediaList.size() > 2
+    fun canShuffle() = playQueue.canShuffle()
 
-    fun isValidPosition(position: Int) = position in 0 until mediaList.size()
+    fun isValidPosition(position: Int) = playQueue.isValidPosition(position)
     private var shouldDisableCookieForwarding: Boolean = false
 
     init {
@@ -1106,25 +1108,25 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      * Move an item inside the playlist.
      */
     @MainThread
-    fun moveItem(positionStart: Int, positionEnd: Int) = mediaList.move(positionStart, positionEnd)
+    fun moveItem(positionStart: Int, positionEnd: Int) = playQueue.moveItem(positionStart, positionEnd)
 
     @MainThread
     fun insertItem(position: Int, mw: MediaWrapper) {
         if (BuildConfig.BETA) Log.d(TAG, "insertItem with values: ", Exception("Call stack"))
         if (BuildConfig.BETA) Log.d(TAG, "Media location: ${mw.uri}")
-        mediaList.insert(position, mw)
+        playQueue.insertItem(position, mw)
     }
 
 
     @MainThread
-    fun remove(position: Int) = mediaList.remove(position)
+    fun remove(position: Int) = playQueue.remove(position)
 
     @MainThread
-    fun removeLocation(location: String) = mediaList.remove(location)
+    fun removeLocation(location: String) = playQueue.removeLocation(location)
 
-    fun getMediaListSize()= mediaList.size()
+    fun getMediaListSize() = playQueue.size
 
-    fun getMediaList(): List<MediaWrapper> = mediaList.copy
+    fun getMediaList(): List<MediaWrapper> = playQueue.getMediaList()
 
     fun setABRepeatValue(media: MediaWrapper?, time: Long) {
         val value = abRepeat.value ?: ABRepeat()
