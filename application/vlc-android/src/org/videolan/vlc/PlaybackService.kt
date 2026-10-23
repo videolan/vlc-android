@@ -28,6 +28,7 @@ import android.app.SearchManager
 import android.app.UiModeManager
 import android.appwidget.AppWidgetManager
 import android.content.BroadcastReceiver
+import android.content.res.Resources
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -179,6 +180,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
 import org.videolan.vlc.media.PlayerController
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.media.PlaybackServiceCallback
 import org.videolan.vlc.util.AccessControl
 import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.LifecycleAwareScheduler
@@ -206,7 +208,12 @@ import kotlin.math.absoluteValue
 
 private const val TAG = "VLC/PlaybackService"
 
-class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineScope, SchedulerCallback {
+class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineScope, SchedulerCallback, PlaybackServiceCallback {
+    override val context: Context get() = this
+    override val lifecycleOwner: LifecycleOwner get() = this
+    override fun loadLastAudio() { loadLastAudio(this) }
+    override fun getServiceResources(): Resources = resources
+    override suspend fun awaitMedialibraryStarted() = (this as Context).awaitMedialibraryStarted()
     override val coroutineContext = Dispatchers.IO + SupervisorJob()
     lateinit var scheduler: LifecycleAwareScheduler
 
@@ -233,13 +240,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private val audioFocusHelper by lazy { VLCAudioFocusHelper(this) }
     private lateinit var browserCallback: MediaBrowserCallback
     var sleepTimerJob: Job? = null
-    var waitForMediaEnd = false
-    var resetOnInteraction = false
+    override var waitForMediaEnd = false
+    override var resetOnInteraction = false
     var sleepTimerInterval = 0L
     private var mediaEndReached = false
     var playQueueFinished = false
 
-    var isInPiPMode: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isInPiPMode: MutableLiveData<Boolean> = MutableLiveData(false)
 
     // Playback management
     internal lateinit var mediaSession: MediaSessionCompat
@@ -987,7 +994,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         playlistManager.isHardware = true
     }
 
-    fun setTime(time: Long, fast: Boolean = false) {
+    override fun setTime(time: Long, fast: Boolean) {
         val shouldFast = fast || (!playlistManager.isBenchmark && settings.getBoolean(KEY_ALWAYS_FAST_SEEK, false))
         playlistManager.player.setTime(time, shouldFast)
         publishState(time)
@@ -995,9 +1002,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     fun getTime() = playlistManager.player.getCurrentTime()
 
-    fun onMediaPlayerEvent(event: MediaPlayer.Event) = mediaPlayerListener.onEvent(event)
+    override fun onMediaPlayerEvent(event: MediaPlayer.Event) = mediaPlayerListener.onEvent(event)
 
-    fun onPlaybackStopped(systemExit: Boolean) {
+    override fun onPlaybackStopped(systemExit: Boolean) {
         if (!systemExit) hideNotification(isForeground)
         removePopup()
         if (wakeLock.isHeld) wakeLock.release()
@@ -1009,9 +1016,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     private fun canSwitchToVideo() = playlistManager.player.canSwitchToVideo()
 
-    fun onMediaEvent(event: IMedia.Event) = cbActor.trySend(CbMediaEvent(event))
+    override fun onMediaEvent(event: IMedia.Event) {
+        cbActor.trySend(CbMediaEvent(event))
+    }
 
-    fun executeUpdate(pubState: Boolean = false) {
+    override fun executeUpdate(pubState: Boolean) {
         cbActor.trySend(CbUpdate)
         updateWidget()
         updateMetadata()
@@ -1020,7 +1029,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             publishState()
     }
 
-    fun showNotification(): Boolean {
+    override fun showNotification(): Boolean {
         notificationShowing = true
         return cbActor.trySend(ShowNotification).isSuccess
     }
@@ -1110,9 +1119,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         NotificationManagerCompat.from(this@PlaybackService).cancel(NotificationIds.PLAYBACK.id)
     }
 
-    fun onNewPlayback() = mediaSession.setSessionActivity(sessionPendingIntent)
+    override fun onNewPlayback() { mediaSession.setSessionActivity(sessionPendingIntent) }
 
-    fun onPlaylistLoaded() {
+    override fun onPlaylistLoaded() {
         notifyTrackChanged()
         updateMediaQueue()
     }
@@ -1383,14 +1392,14 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         }
     }
 
-    fun notifyTrackChanged() {
+    override fun notifyTrackChanged() {
         subtitleMessage.clear()
         updateMetadata()
         updateWidget()
         broadcastMetadata()
     }
 
-    fun onMediaListChanged() {
+    override fun onMediaListChanged() {
         executeUpdate()
         updateMediaQueue()
     }
@@ -1479,7 +1488,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         }
     }
 
-    fun showToast(text: String, duration: Int, isError: Boolean = false) {
+    override fun showToast(text: String, duration: Int, isError: Boolean) {
         scheduler.cancelAction(SHOW_TOAST)
         scheduler.startAction(SHOW_TOAST, bundleOf("text" to text, "duration" to duration, "isError" to isError))
     }
@@ -2011,7 +2020,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
      * Change the sleep timer time
      * @param time a [Calendar] object for the new sleep timer time. Set to null to cancel the sleep timer
      */
-    fun setSleepTimer(time: Calendar?) {
+    override fun setSleepTimer(time: Calendar?) {
         if (time != null && time.timeInMillis < System.currentTimeMillis()) return
         playerSleepTime.value = time
         if (time == null) stopSleepTimerJob() else startSleepTimerJob()
