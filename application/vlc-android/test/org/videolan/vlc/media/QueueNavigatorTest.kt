@@ -93,10 +93,10 @@ class QueueNavigatorTest : BaseTest() {
         val media1: MediaWrapper = mockk(relaxed = true) { every { length } returns 100L }
         val media2: MediaWrapper = mockk(relaxed = true) { every { length } returns 200L }
         val media3: MediaWrapper = mockk(relaxed = true) { every { length } returns 300L }
-        val mediaList = listOf(media1, media2, media3)
+        val playQueue = PlayQueue().apply { append(listOf(media1, media2, media3)) }
 
         // Linear playback at index 2 -> sum of media1 + media2 = 300L
-        val time = navigator.previousTotalTime(mediaList, 2)
+        val time = navigator.previousTotalTime(playQueue, 2)
         assertEquals(300L, time)
     }
 }
