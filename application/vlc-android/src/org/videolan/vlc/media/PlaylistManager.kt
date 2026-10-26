@@ -1,5 +1,6 @@
 package org.videolan.vlc.media
 
+import org.videolan.vlc.media.queue.QueueExpander
 import org.videolan.vlc.media.control.ABRepeatController
 import org.videolan.vlc.media.persistence.PlaybackPersistenceManager
 import org.videolan.vlc.media.queue.QueueNavigator
@@ -171,6 +172,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     @Volatile
     private var expanding = false
     override var entryUrl : String? = null
+    val queueExpander by lazy(LazyThreadSafetyMode.NONE) { QueueExpander(this, player, playQueue, medialibrary, service) }
     val abRepeatController by lazy(LazyThreadSafetyMode.NONE) { ABRepeatController(settings) }
     override val abRepeat: MutableLiveData<ABRepeat> get() = abRepeatController.abRepeat
     val abRepeatOn: MutableLiveData<Boolean> get() = abRepeatController.abRepeatOn
@@ -787,54 +789,8 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
      * @return the index of the media was expanded, and -1 if no media was expanded
      */
     @MainThread
-    private suspend fun expand(updateHistory: Boolean, skipNextParsing:Boolean = false): Int {
-        entryUrl = null
-        if (BuildConfig.BETA) Log.d(TAG, "expand with values: ", Exception("Call stack"))
-        val index = currentIndex
-        val expandedMedia = getCurrentMedia()
-        val stream = expandedMedia?.type == MediaWrapper.TYPE_STREAM
-        val ml = player.expand()
-        var ret = -1
-
-        if (ml != null && ml.count > 0) {
-            val mrl = if (updateHistory) expandedMedia?.location else null
-            mediaList.removeEventListener(this)
-            mediaList.remove(index)
-            for (i in 0 until ml.count) {
-                val child = ml.getMediaAt(i)
-                //fixme workaround to prevent the issue described in https://code.videolan.org/videolan/vlc-android/-/issues/2106
-                if (isSchemeHttpOrHttps(child.uri.scheme) && child.uri.authority?.endsWith(".youtube.com") == true) {
-                    shouldDisableCookieForwarding = true
-                }
-                if (!skipNextParsing)
-                    withContext(Dispatchers.IO) { child.parse() }
-                if (BuildConfig.BETA)  Log.d(TAG, "inserting: ${child.uri}")
-                mediaList.insert(index + i, MLServiceLocator.getAbstractMediaWrapper(child).apply {
-                    if (skipNextParsing)
-                        addFlags(MediaWrapper.MEDIA_NO_PARSE)
-                })
-                child.release()
-            }
-            mediaList.addEventListener(this)
-            addUpdateActor.trySend(Unit)
-            service.onMediaListChanged()
-            if (mrl !== null && ml.count == 1) {
-                getCurrentMedia()?.apply {
-                    AppScope.launch(Dispatchers.IO) {
-                        if (stream) {
-                            type = MediaWrapper.TYPE_STREAM
-                            entryUrl = mrl
-                            medialibrary.getMedia(mrl)?.run { if (id > 0) medialibrary.removeExternalMedia(id) }
-                        } else if (!uri.scheme.isSchemeFD()) {
-                            medialibrary.addToHistory(mrl, title)
-                        }
-                    }
-                }
-            }
-            ret = index
-        }
-        ml?.release()
-        return ret
+    private suspend fun expand(updateHistory: Boolean, skipNextParsing: Boolean = false): Int {
+        return queueExpander.expand(updateHistory, skipNextParsing)
     }
 
     override fun getCurrentMedia() = mediaList.getMedia(currentIndex)
