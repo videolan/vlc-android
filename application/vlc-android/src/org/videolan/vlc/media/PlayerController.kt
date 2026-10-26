@@ -9,7 +9,6 @@ import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.actor
 import org.videolan.BuildConfig
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -319,29 +318,31 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     private var lastTime = 0L
     var lastPosition = 0F
-    @OptIn(ObsoleteCoroutinesApi::class)
-    private val eventActor = actor<MediaPlayer.Event>(capacity = Channel.UNLIMITED, start = CoroutineStart.UNDISPATCHED) {
-        for (event in channel) {
-            when (event.type) {
-                MediaPlayer.Event.Playing -> playbackState = PlaybackStateCompat.STATE_PLAYING
-                MediaPlayer.Event.Paused -> playbackState = PlaybackStateCompat.STATE_PAUSED
-                MediaPlayer.Event.EncounteredError -> setPlaybackStopped()
-                MediaPlayer.Event.PausableChanged -> pausable = event.pausable
-                MediaPlayer.Event.SeekableChanged -> seekable = event.seekable
-                MediaPlayer.Event.LengthChanged -> updateProgress(newLength = event.lengthChanged)
-                MediaPlayer.Event.TimeChanged -> {
-                    val time = event.timeChanged
-                    if ((time - lastTime).absoluteValue > 950L) {
-                        updateProgress(newTime = time)
-                        lastTime = time
+    private val eventChannel = Channel<MediaPlayer.Event>(capacity = Channel.UNLIMITED)
+
+    init {
+        launch(Dispatchers.Main.immediate) {
+            for (event in eventChannel) {
+                when (event.type) {
+                    MediaPlayer.Event.Playing -> playbackState = PlaybackStateCompat.STATE_PLAYING
+                    MediaPlayer.Event.Paused -> playbackState = PlaybackStateCompat.STATE_PAUSED
+                    MediaPlayer.Event.EncounteredError -> setPlaybackStopped()
+                    MediaPlayer.Event.PausableChanged -> pausable = event.pausable
+                    MediaPlayer.Event.SeekableChanged -> seekable = event.seekable
+                    MediaPlayer.Event.LengthChanged -> updateProgress(newLength = event.lengthChanged)
+                    MediaPlayer.Event.TimeChanged -> {
+                        val time = event.timeChanged
+                        if ((time - lastTime).absoluteValue > 950L) {
+                            updateProgress(newTime = time)
+                            lastTime = time
+                        }
+                    }
+                    MediaPlayer.Event.PositionChanged -> {
+                        lastPosition = event.positionChanged
                     }
                 }
-                MediaPlayer.Event.PositionChanged -> {
-                    lastPosition = event.positionChanged
-
-                }
+                mediaplayerEventListener?.onEvent(event)
             }
-            mediaplayerEventListener?.onEvent(event)
         }
     }
 
@@ -351,7 +352,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     override fun onEvent(event: MediaPlayer.Event?) {
-        if (event != null) eventActor.trySend(event)
+        if (event != null) eventChannel.trySend(event)
     }
 
     private fun setPlaybackStopped() {
