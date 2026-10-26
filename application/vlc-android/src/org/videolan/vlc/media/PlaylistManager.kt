@@ -109,12 +109,12 @@ import java.util.Stack
 import kotlin.math.max
 
 private const val TAG = "VLC/PlaylistManager"
-private const val PREVIOUS_LIMIT_DELAY = 5000L
-private const val PLAYLIST_AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode"
-private const val PLAYLIST_VIDEO_REPEAT_MODE_KEY = "video_repeat_mode"
+internal const val PREVIOUS_LIMIT_DELAY = 5000L
+internal const val PLAYLIST_AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode"
+internal const val PLAYLIST_VIDEO_REPEAT_MODE_KEY = "video_repeat_mode"
 
-class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventListener, IMedia.EventListener, CoroutineScope {
-    private var endReachedFor: String? = null
+class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, MediaWrapperList.EventListener, IMedia.EventListener {
+    override var endReachedFor: String? = null
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
 
     companion object {
@@ -138,13 +138,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private val ctx by lazy(LazyThreadSafetyMode.NONE) { service.applicationContext }
     val persistenceManager by lazy(LazyThreadSafetyMode.NONE) { PlaybackPersistenceManager(settings, medialibrary) }
     val playQueue = PlayQueue(mediaList)
-    var currentIndex: Int
+    override var currentIndex: Int
         get() = playQueue.currentIndex
         set(value) {
             playQueue.currentIndex = value
         }
-    val navigator = QueueNavigator(repeating, PlaylistManager.shuffling)
-    internal var nextIndex: Int
+    override val navigator = QueueNavigator(repeating, PlaylistManager.shuffling)
+    override var nextIndex: Int
         get() = navigator.nextIndex
         set(value) { navigator.nextIndex = value }
     private var prevIndex: Int
@@ -152,36 +152,35 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         set(value) { navigator.prevIndex = value }
     private val previous: Stack<Int>
         get() = navigator.previous
-    var stopAfter = -1
-    var shuffling: Boolean
+    override var stopAfter = -1
+    override var shuffling: Boolean
         get() = navigator.isShuffling
         set(value) {
             navigator.isShuffling = value
         }
-    var videoBackground = false
-        private set
-    var isBenchmark = false
-    var isHardware = false
-    var browserAudioActive = false
-    private var preBrowserVolume = -1
-    private var parsed = false
-    var savedTime = 0L
+    override var videoBackground = false
+    override var isBenchmark = false
+    override var isHardware = false
+    override var browserAudioActive = false
+    override var preBrowserVolume = -1
+    override var parsed = false
+    override var savedTime = 0L
     private var random = SecureRandom()
-    private var newMedia = false
+    override var newMedia = false
     @Volatile
     private var expanding = false
-    private var entryUrl : String? = null
-    val abRepeat by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<ABRepeat>().apply { value = ABRepeat() } }
+    override var entryUrl : String? = null
+    override val abRepeat by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<ABRepeat>().apply { value = ABRepeat() } }
     val abRepeatOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
     val videoStatsOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
     val delayValue by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<DelayValues>().apply { value = DelayValues() } }
-    val waitForConfirmation by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<WaitConfirmation?>().apply { value = null } }
-    val waitForConfirmationAudio by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<WaitConfirmation?>().apply { value = null } }
+    override val waitForConfirmation by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<WaitConfirmation?>().apply { value = null } }
+    override val waitForConfirmationAudio by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<WaitConfirmation?>().apply { value = null } }
     private var lastPrevious = -1L
 
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
-    lateinit var videoResumeStatus: ResumeStatus
-    lateinit var audioResumeStatus: ResumeStatus
+    override lateinit var videoResumeStatus: ResumeStatus
+    override lateinit var audioResumeStatus: ResumeStatus
 
     fun hasCurrentMedia() = playQueue.isValidPosition(currentIndex)
 
@@ -189,10 +188,14 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun hasPlaylist() = playQueue.hasPlaylist()
 
-    fun canShuffle() = playQueue.canShuffle()
+    override fun canShuffle() = playQueue.canShuffle()
 
     fun isValidPosition(position: Int) = playQueue.isValidPosition(position)
-    private var shouldDisableCookieForwarding: Boolean = false
+    override var shouldDisableCookieForwarding: Boolean = false
+
+    override fun notifyUpdate() {
+        addUpdateActor.trySend(Unit)
+    }
 
     init {
         AppScope.launch { repeating.emit(settings.getInt(PLAYLIST_AUDIO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)) }
@@ -374,7 +377,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     @MainThread
-    fun next(force : Boolean = false) {
+    override fun next(force : Boolean) {
         mediaList.getMedia(currentIndex)?.let {
             if (it.type == MediaWrapper.TYPE_VIDEO || it.isPodcast) saveMediaMeta()
         }
@@ -398,7 +401,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (isPlaying) PlaybackService.loadLastAudio(service)
     }
 
-    fun stop(systemExit: Boolean = false, video: Boolean = false) {
+    override fun stop(systemExit: Boolean, video: Boolean) {
         clearABRepeat()
         if (stopAfter != -1) Settings.getInstance(AppContextProvider.appContext).putSingle(AUDIO_STOP_AFTER, stopAfter)
         stopAfter = -1
@@ -454,7 +457,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     @MainThread
-    fun shuffle() {
+    override fun shuffle() {
         if (shuffling) previous.clear()
         shuffling = !shuffling
         savePosition()
@@ -490,7 +493,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         showAudioPlayer.value = PlayerController.playbackState != PlaybackStateCompat.STATE_STOPPED && (item !== null || !player.isVideoPlaying())
     }
 
-    suspend fun playIndex(index: Int, flags: Int = 0, forceResume:Boolean = false, forceRestart:Boolean = false) {
+    override suspend fun playIndex(index: Int, flags: Int, forceResume: Boolean, forceRestart: Boolean) {
         // The fonts are scanned when the first text renderer is created, which would otherwise
         // delay the playback by several seconds on the first run. See [FontCache]
         // Wait before reading any state, as the queue can change in the meantime
@@ -655,7 +658,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun hasPrevious() = navigator.hasPrevious()
 
-    fun hasNext() = navigator.hasNext()
+    override fun hasNext() = navigator.hasNext()
 
     @MainThread
     override fun onItemAdded(index: Int, mrl: String) {
@@ -696,7 +699,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         service.executeUpdate(true)
     }
 
-    fun saveMediaMeta(end: Boolean = false): Job {
+    override fun saveMediaMeta(end: Boolean): Job {
         return persistenceManager.saveMediaMeta(
             scope = this,
             end = end,
@@ -720,9 +723,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         persistenceManager.setSpuDelay(this, delay, player, getCurrentMedia())
     }
 
-    internal fun loadMediaMeta(media: MediaWrapper) {
-        persistenceManager.loadMediaMeta(media, player, abRepeatOn, abRepeat)
-        restoreSpeed(media)
+    override fun loadMediaMeta(mw: MediaWrapper) {
+        persistenceManager.loadMediaMeta(mw, player, abRepeatOn, abRepeat)
+        restoreSpeed(mw)
     }
 
     /**
@@ -730,18 +733,18 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      *
      * @param media
      */
-    fun restoreSpeed(media: MediaWrapper) {
+    override fun restoreSpeed(media: MediaWrapper) {
         val playbackRate = persistenceManager.restoreSpeed(media, player.isVideoPlaying())
         player.setRate(playbackRate, false)
     }
 
     @Synchronized
-    fun saveCurrentMedia(forceVideo: Boolean = false) {
-        persistenceManager.saveCurrentMedia(getCurrentMedia(), isAudioList() || forceVideo, player.isVideoPlaying())
+    override fun saveCurrentMedia() {
+        persistenceManager.saveCurrentMedia(getCurrentMedia(), isAudioList(), player.isVideoPlaying())
     }
 
-    suspend fun saveMediaList(forceVideo: Boolean = false) {
-        persistenceManager.saveMediaList(getCurrentMedia(), getMediaList(), isAudioList() || forceVideo)
+    override suspend fun saveMediaList() {
+        persistenceManager.saveMediaList(getCurrentMedia(), getMediaList(), isAudioList())
     }
 
     override fun onItemMoved(indexBefore: Int, indexAfter: Int, mrl: String) {
@@ -762,7 +765,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         addUpdateActor.trySend(Unit)
     }
 
-    internal suspend fun determinePrevAndNextIndices(expand: Boolean = false) {
+    override suspend fun determinePrevAndNextIndices(expand: Boolean) {
         val media = getCurrentMedia()
         val expandFn: (suspend (Boolean, Boolean) -> Int)? = if (expand && media != null) {
             { isStream, noParse ->
@@ -832,7 +835,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         return ret
     }
 
-    fun getCurrentMedia() = mediaList.getMedia(currentIndex)
+    override fun getCurrentMedia() = mediaList.getMedia(currentIndex)
 
     fun getPrevMedia() = if (isValidPosition(prevIndex)) mediaList.getMedia(prevIndex) else null
 
@@ -840,7 +843,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun getMedia(position: Int) = mediaList.getMedia(position)
 
-    private fun getStartTime(mw: MediaWrapper) : Long {
+    override fun getStartTime(mw: MediaWrapper) : Long {
         val start = when {
             mw.hasFlag(MediaWrapper.MEDIA_FROM_START) -> {
                 mw.removeFlags(MediaWrapper.MEDIA_FROM_START)
@@ -857,7 +860,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     @Synchronized
-    private fun savePosition(reset: Boolean = false, video: Boolean = false) {
+    override fun savePosition(reset: Boolean, video: Boolean) {
         persistenceManager.savePosition(
             hasMedia = hasMedia(),
             isAudioList = isAudioList(),
@@ -984,7 +987,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         videoStatsOn.value = !videoStatsOn.value!!
     }
 
-    fun clearABRepeat() {
+    override fun clearABRepeat() {
         abRepeat.value = abRepeat.value?.apply {
             start = -1L
             stop = -1L
@@ -1080,8 +1083,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     }
                     Log.w(TAG, "Invalid location $location")
 
-                    service.showToast(if (location != null && location.toUri().scheme == "missing") service.getString(R.string.missing_location) else service.getString(R.string.invalid_location, location
-                            ?: ""), Toast.LENGTH_SHORT, true)
+                    service.showToast(if (location != null && location.toUri().scheme == "missing") service.getString(R.string.missing_location) else service.getString(R.string.invalid_location, location as Any), Toast.LENGTH_SHORT, true)
                     if (location != null) PlaybackService.lastError.postValue(location)
                     if (currentIndex != nextIndex) next() else stop()
                 }
@@ -1125,13 +1127,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      * Useful for web radios changing the metadata during playback
      * @param mw: The [MediaWrapper] to be updated
      */
-    private fun refreshTrackMeta(mw: MediaWrapper) {
+    override fun refreshTrackMeta(mw: MediaWrapper) {
         mw.updateMeta(player.mediaplayer)
         service.onMediaListChanged()
         service.showNotification()
     }
 
-    private suspend fun savePlaycount(mw: MediaWrapper) {
+    override suspend fun savePlaycount(mw: MediaWrapper) {
         if (Settings.getInstance(AppContextProvider.appContext).getBoolean(KEY_INCOGNITO, false)) return
         var currentMedia = mw
         if (settings.getBoolean(PLAYBACK_HISTORY, true) && !mw.uri.scheme.isSchemeFD()) withContext(Dispatchers.IO) {
@@ -1165,7 +1167,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
     }
 
-    internal fun isAudioList() = !player.isVideoPlaying() && mediaList.isAudioList
+    override fun isAudioList() = !player.isVideoPlaying() && mediaList.isAudioList
 }
 
 class ABRepeat(var start: Long = -1L, var stop: Long = -1L)
