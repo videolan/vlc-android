@@ -21,11 +21,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -200,13 +199,21 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
 
     fun isValidPosition(position: Int) = playQueue.isValidPosition(position)
     override var shouldDisableCookieForwarding: Boolean = false
+    private val addUpdateFlow = MutableSharedFlow<Unit>(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
     override fun notifyUpdate() {
-        addUpdateActor.trySend(Unit)
+        addUpdateFlow.tryEmit(Unit)
     }
 
     init {
         AppScope.launch { repeating.emit(settings.getInt(PLAYLIST_AUDIO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)) }
+        launch {
+            addUpdateFlow.collect {
+                determinePrevAndNextIndices()
+                executeUpdate()
+                saveMediaList()
+            }
+        }
         resetResumeStatus()
     }
 
@@ -277,16 +284,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     override fun onItemAdded(index: Int, mrl: String) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemAdded")
         if (currentIndex >= index && !expanding) ++currentIndex
-        addUpdateActor.trySend(Unit)
-    }
-
-    @OptIn(ObsoleteCoroutinesApi::class)
-    private val addUpdateActor = actor<Unit>(capacity = Channel.CONFLATED) {
-        for (update in channel) {
-            determinePrevAndNextIndices()
-            executeUpdate()
-            saveMediaList()
-        }
+        addUpdateFlow.tryEmit(Unit)
     }
 
     @MainThread
@@ -375,7 +373,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
         // If we are in random mode, we completely reset the stored previous track
         // as their indices changed.
         previous.clear()
-        addUpdateActor.trySend(Unit)
+        addUpdateFlow.tryEmit(Unit)
     }
 
     override suspend fun determinePrevAndNextIndices(expand: Boolean) {
@@ -462,7 +460,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
             }
         }
         mediaList.addEventListener(this)
-        addUpdateActor.trySend(Unit)
+        addUpdateFlow.tryEmit(Unit)
         if (settings.getBoolean(KEY_AUDIO_FORCE_SHUFFLE, false) && getCurrentMedia()?.type == MediaWrapper.TYPE_AUDIO  && !shuffling && canShuffle()) shuffle()
     }
 
