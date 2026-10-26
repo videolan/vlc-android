@@ -1,5 +1,6 @@
 package org.videolan.vlc.media
 
+import org.videolan.vlc.media.player.PlayerEventHandler
 import org.videolan.vlc.media.queue.QueueExpander
 import org.videolan.vlc.media.control.ABRepeatController
 import org.videolan.vlc.media.persistence.PlaybackPersistenceManager
@@ -172,6 +173,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     @Volatile
     private var expanding = false
     override var entryUrl : String? = null
+    val eventHandler by lazy(LazyThreadSafetyMode.NONE) { PlayerEventHandler(service, this, player, medialibrary, settings) }
     val queueExpander by lazy(LazyThreadSafetyMode.NONE) { QueueExpander(this, player, playQueue, medialibrary, service) }
     val abRepeatController by lazy(LazyThreadSafetyMode.NONE) { ABRepeatController(settings) }
     override val abRepeat: MutableLiveData<ABRepeat> get() = abRepeatController.abRepeat
@@ -912,131 +914,10 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     override fun clearABRepeat() = abRepeatController.clearABRepeat()
 
     override fun onEvent(event: IMedia.Event) {
-        var update = true
-        when (event.type) {
-            IMedia.Event.MetaChanged -> {
-                /* Update Meta if file is already parsed */
-                if (parsed && player.updateCurrentMeta(event.metaId, getCurrentMedia())) service.onMediaListChanged()
-                if (BuildConfig.DEBUG) Log.i(TAG, "Media.Event.MetaChanged: " + event.metaId)
-            }
-            IMedia.Event.ParsedChanged -> {
-                if (BuildConfig.DEBUG) Log.i(TAG, "Media.Event.ParsedChanged")
-                player.updateCurrentMeta(-1, getCurrentMedia())
-                parsed = true
-            }
-            else -> update = false
-        }
-        if (update) {
-            service.onMediaEvent(event)
-            if (parsed) {
-                service.notifyTrackChanged()
-                service.showNotification()
-            }
-        }
+        eventHandler.onEvent(event)
     }
 
-    private val mediaplayerEventListener = object : MediaPlayerEventListener {
-        private var lastTimeMetaSaved = 0L
-
-        override suspend fun onEvent(event: MediaPlayer.Event) {
-            when (event.type) {
-                MediaPlayer.Event.Playing -> {
-                    val mw = withContext(Dispatchers.IO) {
-                        getCurrentMedia()?.let {
-                            medialibrary.findMedia(it).apply {
-                                if (type == -1) type = it.type
-                            }
-                        }
-                    } ?: return
-                    if (newMedia) {
-                        loadMediaMeta(mw)
-                        mw.length = player.getLength()
-                        saveMediaList()
-                        savePosition()
-                        saveCurrentMedia()
-                        newMedia = false
-                        if (player.hasRenderer || (!player.isVideoPlaying() && (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || !player.canSwitchToVideo()))) {
-                            showAudioPlayer.value = true
-                        }
-                        savePlaycount(mw)
-                        if (mw.title == mw.fileName || (mw.type == MediaWrapper.TYPE_STREAM && (mw.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || mw.artistName != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true)))) {
-                            // used for initial metadata update. We avoid the metadata load when the initial MediaPlayer.Event.ESSelected is sent to avoid race conditions
-                            refreshTrackMeta(mw)
-                        }
-                    }
-                    playingState.value = true
-                }
-                MediaPlayer.Event.EndReached -> {
-                    clearABRepeat()
-                    getCurrentMedia()?.addFlags(MediaWrapper.MEDIA_FROM_START)
-                    if (currentIndex != nextIndex) {
-                        endReachedFor = getCurrentMedia()?.uri.toString()
-                        saveMediaMeta(true)
-                        if (isBenchmark) player.setPreviousStats()
-                        if (nextIndex == -1) savePosition(reset = true)
-                    }
-                    if (stopAfter == currentIndex) {
-                        if (BuildConfig.DEBUG) Log.d("AUDIO_STOP_AFTER", "reset")
-                        stopAfter = -1
-                        stop()
-                    } else {
-                        if (isBenchmark) player.setCurrentStats()
-                        determinePrevAndNextIndices(true)
-                        if (!hasNext()) getCurrentMedia()?.let {
-                            if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !isAudioList()) {
-                                setResumeProgram(service.applicationContext, it)
-                                updateNextProgramAfterThumbnailGeneration(service, service.applicationContext, it)
-                            }
-                        }
-                        next()
-                    }
-                }
-                MediaPlayer.Event.EncounteredError -> {
-                    val location = try {
-                        getCurrentMedia()?.location
-                    } catch (e: NullPointerException) {
-                        null
-                    }
-                    Log.w(TAG, "Invalid location $location")
-
-                    service.showToast(if (location != null && location.toUri().scheme == "missing") service.getString(R.string.missing_location) else service.getString(R.string.invalid_location, location as Any), Toast.LENGTH_SHORT, true)
-                    if (location != null) PlaybackService.lastError.postValue(location)
-                    if (currentIndex != nextIndex) next() else stop()
-                }
-                MediaPlayer.Event.TimeChanged -> {
-                    abRepeat.value?.let {
-                        val fastSeek = settings.getBoolean(KEY_ALWAYS_FAST_SEEK, false)
-                        if (it.stop != -1L && player.getCurrentTime() > it.stop) service.setTime(it.start, false)
-                        if ((fastSeek && player.getCurrentTime() < it.start - 30000L)
-                            || (!fastSeek && player.getCurrentTime() < it.start))
-                            service.setTime(it.start, false)
-                    }
-                    if (player.getCurrentTime() % 10 == 0L) savePosition()
-                    val now = System.currentTimeMillis()
-                    if (now - lastTimeMetaSaved > 5000L){
-                        lastTimeMetaSaved = now
-                        saveMediaMeta()
-                    }
-                }
-                MediaPlayer.Event.SeekableChanged -> {
-                    if (event.seekable)
-                        getCurrentMedia()?.let { media ->
-                            restoreSpeed(media)
-                        }
-                }
-                MediaPlayer.Event.ESSelected -> {
-                    getCurrentMedia()?.let { media ->
-                        if (player.isPlaying()) {
-                            if (media.type == MediaWrapper.TYPE_STREAM && (media.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || media.artistName != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true))) {
-                                refreshTrackMeta(media)
-                            }
-                        }
-                    }
-                }
-            }
-            service.onMediaPlayerEvent(event)
-        }
-    }
+    private val mediaplayerEventListener = eventHandler
 
     /**
      * Refresh the track meta as the title and then updates the player
@@ -1044,9 +925,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
      * @param mw: The [MediaWrapper] to be updated
      */
     override fun refreshTrackMeta(mw: MediaWrapper) {
-        mw.updateMeta(player.mediaplayer)
-        service.onMediaListChanged()
-        service.showNotification()
+        eventHandler.refreshTrackMeta(mw)
     }
 
     override suspend fun savePlaycount(mw: MediaWrapper) {
