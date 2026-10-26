@@ -1,5 +1,6 @@
 package org.videolan.vlc.media
 
+import org.videolan.vlc.media.player.PlaybackController
 import org.videolan.vlc.media.persistence.PlaylistLoader
 import org.videolan.vlc.media.player.PlayerEventHandler
 import org.videolan.vlc.media.queue.QueueExpander
@@ -176,6 +177,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     override var entryUrl : String? = null
     val playlistLoader by lazy(LazyThreadSafetyMode.NONE) { PlaylistLoader(this, player, playQueue, persistenceManager, service, settings) }
     val eventHandler by lazy(LazyThreadSafetyMode.NONE) { PlayerEventHandler(service, this, player, medialibrary, settings) }
+    val playbackController by lazy(LazyThreadSafetyMode.NONE) { PlaybackController(this, player, playQueue, navigator, persistenceManager, eventHandler, medialibrary, service, settings, ctx) }
     val queueExpander by lazy(LazyThreadSafetyMode.NONE) { QueueExpander(this, player, playQueue, medialibrary, service) }
     val abRepeatController by lazy(LazyThreadSafetyMode.NONE) { ABRepeatController(settings) }
     override val abRepeat: MutableLiveData<ABRepeat> get() = abRepeatController.abRepeat
@@ -184,9 +186,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     val delayValue: MutableLiveData<DelayValues> get() = abRepeatController.delayValue
     override val waitForConfirmation: MutableLiveData<WaitConfirmation?> get() = abRepeatController.waitForConfirmation
     override val waitForConfirmationAudio: MutableLiveData<WaitConfirmation?> get() = abRepeatController.waitForConfirmationAudio
-    private var lastPrevious = -1L
 
-    private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
     override lateinit var videoResumeStatus: ResumeStatus
     override lateinit var audioResumeStatus: ResumeStatus
 
@@ -234,301 +234,40 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
 
     fun loadLastPlaylist(type: Int = PLAYLIST_TYPE_AUDIO): Boolean = playlistLoader.loadLastPlaylist(type)
 
-    fun play() {
-        if (hasMedia()) player.play()
-    }
+    fun play() = playbackController.play()
 
-    fun pause() {
-        if (player.pause()) {
-            savePosition()
-            launch {
-                //needed to save the current media in audio mode when it's a video played as audio
-                saveCurrentMedia()
-                saveMediaList()
-            }
-            if (getCurrentMedia()?.isPodcast == true) saveMediaMeta()
-        }
-    }
+    fun pause() = playbackController.pause()
 
     @MainThread
-    override fun next(force : Boolean) {
-        mediaList.getMedia(currentIndex)?.let {
-            if (it.type == MediaWrapper.TYPE_VIDEO || it.isPodcast) saveMediaMeta()
-        }
-        val size = mediaList.size()
-        if (force || repeating.value != PlaybackStateCompat.REPEAT_MODE_ONE) {
-            previous.push(currentIndex)
-            currentIndex = nextIndex
-            if (size == 0 || currentIndex < 0 || currentIndex >= size) {
-                Log.w(TAG, "Warning: invalid next index, aborted !")
-                stop()
-                return
-            }
-            videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
-        }
-        launch { playIndex(currentIndex) }
-    }
+    override fun next(force: Boolean) = playbackController.next(force)
 
-    fun restart() {
-        val isPlaying = player.isPlaying() && isAudioList()
-        stop()
-        if (isPlaying) PlaybackService.loadLastAudio(service)
-    }
+    fun restart() = playbackController.restart()
 
-    override fun stop(systemExit: Boolean, video: Boolean) {
-        clearABRepeat()
-        if (stopAfter != -1) Settings.getInstance(AppContextProvider.appContext).putSingle(AUDIO_STOP_AFTER, stopAfter)
-        stopAfter = -1
-        videoBackground = false
-        val job = getCurrentMedia()?.let {
-            savePosition(video = video)
-            launch(start = CoroutineStart.UNDISPATCHED) {
-                saveMediaMeta().join()
-                if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && video) {
-                    setResumeProgram(service.applicationContext, it)
-                    updateNextProgramAfterThumbnailGeneration(service, service.applicationContext, it)
-                }
-            }
-        }
-        service.setSleepTimer(null)
-        mediaList.removeEventListener(this)
-        previous.clear()
-        currentIndex = -1
-        if (systemExit) player.release()
-        else player.restart()
-        mediaList.clear()
-        showAudioPlayer.value = false
-        service.onPlaybackStopped(systemExit)
-        //Close video player if started
-        LocalBroadcastManager.getInstance(ctx).sendBroadcast(Intent(EXIT_PLAYER))
-        if (systemExit) launch(start = CoroutineStart.UNDISPATCHED) {
-            job?.join()
-            cancel()
-            player.cancel()
-        }
-        playingState.value = false
-    }
+    override fun stop(systemExit: Boolean, video: Boolean) = playbackController.stop(systemExit, video)
 
     @MainThread
-    fun previous(force: Boolean) {
-        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) saveMediaMeta() }
-        if (hasPrevious() &&
-                ((force || !player.seekable || (player.getCurrentTime() < PREVIOUS_LIMIT_DELAY) || (lastPrevious != -1L && System.currentTimeMillis() - lastPrevious < PREVIOUS_LIMIT_DELAY)))) {
-            val size = mediaList.size()
-            currentIndex = prevIndex
-            if (previous.size > 0) previous.pop()
-            if (size == 0 || prevIndex < 0 || currentIndex >= size) {
-                Log.w(TAG, "Warning: invalid previous index, aborted !")
-                player.stop()
-                return
-            }
-            launch { playIndex(currentIndex) }
-            lastPrevious = -1L
-        } else {
-            player.setPosition(0F)
-            lastPrevious = System.currentTimeMillis()
-        }
-    }
+    fun previous(force: Boolean) = playbackController.previous(force)
 
     @MainThread
-    override fun shuffle() {
-        if (shuffling) previous.clear()
-        shuffling = !shuffling
-        savePosition()
-        launch { determinePrevAndNextIndices() }
-    }
-
-    /**
-     * Will set the repeating variable from the value that has been saved in settings
-     */
-    private fun setRepeatTypeFromSettings() {
-        AppScope.launch {
-            repeating.emit(if (getCurrentMedia()?.type == MediaWrapper.TYPE_VIDEO) {
-                settings.getInt(PLAYLIST_VIDEO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
-            } else
-                settings.getInt(PLAYLIST_AUDIO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
-            )
-        }
-    }
+    override fun shuffle() = playbackController.shuffle()
 
     @MainThread
-    fun setRepeatType(repeatType: Int) {
-        AppScope.launch { repeating.emit(repeatType) }
-        if (getCurrentMedia()?.type == MediaWrapper.TYPE_VIDEO)
-            settings.putSingle(PLAYLIST_VIDEO_REPEAT_MODE_KEY, repeating.value)
-        else
-            settings.putSingle(PLAYLIST_AUDIO_REPEAT_MODE_KEY, repeating.value)
-        savePosition()
-        launch { determinePrevAndNextIndices() }
-    }
+    fun setRepeatType(repeatType: Int) = playbackController.setRepeatType(repeatType)
 
-    fun setRenderer(item: RendererItem?) {
-        player.setRenderer(item)
-        showAudioPlayer.value = PlayerController.playbackState != PlaybackStateCompat.STATE_STOPPED && (item !== null || !player.isVideoPlaying())
-    }
+    fun setRenderer(item: RendererItem?) = playbackController.setRenderer(item)
 
     override suspend fun playIndex(index: Int, flags: Int, forceResume: Boolean, forceRestart: Boolean) {
-        // The fonts are scanned when the first text renderer is created, which would otherwise
-        // delay the playback by several seconds on the first run. See [FontCache]
-        // Wait before reading any state, as the queue can change in the meantime
-        FontCache.await(service) {
-            service.showToast(service.getString(R.string.font_cache_building), Toast.LENGTH_LONG)
-        }
-
-        videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
-        if (mediaList.size() == 0) {
-            Log.w(TAG, "Warning: empty media list, nothing to play !")
-            return
-        }
-        // A new playback starts: the previous "media ended" marker only exists to protect
-        // the end-of-media position of the media that just ended. It must not keep preventing
-        // the progress of this media from being saved (e.g. when a shuffle replay selects it again).
-        endReachedFor = null
-        currentIndex = if (isValidPosition(index)) {
-            index
-        } else {
-            Log.w(TAG, "Warning: index $index out of bounds")
-            0
-        }
-
-        val mw = mediaList.getMedia(index) ?: return
-        val mediaFromMl = medialibrary.getMedia(mw.uri)
-        if (mediaFromMl != null)
-            mw.time = mediaFromMl.time
-
-        val isInCustomPiP: Boolean = service.isInPiPMode.value ?: false
-        if (mw.type == MediaWrapper.TYPE_VIDEO && !isAppStarted() && !isInCustomPiP) videoBackground = true
-        val isVideoPlaying = mw.type == MediaWrapper.TYPE_VIDEO && player.isVideoPlaying()
-        setRepeatTypeFromSettings()
-        if (!videoBackground && isVideoPlaying) mw.addFlags(MediaWrapper.MEDIA_VIDEO)
-        if (videoBackground) mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-        if (isBenchmark) mw.addFlags(MediaWrapper.MEDIA_BENCHMARK)
-        parsed = false
-        player.switchToVideo = false
-        if (mw.uri.scheme == "content") withContext(Dispatchers.IO) { MediaUtils.retrieveMediaTitle(mw) }
-
-        if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
-                || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
-            var uri = withContext(Dispatchers.IO) { FileUtils.getUri(mw.uri) }
-            if (uri == null) {
-                skipMedia()
-                return
-            }
-            //PiP TV
-            if (!isBenchmark && AndroidDevices.isTv && isVideoPlaying) {
-                VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
-            }
-            val title = mw.getMetaLong(MediaWrapper.META_TITLE)
-            if (title > 0) uri = "$uri#$title".toUri()
-
-            val start: Long
-            if (isVideoPlaying) {
-                start = if (forceRestart
-                    || videoResumeStatus == ResumeStatus.NEVER) 0L else getStartTime(mw)
-                // If we explicitly restart or NEVER resume is set, ensure any leftover savedTime is cleared
-                if (start == 0L && (forceRestart || videoResumeStatus == ResumeStatus.NEVER)) savedTime = 0L
-                if (!forceResume && videoResumeStatus == ResumeStatus.ASK && start > 0 && isAppStarted()) {
-                    waitForConfirmation.postValue(WaitConfirmation(mw.title, index, flags))
-                    return
-                }
-            } else {
-                start = if (forceRestart
-                    || audioResumeStatus == ResumeStatus.NEVER) 0L else getStartTime(mw)
-                // If we explicitly restart or NEVER resume is set, ensure any leftover savedTime is cleared
-                if (start == 0L && (forceRestart || audioResumeStatus == ResumeStatus.NEVER)) savedTime = 0L
-                if (!forceResume && audioResumeStatus == ResumeStatus.ASK && start > 0 && isAppStarted()) {
-                    val confirmation = WaitConfirmation(mw.title, index, flags)
-                    waitForConfirmationAudio.postValue(confirmation)
-                    return
-                }
-            }
-            //todo restore position as well when we move to VLC 4.0
-            val media = mediaFactory.getFromUri(VLCInstance.getInstance(service), uri)
-            //fixme workaround to prevent the issue described in https://code.videolan.org/videolan/vlc-android/-/issues/2106
-            if (shouldDisableCookieForwarding) {
-                shouldDisableCookieForwarding = false
-                media.addOption(":no-http-forward-cookies")
-            }
-            settings.getString(HTTP_USER_AGENT, null)?.let {
-                 media.addOption(":http-user-agent=$it")
-            }
-            val dav1dThreadNumber = settings.getString(DAV1D_THREAD_NUMBER, "") ?: ""
-            if (dav1dThreadNumber.isNotEmpty() && dav1dThreadNumber.toInt() >= 1) {
-                media.addOption(":dav1d-thread-frames=$dav1dThreadNumber")
-            }
-            //todo in VLC 4.0, this should be done by using libvlc_media_player_set_time instead of start-time
-            media.addOption(":start-time=${start/1000L}")
-            media.addOption(":no-sout-chromecast-video")
-            VLCOptions.setMediaOptions(media, ctx, flags or mw.flags, PlaybackService.hasRenderer())
-            /* keeping only video during benchmark */
-            if (isBenchmark) {
-                media.addOption(":no-audio")
-                media.addOption(":no-spu")
-                if (isHardware) {
-                    media.addOption(":codec=mediacodec_ndk,mediacodec_jni,none")
-                    isHardware = false
-                }
-            }
-            media.setEventListener(this@PlaylistManager)
-            player.startPlayback(media, mediaplayerEventListener, start)
-            player.setSlaves(media, mw)
-            if (browserAudioActive) player.setVolume(0)
-            newMedia = true
-            determinePrevAndNextIndices()
-            service.onNewPlayback()
-        } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
-            if (player.isPlaying()) player.stop()
-            VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
-        }
+        playbackController.playIndex(index, flags, forceResume, forceRestart)
     }
 
-    private fun skipMedia() {
-        if (currentIndex != nextIndex) next()
-        else stop()
-    }
+    fun onServiceDestroyed() = playbackController.onServiceDestroyed()
 
-    fun onServiceDestroyed() {
-        player.release()
-    }
-
-    fun setBrowserAudio(enable: Boolean) {
-        if (browserAudioActive == enable) return
-        browserAudioActive = enable
-        if (enable) {
-            preBrowserVolume = player.getVolume()
-            player.setVolume(0)
-        } else {
-            player.setVolume(if (preBrowserVolume >= 0) preBrowserVolume else 100)
-            preBrowserVolume = -1
-        }
-    }
+    fun setBrowserAudio(enable: Boolean) = playbackController.setBrowserAudio(enable)
 
     @MainThread
-    fun switchToVideo(): Boolean {
-        val media = getCurrentMedia()
-        if (media === null || media.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || !player.canSwitchToVideo())
-            return false
-        val hasRenderer = player.hasRenderer
-        videoBackground = false
-        showAudioPlayer.postValue(false)
-        if (player.isVideoPlaying() && !hasRenderer) {//Player is already running, just send it an intent
-            player.setVideoTrackEnabled(true)
-            LocalBroadcastManager.getInstance(service).sendBroadcast(
-                    VideoPlayerActivity.getIntent(PLAY_FROM_SERVICE,
-                            media, false, currentIndex))
-        } else if (!player.switchToVideo) { //Start the video player
-            VideoPlayerActivity.startOpened(AppContextProvider.appContext, media.uri, currentIndex)
-            if (!hasRenderer) player.switchToVideo = true
-        }
-        return true
-    }
+    fun switchToVideo(): Boolean = playbackController.switchToVideo()
 
-    fun setVideoTrackEnabled(enabled: Boolean) {
-        if (!hasMedia()) return
-        if (enabled) getCurrentMedia()?.addFlags(MediaWrapper.MEDIA_VIDEO)
-        else getCurrentMedia()?.removeFlags(MediaWrapper.MEDIA_VIDEO)
-        player.setVideoTrackEnabled(enabled)
-    }
+    fun setVideoTrackEnabled(enabled: Boolean) = playbackController.setVideoTrackEnabled(enabled)
 
     fun hasPrevious() = navigator.hasPrevious()
 
@@ -784,8 +523,6 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     override fun onEvent(event: IMedia.Event) {
         eventHandler.onEvent(event)
     }
-
-    private val mediaplayerEventListener = eventHandler
 
     /**
      * Refresh the track meta as the title and then updates the player
