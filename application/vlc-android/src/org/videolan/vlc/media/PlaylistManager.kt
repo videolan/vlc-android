@@ -1,5 +1,6 @@
 package org.videolan.vlc.media
 
+import org.videolan.vlc.media.persistence.PlaylistLoader
 import org.videolan.vlc.media.player.PlayerEventHandler
 import org.videolan.vlc.media.queue.QueueExpander
 import org.videolan.vlc.media.control.ABRepeatController
@@ -173,6 +174,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     @Volatile
     private var expanding = false
     override var entryUrl : String? = null
+    val playlistLoader by lazy(LazyThreadSafetyMode.NONE) { PlaylistLoader(this, player, playQueue, persistenceManager, service, settings) }
     val eventHandler by lazy(LazyThreadSafetyMode.NONE) { PlayerEventHandler(service, this, player, medialibrary, settings) }
     val queueExpander by lazy(LazyThreadSafetyMode.NONE) { QueueExpander(this, player, playQueue, medialibrary, service) }
     val abRepeatController by lazy(LazyThreadSafetyMode.NONE) { ABRepeatController(settings) }
@@ -223,148 +225,14 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
      * @param position The position to start playing at
      */
     @MainThread
-    fun loadLocations(mediaPathList: List<String>, position: Int) {
-        if (BuildConfig.BETA) {
-            Log.d(TAG, "loadLocations with values: ", Exception("Call stack"))
-            mediaPathList.forEach {
-                try {
-                    Log.d(TAG, "Media location: $it")
-                } catch (e: NullPointerException) {
-                    Log.d(TAG, "Media crash", e)
-                }
-            }
-        }
-        launch {
-            val mediaList = ArrayList<MediaWrapper>()
-            withContext(Dispatchers.IO) {
-                for (location in mediaPathList) {
-                    var mediaWrapper = medialibrary.getMedia(location)
-                    if (mediaWrapper === null) {
-                        if (!location.validateLocation()) {
-                            Log.w(TAG, "Invalid location $location")
-                            service.showToast(if (location.toUri().scheme == "missing")service.resources.getString(R.string.missing_location) else service.resources.getString(R.string.invalid_location,  location), Toast.LENGTH_SHORT)
-                            continue
-                        }
-                        Log.v(TAG, "Creating on-the-fly Media object for $location")
-                        mediaWrapper = MLServiceLocator.getAbstractMediaWrapper(location.toUri())
-                        if (BuildConfig.BETA) Log.d(TAG, "Adding $mediaWrapper to the queue")
-                        mediaList.add(mediaWrapper)
-                    } else {
-                        if (BuildConfig.BETA) Log.d(TAG, "Adding $mediaWrapper to the queue")
-                        mediaList.add(mediaWrapper)
-                    }
-                }
-            }
-            load(mediaList, position)
-        }
-    }
+    fun loadLocations(mediaPathList: List<String>, position: Int) = playlistLoader.loadLocations(mediaPathList, position)
 
     @MainThread
-    suspend fun load(list: List<MediaWrapper>, position: Int, mlUpdate: Boolean = false, avoidErasingStop:Boolean = false) {
-        saveMediaList()
-        savePosition()
-        mediaList.removeEventListener(this@PlaylistManager)
-        previous.clear()
-        videoBackground = false
-        if (BuildConfig.BETA) {
-            Log.d(TAG, "load with values: ", Exception("Call stack"))
-            list.forEach {
-                try {
-                    Log.d(TAG, "Media location: ${it.uri}")
-                } catch (e: NullPointerException) {
-                    Log.d(TAG, "Media crash", e)
-                }
-            }
-        }
-        mediaList.replaceWith(list)
-        if (!hasMedia()) {
-            Log.w(TAG, "Warning: empty media list, nothing to play !")
-            return
-        }
-        currentIndex = if (isValidPosition(position)) position else 0
-
-        // Add handler after loading the list
-        mediaList.addEventListener(this@PlaylistManager)
-        val instance = Settings.getInstance(AppContextProvider.appContext)
-        if (!avoidErasingStop) instance.putSingle(AUDIO_STOP_AFTER, -1)
-        stopAfter = instance.getInt(AUDIO_STOP_AFTER, -1)
-        if (stopAfter < position) stopAfter = -1
-        clearABRepeat()
-        player.setRate(1.0f, false)
-        playIndex(currentIndex)
-        service.onPlaylistLoaded()
-        if (mlUpdate) {
-            service.awaitMedialibraryStarted()
-            mediaList.replaceWith(withContext(Dispatchers.IO) { mediaList.copy.updateWithMLMeta() })
-            getCurrentMedia()?.let { refreshTrackMeta(it) }
-            if (BuildConfig.BETA) {
-                Log.d(TAG, "load after ml update with values: ")
-                mediaList.copy.forEach { Log.d(TAG, "Media location: ${it.uri}") }
-            }
-            service.onMediaListChanged()
-            service.showNotification()
-        }
-        if (settings.getBoolean(KEY_AUDIO_FORCE_SHUFFLE, false) && getCurrentMedia()?.type == MediaWrapper.TYPE_AUDIO && !shuffling && canShuffle()) shuffle()
-        if (settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL, -1L) != -1L) {
-            service.waitForMediaEnd = settings.getBoolean(SLEEP_TIMER_DEFAULT_WAIT, false)
-            service.resetOnInteraction = settings.getBoolean(SLEEP_TIMER_DEFAULT_RESET_INTERACTION, false)
-            val sleepTime = Calendar.getInstance()
-            sleepTime.timeInMillis += settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL, -1L)
-            sleepTime.set(Calendar.SECOND, 0)
-            service.setSleepTimer(sleepTime)
-        }
+    suspend fun load(list: List<MediaWrapper>, position: Int, mlUpdate: Boolean = false, avoidErasingStop: Boolean = false) {
+        playlistLoader.load(list, position, mlUpdate, avoidErasingStop)
     }
 
-    @Volatile
-    private var loadingLastPlaylist = false
-    fun loadLastPlaylist(type: Int = PLAYLIST_TYPE_AUDIO) : Boolean {
-        if (loadingLastPlaylist) return true
-        loadingLastPlaylist = true
-        val currentMediaKey = when (type) {
-            PLAYLIST_TYPE_AUDIO -> KEY_CURRENT_AUDIO
-            PLAYLIST_TYPE_VIDEO -> KEY_CURRENT_MEDIA
-            else -> KEY_CURRENT_MEDIA_RESUME
-        }
-        val locationsKey = when (type) {
-            PLAYLIST_TYPE_AUDIO -> KEY_AUDIO_LAST_PLAYLIST
-            PLAYLIST_TYPE_VIDEO -> KEY_MEDIA_LAST_PLAYLIST
-            else -> KEY_MEDIA_LAST_PLAYLIST_RESUME
-        }
-        val audio = type == PLAYLIST_TYPE_AUDIO
-        val currentMedia = settings.getString(currentMediaKey, "")
-        if (currentMedia.isNullOrEmpty()) {
-            loadingLastPlaylist = false
-            return false
-        }
-        val locations = settings.getString(locationsKey, null)
-                ?.split(" ".toRegex())?.dropLastWhile { it.isEmpty() }?.toTypedArray()
-        if (locations.isNullOrEmpty()) {
-            loadingLastPlaylist = false
-            return false
-        }
-        launch {
-            val playList = withContext(Dispatchers.Default) {
-                locations.asSequence().mapTo(ArrayList(locations.size)) {
-                    MLServiceLocator.getAbstractMediaWrapper(it.toUri())
-                }
-            }
-            // load playlist
-            shuffling = settings.getBoolean(if (audio) AUDIO_SHUFFLING else MEDIA_SHUFFLING, false)
-            val position = max(0, settings.getInt(if (audio) POSITION_IN_AUDIO_LIST else POSITION_IN_MEDIA_LIST, 0))
-            savedTime = settings.getLong(if (audio) POSITION_IN_SONG else POSITION_IN_MEDIA, -1)
-            if (!audio && position < playList.size && settings.getBoolean(VIDEO_PAUSED, false)) {
-                playList[position].addFlags(MediaWrapper.MEDIA_PAUSED)
-            }
-            if (audio && position < playList.size) playList[position].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-            load(playList, position, mlUpdate = true, avoidErasingStop = true)
-            loadingLastPlaylist = false
-            if (!audio) {
-                val rate = settings.getFloat(VIDEO_SPEED, player.getRate())
-                if (rate != 1.0f) player.setRate(rate, false)
-            }
-        }
-        return true
-    }
+    fun loadLastPlaylist(type: Int = PLAYLIST_TYPE_AUDIO): Boolean = playlistLoader.loadLastPlaylist(type)
 
     fun play() {
         if (hasMedia()) player.play()
