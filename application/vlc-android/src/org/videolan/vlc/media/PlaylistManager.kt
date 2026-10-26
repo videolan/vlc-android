@@ -1,5 +1,6 @@
 package org.videolan.vlc.media
 
+import org.videolan.vlc.media.control.ABRepeatController
 import org.videolan.vlc.media.persistence.PlaybackPersistenceManager
 import org.videolan.vlc.media.queue.QueueNavigator
 import org.videolan.vlc.media.queue.PlayQueue
@@ -170,12 +171,13 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     @Volatile
     private var expanding = false
     override var entryUrl : String? = null
-    override val abRepeat by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<ABRepeat>().apply { value = ABRepeat() } }
-    val abRepeatOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
-    val videoStatsOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
-    val delayValue by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<DelayValues>().apply { value = DelayValues() } }
-    override val waitForConfirmation by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<WaitConfirmation?>().apply { value = null } }
-    override val waitForConfirmationAudio by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<WaitConfirmation?>().apply { value = null } }
+    val abRepeatController by lazy(LazyThreadSafetyMode.NONE) { ABRepeatController(settings) }
+    override val abRepeat: MutableLiveData<ABRepeat> get() = abRepeatController.abRepeat
+    val abRepeatOn: MutableLiveData<Boolean> get() = abRepeatController.abRepeatOn
+    val videoStatsOn: MutableLiveData<Boolean> get() = abRepeatController.videoStatsOn
+    val delayValue: MutableLiveData<DelayValues> get() = abRepeatController.delayValue
+    override val waitForConfirmation: MutableLiveData<WaitConfirmation?> get() = abRepeatController.waitForConfirmation
+    override val waitForConfirmationAudio: MutableLiveData<WaitConfirmation?> get() = abRepeatController.waitForConfirmationAudio
     private var lastPrevious = -1L
 
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
@@ -939,61 +941,19 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
 
     fun getMediaList(): List<MediaWrapper> = playQueue.getMediaList()
 
-    fun setABRepeatValue(media: MediaWrapper?, time: Long) {
-        val value = abRepeat.value ?: ABRepeat()
-        when {
-            value.start == -1L -> {
-                value.start = time
-            }
-            value.start > time && time > -1 -> {
-                value.stop = value.start
-                value.start = time
-            }
-            else -> {
-                value.stop = time
-            }
-        }
-        if (settings.getBoolean(PLAYBACK_HISTORY, true)) {
-            media?.setLongMeta(MediaWrapper.META_AB_REPEAT_START, value.start)
-            media?.setLongMeta(MediaWrapper.META_AB_REPEAT_STOP, value.stop)
-        }
-        abRepeat.value = value
-    }
+    fun setABRepeatValue(media: MediaWrapper?, time: Long) = abRepeatController.setABRepeatValue(media, time)
 
-    fun setDelayValue(time: Long, start: Boolean) {
-        val value = delayValue.value ?: DelayValues()
-        if (start) value.start = time else value.stop = time
-        delayValue.value = value
-    }
+    fun setDelayValue(time: Long, start: Boolean) = abRepeatController.setDelayValue(time, start)
 
-    fun resetDelayValues() {
-        delayValue.postValue(DelayValues())
-    }
+    fun resetDelayValues() = abRepeatController.resetDelayValues()
 
-    fun resetABRepeatValues(media: MediaWrapper?) {
-        abRepeat.value = ABRepeat()
-        media?.setLongMeta(MediaWrapper.META_AB_REPEAT_START, 0L)
-        media?.setLongMeta(MediaWrapper.META_AB_REPEAT_STOP, 0L)
-    }
+    fun resetABRepeatValues(media: MediaWrapper?) = abRepeatController.resetABRepeatValues(media)
 
-    fun toggleABRepeat() {
-        abRepeatOn.value = !abRepeatOn.value!!
-        if (abRepeatOn.value == false) {
-            abRepeat.value = ABRepeat()
-        }
-    }
+    fun toggleABRepeat() = abRepeatController.toggleABRepeat()
 
-    fun toggleStats() {
-        videoStatsOn.value = !videoStatsOn.value!!
-    }
+    fun toggleStats() = abRepeatController.toggleStats()
 
-    override fun clearABRepeat() {
-        abRepeat.value = abRepeat.value?.apply {
-            start = -1L
-            stop = -1L
-        }
-        abRepeatOn.value = false
-    }
+    override fun clearABRepeat() = abRepeatController.clearABRepeat()
 
     override fun onEvent(event: IMedia.Event) {
         var update = true
