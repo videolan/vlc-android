@@ -30,7 +30,6 @@ import androidx.annotation.MainThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.AppContextProvider
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.tools.AUDIO_STOP_AFTER
 import org.videolan.tools.KEY_AUDIO_FORCE_SHUFFLE
@@ -100,9 +99,8 @@ class PlaylistLoader(
             playQueue.addEventListener(playlistManager)
         }
 
-        val instance = Settings.getInstance(AppContextProvider.appContext)
-        if (!avoidErasingStop) instance.putSingle(AUDIO_STOP_AFTER, -1)
-        playlistManager.stopAfter = instance.getInt(AUDIO_STOP_AFTER, -1)
+        if (!avoidErasingStop) settings.putSingle(AUDIO_STOP_AFTER, -1)
+        playlistManager.stopAfter = settings.getInt(AUDIO_STOP_AFTER, -1)
         if (playlistManager.stopAfter < position) playlistManager.stopAfter = -1
         playlistManager.clearABRepeat()
         player.setRate(1.0f, false)

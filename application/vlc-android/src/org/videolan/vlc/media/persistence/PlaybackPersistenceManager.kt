@@ -16,7 +16,6 @@ import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.AppContextProvider
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.resources.util.VLCCrashHandler
@@ -192,7 +191,7 @@ class PlaybackPersistenceManager(
         val titleIdx = player.getTitleIdx()
         val mediaItem = currentMedia ?: return@outerLaunch
         if (mediaItem.uri.scheme.isSchemeFD()) return@outerLaunch
-        if (Settings.getInstance(AppContextProvider.appContext).getBoolean(KEY_INCOGNITO, false)) return@outerLaunch
+        if (settings.getBoolean(KEY_INCOGNITO, false)) return@outerLaunch
 
         val time = player.mediaplayer.time
         val length = player.getLength()
@@ -252,7 +251,7 @@ class PlaybackPersistenceManager(
     ) {
         if (player.canSwitchToVideo()) {
             val savedDelay = media.getMetaLong(MediaWrapper.META_AUDIODELAY)
-            val globalDelay = Settings.getInstance(AppContextProvider.appContext).getLong(AUDIO_DELAY_GLOBAL, 0L)
+            val globalDelay = settings.getLong(AUDIO_DELAY_GLOBAL, 0L)
             if (savedDelay == 0L && globalDelay != 0L) {
                 player.setAudioDelay(globalDelay)
             } else if (settings.getBoolean(KEY_SAVE_INDIVIDUAL_AUDIO_DELAY, true)) {

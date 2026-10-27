@@ -20,6 +20,7 @@ import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.tools.AppScope
 import org.videolan.tools.KEY_AUDIO_CONFIRM_RESUME
 import org.videolan.tools.KEY_AUDIO_FORCE_SHUFFLE
+import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
@@ -349,8 +350,10 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
 
     @Synchronized
     override fun savePosition(reset: Boolean, video: Boolean) {
+        if (!hasMedia()) return
+        if (settings.getBoolean(KEY_INCOGNITO, false)) return
         persistenceManager.savePosition(
-            hasMedia = hasMedia(),
+            hasMedia = true,
             isAudioList = isAudioList(),
             shuffling = shuffling,
             currentIndex = currentIndex,
