@@ -10,6 +10,7 @@ Changes between 3.7.2 Beta 2 and 3.7.2 Beta 3:
  * Fix player UI crop issue on 4K resolution
  * Media library fixes
  * Remote Access security hardening and fixes
+ * Fix security issues in Remote Access thanks to Laviru Dilshan - [security@lavirudilshan.com]
  * Security and behavior fixes
 
 Changes between 3.7.2 Beta 1 and 3.7.2 Beta 2:
