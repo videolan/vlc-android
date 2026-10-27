@@ -34,7 +34,7 @@ import org.videolan.vlc.media.queue.QueueNavigator
 /**
  * Interface decoupling child media delegates from the concrete [PlaylistManager] facade.
  */
-interface PlaylistOrchestrator : CoroutineScope {
+interface PlaylistOrchestrator : CoroutineScope, MediaWrapperList.EventListener {
     var currentIndex: Int
     val nextIndex: Int
     var entryUrl: String?

@@ -62,7 +62,6 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.media.MediaWrapperList
 import org.videolan.vlc.media.PLAYLIST_AUDIO_REPEAT_MODE_KEY
 import org.videolan.vlc.media.PLAYLIST_VIDEO_REPEAT_MODE_KEY
 import org.videolan.vlc.media.PREVIOUS_LIMIT_DELAY
@@ -153,7 +152,7 @@ class PlaybackController(
             }
         } else null
         service.setSleepTimer(null)
-        playQueue.removeEventListener(playlistManager as MediaWrapperList.EventListener)
+        playQueue.removeEventListener(playlistManager)
         navigator.clearHistory()
         playlistManager.currentIndex = -1
         if (systemExit) player.release() else player.restart()

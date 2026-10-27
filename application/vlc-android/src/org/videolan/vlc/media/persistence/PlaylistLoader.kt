@@ -40,7 +40,6 @@ import org.videolan.tools.SLEEP_TIMER_DEFAULT_WAIT
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.media.MediaWrapperList
 import org.videolan.vlc.media.PlaybackServiceCallback
 import org.videolan.vlc.media.PlayerController
 import org.videolan.vlc.media.PlaylistOrchestrator
@@ -76,7 +75,7 @@ class PlaylistLoader(
     ) {
         playlistManager.saveMediaList()
         playlistManager.savePosition()
-        playQueue.removeEventListener(playlistManager as MediaWrapperList.EventListener)
+        playQueue.removeEventListener(playlistManager)
         playlistManager.navigator.clearHistory()
         playlistManager.videoBackground = false
 
@@ -98,7 +97,7 @@ class PlaylistLoader(
             }
             playlistManager.currentIndex = if (playQueue.isValidPosition(position)) position else 0
         } finally {
-            playQueue.addEventListener(playlistManager as MediaWrapperList.EventListener)
+            playQueue.addEventListener(playlistManager)
         }
 
         val instance = Settings.getInstance(AppContextProvider.appContext)

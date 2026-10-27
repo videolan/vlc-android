@@ -34,7 +34,6 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.AppScope
 import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.media.MediaWrapperList
 import org.videolan.vlc.media.PlaybackServiceCallback
 import org.videolan.vlc.media.PlayerController
 import org.videolan.vlc.media.PlaylistOrchestrator
@@ -64,7 +63,7 @@ class QueueExpander(
 
         if (ml != null && ml.count > 0) {
             val mrl = if (updateHistory) expandedMedia?.location else null
-            playQueue.removeEventListener(playlistManager as MediaWrapperList.EventListener)
+            playQueue.removeEventListener(playlistManager)
             try {
                 playQueue.remove(index)
                 for (i in 0 until ml.count) {
@@ -85,7 +84,7 @@ class QueueExpander(
                     child.release()
                 }
             } finally {
-                playQueue.addEventListener(playlistManager as MediaWrapperList.EventListener)
+                playQueue.addEventListener(playlistManager)
             }
             playlistManager.notifyUpdate()
             service.onMediaListChanged()
