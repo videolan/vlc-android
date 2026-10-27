@@ -77,20 +77,16 @@ class PlayQueue(
     }
 
     fun append(list: List<MediaWrapper>) {
-        mediaList.removeEventListener(this)
         for (media in list) {
             mediaList.add(media)
         }
-        mediaList.addEventListener(this)
     }
 
     fun insertNext(list: List<MediaWrapper>) {
         val targetIndex = if (isValidPosition(currentIndex)) currentIndex + 1 else size
-        mediaList.removeEventListener(this)
         for ((offset, media) in list.withIndex()) {
             mediaList.insert(targetIndex + offset, media)
         }
-        mediaList.addEventListener(this)
     }
 
     fun insertItem(index: Int, item: MediaWrapper) {
