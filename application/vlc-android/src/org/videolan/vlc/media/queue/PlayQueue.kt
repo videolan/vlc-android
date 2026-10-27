@@ -63,6 +63,9 @@ class PlayQueue(
 
     fun getMediaList(): List<MediaWrapper> = mediaList.copy
 
+    val isAudioList: Boolean
+        get() = mediaList.isAudioList
+
     fun addEventListener(listener: MediaWrapperList.EventListener) {
         mediaList.addEventListener(listener)
     }
@@ -75,7 +78,7 @@ class PlayQueue(
         mediaList.replaceWith(list)
     }
 
-    fun append(list: List<MediaWrapper>, index: Int = currentIndex) {
+    fun append(list: List<MediaWrapper>) {
         mediaList.removeEventListener(this)
         for (media in list) {
             mediaList.add(media)

@@ -328,13 +328,13 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
         return queueExpander.expand(updateHistory, skipNextParsing)
     }
 
-    override fun getCurrentMedia() = mediaList.getMedia(currentIndex)
+    override fun getCurrentMedia() = playQueue.getCurrentMedia()
 
-    fun getPrevMedia() = if (isValidPosition(prevIndex)) mediaList.getMedia(prevIndex) else null
+    fun getPrevMedia() = if (isValidPosition(prevIndex)) playQueue.getMedia(prevIndex) else null
 
-    fun getNextMedia() = if (isValidPosition(nextIndex)) mediaList.getMedia(nextIndex) else null
+    fun getNextMedia() = if (isValidPosition(nextIndex)) playQueue.getMedia(nextIndex) else null
 
-    fun getMedia(position: Int) = mediaList.getMedia(position)
+    fun getMedia(position: Int) = playQueue.getMedia(position)
 
     override fun getStartTime(mw: MediaWrapper) : Long {
         val start = when {
@@ -378,8 +378,8 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
             return
         }
         val newList = withContext(Dispatchers.IO) { list.updateWithMLMeta() }
-        mediaList.removeEventListener(this)
-        for (media in newList) mediaList.add(media)
+        playQueue.removeEventListener(this)
+        playQueue.append(newList)
         if (BuildConfig.BETA) newList.forEach {
             try {
                 Log.d(TAG, "Media location: ${it.uri}")
@@ -387,7 +387,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
                 Log.d(TAG, "Media crash", e)
             }
         }
-        mediaList.addEventListener(this)
+        playQueue.addEventListener(this)
         addUpdateFlow.tryEmit(Unit)
         if (settings.getBoolean(KEY_AUDIO_FORCE_SHUFFLE, false) && getCurrentMedia()?.type == MediaWrapper.TYPE_AUDIO  && !shuffling && canShuffle()) shuffle()
     }
@@ -404,8 +404,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
             launch { load(list, 0) }
             return
         }
-        val startIndex = currentIndex + 1
-        for ((index, mw) in list.withIndex()) mediaList.insert(startIndex + index, mw)
+        playQueue.insertNext(list)
     }
 
     /**
@@ -493,7 +492,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
         }
     }
 
-    override fun isAudioList() = !player.isVideoPlaying() && mediaList.isAudioList
+    override fun isAudioList() = !player.isVideoPlaying() && playQueue.isAudioList
 }
 
 class ABRepeat(var start: Long = -1L, var stop: Long = -1L)
