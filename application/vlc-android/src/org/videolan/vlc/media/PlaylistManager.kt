@@ -1,13 +1,5 @@
 package org.videolan.vlc.media
 
-import org.videolan.vlc.media.player.PlaybackController
-import org.videolan.vlc.media.persistence.PlaylistLoader
-import org.videolan.vlc.media.player.PlayerEventHandler
-import org.videolan.vlc.media.queue.QueueExpander
-import org.videolan.vlc.media.control.ABRepeatController
-import org.videolan.vlc.media.persistence.PlaybackPersistenceManager
-import org.videolan.vlc.media.queue.QueueNavigator
-import org.videolan.vlc.media.queue.PlayQueue
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.annotation.MainThread
@@ -28,15 +20,19 @@ import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.tools.AppScope
 import org.videolan.tools.KEY_AUDIO_CONFIRM_RESUME
 import org.videolan.tools.KEY_AUDIO_FORCE_SHUFFLE
-import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
-import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.media.control.ABRepeatController
+import org.videolan.vlc.media.persistence.PlaybackPersistenceManager
+import org.videolan.vlc.media.persistence.PlaylistLoader
 import org.videolan.vlc.media.persistence.ResumeStatus
-import org.videolan.vlc.util.isSchemeFD
-import org.videolan.vlc.util.isSchemeStreaming
+import org.videolan.vlc.media.player.PlaybackController
+import org.videolan.vlc.media.player.PlayerEventHandler
+import org.videolan.vlc.media.queue.PlayQueue
+import org.videolan.vlc.media.queue.QueueExpander
+import org.videolan.vlc.media.queue.QueueNavigator
 import org.videolan.vlc.util.updateWithMLMeta
 import java.util.Stack
 

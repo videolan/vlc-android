@@ -214,9 +214,9 @@ class PlaybackController(
     fun setRepeatType(repeatType: Int) {
         AppScope.launch { navigator.repeating.emit(repeatType) }
         if (playlistManager.getCurrentMedia()?.type == MediaWrapper.TYPE_VIDEO) {
-            settings.putSingle(PLAYLIST_VIDEO_REPEAT_MODE_KEY, navigator.repeating.value)
+            settings.putSingle(PLAYLIST_VIDEO_REPEAT_MODE_KEY, repeatType)
         } else {
-            settings.putSingle(PLAYLIST_AUDIO_REPEAT_MODE_KEY, navigator.repeating.value)
+            settings.putSingle(PLAYLIST_AUDIO_REPEAT_MODE_KEY, repeatType)
         }
         playlistManager.savePosition()
         playlistManager.launch { playlistManager.determinePrevAndNextIndices() }
