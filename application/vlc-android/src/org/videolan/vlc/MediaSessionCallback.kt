@@ -111,6 +111,32 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                 true
             } else false
         }
+
+        if (Settings.headsetJumpOnPreviousNext && (keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS || keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_NEXT)) {
+            if(keyEvent.action == KeyEvent.ACTION_DOWN) {
+                when (keyEvent.keyCode) {
+                    KeyEvent.KEYCODE_MEDIA_PREVIOUS -> {
+                        seek(
+                            (playbackService.getTime() - Settings.videoDoubleTapJumpDelay * ONE_SECOND).coerceAtLeast(
+                                0
+                            )
+                        );
+                        checkForSeekFailure(forward = false);
+                    }
+
+                    KeyEvent.KEYCODE_MEDIA_NEXT -> {
+                        seek(
+                            (playbackService.getTime() + Settings.videoDoubleTapJumpDelay * ONE_SECOND).coerceAtMost(
+                                playbackService.length
+                            )
+                        );
+                        checkForSeekFailure(forward = true);
+                    }
+                }
+            }
+            return true
+        }
+
         /**
          * Implement fast forward and rewind behavior by directly handling the previous and next button events.
          * Normally the buttons are triggered on ACTION_DOWN; however, we ignore the ACTION_DOWN event when
