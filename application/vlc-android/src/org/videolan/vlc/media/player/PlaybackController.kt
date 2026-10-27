@@ -117,7 +117,7 @@ class PlaybackController(
             if (it.type == MediaWrapper.TYPE_VIDEO || it.isPodcast) playlistManager.saveMediaMeta()
         }
         val size = playQueue.size
-        if (force || navigator.repeating.value != PlaybackStateCompat.REPEAT_MODE_NONE) {
+        if (force || navigator.repeating.value != PlaybackStateCompat.REPEAT_MODE_ONE) {
             navigator.pushPrevious(playlistManager.currentIndex)
             playlistManager.currentIndex = navigator.nextIndex
             if (size == 0 || playlistManager.currentIndex < 0 || playlistManager.currentIndex >= size) {
