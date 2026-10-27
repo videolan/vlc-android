@@ -201,6 +201,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun release(player: MediaPlayer = mediaplayer) {
         player.setEventListener(null)
+        eventChannel.close()
         if (isVideoPlaying()) player.vlcVout.detachViews()
         releaseMedia()
         launch(Dispatchers.IO) {
@@ -352,7 +353,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     override fun onEvent(event: MediaPlayer.Event?) {
-        if (event != null) eventChannel.trySend(event)
+        if (event != null && !eventChannel.isClosedForSend) eventChannel.trySend(event)
     }
 
     private fun setPlaybackStopped() {
