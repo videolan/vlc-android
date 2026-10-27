@@ -98,7 +98,7 @@ class QueueNavigator(
                         prevIndex = previous.peek()
                     }
                 }
-                if (previous.size + 1 >= size) {
+                if (previous.size + 1 == size) {
                     if (repeating.value == PlaybackStateCompat.REPEAT_MODE_NONE) {
                         nextIndex = -1
                         return
@@ -124,7 +124,8 @@ class QueueNavigator(
         if (playQueue.size == 0 || currentIndex < 0) return 0L
 
         return if (isShuffling) {
-            previous.asSequence()
+            (0 until playQueue.size).asSequence()
+                .filter { previous.contains(it) }
                 .mapNotNull { playQueue.getMedia(it)?.length }
                 .sum()
         } else {

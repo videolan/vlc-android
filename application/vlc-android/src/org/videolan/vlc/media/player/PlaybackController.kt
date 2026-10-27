@@ -192,7 +192,7 @@ class PlaybackController(
 
     @MainThread
     fun shuffle() {
-        if (navigator.isShuffling) navigator.clearHistory()
+        if (!navigator.isShuffling) navigator.clearHistory()
         navigator.isShuffling = !navigator.isShuffling
         playlistManager.savePosition()
         playlistManager.launch { playlistManager.determinePrevAndNextIndices() }
