@@ -71,7 +71,6 @@ import org.videolan.vlc.media.PlayerController
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.PlaylistOrchestrator
 import org.videolan.vlc.media.WaitConfirmation
-import org.videolan.vlc.media.persistence.PlaybackPersistenceManager
 import org.videolan.vlc.media.persistence.ResumeStatus
 import org.videolan.vlc.media.queue.PlayQueue
 import org.videolan.vlc.media.queue.QueueNavigator
@@ -88,7 +87,6 @@ class PlaybackController(
     private val player: PlayerController,
     private val playQueue: PlayQueue,
     private val navigator: QueueNavigator,
-    private val persistenceManager: PlaybackPersistenceManager,
     private val eventHandler: PlayerEventHandler,
     private val medialibrary: Medialibrary,
     private val service: PlaybackServiceCallback,

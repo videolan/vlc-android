@@ -24,7 +24,6 @@ import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.AppContextProvider
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.tools.AppScope
 import org.videolan.tools.KEY_AUDIO_CONFIRM_RESUME
@@ -104,7 +103,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     override var entryUrl : String? = null
     val playlistLoader by lazy(LazyThreadSafetyMode.NONE) { PlaylistLoader(this, player, playQueue, persistenceManager, service, settings) }
     val eventHandler by lazy(LazyThreadSafetyMode.NONE) { PlayerEventHandler(service, this, player, medialibrary, settings) }
-    val playbackController by lazy(LazyThreadSafetyMode.NONE) { PlaybackController(this, player, playQueue, navigator, persistenceManager, eventHandler, medialibrary, service, settings, ctx) }
+    val playbackController by lazy(LazyThreadSafetyMode.NONE) { PlaybackController(this, player, playQueue, navigator, eventHandler, medialibrary, service, settings, ctx) }
     val queueExpander by lazy(LazyThreadSafetyMode.NONE) { QueueExpander(this, player, playQueue, medialibrary, service) }
     val abRepeatController by lazy(LazyThreadSafetyMode.NONE) { ABRepeatController(settings) }
     override val abRepeat: MutableLiveData<ABRepeat> get() = abRepeatController.abRepeat
@@ -459,37 +458,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     }
 
     override suspend fun savePlaycount(mw: MediaWrapper) {
-        if (Settings.getInstance(AppContextProvider.appContext).getBoolean(KEY_INCOGNITO, false)) return
-        var currentMedia = mw
-        if (settings.getBoolean(PLAYBACK_HISTORY, true) && !mw.uri.scheme.isSchemeFD()) withContext(Dispatchers.IO) {
-            var id = mw.id
-            if (id == 0L) {
-                var internalMedia = medialibrary.findMedia(mw)
-                if (internalMedia != null && internalMedia.id != 0L) {
-                    id = internalMedia.id
-                } else {
-                    internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM || isSchemeStreaming(mw.uri.scheme)) {
-                        medialibrary.addStream(entryUrl ?: mw.uri.toString(), mw.title)
-                    } else {
-                        medialibrary.addMedia(mw.uri.toString(), mw.length)
-                    }
-                    if (internalMedia != null) {
-                        currentMedia = internalMedia
-                        id = internalMedia.id
-                        getCurrentMedia()?.let { currentMedia -> if (internalMedia.title != currentMedia.title) internalMedia.rename(currentMedia.title) }
-                    }
-                }
-            }
-            val canSwitchToVideo = player.canSwitchToVideo()
-            /*
-             * Because progress isn't saved for non podcast audio (ie. saveMediaMeta), it is
-             * necessary to mark the media as played to add them to history and increment their
-             * playcount.
-             */
-            if (id != 0L && currentMedia.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !currentMedia.isPodcast) {
-                currentMedia.markAsPlayed()
-            }
-        }
+        persistenceManager.savePlaycount(mw, player.canSwitchToVideo(), entryUrl)
     }
 
     override fun isAudioList() = !player.isVideoPlaying() && playQueue.isAudioList
