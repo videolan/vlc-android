@@ -98,5 +98,12 @@ class QueueNavigatorTest : BaseTest() {
         // Linear playback at index 2 -> sum of media1 + media2 = 300L
         val time = navigator.previousTotalTime(playQueue, 2)
         assertEquals(300L, time)
+
+        // Shuffle playback with history [0, 2] -> sum of media1 + media3 = 400L
+        navigator.isShuffling = true
+        navigator.pushPrevious(0)
+        navigator.pushPrevious(2)
+        val shuffleTime = navigator.previousTotalTime(playQueue, 1)
+        assertEquals(400L, shuffleTime)
     }
 }

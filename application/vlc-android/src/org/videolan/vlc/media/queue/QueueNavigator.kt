@@ -124,8 +124,7 @@ class QueueNavigator(
         if (playQueue.size == 0 || currentIndex < 0) return 0L
 
         return if (isShuffling) {
-            (0 until playQueue.size).asSequence()
-                .filter { previous.contains(it) }
+            previous.asSequence()
                 .mapNotNull { playQueue.getMedia(it)?.length }
                 .sum()
         } else {
