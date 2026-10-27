@@ -122,16 +122,16 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
 
     fun isValidPosition(position: Int) = playQueue.isValidPosition(position)
     override var shouldDisableCookieForwarding: Boolean = false
-    private val addUpdateFlow = MutableSharedFlow<Unit>(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    private val addUpdateChannel = kotlinx.coroutines.channels.Channel<Unit>(kotlinx.coroutines.channels.Channel.CONFLATED)
 
     override fun notifyUpdate() {
-        addUpdateFlow.tryEmit(Unit)
+        addUpdateChannel.trySend(Unit)
     }
 
     init {
         AppScope.launch { repeating.emit(settings.getInt(PLAYLIST_AUDIO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)) }
         launch {
-            addUpdateFlow.collect {
+            for (update in addUpdateChannel) {
                 determinePrevAndNextIndices()
                 executeUpdate()
                 saveMediaList()
@@ -207,7 +207,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     override fun onItemAdded(index: Int, mrl: String) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemAdded")
         if (currentIndex >= index && !expanding) ++currentIndex
-        addUpdateFlow.tryEmit(Unit)
+        notifyUpdate()
     }
 
     @MainThread
@@ -296,7 +296,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
         // If we are in random mode, we completely reset the stored previous track
         // as their indices changed.
         previous.clear()
-        addUpdateFlow.tryEmit(Unit)
+        notifyUpdate()
     }
 
     override suspend fun determinePrevAndNextIndices(expand: Boolean) {
@@ -383,7 +383,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
             }
         }
         playQueue.addEventListener(this)
-        addUpdateFlow.tryEmit(Unit)
+        notifyUpdate()
         if (settings.getBoolean(KEY_AUDIO_FORCE_SHUFFLE, false) && getCurrentMedia()?.type == MediaWrapper.TYPE_AUDIO  && !shuffling && canShuffle()) shuffle()
     }
 
