@@ -24,9 +24,9 @@
 
 package org.videolan.vlc.media.queue
 
-import androidx.lifecycle.MutableLiveData
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.media.MediaWrapperList
+import org.videolan.vlc.media.PlaylistManager
 
 /**
  * Manages the playback queue, containing the list of [MediaWrapper] items,
@@ -39,10 +39,8 @@ class PlayQueue(
     var currentIndex: Int = -1
         set(value) {
             field = value
-            currentPlayedMedia.postValue(mediaList.getMedia(value))
+            PlaylistManager.currentPlayedMedia.postValue(mediaList.getMedia(value))
         }
-
-    val currentPlayedMedia: MutableLiveData<MediaWrapper?> = MutableLiveData(null)
 
     val size: Int
         get() = mediaList.size()
