@@ -47,8 +47,6 @@ interface PlaylistOrchestrator : CoroutineScope, MediaWrapperList.EventListener 
     var isHardware: Boolean
     var parsed: Boolean
     var newMedia: Boolean
-    var browserAudioActive: Boolean
-    var preBrowserVolume: Int
     var shuffling: Boolean
 
     val audioResumeStatus: ResumeStatus

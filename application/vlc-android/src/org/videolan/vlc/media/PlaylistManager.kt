@@ -7,8 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -90,8 +89,6 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     override var videoBackground = false
     override var isBenchmark = false
     override var isHardware = false
-    override var browserAudioActive = false
-    override var preBrowserVolume = -1
     override var parsed = false
     override var savedTime = 0L
     override var newMedia = false
@@ -123,7 +120,7 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
 
     fun isValidPosition(position: Int) = playQueue.isValidPosition(position)
     override var shouldDisableCookieForwarding: Boolean = false
-    private val addUpdateChannel = kotlinx.coroutines.channels.Channel<Unit>(kotlinx.coroutines.channels.Channel.CONFLATED)
+    private val addUpdateChannel = Channel<Unit>(Channel.CONFLATED)
 
     override fun notifyUpdate() {
         addUpdateChannel.trySend(Unit)

@@ -319,7 +319,7 @@ class PlaybackController(
             media.setEventListener(eventHandler)
             player.startPlayback(media, eventHandler, start)
             player.setSlaves(media, mw)
-            if (playlistManager.browserAudioActive) player.setVolume(0)
+            if (browserAudioActive) player.setVolume(0)
             playlistManager.newMedia = true
             playlistManager.determinePrevAndNextIndices()
             service.onNewPlayback()
@@ -338,15 +338,18 @@ class PlaybackController(
         player.release()
     }
 
+    private var browserAudioActive = false
+    private var preBrowserVolume = -1
+
     fun setBrowserAudio(enable: Boolean) {
-        if (playlistManager.browserAudioActive == enable) return
-        playlistManager.browserAudioActive = enable
+        if (browserAudioActive == enable) return
+        browserAudioActive = enable
         if (enable) {
-            playlistManager.preBrowserVolume = player.getVolume()
+            preBrowserVolume = player.getVolume()
             player.setVolume(0)
         } else {
-            player.setVolume(if (playlistManager.preBrowserVolume >= 0) playlistManager.preBrowserVolume else 100)
-            playlistManager.preBrowserVolume = -1
+            player.setVolume(if (preBrowserVolume >= 0) preBrowserVolume else 100)
+            preBrowserVolume = -1
         }
     }
 

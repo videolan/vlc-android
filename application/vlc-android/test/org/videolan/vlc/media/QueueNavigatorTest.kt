@@ -106,4 +106,15 @@ class QueueNavigatorTest : BaseTest() {
         val shuffleTime = navigator.previousTotalTime(playQueue, 1)
         assertEquals(400L, shuffleTime)
     }
+
+    @Test
+    fun testClearHistoryOnShuffle() {
+        val navigator = QueueNavigator()
+        navigator.pushPrevious(0)
+        navigator.pushPrevious(1)
+        assertEquals(2, navigator.previous.size)
+
+        navigator.clearHistory()
+        assertTrue(navigator.previous.isEmpty())
+    }
 }
