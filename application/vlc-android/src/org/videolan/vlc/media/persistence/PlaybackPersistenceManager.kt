@@ -198,7 +198,7 @@ class PlaybackPersistenceManager(
         val canSwitchToVideo = player.canSwitchToVideo()
 
         launch(Dispatchers.IO) innerLaunch@ {
-            val media = if (entryUrl != null) medialibrary.getMedia(entryUrl) else medialibrary.findMedia(mediaItem) ?: return@innerLaunch
+            val media = (if (entryUrl != null) medialibrary.getMedia(entryUrl) else medialibrary.findMedia(mediaItem)) ?: return@innerLaunch
             if (PlaylistManager.showAudioPlayer.value != true) BaseBrowserFragment.needRefresh.postValue(true)
             if (media.id == 0L) return@innerLaunch
             if (titleIdx > 0) media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong())
