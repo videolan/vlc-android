@@ -98,17 +98,17 @@ class QueueNavigator(
                         prevIndex = previous.peek()
                     }
                 }
-                if (previous.size + 1 == size) {
-                    if (repeating.value == PlaybackStateCompat.REPEAT_MODE_NONE) {
-                        nextIndex = -1
-                        return
-                    } else {
-                        previous.clear()
-                    }
+                val candidates = (0 until size).filter { it != currentIndex && !previous.contains(it) }
+                if (candidates.isNotEmpty()) {
+                    nextIndex = candidates[random.nextInt(candidates.size)]
+                } else if (repeating.value == PlaybackStateCompat.REPEAT_MODE_NONE) {
+                    nextIndex = -1
+                    return
+                } else {
+                    previous.clear()
+                    val repeatCandidates = (0 until size).filter { it != currentIndex }
+                    nextIndex = if (repeatCandidates.isNotEmpty()) repeatCandidates[random.nextInt(repeatCandidates.size)] else -1
                 }
-                do {
-                    nextIndex = random.nextInt(size)
-                } while (nextIndex == currentIndex || previous.contains(nextIndex))
             } else {
                 if (currentIndex > 0) prevIndex = currentIndex - 1
                 nextIndex = when {
