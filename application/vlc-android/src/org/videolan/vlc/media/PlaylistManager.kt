@@ -301,10 +301,12 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
         val media = getCurrentMedia()
         val expandFn: (suspend (Boolean, Boolean) -> Int)? = if (expand && media != null) {
             { isStream, noParse ->
-                expanding = true
-                val result = expand(isStream, noParse)
-                expanding = false
-                result
+                try {
+                    expanding = true
+                    expand(isStream, noParse)
+                } finally {
+                    expanding = false
+                }
             }
         } else null
         navigator.determinePrevAndNextIndices(currentIndex, playQueue, expand, expandFn)
