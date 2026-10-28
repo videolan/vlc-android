@@ -95,11 +95,11 @@ class PlaylistManager(val service: PlaybackService) : PlaylistOrchestrator, Medi
     @Volatile
     private var expanding = false
     override var entryUrl : String? = null
-    val playlistLoader by lazy(LazyThreadSafetyMode.NONE) { PlaylistLoader(this, player, playQueue, persistenceManager, service, settings) }
-    val eventHandler by lazy(LazyThreadSafetyMode.NONE) { PlayerEventHandler(service, this, player, medialibrary, settings) }
-    val playbackController by lazy(LazyThreadSafetyMode.NONE) { PlaybackController(this, player, playQueue, navigator, eventHandler, medialibrary, service, settings, ctx) }
-    val queueExpander by lazy(LazyThreadSafetyMode.NONE) { QueueExpander(this, player, playQueue, medialibrary, service) }
-    val abRepeatController by lazy(LazyThreadSafetyMode.NONE) { ABRepeatController(settings) }
+    internal val playlistLoader by lazy(LazyThreadSafetyMode.NONE) { PlaylistLoader(this, player, playQueue, persistenceManager, service, settings) }
+    internal val eventHandler by lazy(LazyThreadSafetyMode.NONE) { PlayerEventHandler(service, this, player, medialibrary, settings) }
+    internal val playbackController by lazy(LazyThreadSafetyMode.NONE) { PlaybackController(this, player, playQueue, navigator, eventHandler, medialibrary, service, settings, ctx) }
+    internal val queueExpander by lazy(LazyThreadSafetyMode.NONE) { QueueExpander(this, player, playQueue, medialibrary, service) }
+    internal val abRepeatController by lazy(LazyThreadSafetyMode.NONE) { ABRepeatController(settings) }
     override val abRepeat: MutableLiveData<ABRepeat> get() = abRepeatController.abRepeat
     val abRepeatOn: MutableLiveData<Boolean> get() = abRepeatController.abRepeatOn
     val videoStatsOn: MutableLiveData<Boolean> get() = abRepeatController.videoStatsOn

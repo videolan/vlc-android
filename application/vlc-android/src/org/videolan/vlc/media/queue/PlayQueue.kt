@@ -34,7 +34,7 @@ import org.videolan.vlc.media.PlaylistManager
  */
 class PlayQueue(
     val mediaList: MediaWrapperList = MediaWrapperList()
-) : MediaWrapperList.EventListener {
+) {
 
     var currentIndex: Int = -1
         set(value) {
@@ -111,10 +111,4 @@ class PlayQueue(
         mediaList.clear()
         currentIndex = -1
     }
-
-    override fun onItemAdded(index: Int, mrl: String) {}
-
-    override fun onItemRemoved(index: Int, mrl: String) {}
-
-    override fun onItemMoved(indexBefore: Int, indexAfter: Int, mrl: String) {}
 }

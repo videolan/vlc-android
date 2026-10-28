@@ -55,7 +55,6 @@ import org.videolan.tools.AUDIO_STOP_AFTER
 import org.videolan.tools.AppScope
 import org.videolan.tools.DAV1D_THREAD_NUMBER
 import org.videolan.tools.HTTP_USER_AGENT
-import org.videolan.tools.Settings
 import org.videolan.tools.isAppStarted
 import org.videolan.tools.putSingle
 import org.videolan.vlc.PlaybackService
@@ -137,7 +136,7 @@ class PlaybackController(
 
     fun stop(systemExit: Boolean = false, video: Boolean = false) {
         playlistManager.clearABRepeat()
-        if (playlistManager.stopAfter != -1) Settings.getInstance(AppContextProvider.appContext).putSingle(AUDIO_STOP_AFTER, playlistManager.stopAfter)
+        if (playlistManager.stopAfter != -1) settings.putSingle(AUDIO_STOP_AFTER, playlistManager.stopAfter)
         playlistManager.stopAfter = -1
         playlistManager.videoBackground = false
         val currentMedia: MediaWrapper? = playlistManager.getCurrentMedia()
