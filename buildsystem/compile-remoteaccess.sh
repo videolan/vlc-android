@@ -114,6 +114,13 @@ if [ "$INIT_ONLY" != 1 ]; then
     diagnostic "Building the Remote Access project"
     cd "$VLC_REMOTE_ACCESS_PATH"
 
+    if [ "$USE_MAIN" = 1 ]; then
+        NODE_VERSION=$(node -v 2>/dev/null | sed -E 's/^v([0-9]+).*/\1/')
+        if [ "$NODE_VERSION" != "22" ]; then
+            fail "Node 22 is required to build the remote access main branch (found Node v${NODE_VERSION:-unknown})."
+        fi
+    fi
+
     npm install
     npm run build-android
     cd "$CURRENT_DIR"
