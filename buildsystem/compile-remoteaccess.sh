@@ -115,9 +115,34 @@ if [ "$INIT_ONLY" != 1 ]; then
     cd "$VLC_REMOTE_ACCESS_PATH"
 
     if [ "$USE_MAIN" = 1 ]; then
+        # Check current Node.js major version
         NODE_VERSION=$(node -v 2>/dev/null | sed -E 's/^v([0-9]+).*/\1/')
+
+        # If Node 22 is not active, attempt to switch automatically using standard version managers
         if [ "$NODE_VERSION" != "22" ]; then
-            fail "Node 22 is required to build the remote access main branch (found Node v${NODE_VERSION:-unknown})."
+            # Attempt to activate Node 22 using NVM if available
+            if [ -s "${NVM_DIR:-$HOME/.nvm}/nvm.sh" ]; then
+                . "${NVM_DIR:-$HOME/.nvm}/nvm.sh" 2>/dev/null || true
+                nvm use 22 >/dev/null 2>&1 || true
+            # Attempt to activate Node 22 using fnm if available
+            elif command -v fnm >/dev/null 2>&1; then
+                eval "$(fnm env 2>/dev/null)" || true
+                fnm use 22 >/dev/null 2>&1 || true
+            # Attempt to activate Node 22 using n if available
+            elif command -v n >/dev/null 2>&1; then
+                n 22 >/dev/null 2>&1 || true
+            # Attempt to activate Node 22 using asdf if available
+            elif command -v asdf >/dev/null 2>&1; then
+                asdf shell nodejs 22 >/dev/null 2>&1 || true
+            fi
+
+            # Re-check Node.js major version
+            NODE_VERSION=$(node -v 2>/dev/null | sed -E 's/^v([0-9]+).*/\1/')
+
+            # Only display an error message and fail if Node 22 is still not available
+            if [ "$NODE_VERSION" != "22" ]; then
+                fail "Node 22 is required to build the remote access main branch (found Node v${NODE_VERSION:-unknown}). Please install or switch to Node 22."
+            fi
         fi
     fi
 
