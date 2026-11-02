@@ -102,10 +102,12 @@ if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ] || [ ! -d "$VLC_REMOTE_ACCESS_PATH/.git" ]
 else
     diagnostic "Remote access sources: found in $VLC_REMOTE_ACCESS_PATH"
     cd "$VLC_REMOTE_ACCESS_PATH"
-    git fetch origin ${branch}:refs/remotes/origin/${branch}
-    git checkout -B ${branch} origin/${branch}
-    if [ "$USE_MAIN" != 1 ]; then
-        git reset --hard ${REMOTE_ACCESS_TESTED_HASH} || fail "Remote access sources: REMOTE_ACCESS_TESTED_HASH ${REMOTE_ACCESS_TESTED_HASH} not found"
+    if [ "$USE_MAIN" = 1 ]; then
+        git fetch origin ${branch}:refs/remotes/origin/${branch}
+        git checkout -B ${branch} origin/${branch}
+    elif [ "$(git rev-parse HEAD 2>/dev/null)" != "$REMOTE_ACCESS_TESTED_HASH" ]; then
+        git fetch origin ${branch}:refs/remotes/origin/${branch}
+        git checkout -B ${branch} ${REMOTE_ACCESS_TESTED_HASH} || fail "Remote access sources: REMOTE_ACCESS_TESTED_HASH ${REMOTE_ACCESS_TESTED_HASH} not found"
     fi
     cd "$CURRENT_DIR"
 fi
