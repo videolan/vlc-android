@@ -41,12 +41,14 @@ fail()
 }
 
 USE_MAIN=0
+RESET=0
 
 while [ $# -gt 0 ]; do
     case $1 in
         help|--help|-h)
             echo "Use --init to only clone/pull without building"
             echo "Use --main or -m to build using the main branch"
+            echo "Use --reset or -r to reset code from git"
             exit 0
             ;;
         --init)
@@ -54,6 +56,9 @@ while [ $# -gt 0 ]; do
             ;;
         --main|-m)
             USE_MAIN=1
+            ;;
+        --reset|-r)
+            RESET=1
             ;;
         *)
             diagnostic "$0: Invalid option '$1'."
@@ -99,17 +104,18 @@ if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ] || [ ! -d "$VLC_REMOTE_ACCESS_PATH/.git" ]
         git reset --hard ${REMOTE_ACCESS_TESTED_HASH} || fail "Remote access sources: REMOTE_ACCESS_TESTED_HASH ${REMOTE_ACCESS_TESTED_HASH} not found"
     fi
     cd "$CURRENT_DIR"
-else
-    diagnostic "Remote access sources: found in $VLC_REMOTE_ACCESS_PATH"
+elif [ "$RESET" = 1 ]; then
+    diagnostic "Remote access sources: resetting $VLC_REMOTE_ACCESS_PATH"
     cd "$VLC_REMOTE_ACCESS_PATH"
+    git fetch origin ${branch}:refs/remotes/origin/${branch}
     if [ "$USE_MAIN" = 1 ]; then
-        git fetch origin ${branch}:refs/remotes/origin/${branch}
         git checkout -B ${branch} origin/${branch}
-    elif [ "$(git rev-parse HEAD 2>/dev/null)" != "$REMOTE_ACCESS_TESTED_HASH" ]; then
-        git fetch origin ${branch}:refs/remotes/origin/${branch}
+    else
         git checkout -B ${branch} ${REMOTE_ACCESS_TESTED_HASH} || fail "Remote access sources: REMOTE_ACCESS_TESTED_HASH ${REMOTE_ACCESS_TESTED_HASH} not found"
     fi
     cd "$CURRENT_DIR"
+else
+    diagnostic "Remote access sources: found in $VLC_REMOTE_ACCESS_PATH"
 fi
 
 if [ "$INIT_ONLY" != 1 ]; then
