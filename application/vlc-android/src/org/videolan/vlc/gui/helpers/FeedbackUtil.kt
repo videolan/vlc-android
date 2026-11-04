@@ -41,7 +41,6 @@ import org.videolan.resources.VLCOptions
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
-import org.videolan.vlc.gui.preferences.search.PreferenceParser.getChangedPrefsJson
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import java.io.BufferedWriter
@@ -65,13 +64,26 @@ object FeedbackUtil {
 
             val emailIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
             emailIntent.type = "message/rfc822"
-            //get medialib db if needed
+            val externalPath = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
             val attachments = ArrayList<Uri>()
+
+            // Attach settings JSON file
+            if (externalPath != null) {
+                try {
+                    val settingsJson = PreferenceParser.getChangedPrefsJson(activity)
+                    val settingsFile = File(externalPath, "vlc_settings.json")
+                    settingsFile.writeText(settingsJson)
+                    attachments.add(FileProvider.getUriForFile(activity, activity.applicationContext.packageName + ".provider", settingsFile))
+                } catch (e: Exception) {
+                    Log.e("FeedbackUtil", "Failed to export settings file", e)
+                }
+            }
+
+            //get medialib db if needed
             if (includeMedialibrary) {
-                val externalPath = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
-                    ?: return@withContext null
-                val dbPath = "$externalPath/${Medialibrary.VLC_MEDIA_DB_NAME}"
-                val dbZipPath = "$externalPath/db.zip"
+                val path = externalPath ?: return@withContext null
+                val dbPath = "$path/${Medialibrary.VLC_MEDIA_DB_NAME}"
+                val dbZipPath = "$path/db.zip"
                 val db = File(activity.getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME)
                 val dbFile = File(dbPath)
                 FileUtils.copyFile(db, dbFile)
@@ -82,7 +94,7 @@ object FeedbackUtil {
             }
             val appData = generateUsefulInfo(activity).replace("\r\n", "<br/>") + "<br/>"
 
-            val body = "<p style=3D\"color:#16171A;\">$message</p><p>$appData</p>"
+            val body = "<p style=\"color:#16171A;\">$message</p><p>$appData</p>"
 
             logcatZipPath?.let {
                 attachments.add(FileProvider.getUriForFile(activity, activity.applicationContext.packageName + ".provider", File(it)))
@@ -162,10 +174,6 @@ object FeedbackUtil {
             append("Cannot retrieve changed settings\r\n")
             append(Log.getStackTraceString(e))
         }
-        append("____________________________\r\n")
-        append("Settings export/import (copy this line in a file to restore those settings)\r\n")
-        append("____________________________\r\n")
-        append("${PreferenceParser.getChangedPrefsJson(context)}\r\n")
         append("____________________________\r\n")
         append("vlc options: ${VLCOptions.libOptions.joinToString(" ")}\r\n")
         append("____________________________\r\n")
