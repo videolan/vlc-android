@@ -29,6 +29,17 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/headset_prefs_category"
+            app:iconSpaceReserved="false">
+
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="false"
+                android:key="headset_jump_on_previous_next"
+                android:title="@string/headset_jump_on_previous_next"
+                android:summary="@string/headset_jump_on_previous_next_summary"/>
+    </PreferenceCategory>
+
 
     <PreferenceCategory android:title="@string/interface_prefs_screen"
             app:iconSpaceReserved="false">
