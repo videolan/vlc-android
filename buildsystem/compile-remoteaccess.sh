@@ -74,8 +74,17 @@ done
 ##############################
 diagnostic "Setting up the Remote Access project"
 
-REMOTE_ACCESS_TAG_VLC3="0.27.0"
-REMOTE_ACCESS_TAG_VLC4="1.0.0-alpha.1"
+# Release tags are shared with build.gradle (remoteAccessVersion)
+REMOTE_ACCESS_PROPERTIES="$(cd "$(dirname "$0")" && pwd -P)/remoteaccess.properties"
+[ -f "$REMOTE_ACCESS_PROPERTIES" ] || fail "Remote access: $REMOTE_ACCESS_PROPERTIES not found"
+read_remote_access_version()
+{
+    sed -n "s/^$1=//p" "$REMOTE_ACCESS_PROPERTIES" | tr -d '[:space:]'
+}
+REMOTE_ACCESS_TAG_VLC3="$(read_remote_access_version remoteAccessVersionVlc3)"
+REMOTE_ACCESS_TAG_VLC4="$(read_remote_access_version remoteAccessVersionVlc4)"
+[ -n "$REMOTE_ACCESS_TAG_VLC3" ] || fail "Remote access: remoteAccessVersionVlc3 missing in $REMOTE_ACCESS_PROPERTIES"
+[ -n "$REMOTE_ACCESS_TAG_VLC4" ] || fail "Remote access: remoteAccessVersionVlc4 missing in $REMOTE_ACCESS_PROPERTIES"
 REMOTE_ACCESS_REPOSITORY=https://code.videolan.org/videolan/remoteaccess
 
 : ${VLC_REMOTE_ACCESS_PATH:="$(pwd -P)/application/remote-access-client/remoteaccess"}

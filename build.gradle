@@ -59,12 +59,16 @@ allprojects {
     }
 }
 
+// Remote Access release tags, shared with buildsystem/compile-remoteaccess.sh
+def remoteAccessVersions = new Properties()
+file('buildsystem/remoteaccess.properties').withInputStream { remoteAccessVersions.load(it) }
+
 ext {
     appId = "org.videolan.vlc"
     versionCode = 3070200
     vlcMajorVersion = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? 4 : 3
     versionName = vlcMajorVersion == 3 ? '3.7.2' : '4.0.0-preview - ' + versionCode
-    remoteAccessVersion = vlcMajorVersion == 3 ? '0.27.0' : '1.0.0-alpha.1' // Synchronized with RemoteAccess release tag
+    remoteAccessVersion = remoteAccessVersions.getProperty(vlcMajorVersion == 3 ? 'remoteAccessVersionVlc3' : 'remoteAccessVersionVlc4')
     libvlcVersion = vlcMajorVersion == 3 ? '3.7.7' :'4.0.0-eap29'
     medialibraryVersion = (vlcMajorVersion == 3 ? '0.13.24' : '0.13.22-vlc4')
 
