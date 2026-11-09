@@ -100,6 +100,15 @@ fi
 
 CURRENT_DIR="$(pwd -P)"
 
+# Check out the pinned release tag in the current directory, extra arguments are passed to git checkout
+checkout_pinned_tag()
+{
+    git rev-parse -q --verify "refs/tags/${TARGET_TAG}^{commit}" >/dev/null \
+        || fail "Remote access sources: tag ${TARGET_TAG} not found"
+    diagnostic "Checking out Remote Access tag ${TARGET_TAG}"
+    git checkout "$@" "refs/tags/${TARGET_TAG}"
+}
+
 if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ] || [ ! -d "$VLC_REMOTE_ACCESS_PATH/.git" ]; then
     diagnostic "Remote access sources: not found, cloning branch $branch"
     if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ]; then
@@ -113,23 +122,13 @@ if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ] || [ ! -d "$VLC_REMOTE_ACCESS_PATH/.git" ]
         git fetch origin ${branch}:refs/remotes/origin/${branch} --tags
         git checkout -B ${branch} origin/${branch}
     fi
-    if git rev-parse -q --verify "refs/tags/${TARGET_TAG}" >/dev/null || git rev-parse -q --verify "${TARGET_TAG}" >/dev/null; then
-        diagnostic "Checking out Remote Access tag ${TARGET_TAG}"
-        git checkout "${TARGET_TAG}"
-    else
-        fail "Remote access sources: tag ${TARGET_TAG} not found"
-    fi
+    checkout_pinned_tag
     cd "$CURRENT_DIR"
 elif [ "$RESET" = 1 ]; then
     diagnostic "Remote access sources: resetting $VLC_REMOTE_ACCESS_PATH"
     cd "$VLC_REMOTE_ACCESS_PATH"
     git fetch origin ${branch}:refs/remotes/origin/${branch} --tags
-    if git rev-parse -q --verify "refs/tags/${TARGET_TAG}" >/dev/null || git rev-parse -q --verify "${TARGET_TAG}" >/dev/null; then
-        diagnostic "Checking out Remote Access tag ${TARGET_TAG}"
-        git checkout -f "${TARGET_TAG}"
-    else
-        fail "Remote access sources: tag ${TARGET_TAG} not found"
-    fi
+    checkout_pinned_tag -f
     cd "$CURRENT_DIR"
 else
     diagnostic "Remote access sources: found in $VLC_REMOTE_ACCESS_PATH"
