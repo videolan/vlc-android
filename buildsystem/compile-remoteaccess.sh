@@ -108,8 +108,7 @@ if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ] || [ ! -d "$VLC_REMOTE_ACCESS_PATH/.git" ]
         diagnostic "Checking out Remote Access tag ${TARGET_TAG}"
         git checkout "${TARGET_TAG}"
     else
-        diagnostic "Tag ${TARGET_TAG} not found, falling back to branch ${branch}"
-        git checkout -B "${branch}" "origin/${branch}" || fail "Remote access sources: branch ${branch} not found"
+        fail "Remote access sources: tag ${TARGET_TAG} not found"
     fi
     cd "$CURRENT_DIR"
 elif [ "$RESET" = 1 ]; then
@@ -120,8 +119,7 @@ elif [ "$RESET" = 1 ]; then
         diagnostic "Checking out Remote Access tag ${TARGET_TAG}"
         git checkout "${TARGET_TAG}"
     else
-        diagnostic "Tag ${TARGET_TAG} not found, falling back to branch ${branch}"
-        git checkout -B "${branch}" "origin/${branch}" || fail "Remote access sources: branch ${branch} not found"
+        fail "Remote access sources: tag ${TARGET_TAG} not found"
     fi
     cd "$CURRENT_DIR"
 else
