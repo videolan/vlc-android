@@ -169,7 +169,12 @@ if [ "$INIT_ONLY" != 1 ]; then
             fi
         fi
     else
-        if [ -n "$NODE_VERSION" ] && [ "$NODE_VERSION" -lt 20 ]; then
+        # Also fails when node is missing or its version can't be parsed
+        case "$NODE_VERSION" in
+            ''|*[!0-9]*) NODE_VERSION_OK=0 ;;
+            *) [ "$NODE_VERSION" -ge 20 ] && NODE_VERSION_OK=1 || NODE_VERSION_OK=0 ;;
+        esac
+        if [ "$NODE_VERSION_OK" != 1 ]; then
             fail "Node 20 or higher is required to build remote access (found Node v${NODE_VERSION:-unknown}). Please install or switch to Node 20+."
         fi
     fi
