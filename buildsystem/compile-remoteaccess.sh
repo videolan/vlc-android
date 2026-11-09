@@ -74,7 +74,8 @@ done
 ##############################
 diagnostic "Setting up the Remote Access project"
 
-REMOTE_ACCESS_TESTED_HASH=b72415d65efc922a2fd2c0539b61aeb0ea17cd66
+REMOTE_ACCESS_TAG_VLC3="0.27.0"
+REMOTE_ACCESS_TAG_VLC4="1.0.0-alpha.1"
 REMOTE_ACCESS_REPOSITORY=https://code.videolan.org/videolan/remoteaccess
 
 : ${VLC_REMOTE_ACCESS_PATH:="$(pwd -P)/application/remote-access-client/remoteaccess"}
@@ -82,8 +83,10 @@ diagnostic "VLC_REMOTE_ACCESS_PATH is $VLC_REMOTE_ACCESS_PATH"
 
 if [ "$USE_MAIN" = 1 ]; then
     branch="main"
+    TARGET_TAG="${REMOTE_ACCESS_TAG_VLC4}"
 else
     branch="0.x.x"
+    TARGET_TAG="${REMOTE_ACCESS_TAG_VLC3}"
 fi
 
 CURRENT_DIR="$(pwd -P)"
@@ -93,25 +96,32 @@ if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ] || [ ! -d "$VLC_REMOTE_ACCESS_PATH/.git" ]
     if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ]; then
         git clone --single-branch --branch ${branch} "${REMOTE_ACCESS_REPOSITORY}" "$VLC_REMOTE_ACCESS_PATH"
         cd "$VLC_REMOTE_ACCESS_PATH"
+        git fetch origin --tags
     else # folder exist with only the artifacts
         cd "$VLC_REMOTE_ACCESS_PATH"
         git init
         git remote add origin "${REMOTE_ACCESS_REPOSITORY}"
-        git fetch origin ${branch}:refs/remotes/origin/${branch}
+        git fetch origin ${branch}:refs/remotes/origin/${branch} --tags
         git checkout -B ${branch} origin/${branch}
     fi
-    if [ "$USE_MAIN" != 1 ]; then
-        git reset --hard ${REMOTE_ACCESS_TESTED_HASH} || fail "Remote access sources: REMOTE_ACCESS_TESTED_HASH ${REMOTE_ACCESS_TESTED_HASH} not found"
+    if git rev-parse -q --verify "refs/tags/${TARGET_TAG}" >/dev/null || git rev-parse -q --verify "${TARGET_TAG}" >/dev/null; then
+        diagnostic "Checking out Remote Access tag ${TARGET_TAG}"
+        git checkout "${TARGET_TAG}"
+    else
+        diagnostic "Tag ${TARGET_TAG} not found, falling back to branch ${branch}"
+        git checkout -B "${branch}" "origin/${branch}" || fail "Remote access sources: branch ${branch} not found"
     fi
     cd "$CURRENT_DIR"
 elif [ "$RESET" = 1 ]; then
     diagnostic "Remote access sources: resetting $VLC_REMOTE_ACCESS_PATH"
     cd "$VLC_REMOTE_ACCESS_PATH"
-    git fetch origin ${branch}:refs/remotes/origin/${branch}
-    if [ "$USE_MAIN" = 1 ]; then
-        git checkout -B ${branch} origin/${branch}
+    git fetch origin ${branch}:refs/remotes/origin/${branch} --tags
+    if git rev-parse -q --verify "refs/tags/${TARGET_TAG}" >/dev/null || git rev-parse -q --verify "${TARGET_TAG}" >/dev/null; then
+        diagnostic "Checking out Remote Access tag ${TARGET_TAG}"
+        git checkout "${TARGET_TAG}"
     else
-        git checkout -B ${branch} ${REMOTE_ACCESS_TESTED_HASH} || fail "Remote access sources: REMOTE_ACCESS_TESTED_HASH ${REMOTE_ACCESS_TESTED_HASH} not found"
+        diagnostic "Tag ${TARGET_TAG} not found, falling back to branch ${branch}"
+        git checkout -B "${branch}" "origin/${branch}" || fail "Remote access sources: branch ${branch} not found"
     fi
     cd "$CURRENT_DIR"
 else
@@ -122,10 +132,9 @@ if [ "$INIT_ONLY" != 1 ]; then
     diagnostic "Building the Remote Access project"
     cd "$VLC_REMOTE_ACCESS_PATH"
 
-    if [ "$USE_MAIN" = 1 ]; then
-        # Check current Node.js major version
-        NODE_VERSION=$(node -v 2>/dev/null | sed -E 's/^v([0-9]+).*/\1/')
+    NODE_VERSION=$(node -v 2>/dev/null | sed -E 's/^v([0-9]+).*/\1/')
 
+    if [ "$USE_MAIN" = 1 ]; then
         # If Node 22 is not active, attempt to switch automatically using standard version managers
         if [ "$NODE_VERSION" != "22" ]; then
             # Attempt to activate Node 22 using NVM if available
@@ -151,6 +160,10 @@ if [ "$INIT_ONLY" != 1 ]; then
             if [ "$NODE_VERSION" != "22" ]; then
                 fail "Node 22 is required to build the remote access main branch (found Node v${NODE_VERSION:-unknown}). Please install or switch to Node 22."
             fi
+        fi
+    else
+        if [ -n "$NODE_VERSION" ] && [ "$NODE_VERSION" -lt 20 ]; then
+            fail "Node 20 or higher is required to build remote access (found Node v${NODE_VERSION:-unknown}). Please install or switch to Node 20+."
         fi
     fi
 
