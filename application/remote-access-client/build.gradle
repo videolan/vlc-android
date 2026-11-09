@@ -36,7 +36,7 @@ def remoteclientSourceDir = "$projectDir/remoteaccess"
 File remoteAccessPackage = file("$remoteclientSourceDir/package.json")
 def remoteAccessRevision = remoteAccessPackage.exists() ? providers.exec {
     workingDir(remoteclientSourceDir)
-    commandLine('git', 'rev-parse', '--short', 'HEAD')
+    commandLine('git', 'describe', '--tags', '--always')
 }.standardOutput.asText.get().trim() : 'unknown'
 
 android {
@@ -87,20 +87,21 @@ android {
 preBuild.dependsOn(webCopy)
 
 def remoteAccessVersion() {
-    def code = new ByteArrayOutputStream()
     try {
         File remoteAccessPackage = file("remoteaccess/package.json")
         if (remoteAccessPackage.exists()) {
-            remoteAccessPackage.readLines().each {
-                if (it.contains('"version"')) {
-                    code = it.split("\"")[3]
-                    return
+            for (String line : remoteAccessPackage.readLines()) {
+                if (line.contains('"version"')) {
+                    def version = line.split("\"")[3]
+                    if (version && !version.isEmpty()) {
+                        return version
+                    }
                 }
             }
         }
-    } catch (Exception e) {
+    } catch (Throwable e) {
     }
-    return "unknown"
+    return rootProject.ext.remoteAccessVersion
 }
 
 
