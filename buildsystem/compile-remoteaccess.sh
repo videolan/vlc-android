@@ -117,7 +117,7 @@ elif [ "$RESET" = 1 ]; then
     git fetch origin ${branch}:refs/remotes/origin/${branch} --tags
     if git rev-parse -q --verify "refs/tags/${TARGET_TAG}" >/dev/null || git rev-parse -q --verify "${TARGET_TAG}" >/dev/null; then
         diagnostic "Checking out Remote Access tag ${TARGET_TAG}"
-        git checkout "${TARGET_TAG}"
+        git checkout -f "${TARGET_TAG}"
     else
         fail "Remote access sources: tag ${TARGET_TAG} not found"
     fi
