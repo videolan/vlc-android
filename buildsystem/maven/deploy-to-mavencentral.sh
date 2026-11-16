@@ -6,7 +6,6 @@ set -euo pipefail
 OUTPUT_DIR="artifacts"
 MEDIALIB_VERSION=""
 LIBVLC_VERSION=""
-REMOTE_ACCESS_VERSION=""
 
 # Utilities
 function escape_pom() {
@@ -73,13 +72,7 @@ else
   red "Cannot find the libvlc directory"
 fi
 
-if test -d "$OUTPUT_DIR/aars/repository/org/videolan/android/remote-access"; then
-  REMOTE_ACCESS_VERSION=$(ls -tUd "$OUTPUT_DIR/aars/repository/org/videolan/android/remote-access/"*/ | xargs basename)
-else
-  red "Cannot find the remote access directory"
-fi
-
-purple "The following versions have been found.\nlibvlc: $LIBVLC_VERSION\nmedialibrary: $MEDIALIB_VERSION\nremote access: $REMOTE_ACCESS_VERSION"
+purple "The following versions have been found.\nlibvlc: $LIBVLC_VERSION\nmedialibrary: $MEDIALIB_VERSION"
 read -sp "Continue: y/N" -n 1 -r
 echo
 
@@ -162,11 +155,4 @@ if [ -z "$MEDIALIB_VERSION" ]; then
 else
   BASE_DIR="$OUTPUT_DIR/aars/repository/org/videolan/android/medialibrary-all/$MEDIALIB_VERSION"
   deploy_artifact "medialibrary-all" "$MEDIALIB_VERSION" "$BASE_DIR"
-fi
-
-if [ -z "$REMOTE_ACCESS_VERSION" ]; then
-  purple "No version for remote access Skipping"
-else
-  BASE_DIR="$OUTPUT_DIR/aars/repository/org/videolan/android/remote-access/$REMOTE_ACCESS_VERSION"
-  deploy_artifact "remote-access" "$REMOTE_ACCESS_VERSION" "$BASE_DIR"
 fi

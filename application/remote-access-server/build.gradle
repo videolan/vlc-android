@@ -53,10 +53,7 @@ android {
 
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
-    devImplementation project(':application:remote-access-client')
-    debugImplementation project(':application:remote-access-client')
-    releaseImplementation "org.videolan.android:remote-access:$rootProject.ext.remoteAccessVersion"
-    vlcBundleImplementation "org.videolan.android:remote-access:$rootProject.ext.remoteAccessVersion"
+    implementation project(':application:remote-access-client')
     implementation project(':application:vlc-android')
     implementation "io.ktor:ktor:$rootProject.ext.ktorVersion"
     implementation "io.ktor:ktor-server-netty:$rootProject.ext.ktorVersion"
