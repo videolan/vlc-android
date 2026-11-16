@@ -39,6 +39,8 @@ stages:
         - buildsystem/compile-remoteaccess.sh
         - buildsystem/remoteaccess.properties
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    # Releases must not ship a Remote Access version with known vulnerabilities
+    - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
 
 # This is generating the node_modules folder with the required dependencies
 # If/When we want to make it fully offline:
@@ -487,6 +489,8 @@ release:
         - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
     needs:
       - job: "webserver-fetch"
+      - job: "webserver-vulnerabilities"
+        artifacts: false
     script:
         # The AAR is gone: never ship a release without the web interface
         - 'test -f "$WEBSERVER_DIR/dist/index.html" || { echo "Remote access: dist/index.html missing, refusing to build a release without it"; exit 1; }'
