@@ -198,6 +198,11 @@ elif [ "$RESET" = 1 ]; then
     cd "$CURRENT_DIR"
 else
     diagnostic "Remote access sources: found in $VLC_REMOTE_ACCESS_PATH"
+    # An existing checkout is used as is, so local changes and other branches can be built
+    if [ "$(git -C "$VLC_REMOTE_ACCESS_PATH" rev-parse -q --verify "HEAD^{commit}")" != \
+         "$(git -C "$VLC_REMOTE_ACCESS_PATH" rev-parse -q --verify "refs/tags/${TARGET_TAG}^{commit}")" ]; then
+        diagnostic "WARNING: Remote access sources are not at the pinned tag ${TARGET_TAG}, building them as is (use --reset to check out the tag)"
+    fi
 fi
 
 if [ "$INIT_ONLY" != 1 ]; then
