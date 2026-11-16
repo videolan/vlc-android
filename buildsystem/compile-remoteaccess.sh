@@ -42,6 +42,8 @@ fail()
 
 USE_MAIN=0
 RESET=0
+INIT_ONLY=0
+DOWNLOAD=0
 
 while [ $# -gt 0 ]; do
     case $1 in
@@ -49,10 +51,15 @@ while [ $# -gt 0 ]; do
             echo "Use --init to only clone/pull without building"
             echo "Use --main or -m to build using the main branch"
             echo "Use --reset or -r to reset code from git"
+            echo "Use --download or -d to download the pinned release tarball instead of building it"
+            echo "  (it doesn't touch the sources: it can't be combined with --init or --reset)"
             exit 0
             ;;
         --init)
             INIT_ONLY=1
+            ;;
+        --download|-d)
+            DOWNLOAD=1
             ;;
         --main|-m)
             USE_MAIN=1
@@ -68,6 +75,10 @@ while [ $# -gt 0 ]; do
     esac
     shift
 done
+
+if [ "$DOWNLOAD" = 1 ] && { [ "$INIT_ONLY" = 1 ] || [ "$RESET" = 1 ]; }; then
+    fail "$0: --download can't be combined with --init or --reset"
+fi
 
 ##############################
 # Retrieve the remote access #
@@ -93,12 +104,65 @@ diagnostic "VLC_REMOTE_ACCESS_PATH is $VLC_REMOTE_ACCESS_PATH"
 if [ "$USE_MAIN" = 1 ]; then
     branch="main"
     TARGET_TAG="${REMOTE_ACCESS_TAG_VLC4}"
+    TARGET_SHA256_KEY=remoteAccessSha256Vlc4
 else
     branch="0.x.x"
     TARGET_TAG="${REMOTE_ACCESS_TAG_VLC3}"
+    TARGET_SHA256_KEY=remoteAccessSha256Vlc3
 fi
 
 CURRENT_DIR="$(pwd -P)"
+
+sha256_of()
+{
+    if command -v sha256sum >/dev/null 2>&1; then
+        sha256sum "$1" | cut -d ' ' -f 1
+    else
+        shasum -a 256 "$1" | cut -d ' ' -f 1
+    fi
+}
+
+# Download the release tarball of the pinned tag, check it against its pinned SHA-256
+# and unpack it as the built web interface ($VLC_REMOTE_ACCESS_PATH/dist)
+download_release()
+{
+    TARGET_SHA256="$(read_remote_access_version "$TARGET_SHA256_KEY")"
+    [ -n "$TARGET_SHA256" ] || fail "Remote access: $TARGET_SHA256_KEY missing in $REMOTE_ACCESS_PROPERTIES"
+
+    tarball="remoteaccess-android-${TARGET_TAG}.tar.gz"
+    : ${REMOTE_ACCESS_RELEASE_URL:="${REMOTE_ACCESS_REPOSITORY}/-/jobs/artifacts/${TARGET_TAG}/raw/${tarball}?job=webserver-release"}
+    download_dir="$(mktemp -d)"
+    trap 'rm -rf "$download_dir"' EXIT
+
+    diagnostic "Downloading Remote Access ${TARGET_TAG} from ${REMOTE_ACCESS_RELEASE_URL}"
+    if command -v curl >/dev/null 2>&1; then
+        curl -fsSL -o "$download_dir/$tarball" "$REMOTE_ACCESS_RELEASE_URL" \
+            || fail "Remote access: unable to download $tarball"
+    elif command -v wget >/dev/null 2>&1; then
+        wget -q -O "$download_dir/$tarball" "$REMOTE_ACCESS_RELEASE_URL" \
+            || fail "Remote access: unable to download $tarball"
+    else
+        fail "Remote access: curl or wget is required to download $tarball"
+    fi
+
+    actual_sha256="$(sha256_of "$download_dir/$tarball")"
+    [ "$actual_sha256" = "$TARGET_SHA256" ] \
+        || fail "Remote access: $tarball SHA-256 is $actual_sha256, expected $TARGET_SHA256"
+
+    rm -rf "$VLC_REMOTE_ACCESS_PATH/dist"
+    mkdir -p "$VLC_REMOTE_ACCESS_PATH/dist"
+    tar -xzf "$download_dir/$tarball" -C "$VLC_REMOTE_ACCESS_PATH/dist"
+    diagnostic "Remote Access ${TARGET_TAG} unpacked in $VLC_REMOTE_ACCESS_PATH/dist"
+    # build.gradle describes a git checkout as the revision, whatever dist/ contains
+    if [ -d "$VLC_REMOTE_ACCESS_PATH/.git" ]; then
+        diagnostic "WARNING: $VLC_REMOTE_ACCESS_PATH is a git checkout: the app will report its revision, not the downloaded ${TARGET_TAG}"
+    fi
+}
+
+if [ "$DOWNLOAD" = 1 ]; then
+    download_release
+    exit 0
+fi
 
 # Fetch and check out the pinned release tag in the current directory, extra arguments are passed to git checkout
 # Only this tag is fetched: fetching all tags would also download the other release line's history
