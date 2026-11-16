@@ -28,9 +28,11 @@ plugins {
 }
 
 def remoteclientSourceDir = "$projectDir/remoteaccess"
-// Only describe remoteaccess/ when it is its own git checkout: otherwise git walks up
-// to the vlc-android repository and would report one of its tags as the revision
-def remoteAccessRevision = 'unknown'
+// The pinned tag identifies the downloaded release. A local checkout is described
+// instead, as it may be on another revision. Only describe remoteaccess/ when it is its
+// own git checkout: otherwise git walks up to the vlc-android repository and would report
+// one of its tags as the revision
+def remoteAccessRevision = rootProject.ext.remoteAccessVersion
 if (file("$remoteclientSourceDir/.git").exists()) {
     try {
         def describe = providers.exec {
@@ -55,7 +57,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
         resValue "string", "build_remote_access_revision", remoteAccessRevision
-        resValue "string", "remote_access_version", remoteAccessVersion()
+        resValue "string", "remote_access_version", rootProject.ext.remoteAccessVersion
     }
 
     buildTypes {
@@ -84,24 +86,6 @@ android {
 }
 
 preBuild.dependsOn(webCopy)
-
-def remoteAccessVersion() {
-    try {
-        File remoteAccessPackage = file("remoteaccess/package.json")
-        if (remoteAccessPackage.exists()) {
-            for (String line : remoteAccessPackage.readLines()) {
-                if (line.contains('"version"')) {
-                    def version = line.split("\"")[3]
-                    if (version && !version.isEmpty()) {
-                        return version
-                    }
-                }
-            }
-        }
-    } catch (Throwable e) {
-    }
-    return rootProject.ext.remoteAccessVersion
-}
 
 
 dependencies {
