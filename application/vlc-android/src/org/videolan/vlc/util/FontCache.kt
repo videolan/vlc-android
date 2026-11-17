@@ -31,6 +31,7 @@ import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.withTimeoutOrNull
 import org.videolan.libvlc.LibVLC
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.AppScope
@@ -48,6 +49,9 @@ private const val SYSTEM_FONTS_DIR = "/system/fonts"
 /** Give up after this many failed or interrupted builds, so that a device which can't store
  * the cache, or where the scan never gets to complete, doesn't delay every playback. */
 private const val MAX_FAILURES = 3
+/** Don't delay a playback longer than this. Past that delay, the playback starts anyway and
+ * LibVLC scans the fonts itself, while the build goes on for the next playbacks. */
+private const val MAX_WAIT = 5000L
 /** Don't warn about the running build more often than this, which is how long a
  * [android.widget.Toast.LENGTH_LONG] toast stays on screen. */
 private const val WAIT_NOTIFICATION_INTERVAL = 3500L
@@ -66,6 +70,9 @@ private const val WAIT_NOTIFICATION_INTERVAL = 3500L
 object FontCache {
 
     private var job: Deferred<Boolean>? = null
+    /** The build a caller already waited [MAX_WAIT] for, so that the next ones don't wait again */
+    @Volatile
+    private var timedOutJob: Deferred<Boolean>? = null
     /** When a caller was last told about the running build, see [await] */
     private val lastWaitNotification = AtomicLong(-WAIT_NOTIFICATION_INTERVAL)
 
@@ -97,15 +104,20 @@ object FontCache {
     }
 
     /**
-     * Wait for the font cache to be built, if a build is needed and still running.
+     * Wait for the font cache to be built, if a build is needed and still running, for at most
+     * [MAX_WAIT]. Once a wait has timed out, the next calls don't wait for that build anymore.
      * @param onWait called before waiting, only when there is something to wait for, and at most
      * once per [WAIT_NOTIFICATION_INTERVAL], so that playbacks started in a row warn only once
      */
     suspend fun await(context: Context, onWait: (() -> Unit)? = null) {
         val pending = start(context) ?: return
+        if (pending === timedOutJob) return
         if (onWait != null && !pending.isCompleted && shouldNotifyWait()) onWait()
         try {
-            pending.await()
+            if (withTimeoutOrNull(MAX_WAIT) { pending.await() } == null) {
+                timedOutJob = pending
+                Log.w(TAG, "Font cache still building after ${MAX_WAIT}ms, not waiting for it anymore")
+            }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to build the font cache", e)
         }
