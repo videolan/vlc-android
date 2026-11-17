@@ -26,6 +26,7 @@ import android.content.Context
 import android.os.Build
 import android.os.SystemClock
 import android.util.Log
+import androidx.core.content.edit
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -44,8 +45,8 @@ import java.util.concurrent.atomic.AtomicLong
 
 private const val TAG = "VLC/FontCache"
 private const val SYSTEM_FONTS_DIR = "/system/fonts"
-/** Give up after this many failed builds, so that a device which can't store the cache
- * doesn't delay every playback. */
+/** Give up after this many failed or interrupted builds, so that a device which can't store
+ * the cache, or where the scan never gets to complete, doesn't delay every playback. */
 private const val MAX_FAILURES = 3
 /** Don't warn about the running build more often than this, which is how long a
  * [android.widget.Toast.LENGTH_LONG] toast stays on screen. */
@@ -121,6 +122,14 @@ object FontCache {
         // A new fingerprint means new fonts to scan, so the previous failures don't count
         val previousFailures = if (settings.getString(KEY_FONT_CACHE_FINGERPRINT, "") == fingerprint)
             settings.getInt(KEY_FONT_CACHE_FAILURES, 0) else 0
+        // Count this attempt as a failure until it succeeds: if the process gets killed during
+        // the scan, by a user tired of waiting for instance, nothing could be stored afterwards
+        // and every launch would scan again. Committed, so that it's on disk before the scan.
+        val failures = previousFailures + 1
+        settings.edit(commit = true) {
+            putString(KEY_FONT_CACHE_FINGERPRINT, fingerprint)
+            putInt(KEY_FONT_CACHE_FAILURES, failures)
+        }
         val start = System.currentTimeMillis()
         // Creating the LibVLC instance sets HOME, which is where fontconfig stores its cache
         val cached = try {
@@ -131,10 +140,10 @@ object FontCache {
             false
         }
         Log.i(TAG, "Font cache built in ${System.currentTimeMillis() - start}ms, valid on disk: $cached")
-        settings.putSingle(KEY_FONT_CACHE_FINGERPRINT, fingerprint)
-        settings.putSingle(KEY_FONT_CACHE_FAILURES, if (cached) 0 else previousFailures + 1)
-        if (!cached && previousFailures + 1 >= MAX_FAILURES)
-            Log.w(TAG, "Font cache could not be stored after ${previousFailures + 1} tries, giving up")
+        if (cached)
+            settings.putSingle(KEY_FONT_CACHE_FAILURES, 0)
+        else if (failures >= MAX_FAILURES)
+            Log.w(TAG, "Font cache could not be stored after $failures tries, giving up")
         return cached
     }
 
