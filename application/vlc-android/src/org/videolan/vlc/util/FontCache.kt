@@ -27,10 +27,13 @@ import android.os.Build
 import android.os.SystemClock
 import android.util.Log
 import androidx.core.content.edit
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withTimeoutOrNull
 import org.videolan.libvlc.LibVLC
 import org.videolan.resources.VLCInstance
@@ -118,6 +121,11 @@ object FontCache {
                 timedOutJob = pending
                 Log.w(TAG, "Font cache still building after ${MAX_WAIT}ms, not waiting for it anymore")
             }
+        } catch (e: CancellationException) {
+            // A cancelled caller mustn't go on, with the playback for instance. Otherwise, it's
+            // the build that was cancelled, which mustn't prevent the playback.
+            currentCoroutineContext().ensureActive()
+            Log.e(TAG, "The font cache build was cancelled", e)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to build the font cache", e)
         }
