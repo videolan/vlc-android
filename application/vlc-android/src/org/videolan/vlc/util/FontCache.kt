@@ -37,6 +37,7 @@ import org.videolan.tools.KEY_FONT_CACHE_FAILURES
 import org.videolan.tools.KEY_FONT_CACHE_FINGERPRINT
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
+import org.videolan.vlc.FONT_CONFIG_VERSION
 import org.videolan.vlc.buildFontCacheIfSupported
 import java.io.File
 import java.util.concurrent.atomic.AtomicLong
@@ -58,7 +59,8 @@ private const val WAIT_NOTIFICATION_INTERVAL = 3500L
  * the cache on disk (VLC3 only), so that playback only has to load it.
  *
  * The scan is done once per install: the result is remembered in the settings, along with
- * a fingerprint of the system fonts so that a system update triggers a new build.
+ * a fingerprint of the system fonts and of LibVLC's fontconfig configuration, so that a system
+ * update or a configuration change triggers a new build.
  */
 object FontCache {
 
@@ -138,10 +140,11 @@ object FontCache {
 
     /**
      * Identify the system fonts currently installed. Fontconfig invalidates its cache when the
-     * fonts directory changes, so a system update has to trigger a new build.
+     * fonts directory changes, so a system update has to trigger a new build. A new fontconfig
+     * configuration can add font directories, so it has to trigger a new build as well.
      *
      * Computed once, as it's checked on every playback and the system fonts can only change
      * with a reboot. It's first computed on a background thread, when the app starts.
      */
-    private val fingerprint by lazy { "${Build.FINGERPRINT}|${File(SYSTEM_FONTS_DIR).lastModified()}" }
+    private val fingerprint by lazy { "${Build.FINGERPRINT}|${File(SYSTEM_FONTS_DIR).lastModified()}|$FONT_CONFIG_VERSION" }
 }

@@ -102,3 +102,9 @@ fun getDisableTrack(context: Context) : VlcTrack {
  * this actually does the scan. See [org.videolan.vlc.util.FontCache].
  */
 fun LibVLC.buildFontCacheIfSupported(): Boolean = buildFontCache()
+
+/**
+ * Version of LibVLC's fontconfig configuration. It changes when the configuration changes, so
+ * that the font cache is rebuilt. See [org.videolan.vlc.util.FontCache].
+ */
+const val FONT_CONFIG_VERSION = LibVLC.FONT_CONFIG_VERSION

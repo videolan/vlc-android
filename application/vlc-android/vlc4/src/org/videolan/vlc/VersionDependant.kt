@@ -112,3 +112,9 @@ fun LibVLC.buildFontCacheIfSupported(): Boolean {
     Log.i("VLC/FontCache", "fontconfig is disabled on VLC4, nothing to build")
     return true
 }
+
+/**
+ * VLC4 doesn't use fontconfig, so there is no configuration to version.
+ * See [org.videolan.vlc.util.FontCache].
+ */
+const val FONT_CONFIG_VERSION = 0
