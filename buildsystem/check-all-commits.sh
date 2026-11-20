@@ -83,6 +83,8 @@ PROGRESS_FILE="$PERSISTENCE_DIR/progress"   # Stores stats between rebase iterat
 UI_TABLE_FLAG="$PERSISTENCE_DIR/ui_present"  # Acts as a semaphore to avoid re-drawing headers.
 BUILD_LOG="$PERSISTENCE_DIR/build.log"       # Captured output of the current Gradle build.
 RUNNER_COPY="$PERSISTENCE_DIR/runner.sh"     # Self-copy to ensure availability during rebase.
+RESULTS_FILE="$PERSISTENCE_DIR/results.tsv"  # One line per checked commit, for the final report.
+REPORT_FILE="$PERSISTENCE_DIR/report.md"     # Report written when the whole rebase has been checked.
 
 # Git Rebase Todo file.
 # We link the actual git rebase file into our persistence folder for consistency.
@@ -287,10 +289,89 @@ record_success() {
     [ "$duration" -gt "$LONGEST" ] && LONGEST=$duration
     [ "$duration" -lt "$SHORTEST" ] && SHORTEST=$duration
     save_progress
+    record_result "$label"
 
     print_ui "$label" "100%" "$duration"
     show_cursor
     exit 0
+}
+
+# record_result: Appends the result of the current commit to the results file, for the final report.
+# Tab-separated: short hash, status, time spent on the commit (all attempts, in seconds), subject.
+record_result() {
+    local status="$1"
+    local spent=$(( $(date +%s) - VERIFY_START ))
+    printf '%s\t%s\t%s\t%s\n' "$(git rev-parse --short HEAD)" "$status" "$spent" \
+        "$(git log -1 --format=%s)" >> "$RESULTS_FILE"
+}
+
+# write_report: Writes the Markdown report of the whole check from the results file.
+write_report() {
+    local hash status spent subject
+    local built=0 online=0 after_clean=0 skipped=0 failures=0
+    while IFS=$'\t' read -r hash status spent subject; do
+        case "$status" in
+            "SUCCESS (online)") built=$((built + 1)); online=$((online + 1)) ;;
+            "SUCCESS (after clean)") built=$((built + 1)); after_clean=$((after_clean + 1)) ;;
+            SUCCESS*) built=$((built + 1)) ;;
+            SKIPPED*) skipped=$((skipped + 1)) ;;
+            FAILED*) failures=$((failures + 1)) ;;
+        esac
+    done < "$RESULTS_FILE"
+
+    # Table rows: '|' in commit subjects would break the Markdown table, it is escaped.
+    # The escape is stored in a variable: a literal '\|' replacement would lose its backslash.
+    local escaped_pipe='\|'
+    print_rows() {
+        while IFS=$'\t' read -r hash status spent subject; do
+            local time_text="-"
+            [[ "$status" != SKIPPED* ]] && time_text=$(format_time "$spent")
+            echo "| \`$hash\` | $status | $time_text | ${subject//|/$escaped_pipe} |"
+        done
+    }
+
+    {
+        echo "# Build check report"
+        echo ""
+        echo "- Date: $(date '+%Y-%m-%d %H:%M')"
+        echo "- Branch: \`$(git rev-parse --abbrev-ref HEAD)\`, rebased onto \`$BASE_REF\`"
+        echo "- Build: \`${BUILD_CMD[*]/#"$ROOT_DIR"\//}\`"
+        echo ""
+        echo "## Summary"
+        echo ""
+        echo "| | |"
+        echo "|---|---|"
+        echo "| Commits | $TOTAL |"
+        echo "| Built | $built (online retry: $online, after clean: $after_clean) |"
+        echo "| Skipped (no build impact) | $skipped |"
+        echo "| Failures fixed during the check | $failures |"
+        echo "| Total build time | $(format_time "$TOTAL_SUCCESS_DURATION") |"
+        if [ "$SUCCESS_COUNT" -gt 0 ]; then
+            echo "| Average / Min / Max | $(format_time $((TOTAL_SUCCESS_DURATION / SUCCESS_COUNT))) / $(format_time "$SHORTEST") / $(format_time "$LONGEST") |"
+        fi
+        if [ "$failures" -gt 0 ]; then
+            echo ""
+            echo "## Failures"
+            echo ""
+            echo "The hash is the one before the fix."
+            echo ""
+            echo "| Commit | Status | Time | Subject |"
+            echo "|---|---|---|---|"
+            awk -F '\t' '$2 ~ /^FAILED/' "$RESULTS_FILE" | print_rows
+        fi
+        echo ""
+        echo "## Slowest builds"
+        echo ""
+        echo "| Commit | Status | Time | Subject |"
+        echo "|---|---|---|---|"
+        awk -F '\t' '$2 ~ /^SUCCESS/' "$RESULTS_FILE" | sort -t $'\t' -k3,3nr | head -n 5 | print_rows
+        echo ""
+        echo "## All commits"
+        echo ""
+        echo "| Commit | Status | Time | Subject |"
+        echo "|---|---|---|---|"
+        print_rows < "$RESULTS_FILE"
+    } > "$REPORT_FILE"
 }
 
 # --- Process & Signal Handling ---
@@ -348,6 +429,8 @@ usage() {
     echo "  auto [base] : Starts a rebase that runs 'verify' on every commit automatically."
     echo "                Stops ONLY if a build fails. Recommended for long branches."
     echo "                If a rebase is already in progress, it will resume it."
+    echo "                When all commits are checked, writes a Markdown report to:"
+    echo "                $REPORT_FILE"
     echo ""
     echo "  verify [--no-increment] : Runs the build check: ${BUILD_CMD[*]}"
     echo "                            On failure: retries online if dependencies are missing,"
@@ -583,6 +666,7 @@ case $MODE in
             BASE_REF="$BASE"
             SKIPPED_COUNT=0
             save_progress
+            : > "$RESULTS_FILE"
             echo "The rebase will stop automatically if a build fails. ($TOTAL commits to check)"
             # Use git rebase -x (exec) to automatically run the 'verify' mode on every commit.
             # We use the copy in PERSISTENCE_DIR to ensure it stays available during the rebase.
@@ -606,7 +690,13 @@ case $MODE in
             fi
             echo -e "+---------------------+-------------------------------------+"
 
-            rm -f "$PROGRESS_FILE"
+            if [ -s "$RESULTS_FILE" ]; then
+                write_report
+                echo ""
+                echo "📄 Report: $REPORT_FILE"
+            fi
+
+            rm -f "$PROGRESS_FILE" "$RESULTS_FILE"
             rm -f "$UI_TABLE_FLAG"
         fi
         ;;
@@ -616,6 +706,7 @@ case $MODE in
         # Statistics and UI state are persisted in the .check-commits directory.
         hide_cursor
         load_progress
+        VERIFY_START=$(date +%s)
 
         # Clear the build log for this iteration.
         : > "$BUILD_LOG"
@@ -646,6 +737,7 @@ case $MODE in
         if is_skippable_commit; then
             SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
             save_progress
+            record_result "SKIPPED"
             print_ui "SKIPPED (no build impact)" "100%" 0
             show_cursor
             exit 0
@@ -701,8 +793,10 @@ case $MODE in
             print_ui "FAILED (after clean)" "---" "$DURATION"
             show_cursor
             echo -e "\n❌ BUILD FAILED (even after clean)"
+            record_result "FAILED (after clean)"
         else
             echo -e "\n❌ COMPILATION FAILED (no retry: a 'clean' would not fix it)"
+            record_result "FAILED (compile)"
         fi
 
         # Hard failure: stop the rebase and prompt the user for fixes.
