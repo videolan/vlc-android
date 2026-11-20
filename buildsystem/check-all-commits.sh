@@ -160,6 +160,21 @@ save_progress() {
     echo "$CURRENT $TOTAL $SUCCESS_COUNT $TOTAL_SUCCESS_DURATION $LONGEST $SHORTEST $BASE_REF" > "$PROGRESS_FILE"
 }
 
+# record_success: Updates the statistics with a successful build, renders the UI and exits.
+record_success() {
+    local label="$1"
+    local duration="$2"
+    SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
+    TOTAL_SUCCESS_DURATION=$((TOTAL_SUCCESS_DURATION + duration))
+    [ "$duration" -gt "$LONGEST" ] && LONGEST=$duration
+    [ "$duration" -lt "$SHORTEST" ] && SHORTEST=$duration
+    save_progress
+
+    print_ui "$label" "100%" "$duration"
+    show_cursor
+    exit 0
+}
+
 # --- Process & Signal Handling ---
 
 CURRENT_GRADLE_PID=""
@@ -233,6 +248,20 @@ clear_ui() {
         printf "\033[%dF" "$UI_HEIGHT"  # Move cursor back up.
         rm -f "$UI_TABLE_FLAG"
     fi
+}
+
+# prepare_retry_ui: Removes the failing UI table, prints a warning and reserves space for the next table.
+prepare_retry_ui() {
+    local message="$1"
+    clear_ui
+    UI_INITIALIZED="false"
+
+    echo -e "\n⚠️  $message"
+    hide_cursor
+
+    # Reserve space for the new retry table to ensure correct anchoring.
+    for i in $(seq 1 "$UI_HEIGHT"); do echo ""; done
+    printf "\033[%dF" "$UI_HEIGHT"
 }
 
 # print_ui: Renders the entire status table.
@@ -482,69 +511,37 @@ case $MODE in
         START=$(date +%s)
         run_build BUILD_CMD "$BUILD_LOG" "Building"
         EXIT_CODE=$?
-        END=$(date +%s)
-        DURATION=$((END - START))
+        DURATION=$(( $(date +%s) - START ))
 
-        if [ $EXIT_CODE -eq 0 ]; then
-            # Success: Update statistics and move to the next commit.
-            SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
-            TOTAL_SUCCESS_DURATION=$((TOTAL_SUCCESS_DURATION + DURATION))
-            [ "$DURATION" -gt "$LONGEST" ] && LONGEST=$DURATION
-            [ "$DURATION" -lt "$SHORTEST" ] && SHORTEST=$DURATION
-            save_progress
+        [ $EXIT_CODE -eq 0 ] && record_success "SUCCESS" "$DURATION"
 
-            print_ui "SUCCESS" "100%" "$DURATION"
-            show_cursor
-            exit 0
-        else
-            # Failure: Retry after a 'clean' build (common requirement in large rebases).
-            print_ui "FAILED" "---" "$DURATION"
-            show_cursor
+        print_ui "FAILED" "---" "$DURATION"
+        show_cursor
 
-            # Cleanly remove the failing UI table and reset state before printing warning.
-            clear_ui
-            UI_INITIALIZED="false"
+        # Step 2: Retry after a 'clean' build (common requirement in large rebases).
+        prepare_retry_ui "Build failed. Retrying with 'clean' and no optimized arguments..."
 
-            echo -e "\n⚠️  Build failed. Retrying with 'clean' and no optimized arguments..."
-            hide_cursor
+        echo "Cleaning..." >> "$BUILD_LOG"
+        "${BASE_BUILD_CMD[0]}" clean --console rich >> "$BUILD_LOG" 2>&1
 
-            # Reserve space for the new retry table to ensure correct anchoring.
-            for i in $(seq 1 "$UI_HEIGHT"); do echo ""; done
-            printf "\033[%dF" "$UI_HEIGHT"
+        START=$(date +%s)
+        run_build BASE_BUILD_CMD "$BUILD_LOG" "Cleaning & Rebuilding"
+        EXIT_CODE=$?
+        DURATION=$(( $(date +%s) - START ))
 
-            echo "Cleaning..." >> "$BUILD_LOG"
-            "${BASE_BUILD_CMD[0]}" clean --console rich >> "$BUILD_LOG" 2>&1
+        [ $EXIT_CODE -eq 0 ] && record_success "SUCCESS (after clean)" "$DURATION"
 
-            START_CLEAN=$(date +%s)
-            run_build BASE_BUILD_CMD "$BUILD_LOG" "Cleaning & Rebuilding"
-            EXIT_CODE=$?
-            END_CLEAN=$(date +%s)
-            DURATION_CLEAN=$((END_CLEAN - START_CLEAN))
+        print_ui "FAILED (after clean)" "---" "$DURATION"
+        show_cursor
+        echo -e "\n❌ BUILD FAILED (even after clean)"
 
-            if [ $EXIT_CODE -eq 0 ]; then
-                # Success after clean: Update statistics.
-                SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
-                TOTAL_SUCCESS_DURATION=$((TOTAL_SUCCESS_DURATION + DURATION_CLEAN))
-                [ "$DURATION_CLEAN" -gt "$LONGEST" ] && LONGEST=$DURATION_CLEAN
-                [ "$DURATION_CLEAN" -lt "$SHORTEST" ] && SHORTEST=$DURATION_CLEAN
-                save_progress
-
-                print_ui "SUCCESS (after clean)" "100%" "$DURATION_CLEAN"
-                show_cursor
-                exit 0
-            else
-                # Hard failure: stop the rebase and prompt the user for fixes.
-                print_ui "FAILED (after clean)" "---" "$DURATION_CLEAN"
-                show_cursor
-                echo -e "\n❌ BUILD FAILED (even after clean)"
-                echo ""
-                echo "Fix the error, then run:"
-                echo "  git add ."
-                echo "  git commit --amend --no-edit"
-                echo "  \"$0\" auto"
-                exit 1
-            fi
-        fi
+        # Hard failure: stop the rebase and prompt the user for fixes.
+        echo ""
+        echo "Fix the error, then run:"
+        echo "  git add ."
+        echo "  git commit --amend --no-edit"
+        echo "  \"$0\" auto"
+        exit 1
         ;;
     *)
         usage
