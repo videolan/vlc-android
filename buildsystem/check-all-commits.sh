@@ -84,13 +84,14 @@ NC='\033[0m' # No Color
 hide_cursor() { echo -ne "\033[?25l"; }
 show_cursor() { echo -ne "\033[?25h"; }
 
-# generate_bar: Creates a progress bar string of a given width and character.
+# generate_bar: Stores in the variable named by $3 a bar of $1 times the character $2.
+# Writes to a variable instead of stdout to avoid a subshell on every UI refresh.
 generate_bar() {
     local filled=$1
     local char=$2
-    local res=""
-    for ((i=0; i<filled; i++)); do res+="$char"; done
-    echo -n "$res"
+    local -n _bar=$3
+    _bar=""
+    for ((i=0; i<filled; i++)); do _bar+="$char"; done
 }
 
 # The height of our "Rich UI" table. Centralized here for cursor movement calculations.
@@ -121,9 +122,9 @@ run_build() {
         # Strips null bytes (common in binary-like rich output) to avoid shell warnings.
         local last_chunk
         last_chunk=$(tail -c 1024 "$log_file" | tr -d '\000')
-        local raw_pct
-        raw_pct=$(echo "$last_chunk" | grep -o "[0-9]\{1,3\}%" | tail -n 1 | tr -d '%')
-        [ -z "$raw_pct" ] && raw_pct=0
+        # Last "NN%" of the chunk: the greedy '.*' makes the regex match the last occurrence.
+        local raw_pct=0
+        [[ "$last_chunk" =~ .*[^0-9]([0-9]{1,3})% ]] && raw_pct=${BASH_REMATCH[1]}
 
         # Phase Scaling: Gradle reports 0-100% for each phase.
         # We map this to a continuous 0-100% build progress for the UI.
@@ -276,9 +277,15 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
+# read_term_height: Caches the terminal height, so that the UI refresh doesn't run 'tput' every time.
+read_term_height() {
+    TERM_HEIGHT=$(tput lines 2>/dev/null || echo 24)
+}
+
 # handle_resize: Triggers a UI redraw if the user resizes their terminal window.
 handle_resize() {
     rm -f "$UI_TABLE_FLAG"
+    read_term_height
 }
 trap handle_resize WINCH
 
@@ -309,7 +316,14 @@ format_time() {
         echo "N/A"
         return
     fi
-    printf "%02dh %02dm %02ds" $((s/3600)) $((s%3600/60)) $((s%60)) | sed 's/^00h //' | sed 's/^00m //'
+    # Leading zero hours and minutes are omitted (e.g. "05m 03s"), without spawning 'sed'.
+    if [ "$s" -ge 3600 ]; then
+        printf "%02dh %02dm %02ds" $((s/3600)) $((s%3600/60)) $((s%60))
+    elif [ "$s" -ge 60 ]; then
+        printf "%02dm %02ds" $((s/60)) $((s%60))
+    else
+        printf "%02ds" "$s"
+    fi
 }
 
 # clear_ui: Hard-clears the UI area. Used at the start of a rebase or on failure.
@@ -338,6 +352,8 @@ prepare_retry_ui() {
 
 # print_ui: Renders the entire status table.
 # Redraws the UI by moving the cursor up and overwriting.
+# It runs every 0.5s during a build, so it avoids external commands: the commit line, the branch
+# and the terminal height are cached, and dates and strings use bash builtins.
 print_ui() {
     local status="$1"   # Status text (e.g. Building, SUCCESS, FAILED)
     local pct="$2"      # Progress percentage string (e.g. 45%)
@@ -346,17 +362,20 @@ print_ui() {
     local EL="\033[K"   # ANSI "Erase to End of Line" code.
     local UI_BUFFER=""
 
+    # The commit and branch don't change while this process runs: read them only once.
+    [ -z "$UI_COMMIT_LINE" ] && UI_COMMIT_LINE=$(git log -1 --oneline)
+    [ -z "$UI_BRANCH" ] && UI_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    [ -z "$TERM_HEIGHT" ] && read_term_height
+
     # Check terminal height for adaptive layout.
-    local term_height
-    term_height=$(tput lines 2>/dev/null || echo 24)
-    if [ "$term_height" -lt 22 ]; then
+    if [ "$TERM_HEIGHT" -lt 22 ]; then
         # Minimalist "Compact Mode" for small terminal windows.
         if [ "$UI_INITIALIZED" == "true" ] || [ -f "$UI_TABLE_FLAG" ]; then
             printf "\033[2F"
         fi
         UI_INITIALIZED="true"
-        touch "$UI_TABLE_FLAG"
-        printf "| %-10s | %-5s | %-30s |${EL}\n" "$status" "$pct" "$(git log -1 --oneline | cut -c 1-30)"
+        [ -f "$UI_TABLE_FLAG" ] || : > "$UI_TABLE_FLAG"
+        printf "| %-10s | %-5s | %-30s |${EL}\n" "$status" "$pct" "${UI_COMMIT_LINE:0:30}"
         printf "| Progress: %d/%d | Time: %s | Remaining: %s |${EL}\n" "$CURRENT" "$TOTAL" "$(format_time $elapsed)" "$(format_time $((REMAINING_TIME - elapsed)))"
         return
     fi
@@ -377,17 +396,11 @@ print_ui() {
         [ "$dynamic_remaining" -lt 0 ] && dynamic_remaining=0
 
         # Stable "Estimated End Time": Build Start Time + Total Remaining.
+        # printf '%(...)T' is a bash builtin (bash 4.2+), it works the same on GNU and BSD/macOS.
         local start_time
-        start_time=$(date +%s)
+        printf -v start_time '%(%s)T' -1
         [ -n "$elapsed" ] && start_time=$((start_time - elapsed))
-
-        # Use 'date' for portable timestamp formatting if possible.
-        if date -d "@0" +%s >/dev/null 2>&1; then
-             est_end_text=$(date -d "@$((start_time + REMAINING_TIME))" +%Hh%Mm%Ss)
-        else
-             # Basic BSD/macOS date support or fallback
-             est_end_text=$(date -r $((start_time + REMAINING_TIME)) +%Hh%Mm%Ss 2>/dev/null || echo "N/A")
-        fi
+        printf -v est_end_text '%(%Hh%Mm%Ss)T' $((start_time + REMAINING_TIME))
     fi
 
     local bar_width=44
@@ -399,26 +412,21 @@ print_ui() {
         commit_pct=$(( (SUCCESS_COUNT * 100) / TOTAL ))
     fi
 
-    local commit_bar
-    commit_bar=$(generate_bar $filled_commits "█")
-    local empty_bar_width=$((bar_width - filled_commits))
-    local empty_bar
-    empty_bar=$(generate_bar $empty_bar_width "░")
+    local commit_bar empty_bar
+    generate_bar $filled_commits "█" commit_bar
+    generate_bar $((bar_width - filled_commits)) "░" empty_bar
 
     local build_pct_num=0
-    [[ "$pct" =~ ^[0-9]+%$ ]] && build_pct_num=$(echo "$pct" | tr -d '%')
+    [[ "$pct" =~ ^[0-9]+%$ ]] && build_pct_num=${pct%\%}
     local filled_build=$(( (build_pct_num * bar_width) / 100 ))
-    local build_bar
-    build_bar=$(generate_bar $filled_build "█")
-    local empty_build_width=$((bar_width - filled_build))
-    local empty_build
-    empty_build=$(generate_bar $empty_build_width "░")
+    local build_bar empty_build
+    generate_bar $filled_build "█" build_bar
+    generate_bar $((bar_width - filled_build)) "░" empty_build
 
     # Buffer construction for the "Rich UI" table.
-    local current_branch=$(git rev-parse --abbrev-ref HEAD)
     local rebase_header_line
     # Exact padding calculation to ensure the header aligns perfectly with the dashed borders.
-    printf -v rebase_header_line "| REBASE: %-22s -> %-23s |${EL}\n" "$(echo "$current_branch" | cut -c 1-22)" "$(echo "$BASE_REF" | cut -c 1-23)"
+    printf -v rebase_header_line "| REBASE: %-22s -> %-23s |${EL}\n" "${UI_BRANCH:0:22}" "${BASE_REF:0:23}"
 
     UI_BUFFER+="+-----------------------------------------------------------+${EL}\n"
     UI_BUFFER+="$rebase_header_line"
@@ -432,7 +440,7 @@ print_ui() {
     UI_BUFFER+="+----------+------------------------------------------------+${EL}\n"
     UI_BUFFER+="| CURRENT BUILD                                             |${EL}\n"
     UI_BUFFER+="+----------+------------------------------------------------+${EL}\n"
-    printf -v _line "| Commit   | %-46s |${EL}\n" "$(git log -1 --oneline | cut -c 1-46)"; UI_BUFFER+="$_line"
+    printf -v _line "| Commit   | %-46s |${EL}\n" "${UI_COMMIT_LINE:0:46}"; UI_BUFFER+="$_line"
     printf -v _line "| Status   | ${color}%-46s${NC} |${EL}\n" "$status ($pct)"; UI_BUFFER+="$_line"
     printf -v _line "|          | [${DARK_GREEN}%s${NC}${DARK_GREEN}%s${NC}] |${EL}\n" "$build_bar" "$empty_build"; UI_BUFFER+="$_line"
     printf -v _line "| Time     | ${color}%-46s${NC} |${EL}\n" "$(format_time $elapsed)"; UI_BUFFER+="$_line"
@@ -452,7 +460,7 @@ print_ui() {
         printf "\033[%dF" "$UI_HEIGHT"
     fi
     UI_INITIALIZED="true"
-    touch "$UI_TABLE_FLAG"
+    [ -f "$UI_TABLE_FLAG" ] || : > "$UI_TABLE_FLAG"
     printf "%b" "$UI_BUFFER"
 }
 
