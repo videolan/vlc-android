@@ -31,6 +31,7 @@
 #   - missing dependencies in offline mode -> retry online, without 'clean'
 #   - compilation errors                   -> fail immediately, retrying cannot fix them
 #   - anything else                        -> retry after a 'clean' (build cache kept)
+# Commits that only change files without build impact (docs, CI, scripts, tests) are skipped.
 # It can automatically resume rebases and checkpoint your work.
 
 # --- Configuration & Environment ---
@@ -55,6 +56,24 @@ ONLINE_ARGS=("--build-cache" "--configuration-cache" "--parallel")
 BUILD_CMD=("${BASE_BUILD_CMD[@]}" "${OPTIMIZED_ARGS[@]}")
 ONLINE_BUILD_CMD=("${BASE_BUILD_CMD[@]}" "${ONLINE_ARGS[@]}")
 CLEAN_REBUILD_CMD=("${BASE_BUILD_CMD[@]}" "--build-cache")
+
+# Commits without build impact.
+# A commit is skipped (not built) when EVERY file it changes matches NO_BUILD_IMPACT_PATTERNS
+# and none matches ALWAYS_BUILD_PATTERNS. Its result is then the same as the previous commit's,
+# which was already built. Patterns are bash extended regexes on the path from the repository root.
+# Run with CHECK_ALL_COMMITS=true to build every commit anyway.
+NO_BUILD_IMPACT_PATTERNS=(
+    '\.md$'                          # Documentation (README, issue templates...).
+    '^(NEWS|COPYING|\.mailmap)$'     # Repository metadata.
+    '(^|/)\.gitignore$'              # Never read by Gradle.
+    '^\.gitlab-ci\.yml$' '^\.gitlab/' # CI configuration, only used by the CI.
+    '^buildsystem/.*\.sh$'          # Scripts: Gradle never runs them. Other buildsystem files
+                                    # (publish.gradle, remoteaccess.properties) are read by Gradle.
+    # Test sources: assembleDebug doesn't compile them.
+    '^(application/[^/]+|medialibrary)/(src/test|src/androidTest|test|androidTest|test-common)/'
+)
+# Files packaged in the APK whatever their extension: always built.
+ALWAYS_BUILD_PATTERNS=('(^|/)assets/' '(^|/)res/')
 
 # Persistence directory and files.
 PERSISTENCE_DIR="$ROOT_DIR/buildsystem/.check-commits"
@@ -147,6 +166,33 @@ run_build() {
     return $status
 }
 
+# --- Commits Without Build Impact ---
+
+# matches_any: Returns 0 if the path $1 matches one of the regexes of the array named $2.
+matches_any() {
+    local path="$1"
+    local -n _patterns=$2
+    local pattern
+    for pattern in "${_patterns[@]}"; do
+        [[ "$path" =~ $pattern ]] && return 0
+    done
+    return 1
+}
+
+# is_skippable_commit: Returns 0 if HEAD only changes files without build impact (see
+# NO_BUILD_IMPACT_PATTERNS). Commits without changes are skippable too.
+is_skippable_commit() {
+    [ "$CHECK_ALL_COMMITS" == "true" ] && return 1
+    # The root commit has no parent to compare with.
+    git rev-parse -q --verify HEAD~1 >/dev/null || return 1
+    local file
+    while IFS= read -r file; do
+        matches_any "$file" ALWAYS_BUILD_PATTERNS && return 1
+        matches_any "$file" NO_BUILD_IMPACT_PATTERNS || return 1
+    done < <(git diff-tree --no-commit-id --name-only -r HEAD~1 HEAD)
+    return 0
+}
+
 # --- Failure Analysis ---
 
 # log_size: Current size of the build log in bytes, used to analyse only the output of the last attempt.
@@ -213,7 +259,7 @@ print_errors() {
 # load_progress: Reads rebase statistics from the disk.
 load_progress() {
     if [ -f "$PROGRESS_FILE" ]; then
-        read -r CURRENT TOTAL SUCCESS_COUNT TOTAL_SUCCESS_DURATION LONGEST SHORTEST BASE_REF _ < "$PROGRESS_FILE"
+        read -r CURRENT TOTAL SUCCESS_COUNT TOTAL_SUCCESS_DURATION LONGEST SHORTEST BASE_REF SKIPPED_COUNT _ < "$PROGRESS_FILE"
     fi
 
     # Apply robust defaults if any field is missing or invalid.
@@ -224,11 +270,12 @@ load_progress() {
     LONGEST=${LONGEST:-0}
     SHORTEST=${SHORTEST:-999999}
     BASE_REF=${BASE_REF:-"N/A"}
+    SKIPPED_COUNT=${SKIPPED_COUNT:-0}
 }
 
 # save_progress: Writes current stats to disk so they survive across 'git rebase' iterations.
 save_progress() {
-    echo "$CURRENT $TOTAL $SUCCESS_COUNT $TOTAL_SUCCESS_DURATION $LONGEST $SHORTEST $BASE_REF" > "$PROGRESS_FILE"
+    echo "$CURRENT $TOTAL $SUCCESS_COUNT $TOTAL_SUCCESS_DURATION $LONGEST $SHORTEST $BASE_REF $SKIPPED_COUNT" > "$PROGRESS_FILE"
 }
 
 # record_success: Updates the statistics with a successful build, renders the UI and exits.
@@ -305,6 +352,8 @@ usage() {
     echo "  verify [--no-increment] : Runs the build check: ${BUILD_CMD[*]}"
     echo "                            On failure: retries online if dependencies are missing,"
     echo "                            stops on compilation errors, otherwise retries after a 'clean'."
+    echo "                            Skips commits without build impact (docs, CI, scripts, tests),"
+    echo "                            unless CHECK_ALL_COMMITS=true."
     echo "                            Returns 0 on success, 1 on failure."
     exit 1
 }
@@ -407,9 +456,10 @@ print_ui() {
     local filled_commits=0
     local commit_pct=0
     if [ "$TOTAL" -gt 0 ]; then
-        # Use SUCCESS_COUNT for the "Done" percentage to accurately reflect completed work.
-        filled_commits=$(( (SUCCESS_COUNT * bar_width) / TOTAL ))
-        commit_pct=$(( (SUCCESS_COUNT * 100) / TOTAL ))
+        # Use the built and skipped commits for the "Done" percentage to accurately reflect completed work.
+        local done_count=$((SUCCESS_COUNT + SKIPPED_COUNT))
+        filled_commits=$(( (done_count * bar_width) / TOTAL ))
+        commit_pct=$(( (done_count * 100) / TOTAL ))
     fi
 
     local commit_bar empty_bar
@@ -449,7 +499,7 @@ print_ui() {
     UI_BUFFER+="| STATISTICS          | VALUES                              |${EL}\n"
     UI_BUFFER+="+---------------------+-------------------------------------+${EL}\n"
     printf -v _line "| Total Time          | ${GREEN}%-35s${NC} |${EL}\n" "$(format_time $TOTAL_SUCCESS_DURATION)"; UI_BUFFER+="$_line"
-    printf -v _line "| Min / Max           | ${GREEN}%-35s${NC} |${EL}\n" "$(format_time $SHORTEST) / $(format_time $LONGEST)"; UI_BUFFER+="$_line"
+    printf -v _line "| Min / Max (skipped) | ${GREEN}%-35s${NC} |${EL}\n" "$(format_time $SHORTEST) / $(format_time $LONGEST) ($SKIPPED_COUNT skipped)"; UI_BUFFER+="$_line"
     printf -v _line "| Avg (Success)       | ${GREEN}%-35s${NC} |${EL}\n" "$(format_time $AVG)"; UI_BUFFER+="$_line"
     printf -v _line "| Remaining           | ${GREEN}%-35s${NC} |${EL}\n" "$(format_time $dynamic_remaining)"; UI_BUFFER+="$_line"
     printf -v _line "| Estimated End       | ${GREEN}%-35s${NC} |${EL}\n" "$est_end_text"; UI_BUFFER+="$_line"
@@ -531,6 +581,7 @@ case $MODE in
             LONGEST=0
             SHORTEST=999999
             BASE_REF="$BASE"
+            SKIPPED_COUNT=0
             save_progress
             echo "The rebase will stop automatically if a build fails. ($TOTAL commits to check)"
             # Use git rebase -x (exec) to automatically run the 'verify' mode on every commit.
@@ -546,6 +597,7 @@ case $MODE in
             echo -e "+---------------------+-------------------------------------+"
             printf "| Total Commits       | %-35d |\n" "$TOTAL"
             printf "| Successes           | %-35d |\n" "$SUCCESS_COUNT"
+            printf "| Skipped (no impact) | %-35d |\n" "$SKIPPED_COUNT"
             printf "| Total Time          | %-35s |\n" "$(format_time $TOTAL_SUCCESS_DURATION)"
             printf "| Min / Max Duration  | %s / %s |\n" "$(format_time $SHORTEST)" "$(format_time $LONGEST)"
             if [ "$SUCCESS_COUNT" -gt 0 ]; then
@@ -588,6 +640,16 @@ case $MODE in
             REMAINING_TIME=0
         fi
 
+
+        # Step 0: Commits that only change files without build impact are not built.
+        # Their durations are kept out of the statistics, so that they don't skew the estimates.
+        if is_skippable_commit; then
+            SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
+            save_progress
+            print_ui "SKIPPED (no build impact)" "100%" 0
+            show_cursor
+            exit 0
+        fi
 
         # Step 1: Initial optimized (offline) build attempt.
         ATTEMPT_OFFSET=$(log_size)
