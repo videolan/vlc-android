@@ -41,11 +41,14 @@ if [ -z "$ROOT_DIR" ]; then
 fi
 
 # Build commands.
-# BASE_BUILD_CMD is used for standard builds and retries after a 'clean'.
+# BASE_BUILD_CMD is the plain build, used for the 'clean' retry.
 # BUILD_CMD includes performance optimizations for iterative checks.
+# CLEAN_REBUILD_CMD is used after a 'clean'. It keeps the build cache: cache entries are keyed
+# by their inputs, so they are safe to reuse, and they make the rebuild much faster.
 BASE_BUILD_CMD=("$ROOT_DIR/gradlew" ":application:app:assembleDebug")
 OPTIMIZED_ARGS=("--offline" "--build-cache" "--configuration-cache" "--parallel")
 BUILD_CMD=("${BASE_BUILD_CMD[@]}" "${OPTIMIZED_ARGS[@]}")
+CLEAN_REBUILD_CMD=("${BASE_BUILD_CMD[@]}" "--build-cache")
 
 # Persistence directory and files.
 PERSISTENCE_DIR="$ROOT_DIR/buildsystem/.check-commits"
@@ -519,13 +522,13 @@ case $MODE in
         show_cursor
 
         # Step 2: Retry after a 'clean' build (common requirement in large rebases).
-        prepare_retry_ui "Build failed. Retrying with 'clean' and no optimized arguments..."
+        prepare_retry_ui "Build failed. Retrying after a 'clean' (build cache kept)..."
 
         echo "Cleaning..." >> "$BUILD_LOG"
         "${BASE_BUILD_CMD[0]}" clean --console rich >> "$BUILD_LOG" 2>&1
 
         START=$(date +%s)
-        run_build BASE_BUILD_CMD "$BUILD_LOG" "Cleaning & Rebuilding"
+        run_build CLEAN_REBUILD_CMD "$BUILD_LOG" "Cleaning & Rebuilding"
         EXIT_CODE=$?
         DURATION=$(( $(date +%s) - START ))
 
