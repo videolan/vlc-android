@@ -140,6 +140,41 @@ run_build() {
     return $status
 }
 
+# --- Failure Analysis ---
+
+# log_size: Current size of the build log in bytes, used to analyse only the output of the last attempt.
+# Uses 'wc -c' rather than 'stat', whose options differ between GNU and BSD/macOS.
+log_size() {
+    if [ -f "$BUILD_LOG" ]; then
+        wc -c < "$BUILD_LOG" | tr -d ' '
+    else
+        echo 0
+    fi
+}
+
+# clean_log_since: Prints the build log from a byte offset, without null bytes and ANSI escape codes.
+# Uses Perl for the escape codes: BSD/macOS sed does not understand '\x1b'.
+clean_log_since() {
+    local offset=${1:-0}
+    tail -c +$((offset + 1)) "$BUILD_LOG" | tr -d '\000' | perl -pe 's/\e\[[0-9;?]*[A-Za-z]//g'
+}
+
+# Kotlin (including KSP/kapt) and Java compilation error lines.
+COMPILE_ERROR_PATTERN='(^|[[:space:]])e: (file:|/|\[ksp\])|\.(java|kt):[0-9]+: error:|Compilation error|Compilation failed'
+
+# print_errors: Shows the first relevant error lines of the attempt that started at the given log offset.
+print_errors() {
+    local errors
+    errors=$(clean_log_since "$1" \
+        | grep -E -A3 "$COMPILE_ERROR_PATTERN|What went wrong" \
+        | grep -vE '^--$' | awk '!seen[$0]++' | head -n 25)
+    if [ -n "$errors" ]; then
+        echo ""
+        echo "First errors (full log: $BUILD_LOG):"
+        echo "$errors"
+    fi
+}
+
 # --- State Management ---
 
 # load_progress: Reads rebase statistics from the disk.
@@ -511,6 +546,7 @@ case $MODE in
 
 
         # Step 1: Initial optimized build attempt.
+        ATTEMPT_OFFSET=$(log_size)
         START=$(date +%s)
         run_build BUILD_CMD "$BUILD_LOG" "Building"
         EXIT_CODE=$?
@@ -527,6 +563,7 @@ case $MODE in
         echo "Cleaning..." >> "$BUILD_LOG"
         "${BASE_BUILD_CMD[0]}" clean --console rich >> "$BUILD_LOG" 2>&1
 
+        ATTEMPT_OFFSET=$(log_size)
         START=$(date +%s)
         run_build CLEAN_REBUILD_CMD "$BUILD_LOG" "Cleaning & Rebuilding"
         EXIT_CODE=$?
@@ -539,6 +576,7 @@ case $MODE in
         echo -e "\n❌ BUILD FAILED (even after clean)"
 
         # Hard failure: stop the rebase and prompt the user for fixes.
+        print_errors "$ATTEMPT_OFFSET"
         echo ""
         echo "Fix the error, then run:"
         echo "  git add ."
