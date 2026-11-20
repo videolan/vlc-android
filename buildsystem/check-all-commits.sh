@@ -514,7 +514,9 @@ case $MODE in
         else
             # Start a brand new rebase with automated verification.
             echo "Starting automated build check from $BASE..."
-            TOTAL=$(git rev-list --count "$BASE..HEAD")
+            # Count only the commits the rebase will actually replay: it drops merge commits and
+            # commits whose changes are already in $BASE (cherry-picked or applied upstream).
+            TOTAL=$(git rev-list --count --no-merges --cherry-pick --right-only "$BASE...HEAD")
             CURRENT=0
             SUCCESS_COUNT=0
             TOTAL_SUCCESS_DURATION=0
