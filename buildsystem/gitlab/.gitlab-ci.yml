@@ -22,51 +22,33 @@ default:
     - docker
 
 stages:
-  - webserver-install-dependencies
   - webserver-build
   - webserver-audit
   - build
   - package
 
-.webserver-base:
-  image:
-    name: $VLC_WEB_BUILD_IMAGE
-  rules:
-    # Explicitely refuse to build anything that would also trigger
-    # a medialib build
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes:
-        - buildsystem/compile-remoteaccess.sh
-        - buildsystem/remoteaccess.properties
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-    # Releases must not ship a Remote Access version with known vulnerabilities
-    - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
-
-# This is generating the node_modules folder with the required dependencies
-# If/When we want to make it fully offline:
-# - the docker image should contain the node_modules files OR the node_modules should be included as a cache entry (see gradle on top of this file)
-# - this job should be removed and the ones depending on it should have their rules changed
-webserver-install-dependencies:
-    extends: .webserver-base
-    stage: webserver-install-dependencies
+# Check out the pinned Remote Access tag, install its dependencies and audit them
+# Installing and auditing in the same job avoids passing node_modules around as an artifact
+# If/When we want to make it fully offline, the docker image should contain the node_modules
+# files OR the node_modules should be included as a cache entry (see gradle on top of this file)
+webserver-vulnerabilities:
+    image:
+      name: $VLC_WEB_BUILD_IMAGE
+    stage: webserver-audit
+    needs: []
+    rules:
+      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+        changes:
+          - buildsystem/compile-remoteaccess.sh
+          - buildsystem/remoteaccess.properties
+      - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      # Releases must not ship a Remote Access version with known vulnerabilities
+      - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
     script:
       - ./buildsystem/compile-remoteaccess.sh --init
       - cd "$WEBSERVER_DIR"
       - npm install
-    artifacts:
-      paths:
-        - application/remote-access-client/remoteaccess/
-      when: on_success
-      expire_in: 1h
-
-webserver-vulnerabilities:
-    extends: .webserver-base
-    stage: webserver-audit
-    needs:
-      - job: "webserver-install-dependencies"
-    script:
-        - cd "$WEBSERVER_DIR"
-        - npx audit-ci@^6 --skip-dev --config ./audit-ci.jsonc
+      - npx audit-ci@^6 --skip-dev --config ./audit-ci.jsonc
 
 # Download the pinned Remote Access release, verified against its pinned SHA-256:
 # app builds bundle it instead of building the web interface
