@@ -1102,6 +1102,8 @@ fun BaseActivity.applyTheme() {
     if (Settings.showTvUi) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setTheme(R.style.Theme_VLC_Black)
+        // The window may already be created with the light manifest theme (edge to edge)
+        window.setBackgroundDrawable(ContextCompat.getColor(this, R.color.dark_background).toDrawable())
         return
     }
 
