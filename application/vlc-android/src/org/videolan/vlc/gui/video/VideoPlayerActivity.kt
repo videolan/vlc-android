@@ -831,7 +831,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             outState.putInt(KEY_MEDIA_INDEX, mediaIndex)
             savedMediaList = null
         }
-        videoUri = null
         outState.putBoolean(KEY_LIST, overlayDelegate.hasPlaylist)
     }
 
@@ -1052,6 +1051,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 mediaPlayer.attachViews(it, displayManager, true, false)
                 val size = if (isBenchmark) MediaPlayer.ScaleType.SURFACE_FILL else MediaPlayer.ScaleType.entries[settings.getInt(VIDEO_RATIO, MediaPlayer.ScaleType.SURFACE_BEST_FIT.ordinal)]
                 mediaPlayer.videoScale = size
+                // Coming back from background recreates the SurfaceView's surface after
+                // attachViews() has run, so ask the vout to pick up the new surface once
+                // the layout pass is done. Without this the picture can stay blank.
+                it.post { mediaPlayer.updateVideoSurfaces() }
             }
 
             initUI()
