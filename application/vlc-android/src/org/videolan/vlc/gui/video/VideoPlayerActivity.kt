@@ -2227,7 +2227,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE)
             }
             val restorePlayback = hasMedia && currentMedia?.uri == videoUri
-            if (startTime == 0L && savedTime > 0L && restorePlayback) startTime = savedTime
+            // Leaving the player stops and clears the queue, so hasMedia is false when coming
+            // back: the URI is kept but there is no current media to compare against. Resume
+            // from the position saved by stopPlayback() instead of restarting at 0.
+            val resumeFromStop = !hasMedia && savedTime > 0L
+            if (startTime == 0L && (restorePlayback || resumeFromStop)) startTime = savedTime
 
             var openedMedia: MediaWrapper? = null
             val resumePlaylist = service.isValidIndex(positionInPlaylist)
