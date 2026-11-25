@@ -981,9 +981,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             switchToAudioMode(false)
         }
         cleanUI()
-        // Do not rewind when only leaving to the background: the same saved position is used to
-        // resume playback when the activity comes back.
-        stopPlayback(rewind = isFinishing)
+        stopPlayback()
         service?.playlistManager?.videoStatsOn?.postValue(false)
         if (isInteractive && !isPlayingPopup)
             service?.isInPiPMode?.value = false
@@ -1081,12 +1079,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
-    /**
-     * @param rewind go back 2 seconds before saving the position. Only wanted when the player is
-     * really left: while going to the background the video is stopped as well but resumes from
-     * [savedTime] when coming back, so the correction would make it jump backwards every time.
-     */
-    private fun stopPlayback(rewind: Boolean = true) {
+    private fun stopPlayback() {
         if (!playbackStarted) return
 
         if (!displayManager.isPrimary && !isFinishing || service == null) {
@@ -1127,8 +1120,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 //remove saved position if in the last 5 seconds
                 if (length - savedTime < 5000)
                     savedTime = 0
-                else if (rewind)
-                    savedTime -= 2000 // go back 2 seconds, to compensate loading time
             }
             stop(video = true)
         }
