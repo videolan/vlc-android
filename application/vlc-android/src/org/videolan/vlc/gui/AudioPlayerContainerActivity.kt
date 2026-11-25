@@ -64,7 +64,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.from
 import com.google.android.material.navigationrail.NavigationRailView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -136,6 +136,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
     private lateinit var resumeCard: Snackbar
     private var preventRescan = false
     private var showAudioPlayerWhenResumed = false
+    private var serviceJob: Job? = null
 
     private var playerShown = false
     val tipsDelegate: AudioTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioTipsDelegate(this) }
@@ -545,9 +546,10 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
     }
 
     override fun onResume() {
-        PlaybackService.serviceFlow.onEach {
+        serviceJob?.cancel()
+        serviceJob = PlaybackService.serviceFlow.onEach {
             onServiceChanged(it)
-        }.launchIn(MainScope())
+        }.launchIn(lifecycleScope)
         if (playerShown)
             applyMarginToProgressBar(playerBehavior.peekHeight)
         else
@@ -559,6 +561,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
     }
 
     override fun onPause() {
+        serviceJob?.cancel()
+        serviceJob = null
         PlaybackService.instance?.let { unregisterObserver(it) }
         super.onPause()
     }
