@@ -296,6 +296,8 @@
     <string name="tap_to_previous_next">Tap to go to previous/next</string>
     <string name="lock_orientation">Orientation</string>
     <string name="lock_orientation_description">Tap to lock/unlock orientation</string>
+    <string name="video_rotation_description">Tap to rotate the video, long press to reset</string>
+    <string name="video_rotation_left_description">Tap to rotate the video counter clockwise, long press to reset</string>
     <string name="aspect_ratio">Aspect ratio</string>
     <string name="aspect_ratio_description">Tap to change the video aspect ratio</string>
     <string name="advanced_options">Advanced options</string>
