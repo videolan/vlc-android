@@ -1,8 +1,9 @@
 cache:
+    key: gradle-wrapper
     paths:
         - .gradle/
         - gradle-9.6.0/
-        - gradle/
+        - gradle/wrapper/
         - gradlew
 
 variables:

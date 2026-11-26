@@ -63,7 +63,8 @@ captures/
 #gradle
 gradlew.bat
 gradlew
-gradle*/
+gradle-*/
+gradle/wrapper/
 .gradle/
 build/
 vlc-android/build/
