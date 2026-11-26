@@ -230,7 +230,10 @@ classify_failure() {
     local attempt_log error_files
     attempt_log=$(clean_log_since "$1")
     if echo "$attempt_log" | grep -qE "$COMPILE_ERROR_PATTERN"; then
-        error_files=$(echo "$attempt_log" | grep -E "$COMPILE_ERROR_PATTERN" | grep -oE '/[^ :]+\.(java|kt)')
+        # Only full paths: the rich console can reprint the end of a wrapped error line after its
+        # progress lines, and that fragment (e.g. "elevision/viewmodel/X.java") hides build/generated/.
+        error_files=$(echo "$attempt_log" | grep -E "$COMPILE_ERROR_PATTERN" \
+            | grep -oE '(^|[[:space:]]|file://)/[^ :]+\.(java|kt)' | sed -E 's#^([[:space:]]|file://)##')
         if [ -n "$error_files" ] && ! echo "$error_files" | grep -qv '/build/generated/'; then
             echo "other"
         else
