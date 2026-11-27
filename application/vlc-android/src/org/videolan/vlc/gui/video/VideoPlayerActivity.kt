@@ -831,7 +831,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             outState.putInt(KEY_MEDIA_INDEX, mediaIndex)
             savedMediaList = null
         }
-        videoUri = null
         outState.putBoolean(KEY_LIST, overlayDelegate.hasPlaylist)
     }
 
@@ -1052,6 +1051,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 mediaPlayer.attachViews(it, displayManager, true, false)
                 val size = if (isBenchmark) MediaPlayer.ScaleType.SURFACE_FILL else MediaPlayer.ScaleType.entries[settings.getInt(VIDEO_RATIO, MediaPlayer.ScaleType.SURFACE_BEST_FIT.ordinal)]
                 mediaPlayer.videoScale = size
+                // Coming back from background recreates the SurfaceView's surface after
+                // attachViews() has run, so ask the vout to pick up the new surface once
+                // the layout pass is done. Without this the picture can stay blank.
+                it.post { mediaPlayer.updateVideoSurfaces() }
             }
 
             initUI()
@@ -1117,8 +1120,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 //remove saved position if in the last 5 seconds
                 if (length - savedTime < 5000)
                     savedTime = 0
-                else
-                    savedTime -= 2000 // go back 2 seconds, to compensate loading time
             }
             stop(video = true)
         }
@@ -2224,7 +2225,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE)
             }
             val restorePlayback = hasMedia && currentMedia?.uri == videoUri
-            if (startTime == 0L && savedTime > 0L && restorePlayback) startTime = savedTime
+            // Leaving the player stops and clears the queue, so hasMedia is false when coming
+            // back: the URI is kept but there is no current media to compare against. Resume
+            // from the position saved by stopPlayback() instead of restarting at 0.
+            val resumeFromStop = !hasMedia && savedTime > 0L
+            if (startTime == 0L && (restorePlayback || resumeFromStop)) startTime = savedTime
 
             var openedMedia: MediaWrapper? = null
             val resumePlaylist = service.isValidIndex(positionInPlaylist)
