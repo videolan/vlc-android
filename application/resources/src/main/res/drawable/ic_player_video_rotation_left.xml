@@ -1,0 +1,15 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="36"
+    android:viewportHeight="36">
+    <path
+        android:pathData="M8.5,18A9.5,9.5 0 1,0 15,8.9"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:strokeColor="?attr/player_icon_color"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M11.1,4.5L9.2,11.3L16.1,9.5Z"
+        android:fillColor="?attr/player_icon_color" />
+</vector>

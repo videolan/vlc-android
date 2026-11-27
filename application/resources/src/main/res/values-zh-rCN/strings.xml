@@ -278,6 +278,8 @@
     <string name="tap_to_previous_next">轻按可前往前一项/后一项</string>
     <string name="lock_orientation">屏幕方向</string>
     <string name="lock_orientation_description">轻按可开启/解除方向锁定</string>
+    <string name="video_rotation_description">轻按旋转画面，长按恢复原始方向</string>
+    <string name="video_rotation_left_description">轻按反向旋转画面，长按恢复原始方向</string>
     <string name="aspect_ratio">宽高比</string>
     <string name="aspect_ratio_description">轻按可更改视频宽高比</string>
     <string name="advanced_options">高级选项</string>

@@ -2452,6 +2452,44 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     /**
+     * Rotate the picture clockwise in 90° steps by rotating the Activity instead of the video view.
+     *
+     * libVLC 3 has no API to rotate a 2D picture while keeping the opaque SurfaceView output.
+     * An orientation change goes through the same code path as system auto rotation: the
+     * SurfaceView stays attached, libVLC only receives a new window size, and the decoder
+     * isn't restarted. The whole UI rotates together with the video.
+     */
+    fun rotateVideo() = rotateVideoBy(1)
+
+    /** Same as [rotateVideo], counter clockwise. */
+    fun rotateVideoLeft() = rotateVideoBy(-1)
+
+    private fun rotateVideoBy(step: Int) {
+        val orientations = intArrayOf(
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
+                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE,
+                ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT,
+                ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE)
+        val current = orientations.indexOf(orientationMode.orientation)
+        val index = if (current < 0) 0 else (current + step + orientations.size) % orientations.size
+        val orientation = orientations[index]
+        setOrientation(orientation)
+        overlayDelegate.showInfo(when (orientation) {
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -> R.string.screen_orientation_portrait
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> R.string.screen_orientation_landscape
+            ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -> R.string.screen_orientation_portrait_reverse
+            else -> R.string.screen_orientation_landscape_reverse
+        }, 1000)
+    }
+
+    /** Long press on the rotation button: give control back to the system auto rotation. */
+    fun resetVideoRotation(): Boolean {
+        if (orientationMode.locked) setOrientation(-1)
+        overlayDelegate.showInfo(R.string.screen_orientation_sensor, 1000)
+        return true
+    }
+
+    /**
      * Start the video loading animation.
      */
     private fun startLoading() {
